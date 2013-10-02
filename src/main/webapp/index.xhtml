@@ -1,0 +1,233 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<!-- <link rel="stylesheet" type="text/css" href="css/jquery.countdown.css" /> -->
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="stylesheet" type="text/css" href="css/grid12col.css" />
+	<script type="text/javascript" src="js/jquery.countdown.min.js"></script>
+	<script type="text/javascript">
+		$( document ).ready( function() {
+			$( '#relogio' ).countdown( { since: 0, compact: true, format: 'HMS', description: '' } );
+			pausar();
+		} );
+		function iniciar() {
+			var materias = $( '#formulario\\:materias_input' );
+			if( materias.val() == '' ) {
+				alert( 'Selecione uma matéria' );
+				return ;
+			}
+			$( '#relogio' ).countdown( 'resume' );
+		}
+		function pausar() {
+			$( '#relogio' ).countdown( 'pause' );
+		}
+		function zerar() {
+			$( '#relogio' ).countdown( 'destroy' );
+			$( '#relogio' ).countdown( { since: 0, compact: true, format: 'HMS', description: '' } );
+			pausar();
+			$( '#relogio' ).html( '00:00:00' );
+		}materias
+		function gravar() {
+			pausar();
+			var times = $( '#relogio' ).countdown( 'getTimes' );
+			$( '#formulario\\:horasEstudadaInMillis' ).val( times[ 4 ] * 60 * 60 * 1000 + times[ 5 ] * 60 * 1000 + times[ 6 ] * 1000 );
+			zerar();
+			cd.show();
+		}
+	</script>
+</h:head>
+<h:body onload="">
+	<h:form id="formulario">
+		<div class="container">
+			<h:inputHidden id="horasEstudadaInMillis"
+				value="#{controleestudo.horasEstudadaInMillis}" />
+
+			<p:confirmDialog header="Observações" widgetVar="cd" severity="info">
+				<f:facet name="message">
+					<p:inputText id="observacao"
+						value="#{controleestudo.materiaEstudada.observacao}">
+						<p:focus />
+					</p:inputText>
+				</f:facet>
+
+				<p:commandButton value="OK"
+					actionListener="#{controleestudo.gravar()}" oncomplete="cd.hide()"
+					update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar, observacao, materias, dataTable, tabView" />
+			</p:confirmDialog>
+
+
+			<div class="row">
+				<div class="six columns">
+					<p:panelGrid>
+						<f:facet name="header">
+							<p:row>
+								<p:column colspan="2">Controle de Estudo</p:column>
+							</p:row>
+						</f:facet>
+
+						<p:row>
+							<p:column colspan="2">
+								<div id="relogio">00:00:00</div>
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Matéria:" />
+							</p:column>
+							<p:column>
+								<p:selectOneMenu id="materias"
+									value="#{controleestudo.codigoMateriaEstudada}"
+									required="true">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItems value="#{materiastable.concursoMaterias}"
+										var="concursomateria"
+										itemValue="#{concursomateria.concursoMateria.materia.codigo}"
+										itemLabel="#{concursomateria.concursoMateria.materia.nome}" />
+								</p:selectOneMenu>
+							</p:column>
+						</p:row>
+
+						<f:facet name="footer">
+							<p:row>
+								<p:column>
+									<p:commandButton id="bt_iniciar" value="Iniciar"
+										style="margin:0" onclick="iniciar()"
+										disabled="#{controleestudo.btIniciarDisabled}"
+										action="#{controleestudo.iniciar()}"
+										update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar" />
+								</p:column>
+								<p:column>
+									<p:commandButton id="bt_pausar" value="Pausar" style="margin:0"
+										onclick="pausar()"
+										disabled="#{controleestudo.btPausarDisabled}"
+										action="#{controleestudo.pausar()}"
+										update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:commandButton id="bt_zerar" value="Zerar" style="margin:0"
+										onclick="zerar()" disabled="#{controleestudo.btZerarDisabled}"
+										action="#{controleestudo.zerar()}"
+										update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar, materias" />
+								</p:column>
+								<p:column>
+									<p:commandButton id="bt_gravar" value="Gravar"
+										icon="ui-icon-check" style="margin:0" onclick="gravar()"
+										disabled="#{controleestudo.btGravarDisabled}">
+									</p:commandButton>
+								</p:column>
+							</p:row>
+						</f:facet>
+					</p:panelGrid>
+				</div>
+
+				<div class="six columns">
+					<p:dataTable id="dataTable" var="concursomateria"
+						value="#{materiastable.concursoMaterias}">
+
+						<p:column>
+							<f:facet name="header">Matéria</f:facet>
+							<h:outputText value="#{concursomateria.concursoMateria.materia.nome}" />
+							<f:facet name="footer">Total:</f:facet>
+						</p:column>
+
+						<p:column headerText="Tempo Alocado"
+							styleClass="textoCentralizado">
+							<h:outputText value="#{concursomateria.concursoMateria.tempoAlocado}"
+								converter="tempoConverter" />
+							<f:facet name="footer">
+								<h:outputText value="#{materiastable.tempoTotalAlocado}"
+									converter="tempoConverter" />
+							</f:facet>
+						</p:column>
+
+						<p:column headerText="Tempo Estudado"
+							styleClass="textoCentralizado">
+							<h:outputText value="#{concursomateria.somaTempo}"
+								converter="tempoConverter" />
+							<f:facet name="footer">
+								<h:outputText value="#{materiastable.tempoEstudadoTotal}"
+									converter="tempoConverter" />
+							</f:facet>
+						</p:column>
+
+					</p:dataTable>
+				</div>
+			</div>
+
+			<div class="maginTop30">
+				<p:tabView id="tabView">
+					<p:tab id="tabHistoricoEstudo" title="Histórico Estudo">
+						<p:dataTable id="dataTableHistoricoEstudo" var="materiaestudada"
+							value="#{controleestudo.materiasEstudadas}" paginator="true"
+							rows="10"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink}">
+
+							<p:column headerText="Data/Hora" styleClass="textoCentralizado">
+								<h:outputText value="#{materiaestudada.dataHoraEstudo}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Matéria">
+								<h:outputText
+									value="#{materiaestudada.concursoMateria.materia.nome}" />
+							</p:column>
+
+							<p:column headerText="Tempo Estudado"
+								styleClass="textoCentralizado">
+								<h:outputText value="#{materiaestudada.tempoEstudado}"
+									converter="durationhhmmssConverter" />
+							</p:column>
+
+							<p:column headerText="Observação">
+								<h:outputText value="#{materiaestudada.observacao}" />
+							</p:column>
+
+						</p:dataTable>
+					</p:tab>
+					<p:tab id="tbResumoSemanal" title="Acompanhamento Semanal">
+						<p:dataTable id="dataTableResumoSemanal" var="estudoSemanal"
+							value="#{controleestudo.estudosSemanais}" paginator="true"
+							rows="10"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink}">
+
+							<p:column headerText="Início" styleClass="textoCentralizado">
+								<h:outputText value="#{estudoSemanal.dataInicioSemana}">
+									<f:convertDateTime locale="pt_BR"
+										pattern="EEEEEEEE, dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Fim" styleClass="textoCentralizado">
+								<h:outputText value="#{estudoSemanal.dataFimSemana}">
+									<f:convertDateTime locale="pt_BR"
+										pattern="EEEEEEEE, dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Horas Estudas na Semana"
+								styleClass="textoCentralizado">
+								<h:outputText value="#{estudoSemanal.tempoEstudado}"
+									converter="tempoConverter" />
+							</p:column>
+
+							<p:column headerText="Horas Acumuladas"
+								styleClass="textoCentralizado">
+								<h:outputText value="#{estudoSemanal.tempoEstudadoAcumulado}"
+									converter="tempoConverter" />
+							</p:column>
+
+						</p:dataTable>
+					</p:tab>
+				</p:tabView>
+			</div>
+		</div>
+	</h:form>
+</h:body>
+</html>

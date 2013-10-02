@@ -1,0 +1,52 @@
+@CHARSET "UTF-8";
+
+/* body {
+	margin: 0;
+	padding: 0;
+	background: #ccc;
+	text-align: center; hack para o IE
+}
+
+#tudo {
+	width: 1200px;
+	margin: 0 auto;
+	text-align: left; "remédio" para o hack do IE
+}
+
+#conteudo {
+	padding: 5px;
+	background-color: #eee;
+} */
+
+.conteudo{
+	text-align: center;
+}
+
+.controles {
+	border: 2px solid #0F0;
+	text-align: center;
+	float: left;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+#relogio {
+	font-size: 3.5em;
+	text-align: center;
+}
+
+.materias {
+	border: 2px solid #00F;
+	text-align: center;
+	float: left;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.textoCentralizado {
+	text-align: center;
+}
+
+.maginTop30 {
+	margin-top: 30px;
+}
