@@ -7,8 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.guarasoft.concursos.infra.dao.Entidade;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import br.com.guarasoft.concursos.infra.dao.AbstractDao;
 
 /**
  * @author guara
@@ -17,7 +18,8 @@ import lombok.Data;
 @Entity
 @Table(name = "TB_ORGAO")
 @Data
-public class Orgao implements Entidade {
+@EqualsAndHashCode(callSuper = false)
+public class Orgao extends AbstractDao<Orgao, Long> implements OrgaoRepository {
 
 	/**
 	 * 
@@ -30,5 +32,14 @@ public class Orgao implements Entidade {
 	private String nome;
 	private String descricao;
 	private String site;
+
+	public Orgao() {
+		super(Orgao.class);
+	}
+
+	@Override
+	public Orgao find() {
+		return super.find(id);
+	}
 
 }

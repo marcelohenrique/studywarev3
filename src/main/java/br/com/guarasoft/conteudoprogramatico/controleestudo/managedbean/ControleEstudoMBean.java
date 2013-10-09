@@ -21,13 +21,17 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import lombok.Data;
+
+import org.joda.time.Duration;
+
+import br.com.guarasoft.conteudoprogramatico.concurso.persistence.Concurso;
 import br.com.guarasoft.conteudoprogramatico.concursomateria.persistence.ConcursoMateria;
 import br.com.guarasoft.conteudoprogramatico.concursomateria.persistence.ConcursoMateriaEstudada;
 import br.com.guarasoft.conteudoprogramatico.estudosemanal.persistence.EstudoSemanal;
 import br.com.guarasoft.conteudoprogramatico.estudosemanal.persistence.EstudoSemanalRepository;
 import br.com.guarasoft.conteudoprogramatico.materia.persistence.Materia;
 import br.com.guarasoft.conteudoprogramatico.materiaestudada.persistence.MateriaEstudada;
-import br.com.guarasoft.conteudoprogramatico.materiaestudada.persistence.MateriaEstudadaRepository;
+import br.com.guarasoft.conteudoprogramatico.materiaestudada.persistence.MateriaEstudadaImpl;
 
 /**
  * @author guara
@@ -58,27 +62,36 @@ public class ControleEstudoMBean implements Serializable {
 	private List<MateriaEstudada> materiasEstudadas;
 	private List<EstudoSemanal> estudosSemanais;
 	@Inject
-	private MateriaEstudadaRepository materiaEstudadaRepository;
+	private MateriaEstudada materiaEstudada;
 	@Inject
 	private EstudoSemanalRepository estudosSemanaisRepository;
 
 	private Integer codigoMateriaEstudada;
 
-	private MateriaEstudada materiaEstudada;
+	// private MateriaEstudadaImpl materiaEstudadaImpl;
+
+	private MateriaEstudada materiaEstudadaSelecionada;
+
+	@Inject
+	private Concurso concursoRepository;
+
+	private List<Concurso> concursoRepositories;
 
 	@PostConstruct
 	private void init() {
-		materiasEstudadas = materiaEstudadaRepository.findAll();
+		concursoRepositories = concursoRepository.findAll();
+
+		materiasEstudadas = materiaEstudada.findAll();
 		estudosSemanais = estudosSemanaisRepository.findAll();
 		materiaEstudada = build();
 	}
 
 	private MateriaEstudada build() {
-		MateriaEstudada materiaEstudada = new MateriaEstudada();
+		MateriaEstudada materiaEstudada = new MateriaEstudadaImpl();
 		ConcursoMateria concursoMateria = new ConcursoMateria();
 		Materia materia = new Materia();
 		concursoMateria.setMateria(materia);
-		materiaEstudada.setConcursoMateria(concursoMateria);
+		materiaEstudada.getMateriaEstudadaPK().setConcursoMateria(concursoMateria);
 		return materiaEstudada;
 	}
 
@@ -91,7 +104,8 @@ public class ControleEstudoMBean implements Serializable {
 				.getConcursoMaterias()) {
 			if (concursoMateria.getConcursoMateria().getMateria().getCodigo()
 					.equals(codigoMateriaEstudada)) {
-				materiaEstudada.setConcursoMateria(concursoMateria.getConcursoMateria());
+				materiaEstudada.getMateriaEstudadaPK().setConcursoMateria(concursoMateria
+						.getConcursoMateria());
 				break;
 			}
 		}
@@ -115,24 +129,33 @@ public class ControleEstudoMBean implements Serializable {
 		btZerarDisabled = true;
 		btGravarDisabled = true;
 
-		materiaEstudada.setDataHoraEstudo(new Date());
-		materiaEstudada
-				.setTempoEstudadoInt((int) (horasEstudadaInMillis / 1000));
+		materiaEstudada.getMateriaEstudadaPK().setDataHoraEstudo(new Date());
+		materiaEstudada.setTempoEstudado(new Duration(horasEstudadaInMillis));
 
 		try {
 			userTransaction.begin();
-			materiaEstudadaRepository.update(materiaEstudada);
+			materiaEstudada.saveOrUpdate();
 			userTransaction.commit();
 		} catch (SecurityException | IllegalStateException
 				| NotSupportedException | SystemException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
-		materiasEstudadas = materiaEstudadaRepository.findAll();
+		materiasEstudadas = materiaEstudada.findAll();
 		materiaEstudada = build();
 	}
 
 	public boolean getBtPausarDisabled() {
 		return !btIniciarDisabled;
 	}
+
+	/*
+	 * public void onCellEdit(CellEditEvent event) { Object oldValue =
+	 * event.getOldValue(); Object newValue = event.getNewValue();
+	 * 
+	 * if (newValue != null && !newValue.equals(oldValue)) { FacesMessage msg =
+	 * new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " +
+	 * oldValue + ", New:" + newValue);
+	 * FacesContext.getCurrentInstance().addMessage(null, msg); } }
+	 */
 }

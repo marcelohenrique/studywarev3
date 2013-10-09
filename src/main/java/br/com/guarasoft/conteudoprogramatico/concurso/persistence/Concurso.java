@@ -3,17 +3,15 @@
  */
 package br.com.guarasoft.conteudoprogramatico.concurso.persistence;
 
+import java.util.List;
+
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
-import br.com.guarasoft.concursos.infra.dao.Entidade;
-import br.com.guarasoft.conteudoprogramatico.banca.persistence.Banca;
-import br.com.guarasoft.conteudoprogramatico.orgao.persistence.Orgao;
+import lombok.EqualsAndHashCode;
+import br.com.guarasoft.concursos.infra.dao.AbstractDao;
 
 /**
  * @author guara
@@ -21,25 +19,33 @@ import br.com.guarasoft.conteudoprogramatico.orgao.persistence.Orgao;
  */
 @Entity
 @Table(name = "TB_CONCURSO")
-@IdClass( ConcursoPK.class )
 @Data
-public class Concurso implements Entidade {
+@EqualsAndHashCode(callSuper = false)
+public class Concurso extends AbstractDao<ConcursoRepository, ConcursoPK>
+		implements ConcursoRepository {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8551512558388108264L;
 
-	@Id
-	@OneToOne
-	@JoinColumn(name = "ID_ORGAO")
-	private Orgao orgao;
+	@EmbeddedId
+	private ConcursoPK concursoPK;
 
-	@Id
-	@OneToOne
-	@JoinColumn(name = "ID_BANCA")
-	private Banca banca;
+	public Concurso() {
+		super(ConcursoRepository.class);
+	}
 
-	@Id
-	private Short ano;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * br.com.guarasoft.conteudoprogramatico.concurso.persistence.ConcursoRepository
+	 * #findAll ()
+	 */
+	@Override
+	public List<Concurso> findAll() {
+		return entityManager.createQuery("select me from Concurso me",
+				Concurso.class).getResultList();
+	}
 }

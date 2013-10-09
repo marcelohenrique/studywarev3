@@ -21,7 +21,7 @@ import org.joda.time.Duration;
 
 import br.com.guarasoft.concursos.infra.dao.Entidade;
 import br.com.guarasoft.concursos.infra.dao.Interval;
-import br.com.guarasoft.conteudoprogramatico.concurso.persistence.Concurso;
+import br.com.guarasoft.conteudoprogramatico.concurso.persistence.ConcursoRepository;
 import br.com.guarasoft.conteudoprogramatico.materia.persistence.Materia;
 
 /**
@@ -45,7 +45,7 @@ public class ConcursoMateria implements Entidade {
 			@JoinColumn(name = "ID_ORGAO", referencedColumnName = "ID_ORGAO"),
 			@JoinColumn(name = "ID_BANCA", referencedColumnName = "ID_BANCA"),
 			@JoinColumn(name = "ANO_CONCURSO", referencedColumnName = "ANO") })
-	private Concurso concurso;
+	private ConcursoRepository concursoImpl;
 
 	@Id
 	@OneToOne

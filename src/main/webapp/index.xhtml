@@ -29,7 +29,7 @@
 			$( '#relogio' ).countdown( { since: 0, compact: true, format: 'HMS', description: '' } );
 			pausar();
 			$( '#relogio' ).html( '00:00:00' );
-		}materias
+		}
 		function gravar() {
 			pausar();
 			var times = $( '#relogio' ).countdown( 'getTimes' );
@@ -39,11 +39,40 @@
 		}
 	</script>
 </h:head>
-<h:body onload="">
+<h:body onload="dlg.show();">
 	<h:form id="formulario">
 		<div class="container">
 			<h:inputHidden id="horasEstudadaInMillis"
 				value="#{controleestudo.horasEstudadaInMillis}" />
+
+			<p:dialog id="dialog" header="Selecione o concurso..."
+				widgetVar="dlg" resizable="false" modal="true">
+
+				<!-- <h:panelGrid columns="2" cellpadding="5"> -->
+				<h:panelGrid cellpadding="5">
+					<p:selectOneMenu id="concursoselecionado" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{controleestudo.concurso.findAll()}"
+							var="concurso"
+							itemValue="#{concurso.concursoPK}"
+							itemLabel="#{concurso.concursoPK.orgao.nome} - #{concurso.concursoPK.ano}" />
+					</p:selectOneMenu>
+					<!-- <h:outputLabel for="username" value="Username:" />
+					<p:inputText value="#{loginBean.username}" id="username"
+						required="true" label="username" />
+
+					<h:outputLabel for="password" value="Password:" />
+					<h:inputSecret value="#{loginBean.password}" id="password"
+						required="true" label="password" />
+
+					<f:facet name="footer">
+						<p:commandButton id="loginButton" value="Login"
+							actionListener="#{loginBean.login}"
+							oncomplete="handleLoginRequest(xhr, status, args)" />
+					</f:facet> -->
+				</h:panelGrid>
+
+			</p:dialog>
 
 			<p:confirmDialog header="Observações" widgetVar="cd" severity="info">
 				<f:facet name="message">
@@ -80,8 +109,7 @@
 							</p:column>
 							<p:column>
 								<p:selectOneMenu id="materias"
-									value="#{controleestudo.codigoMateriaEstudada}"
-									required="true">
+									value="#{controleestudo.codigoMateriaEstudada}" required="true">
 									<f:selectItem itemLabel="Selecione" itemValue="" />
 									<f:selectItems value="#{materiastable.concursoMaterias}"
 										var="concursomateria"
@@ -132,13 +160,15 @@
 
 						<p:column>
 							<f:facet name="header">Matéria</f:facet>
-							<h:outputText value="#{concursomateria.concursoMateria.materia.nome}" />
+							<h:outputText
+								value="#{concursomateria.concursoMateria.materia.nome}" />
 							<f:facet name="footer">Total:</f:facet>
 						</p:column>
 
 						<p:column headerText="Tempo Alocado"
 							styleClass="textoCentralizado">
-							<h:outputText value="#{concursomateria.concursoMateria.tempoAlocado}"
+							<h:outputText
+								value="#{concursomateria.concursoMateria.tempoAlocado}"
 								converter="tempoConverter" />
 							<f:facet name="footer">
 								<h:outputText value="#{materiastable.tempoTotalAlocado}"
@@ -166,7 +196,8 @@
 						<p:dataTable id="dataTableHistoricoEstudo" var="materiaestudada"
 							value="#{controleestudo.materiasEstudadas}" paginator="true"
 							rows="10"
-							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink}">
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink}"
+							editable="true" editMode="cell">
 
 							<p:column headerText="Data/Hora" styleClass="textoCentralizado">
 								<h:outputText value="#{materiaestudada.dataHoraEstudo}">
@@ -186,7 +217,14 @@
 							</p:column>
 
 							<p:column headerText="Observação">
-								<h:outputText value="#{materiaestudada.observacao}" />
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{materiaestudada.observacao}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{materiaestudada.observacao}" />
+									</f:facet>
+								</p:cellEditor>
 							</p:column>
 
 						</p:dataTable>

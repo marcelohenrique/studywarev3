@@ -4,7 +4,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>studyware</groupId>
 	<artifactId>studyware</artifactId>
-	<packaging>war</packaging>
 	<version>1.0</version>
 	<name>studyware</name>
 
@@ -98,4 +97,5 @@
 			</build>
 		</profile>
 	</profiles>
+	<packaging>war</packaging>
 </project>

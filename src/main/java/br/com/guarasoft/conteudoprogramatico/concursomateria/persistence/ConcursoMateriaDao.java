@@ -23,7 +23,7 @@ public class ConcursoMateriaDao extends AbstractDao<ConcursoMateria, Long>
 	 */
 	private static final long serialVersionUID = 4417880623996892004L;
 
-	@PersistenceContext(unitName = "concurso")
+	@PersistenceContext(unitName = "studyware")
 	private EntityManager entityManager;
 
 	public ConcursoMateriaDao() {
@@ -55,7 +55,7 @@ public class ConcursoMateriaDao extends AbstractDao<ConcursoMateria, Long>
 		 * "SELECT NEW br.com.guarasoft.conteudoprogramatico.concursomateria.persistence.ConcursoMateriaEstudada(cm, the.somaTempo) "
 		 * + "FROM ConcursoMateria cm " + "LEFT OUTER JOIN ( " +
 		 * "SELECT me.concursoMateria.materia.codigo idMateria, " +
-		 * "SUM( me.tempoEstudadoInt ) somaTempo " + "FROM MateriaEstudada me "
+		 * "SUM( me.tempoEstudadoInt ) somaTempo " + "FROM MateriaEstudadaImpl me "
 		 * + "GROUP BY me.concursoMateria.materia.codigo ) the " +
 		 * "ON cm.materia.codigo = the.idMateria",
 		 * ConcursoMateriaEstudada.class);

@@ -23,7 +23,7 @@ public class MateriaDao extends AbstractDao<Materia, Long> implements
 	 */
 	private static final long serialVersionUID = -2535750489065624202L;
 	
-	@PersistenceContext(unitName = "concurso")
+	@PersistenceContext(unitName = "studyware")
 	private EntityManager entityManager;
 
 	public MateriaDao() {

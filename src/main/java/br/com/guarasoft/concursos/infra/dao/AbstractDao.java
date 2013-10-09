@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
  * 
  */
 public abstract class AbstractDao<T extends Entidade, PK extends Serializable>
-		implements Dao<T, PK> {
+		/*implements Dao<T, PK>*/ {
 
 	/**
 	 * 
@@ -22,8 +22,8 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable>
 
 	private Class<T> clazz;
 
-	@PersistenceContext(unitName = "concurso")
-	private EntityManager entityManager;
+	@PersistenceContext(unitName = "studyware")
+	protected EntityManager entityManager;
 
 	/**
 	 * 
@@ -32,13 +32,13 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable>
 		this.clazz = clazz;
 	}
 
-	@Override
-	public void persist(T t) {
+	/*@Override*/
+	protected void persist(T t) {
 		entityManager.persist(t);
 	}
 
-	@Override
-	public T find(PK pk) {
+	/*@Override*/
+	protected T find(PK pk) {
 		return entityManager.find(clazz, pk);
 	}
 
@@ -46,12 +46,13 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable>
 	 * @Override public List<T> findAll() { return null; }
 	 */
 
-	@Override
+	// TODO: Avaliar renomear para saveOrUpdate e eliminar o persist.
+	/*@Override*/
 	public T update(T t) {
 		return entityManager.merge(t);
 	}
 
-	@Override
+	/*@Override*/
 	public void delete(T t) {
 		entityManager.remove(t);
 	}

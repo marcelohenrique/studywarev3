@@ -25,7 +25,7 @@ public class EstudoSemanalDao extends AbstractDao<EstudoSemanal, Long>
 	 */
 	private static final long serialVersionUID = -91192548671166121L;
 
-	@PersistenceContext(unitName = "concurso")
+	@PersistenceContext(unitName = "studyware")
 	private EntityManager entityManager;
 
 	public EstudoSemanalDao() {
