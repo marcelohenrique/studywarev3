@@ -39,25 +39,26 @@
 		}
 	</script>
 </h:head>
-<h:body onload="dlg.show();">
+<h:body>
 	<h:form id="formulario">
 		<div class="container">
 			<h:inputHidden id="horasEstudadaInMillis"
 				value="#{controleestudo.horasEstudadaInMillis}" />
 
-			<p:dialog id="dialog" header="Selecione o concurso..."
+			<!-- <p:dialog id="dialog" header="Selecione o concurso..."
 				widgetVar="dlg" resizable="false" modal="true">
 
-				<!-- <h:panelGrid columns="2" cellpadding="5"> -->
+				<h:panelGrid columns="2" cellpadding="5">
 				<h:panelGrid cellpadding="5">
-					<p:selectOneMenu id="concursoselecionado" required="true">
+					<p:selectOneMenu id="concursoselecionado" required="true" value="#{controleestudo.concursoSelecionado}">
 						<f:selectItem itemLabel="Selecione" itemValue="" />
-						<f:selectItems value="#{controleestudo.concurso.findAll()}"
-							var="concurso"
-							itemValue="#{concurso.concursoPK}"
-							itemLabel="#{concurso.concursoPK.orgao.nome} - #{concurso.concursoPK.ano}" />
+						<f:selectItems
+							value="#{controleestudo.concursoRepository.findAll()}"
+							var="concurso" itemValue="#{concurso}"
+							itemLabel="#{concurso.concursoPK.orgao.sigla} - #{concurso.concursoPK.ano}"
+							itemDescription="#{concurso.concursoPK.orgao.nome} - #{concurso.concursoPK.ano}" />
 					</p:selectOneMenu>
-					<!-- <h:outputLabel for="username" value="Username:" />
+					<h:outputLabel for="username" value="Username:" />
 					<p:inputText value="#{loginBean.username}" id="username"
 						required="true" label="username" />
 
@@ -66,13 +67,11 @@
 						required="true" label="password" />
 
 					<f:facet name="footer">
-						<p:commandButton id="loginButton" value="Login"
-							actionListener="#{loginBean.login}"
-							oncomplete="handleLoginRequest(xhr, status, args)" />
-					</f:facet> -->
+						<p:commandButton id="concursoButton" value="OK" oncomplete="dlg.hide();" />
+					</f:facet>
 				</h:panelGrid>
 
-			</p:dialog>
+			</p:dialog> -->
 
 			<p:confirmDialog header="Observações" widgetVar="cd" severity="info">
 				<f:facet name="message">
@@ -105,16 +104,34 @@
 
 						<p:row>
 							<p:column>
+								<p:outputLabel value="Concurso:" />
+							</p:column>
+							<p:column>
+								<p:selectOneMenu id="concursoselecionado" required="true"
+									value="#{controleestudo.concursoSelecionado}" converter="#{concursoconverter}">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItems
+										value="#{controleestudo.concursoRepository.findAll()}"
+										var="concurso" itemValue="#{concurso}"
+										itemLabel="#{concurso.orgao.sigla} - #{concurso.ano}"
+										itemDescription="#{concurso.orgao.nome} - #{concurso.ano}" />
+									<p:ajax update="materias" listener="#{controleestudo.listaMateriasConcurso()}" />
+								</p:selectOneMenu>
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
 								<p:outputLabel value="Matéria:" />
 							</p:column>
 							<p:column>
 								<p:selectOneMenu id="materias"
-									value="#{controleestudo.codigoMateriaEstudada}" required="true">
+									value="#{controleestudo.concursoMateriaSelecionada}" required="true" converter="#{concursomateriaconverter}">
 									<f:selectItem itemLabel="Selecione" itemValue="" />
-									<f:selectItems value="#{materiastable.concursoMaterias}"
+									<f:selectItems value="#{controleestudo.concursoMaterias}"
 										var="concursomateria"
-										itemValue="#{concursomateria.concursoMateria.materia.codigo}"
-										itemLabel="#{concursomateria.concursoMateria.materia.nome}" />
+										itemValue="#{concursomateria}"
+										itemLabel="#{concursomateria.materia.nome}" />
 								</p:selectOneMenu>
 							</p:column>
 						</p:row>
@@ -200,7 +217,8 @@
 							editable="true" editMode="cell">
 
 							<p:column headerText="Data/Hora" styleClass="textoCentralizado">
-								<h:outputText value="#{materiaestudada.dataHoraEstudo}">
+								<h:outputText
+									value="#{materiaestudada.dataHoraEstudo}">
 									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
 								</h:outputText>
 							</p:column>

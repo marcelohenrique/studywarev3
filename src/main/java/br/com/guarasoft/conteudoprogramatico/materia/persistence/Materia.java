@@ -31,7 +31,9 @@ public class Materia implements Entidade {
 
 	@Id
 	@Column(name = "ID")
-	private Integer codigo;
+	private Long codigo;
+	private String sigla;
 	private String nome;
+	private String descricao;
 
 }

@@ -16,9 +16,8 @@ import lombok.Getter;
 
 import org.joda.time.Duration;
 
-import br.com.guarasoft.conteudoprogramatico.concursomateria.persistence.ConcursoMateria;
-import br.com.guarasoft.conteudoprogramatico.concursomateria.persistence.ConcursoMateriaEstudada;
-import br.com.guarasoft.conteudoprogramatico.concursomateria.persistence.ConcursoMateriaRepository;
+import br.com.guarasoft.conteudoprogramatico.concursomateriaestudada.ConcursoMateriaEstudada;
+import br.com.guarasoft.conteudoprogramatico.concursomateriaestudada.ConcursoMateriaEstudadaRepository;
 
 /**
  * @author guara
@@ -41,11 +40,11 @@ public class MateriasTableMBean implements Serializable {
 	private Duration tempoEstudadoTotal = new Duration(0);
 
 	@Inject
-	private ConcursoMateriaRepository concursoMateriaRepository;
+	private ConcursoMateriaEstudadaRepository ConcursoMateriaEstudadaRepository;
 
 	@PostConstruct
 	public void init() {
-		concursoMaterias = concursoMateriaRepository.findAll();
+		concursoMaterias = ConcursoMateriaEstudadaRepository.findAll();
 
 		for (ConcursoMateriaEstudada concursoMateria : concursoMaterias) {
 			tempoTotalAlocado = tempoTotalAlocado.plus(concursoMateria.getConcursoMateria()

@@ -14,13 +14,10 @@ import javax.persistence.Transient;
 
 import lombok.Data;
 
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 import br.com.guarasoft.concursos.infra.dao.Entidade;
-import br.com.guarasoft.concursos.infra.dao.Interval;
 
 /**
  * @author guara
@@ -28,7 +25,6 @@ import br.com.guarasoft.concursos.infra.dao.Interval;
  */
 @Entity
 @Table(name = "TB_HISTORICO_ESTUDO")
-@TypeDef(name = "interval", typeClass = Interval.class)
 @Data
 public class EstudoSemanal implements Entidade {
 
@@ -40,8 +36,7 @@ public class EstudoSemanal implements Entidade {
 	@Id
 	@Temporal(TemporalType.DATE)
 	private Date dataInicioSemana;
-	@Type(type = "interval")
-	private Integer tempoEstudadoInt;
+	private Long tempoEstudadoLong;
 	@Transient
 	private Duration tempoEstudadoAcumulado;
 
@@ -50,7 +45,7 @@ public class EstudoSemanal implements Entidade {
 	}
 
 	public Duration getTempoEstudado() {
-		return new Duration(tempoEstudadoInt * 1000);
+		return new Duration(tempoEstudadoLong);
 	}
 
 }

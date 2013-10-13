@@ -42,7 +42,7 @@ public class EstudoSemanalDao extends AbstractDao<EstudoSemanal, Long>
 	public List<EstudoSemanal> findAll() {
 		Query query = entityManager
 				.createNativeQuery(
-						"SELECT date_trunc('week', DATA_HORA_ESTUDO) AS \"dataInicioSemana\" , SUM( TEMPO_ESTUDADO ) AS \"tempoEstudadoInt\" "
+						"SELECT date_trunc('week', DATA_HORA_ESTUDO) AS \"dataInicioSemana\" , SUM( TEMPO_ESTUDADO ) AS \"tempoEstudadoLong\" "
 								+ "FROM tb_historico_estudo "
 								+ "GROUP BY 1 "
 								+ "ORDER BY 1", EstudoSemanal.class);

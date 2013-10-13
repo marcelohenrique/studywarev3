@@ -8,17 +8,16 @@ import java.io.Serializable;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author guara
  * 
  */
-public abstract class AbstractDao<T extends Entidade, PK extends Serializable>
-		/*implements Dao<T, PK>*/ {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5697060910262570538L;
+public abstract class AbstractDao<T extends Entidade, PK extends Serializable> {
+	
+	private final Logger logger = LoggerFactory.getLogger(AbstractDao.class);
 
 	private Class<T> clazz;
 
@@ -32,12 +31,12 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable>
 		this.clazz = clazz;
 	}
 
-	/*@Override*/
+	/* @Override */
 	protected void persist(T t) {
 		entityManager.persist(t);
 	}
 
-	/*@Override*/
+	/* @Override */
 	protected T find(PK pk) {
 		return entityManager.find(clazz, pk);
 	}
@@ -47,12 +46,13 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable>
 	 */
 
 	// TODO: Avaliar renomear para saveOrUpdate e eliminar o persist.
-	/*@Override*/
+	/* @Override */
 	public T update(T t) {
+		logger.debug(entityManager.toString());
 		return entityManager.merge(t);
 	}
 
-	/*@Override*/
+	/* @Override */
 	public void delete(T t) {
 		entityManager.remove(t);
 	}
