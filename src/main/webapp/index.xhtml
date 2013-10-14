@@ -88,6 +88,7 @@
 
 
 			<div class="row">
+
 				<div class="six columns">
 					<p:panelGrid>
 						<f:facet name="header">
@@ -172,39 +173,31 @@
 				</div>
 
 				<div class="six columns">
-					<p:dataTable id="dataTable" var="concursomateria"
-						value="#{materiastable.concursoMaterias}">
+					<p:dataTable id="dataTable" var="concursomateriaestudada" value="#{controleestudo.concursoMateriasEstudadas}">
 
 						<p:column>
 							<f:facet name="header">Matéria</f:facet>
-							<h:outputText
-								value="#{concursomateria.concursoMateria.materia.nome}" />
+							<h:outputText value="#{concursomateriaestudada.concursoMateria.materia.nome}" />
 							<f:facet name="footer">Total:</f:facet>
 						</p:column>
 
-						<p:column headerText="Tempo Alocado"
-							styleClass="textoCentralizado">
-							<h:outputText
-								value="#{concursomateria.concursoMateria.tempoAlocado}"
-								converter="tempoConverter" />
+						<p:column headerText="Tempo Alocado" styleClass="textoCentralizado">
+							<h:outputText value="#{concursomateriaestudada.concursoMateria.tempoAlocado}" converter="tempoConverter" />
 							<f:facet name="footer">
-								<h:outputText value="#{materiastable.tempoTotalAlocado}"
-									converter="tempoConverter" />
+								<h:outputText value="#{controleestudo.tempoTotalAlocado}" converter="tempoConverter" />
 							</f:facet>
 						</p:column>
 
-						<p:column headerText="Tempo Estudado"
-							styleClass="textoCentralizado">
-							<h:outputText value="#{concursomateria.somaTempo}"
-								converter="tempoConverter" />
+						<p:column headerText="Tempo Estudado" styleClass="textoCentralizado">
+							<h:outputText value="#{concursomateriaestudada.somaTempo}" converter="tempoConverter" />
 							<f:facet name="footer">
-								<h:outputText value="#{materiastable.tempoEstudadoTotal}"
-									converter="tempoConverter" />
+								<h:outputText value="#{controleestudo.tempoEstudadoTotal}" converter="tempoConverter" />
 							</f:facet>
 						</p:column>
 
 					</p:dataTable>
 				</div>
+
 			</div>
 
 			<div class="maginTop30">

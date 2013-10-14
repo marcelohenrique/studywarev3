@@ -4,9 +4,7 @@
 package br.com.guarasoft.conteudoprogramatico.materiaestudada.entidade;
 
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,8 +19,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import org.joda.time.Duration;
 
@@ -67,6 +68,8 @@ public class MateriaEstudada extends AbstractDao<MateriaEstudada, Long>
 	 */
 	@Column(name = "TEMPO_ESTUDADO")
 	@NotNull
+	@Getter(AccessLevel.PRIVATE)
+	@Setter(AccessLevel.PRIVATE)
 	private Long tempoEstudadoLong;
 
 	@Column(name = "OBSERVACAO")
@@ -83,18 +86,7 @@ public class MateriaEstudada extends AbstractDao<MateriaEstudada, Long>
 	}
 
 	public void setTempoEstudado(Duration tempoEstudado) {
-		tempoEstudadoLong = tempoEstudado.getStandardSeconds();
-	}
-
-	public List<MateriaEstudada> findAll() {
-		return entityManager
-				.createQuery(
-						"select me from MateriaEstudada me order by me.dataHoraEstudo desc",
-						MateriaEstudada.class).getResultList();
-	}
-
-	public MateriaEstudada saveOrUpdate() {
-		return update(this);
+		tempoEstudadoLong = tempoEstudado.getMillis();
 	}
 
 }

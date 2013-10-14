@@ -15,8 +15,9 @@ import org.slf4j.LoggerFactory;
  * @author guara
  * 
  */
-public abstract class AbstractDao<T extends Entidade, PK extends Serializable> {
-	
+public abstract class AbstractDao<T extends Entidade, PK extends Serializable>
+		implements Dao<T, PK> {
+
 	private final Logger logger = LoggerFactory.getLogger(AbstractDao.class);
 
 	private Class<T> clazz;
@@ -31,13 +32,13 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable> {
 		this.clazz = clazz;
 	}
 
-	/* @Override */
-	protected void persist(T t) {
+	@Override
+	public void persist(T t) {
 		entityManager.persist(t);
 	}
 
-	/* @Override */
-	protected T find(PK pk) {
+	@Override
+	public T find(PK pk) {
 		return entityManager.find(clazz, pk);
 	}
 
@@ -46,14 +47,14 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable> {
 	 */
 
 	// TODO: Avaliar renomear para saveOrUpdate e eliminar o persist.
-	/* @Override */
-	public T update(T t) {
+	@Override
+	public T merge(T t) {
 		logger.debug(entityManager.toString());
 		return entityManager.merge(t);
 	}
 
-	/* @Override */
-	public void delete(T t) {
+	@Override
+	public void remove(T t) {
 		entityManager.remove(t);
 	}
 

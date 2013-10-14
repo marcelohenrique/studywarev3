@@ -24,6 +24,7 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
+import org.joda.time.Duration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -40,6 +41,8 @@ import br.com.guarasoft.conteudoprogramatico.concursomateriaestudada.ConcursoMat
 import br.com.guarasoft.conteudoprogramatico.concursomateriaestudada.ConcursoMateriaEstudadaRepository;
 import br.com.guarasoft.conteudoprogramatico.materia.persistence.Materia;
 import br.com.guarasoft.conteudoprogramatico.materiaestudada.entidade.MateriaEstudada;
+import br.com.guarasoft.conteudoprogramatico.materiaestudada.persistence.MateriaEstudadaDao;
+import br.com.guarasoft.conteudoprogramatico.materiaestudada.persistence.MateriaEstudadaDaoImpl;
 import br.com.guarasoft.conteudoprogramatico.orgao.persistence.Orgao;
 import br.com.guarasoft.conteudoprogramatico.orgao.persistence.OrgaoRepository;
 
@@ -48,9 +51,9 @@ import br.com.guarasoft.conteudoprogramatico.orgao.persistence.OrgaoRepository;
  * 
  */
 @RunWith(Arquillian.class)
-public class MateriaEstudadaTest {
+public class MateriaEstudadaDaoImplTest {
 	
-	private final Logger logger = LoggerFactory.getLogger(MateriaEstudadaTest.class);
+	private final Logger logger = LoggerFactory.getLogger(MateriaEstudadaDaoImplTest.class);
 
 	@Deployment
 	public static Archive<?> createDeployment() {
@@ -87,27 +90,26 @@ public class MateriaEstudadaTest {
 	}
 
 	@Inject
-	private MateriaEstudada materiaEstudada;
+	private MateriaEstudadaDao materiaEstudadaDao;
 	@Resource
 	private UserTransaction userTransaction;
 
 	/**
-	 * Test method for
-	 * {@link br.com.guarasoft.studyware.test.materiaestudada.entidade.MateriaEstudada#saveOrUpdate()}
-	 * .
+	 * Test method for {@link MateriaEstudadaDaoImpl#persist(MateriaEstudada)}.
 	 */
 	@Test
-	public void testSaveOrUpdate() {
+	public void testPersist() {
 		ConcursoMateria concursoMateria = new ConcursoMateria();
 		concursoMateria.setId(1001L);
+		MateriaEstudada materiaEstudada = new MateriaEstudada();
 		materiaEstudada.setConcursoMateria(concursoMateria);
 		materiaEstudada.setDataHoraEstudo(new Date());
-		materiaEstudada.setTempoEstudadoLong(1000L);
-		materiaEstudada.setObservacao("qwer");
+		materiaEstudada.setTempoEstudado(new Duration(1000L));
+		materiaEstudada.setObservacao("Teste");
 
 		try {
 			userTransaction.begin();
-			materiaEstudada = materiaEstudada.saveOrUpdate();
+			materiaEstudadaDao.persist(materiaEstudada);
 			userTransaction.commit();
 		} catch (SecurityException | IllegalStateException
 				| NotSupportedException | SystemException | RollbackException
