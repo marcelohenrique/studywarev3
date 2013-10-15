@@ -91,6 +91,8 @@ public class ControleEstudoMBean implements Serializable {
 	
 	private void atualiza() {
 		concursoMateriasEstudadas = concursoMateriaEstudadaRepository.findAll(concursoSelecionado);
+		tempoTotalAlocado = new Duration(0);
+		tempoEstudadoTotal = new Duration(0);
 		for (ConcursoMateriaEstudada concursoMateria : concursoMateriasEstudadas) {
 			tempoTotalAlocado = tempoTotalAlocado.plus(concursoMateria.getConcursoMateria().getTempoAlocado());
 			tempoEstudadoTotal = tempoEstudadoTotal.plus(concursoMateria.getSomaTempo());
