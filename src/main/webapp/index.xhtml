@@ -109,14 +109,14 @@
 							</p:column>
 							<p:column>
 								<p:selectOneMenu id="concursoselecionado" required="true"
-									value="#{controleestudo.concursoSelecionado}" converter="#{concursoconverter}">
+									value="#{controleestudo.concursoSelecionado.id}">
 									<f:selectItem itemLabel="Selecione" itemValue="" />
 									<f:selectItems
 										value="#{controleestudo.concursoRepository.findAll()}"
-										var="concurso" itemValue="#{concurso}"
+										var="concurso" itemValue="#{concurso.id}"
 										itemLabel="#{concurso.orgao.sigla} - #{concurso.ano}"
 										itemDescription="#{concurso.orgao.nome} - #{concurso.ano}" />
-									<p:ajax update="materias" listener="#{controleestudo.listaMateriasConcurso()}" />
+									<p:ajax update="materias, dataTable, tabView" listener="#{controleestudo.listaMateriasConcurso()}" />
 								</p:selectOneMenu>
 							</p:column>
 						</p:row>

@@ -42,7 +42,7 @@ public class ConcursoMateriaEstudada extends
 
 	@Id
 	@OneToOne
-	@JoinColumn(name = "ID_CONCURSO_MATERIA")
+	@JoinColumn(name = "ID")
 	private ConcursoMateria concursoMateria;
 
 	@Column(name = "SOMA_TEMPO")
@@ -64,11 +64,11 @@ public class ConcursoMateriaEstudada extends
 	 *      ConcursoMateriaRepository#findAll(Concurso)
 	 */
 	@Override
-	public List<ConcursoMateriaEstudada> findAll() {
+	public List<ConcursoMateriaEstudada> findAll(Concurso concurso) {
 		Query query = entityManager
 				.createNativeQuery(
-						"SELECT THE.ID_CONCURSO_MATERIA, SUM( THE.TEMPO_ESTUDADO ) SOMA_TEMPO, TM.NOME FROM TB_HISTORICO_ESTUDO THE JOIN TB_CONCURSO_MATERIA TCM ON THE.ID_CONCURSO_MATERIA = TCM.ID JOIN TB_MATERIA TM ON TCM.ID_MATERIA = TM.ID GROUP BY THE.ID_CONCURSO_MATERIA, TM.NOME ORDER BY TM.NOME",
-						ConcursoMateriaEstudada.class);
+						"SELECT TCM.ID, SUM( THE.TEMPO_ESTUDADO ) SOMA_TEMPO, TM.NOME FROM TB_HISTORICO_ESTUDO THE RIGHT OUTER JOIN TB_CONCURSO_MATERIA TCM ON THE.ID_CONCURSO_MATERIA = TCM.ID JOIN TB_MATERIA TM ON TCM.ID_MATERIA = TM.ID WHERE TCM.ID_CONCURSO = ? GROUP BY TCM.ID, TM.NOME ORDER BY TM.NOME",
+						ConcursoMateriaEstudada.class).setParameter(1, concurso.getId());
 		return query.getResultList();
 	}
 

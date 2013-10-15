@@ -73,9 +73,4 @@ public class Concurso extends AbstractDao<Concurso, Long> implements
 		return find(id);
 	}
 
-	@Override
-	public String toString() {
-		return id.toString();
-	}
-
 }

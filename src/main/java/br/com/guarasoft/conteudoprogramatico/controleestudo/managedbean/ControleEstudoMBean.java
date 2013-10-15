@@ -4,7 +4,6 @@
 package br.com.guarasoft.conteudoprogramatico.controleestudo.managedbean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +46,7 @@ import br.com.guarasoft.conteudoprogramatico.materiaestudada.persistence.Materia
 @ViewScoped
 public class ControleEstudoMBean implements Serializable {
 
-	final Logger logger = LoggerFactory.getLogger(ControleEstudoMBean.class);
+	private final Logger logger = LoggerFactory.getLogger(ControleEstudoMBean.class);
 
 	@Resource
 	private UserTransaction userTransaction;
@@ -56,19 +55,6 @@ public class ControleEstudoMBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5358580904420656733L;
-
-	public boolean btIniciarDisabled = false;
-	public boolean btZerarDisabled = true;
-	public boolean btGravarDisabled = true;
-
-	private Long horasEstudadaInMillis;
-
-	private List<MateriaEstudada> materiasEstudadas;
-	private List<EstudoSemanal> estudosSemanais;
-	private List<ConcursoMateria> concursoMaterias;
-	private List<ConcursoMateriaEstudada> concursoMateriasEstudadas = new ArrayList<>();
-	private Duration tempoTotalAlocado = new Duration(0);
-	private Duration tempoEstudadoTotal = new Duration(0);
 
 	@Inject
 	private MateriaEstudadaDao materiaEstudadaDao;
@@ -81,24 +67,36 @@ public class ControleEstudoMBean implements Serializable {
 	@Inject
 	private ConcursoMateriaEstudadaRepository concursoMateriaEstudadaRepository;
 
+	public boolean btIniciarDisabled = false;
+	public boolean btZerarDisabled = true;
+	public boolean btGravarDisabled = true;
+
+	private Long horasEstudadaInMillis;
+	private Duration tempoTotalAlocado = new Duration(0);
+	private Duration tempoEstudadoTotal = new Duration(0);
+
+	@Inject
 	private Concurso concursoSelecionado;
+	private List<ConcursoMateriaEstudada> concursoMateriasEstudadas;
 	private ConcursoMateria concursoMateriaSelecionada;
 	private MateriaEstudada materiaEstudada;
+	private List<MateriaEstudada> materiasEstudadas;
+	private List<EstudoSemanal> estudosSemanais;
+	private List<ConcursoMateria> concursoMaterias;
 
 	@PostConstruct
 	private void init() {
-		materiasEstudadas = materiaEstudadaDao.findAll();
-		estudosSemanais = estudosSemanaisRepository.findAll();
 		materiaEstudada = build();
-		atualiza();
 	}
 	
 	private void atualiza() {
-		concursoMateriasEstudadas = concursoMateriaEstudadaRepository.findAll();
+		concursoMateriasEstudadas = concursoMateriaEstudadaRepository.findAll(concursoSelecionado);
 		for (ConcursoMateriaEstudada concursoMateria : concursoMateriasEstudadas) {
 			tempoTotalAlocado = tempoTotalAlocado.plus(concursoMateria.getConcursoMateria().getTempoAlocado());
 			tempoEstudadoTotal = tempoEstudadoTotal.plus(concursoMateria.getSomaTempo());
 		}
+		materiasEstudadas = materiaEstudadaDao.findAll(concursoSelecionado);
+		estudosSemanais = estudosSemanaisRepository.findAll(concursoSelecionado);
 	}
 
 	private MateriaEstudada build() {
@@ -148,7 +146,7 @@ public class ControleEstudoMBean implements Serializable {
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
-		materiasEstudadas = materiaEstudadaDao.findAll();
+		materiasEstudadas = materiaEstudadaDao.findAll(concursoSelecionado);
 		materiaEstudada = build();
 		atualiza();
 	}
@@ -160,5 +158,6 @@ public class ControleEstudoMBean implements Serializable {
 	public void listaMateriasConcurso() {
 		concursoMaterias = concursoMateriaRepository
 				.findAll(concursoSelecionado);
+		atualiza();
 	}
 }
