@@ -40,6 +40,15 @@
 	</script>
 </h:head>
 <h:body>
+
+	<p:ajaxStatus onstart="statusDialog.show();"
+		onsuccess="statusDialog.hide();" />
+
+	<p:dialog modal="true" widgetVar="statusDialog" header="Carregando..."
+		draggable="false" closable="false" resizable="false">
+		<p:graphicImage value="/images/ajax-loader.gif" />
+	</p:dialog>
+
 	<h:form id="formulario">
 		<div class="container">
 			<h:inputHidden id="horasEstudadaInMillis"
@@ -127,11 +136,11 @@
 							</p:column>
 							<p:column>
 								<p:selectOneMenu id="materias"
-									value="#{controleestudo.concursoMateriaSelecionada}" required="true" converter="#{concursomateriaconverter}">
+									value="#{controleestudo.concursoMateriaSelecionada}"
+									required="true" converter="#{concursomateriaconverter}">
 									<f:selectItem itemLabel="Selecione" itemValue="" />
 									<f:selectItems value="#{controleestudo.concursoMaterias}"
-										var="concursomateria"
-										itemValue="#{concursomateria}"
+										var="concursomateria" itemValue="#{concursomateria}"
 										itemLabel="#{concursomateria.materia.nome}" />
 								</p:selectOneMenu>
 							</p:column>
@@ -173,25 +182,34 @@
 				</div>
 
 				<div class="six columns">
-					<p:dataTable id="dataTable" var="concursomateriaestudada" value="#{controleestudo.concursoMateriasEstudadas}">
+					<p:dataTable id="dataTable" var="concursomateriaestudada"
+						value="#{controleestudo.concursoMateriasEstudadas}">
 
 						<p:column>
 							<f:facet name="header">Matéria</f:facet>
-							<h:outputText value="#{concursomateriaestudada.concursoMateria.materia.nome}" />
+							<h:outputText
+								value="#{concursomateriaestudada.concursoMateria.materia.nome}" />
 							<f:facet name="footer">Total:</f:facet>
 						</p:column>
 
-						<p:column headerText="Tempo Alocado" styleClass="textoCentralizado">
-							<h:outputText value="#{concursomateriaestudada.concursoMateria.tempoAlocado}" converter="tempoConverter" />
+						<p:column headerText="Tempo Alocado"
+							styleClass="textoCentralizado">
+							<h:outputText
+								value="#{concursomateriaestudada.concursoMateria.tempoAlocado}"
+								converter="tempoConverter" />
 							<f:facet name="footer">
-								<h:outputText value="#{controleestudo.tempoTotalAlocado}" converter="tempoConverter" />
+								<h:outputText value="#{controleestudo.tempoTotalAlocado}"
+									converter="tempoConverter" />
 							</f:facet>
 						</p:column>
 
-						<p:column headerText="Tempo Estudado" styleClass="textoCentralizado">
-							<h:outputText value="#{concursomateriaestudada.somaTempo}" converter="tempoConverter" />
+						<p:column headerText="Tempo Estudado"
+							styleClass="textoCentralizado">
+							<h:outputText value="#{concursomateriaestudada.somaTempo}"
+								converter="tempoConverter" />
 							<f:facet name="footer">
-								<h:outputText value="#{controleestudo.tempoEstudadoTotal}" converter="tempoConverter" />
+								<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
+									converter="tempoConverter" />
 							</f:facet>
 						</p:column>
 
@@ -210,8 +228,7 @@
 							editable="true" editMode="cell">
 
 							<p:column headerText="Data/Hora" styleClass="textoCentralizado">
-								<h:outputText
-									value="#{materiaestudada.dataHoraEstudo}">
+								<h:outputText value="#{materiaestudada.dataHoraEstudo}">
 									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
 								</h:outputText>
 							</p:column>
