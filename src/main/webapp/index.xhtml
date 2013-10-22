@@ -54,34 +54,6 @@
 			<h:inputHidden id="horasEstudadaInMillis"
 				value="#{controleestudo.horasEstudadaInMillis}" />
 
-			<!-- <p:dialog id="dialog" header="Selecione o concurso..."
-				widgetVar="dlg" resizable="false" modal="true">
-
-				<h:panelGrid columns="2" cellpadding="5">
-				<h:panelGrid cellpadding="5">
-					<p:selectOneMenu id="concursoselecionado" required="true" value="#{controleestudo.concursoSelecionado}">
-						<f:selectItem itemLabel="Selecione" itemValue="" />
-						<f:selectItems
-							value="#{controleestudo.concursoRepository.findAll()}"
-							var="concurso" itemValue="#{concurso}"
-							itemLabel="#{concurso.concursoPK.orgao.sigla} - #{concurso.concursoPK.ano}"
-							itemDescription="#{concurso.concursoPK.orgao.nome} - #{concurso.concursoPK.ano}" />
-					</p:selectOneMenu>
-					<h:outputLabel for="username" value="Username:" />
-					<p:inputText value="#{loginBean.username}" id="username"
-						required="true" label="username" />
-
-					<h:outputLabel for="password" value="Password:" />
-					<h:inputSecret value="#{loginBean.password}" id="password"
-						required="true" label="password" />
-
-					<f:facet name="footer">
-						<p:commandButton id="concursoButton" value="OK" oncomplete="dlg.hide();" />
-					</f:facet>
-				</h:panelGrid>
-
-			</p:dialog> -->
-
 			<p:confirmDialog header="Observações" widgetVar="cd" severity="info">
 				<f:facet name="message">
 					<p:inputText id="observacao"
@@ -114,18 +86,18 @@
 
 						<p:row>
 							<p:column>
-								<p:outputLabel value="Concurso:" />
+								<p:outputLabel value="Estudo:" />
 							</p:column>
 							<p:column>
-								<p:selectOneMenu id="concursoselecionado" required="true"
-									value="#{controleestudo.concursoSelecionado.id}">
+								<p:selectOneMenu id="estudoselecionado" required="true"
+									value="#{controleestudo.estudoSelecionado.id}">
 									<f:selectItem itemLabel="Selecione" itemValue="" />
 									<f:selectItems
-										value="#{controleestudo.concursoRepository.findAll()}"
-										var="concurso" itemValue="#{concurso.id}"
-										itemLabel="#{concurso.orgao.sigla} - #{concurso.ano}"
-										itemDescription="#{concurso.orgao.nome} - #{concurso.ano}" />
-									<p:ajax update="materias, dataTable, tabView" listener="#{controleestudo.listaMateriasConcurso()}" />
+										value="#{controleestudo.estudoDao.findAll()}"
+										var="estudo" itemValue="#{estudo.id}"
+										itemLabel="#{estudo.nome}"
+										itemDescription="#{estudo.nome}" />
+									<p:ajax update="materias, dataTable, tabView" listener="#{controleestudo.listaEstudoMaterias()}" />
 								</p:selectOneMenu>
 							</p:column>
 						</p:row>
@@ -136,10 +108,10 @@
 							</p:column>
 							<p:column>
 								<p:selectOneMenu id="materias"
-									value="#{controleestudo.concursoMateriaSelecionada}"
+									value="#{controleestudo.estudoMateriaSelecionada}"
 									required="true" converter="#{concursomateriaconverter}">
 									<f:selectItem itemLabel="Selecione" itemValue="" />
-									<f:selectItems value="#{controleestudo.concursoMaterias}"
+									<f:selectItems value="#{controleestudo.estudoMaterias}"
 										var="concursomateria" itemValue="#{concursomateria}"
 										itemLabel="#{concursomateria.materia.nome}" />
 								</p:selectOneMenu>
@@ -188,14 +160,14 @@
 						<p:column>
 							<f:facet name="header">Matéria</f:facet>
 							<h:outputText
-								value="#{concursomateriaestudada.concursoMateria.materia.nome}" />
+								value="#{concursomateriaestudada.estudoMateria.materia.nome}" />
 							<f:facet name="footer">Total:</f:facet>
 						</p:column>
 
 						<p:column headerText="Tempo Alocado"
 							styleClass="textoCentralizado">
 							<h:outputText
-								value="#{concursomateriaestudada.concursoMateria.tempoAlocado}"
+								value="#{concursomateriaestudada.estudoMateria.tempoAlocado}"
 								converter="tempoConverter" />
 							<f:facet name="footer">
 								<h:outputText value="#{controleestudo.tempoTotalAlocado}"
@@ -235,7 +207,7 @@
 
 							<p:column headerText="Matéria">
 								<h:outputText
-									value="#{materiaestudada.concursoMateria.materia.nome}" />
+									value="#{materiaestudada.estudoMateria.materia.nome}" />
 							</p:column>
 
 							<p:column headerText="Tempo Estudado"

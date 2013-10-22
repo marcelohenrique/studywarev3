@@ -30,21 +30,21 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.guarasoft.concursos.infra.dao.AbstractDao;
-import br.com.guarasoft.concursos.infra.dao.Entidade;
-import br.com.guarasoft.conteudoprogramatico.banca.persistence.Banca;
-import br.com.guarasoft.conteudoprogramatico.concurso.entidade.Concurso;
-import br.com.guarasoft.conteudoprogramatico.concurso.persistence.ConcursoRepository;
-import br.com.guarasoft.conteudoprogramatico.concursomateria.entidade.ConcursoMateria;
-import br.com.guarasoft.conteudoprogramatico.concursomateria.persistence.ConcursoMateriaRepository;
-import br.com.guarasoft.conteudoprogramatico.concursomateriaestudada.ConcursoMateriaEstudada;
-import br.com.guarasoft.conteudoprogramatico.concursomateriaestudada.ConcursoMateriaEstudadaRepository;
-import br.com.guarasoft.conteudoprogramatico.materia.persistence.Materia;
-import br.com.guarasoft.conteudoprogramatico.materiaestudada.entidade.MateriaEstudada;
-import br.com.guarasoft.conteudoprogramatico.materiaestudada.persistence.MateriaEstudadaDao;
-import br.com.guarasoft.conteudoprogramatico.materiaestudada.persistence.MateriaEstudadaDaoImpl;
-import br.com.guarasoft.conteudoprogramatico.orgao.persistence.Orgao;
-import br.com.guarasoft.conteudoprogramatico.orgao.persistence.OrgaoRepository;
+import br.com.guarasoft.studyware.banca.persistence.Banca;
+import br.com.guarasoft.studyware.concurso.entidade.Concurso;
+import br.com.guarasoft.studyware.concurso.persistence.ConcursoRepository;
+import br.com.guarasoft.studyware.estudomateria.dao.EstudoMateriaDao;
+import br.com.guarasoft.studyware.estudomateria.entidade.EstudoMateria;
+import br.com.guarasoft.studyware.infra.dao.AbstractDao;
+import br.com.guarasoft.studyware.infra.dao.Entidade;
+import br.com.guarasoft.studyware.materia.entidade.Materia;
+import br.com.guarasoft.studyware.materiaestudada.dao.MateriaEstudadaDao;
+import br.com.guarasoft.studyware.materiaestudada.dao.MateriaEstudadaDaoImpl;
+import br.com.guarasoft.studyware.materiaestudada.entidade.MateriaEstudada;
+import br.com.guarasoft.studyware.orgao.persistence.Orgao;
+import br.com.guarasoft.studyware.orgao.persistence.OrgaoRepository;
+import br.com.guarasoft.studyware.resumomateriaestudada.dao.ResumoMateriaEstudadaDao;
+import br.com.guarasoft.studyware.resumomateriaestudada.entidade.ResumoMateriaEstudada;
 
 /**
  * @author guara
@@ -71,10 +71,10 @@ public class MateriaEstudadaDaoImplTest {
 				.addClass(AbstractDao.class)
 				.addClass(Entidade.class)
 				.addClass(MateriaEstudada.class)
-				.addClass(ConcursoMateria.class)
-				.addClass(ConcursoMateriaRepository.class)
-				.addClass(ConcursoMateriaEstudada.class)
-				.addClass(ConcursoMateriaEstudadaRepository.class)
+				.addClass(EstudoMateria.class)
+				.addClass(EstudoMateriaDao.class)
+				.addClass(ResumoMateriaEstudada.class)
+				.addClass(ResumoMateriaEstudadaDao.class)
 				.addClass(ConcursoRepository.class)
 				.addClass(Materia.class)
 				.addClass(Orgao.class)
@@ -99,10 +99,10 @@ public class MateriaEstudadaDaoImplTest {
 	 */
 	@Test
 	public void testPersist() {
-		ConcursoMateria concursoMateria = new ConcursoMateria();
-		concursoMateria.setId(1001L);
+		EstudoMateria estudoMateria = new EstudoMateria();
+		estudoMateria.setId(1001L);
 		MateriaEstudada materiaEstudada = new MateriaEstudada();
-		materiaEstudada.setConcursoMateria(concursoMateria);
+		materiaEstudada.setEstudoMateria(estudoMateria);
 		materiaEstudada.setDataHoraEstudo(new Date());
 		materiaEstudada.setTempoEstudado(new Duration(1000L));
 		materiaEstudada.setObservacao("Teste");
