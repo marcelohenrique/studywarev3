@@ -56,7 +56,7 @@ public class MateriaEstudada implements Entidade {
 	@NotNull
 	private EstudoMateria estudoMateria;
 
-	@Column(name = "DATA_HORA_ESTUDO")
+	@Column(name = "DT_HORA_ESTUDO")
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date dataHoraEstudo;

@@ -30,9 +30,6 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.guarasoft.studyware.banca.persistence.Banca;
-import br.com.guarasoft.studyware.concurso.entidade.Concurso;
-import br.com.guarasoft.studyware.concurso.persistence.ConcursoRepository;
 import br.com.guarasoft.studyware.estudomateria.dao.EstudoMateriaDao;
 import br.com.guarasoft.studyware.estudomateria.entidade.EstudoMateria;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
@@ -75,12 +72,9 @@ public class MateriaEstudadaDaoImplTest {
 				.addClass(EstudoMateriaDao.class)
 				.addClass(ResumoMateriaEstudada.class)
 				.addClass(ResumoMateriaEstudadaDao.class)
-				.addClass(ConcursoRepository.class)
 				.addClass(Materia.class)
 				.addClass(Orgao.class)
 				.addClass(OrgaoRepository.class)
-				.addClass(Banca.class)
-				.addClass(Concurso.class)
 				.addAsResource("test-persistence.xml",
 						"META-INF/persistence.xml")
 				// .setWebXML(new File("src/main/webapp/WEB-INF/web.xml"))

@@ -61,4 +61,9 @@ public class EstudoMateria implements Entidade {
 	public Duration getTempoAlocado() {
 		return new Duration(tempoAlocadoLong);
 	}
+
+	@Override
+	public String toString() {
+		return id.toString();
+	}
 }
