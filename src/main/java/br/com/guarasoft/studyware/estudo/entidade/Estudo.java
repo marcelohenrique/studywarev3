@@ -33,6 +33,7 @@ public class Estudo implements Entidade {
 	private Long id;
 	private String nome;
 	@Temporal(TemporalType.DATE)
+	@Column(name = "DT_INICIO")
 	private Date dataInicio;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "DT_FIM")

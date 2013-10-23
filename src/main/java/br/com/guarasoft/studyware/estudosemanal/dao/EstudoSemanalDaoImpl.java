@@ -39,7 +39,7 @@ public class EstudoSemanalDaoImpl extends AbstractDao<EstudoSemanal, Long>
 	public List<EstudoSemanal> findAll(Estudo estudo) {
 		Query query = entityManager
 				.createNativeQuery(
-						"SELECT date_trunc('week', THE.DATA_HORA_ESTUDO) AS \"dataInicioSemana\" , SUM( THE.TEMPO_ESTUDADO ) AS \"tempoEstudadoLong\" FROM TB_HISTORICO_ESTUDO THE RIGHT OUTER JOIN TB_CONCURSO_MATERIA TCM ON THE.ID_CONCURSO_MATERIA = TCM.ID WHERE TCM.ID_ESTUDO = ? GROUP BY 1 ORDER BY 1",
+						"SELECT date_trunc('week', THE.DT_HORA_ESTUDO) AS \"dataInicioSemana\", SUM( THE.TEMPO_ESTUDADO ) AS \"tempoEstudadoLong\" FROM TB_HISTORICO_ESTUDO THE RIGHT OUTER JOIN TB_ESTUDO_MATERIA TEM ON THE.ID_ESTUDO_MATERIA = TEM.ID WHERE TEM.ID_ESTUDO = ? GROUP BY 1 ORDER BY 1",
 						EstudoSemanal.class);
 		List<EstudoSemanal> estudosSemanais = query.setParameter(1,
 				estudo.getId()).getResultList();

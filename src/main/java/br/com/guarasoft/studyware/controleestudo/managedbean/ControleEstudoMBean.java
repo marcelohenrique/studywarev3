@@ -21,12 +21,23 @@ import javax.transaction.UserTransaction;
 
 import lombok.Data;
 
+import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.joda.time.Period;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.guarasoft.studyware.estudo.dao.EstudoDao;
 import br.com.guarasoft.studyware.estudo.entidade.Estudo;
+import br.com.guarasoft.studyware.estudodiario.dao.EstudoDiaDao;
+import br.com.guarasoft.studyware.estudodiario.entidade.EstudoDiario;
 import br.com.guarasoft.studyware.estudomateria.dao.EstudoMateriaDao;
 import br.com.guarasoft.studyware.estudomateria.entidade.EstudoMateria;
 import br.com.guarasoft.studyware.estudosemanal.dao.EstudoSemanalDao;
@@ -46,16 +57,16 @@ import br.com.guarasoft.studyware.resumomateriaestudada.entidade.ResumoMateriaEs
 @ViewScoped
 public class ControleEstudoMBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5358580904420656733L;
+
 	private final Logger logger = LoggerFactory
 			.getLogger(ControleEstudoMBean.class);
 
 	@Resource
 	private UserTransaction userTransaction;
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5358580904420656733L;
 
 	@Inject
 	private EstudoDao estudoDao;
@@ -67,6 +78,8 @@ public class ControleEstudoMBean implements Serializable {
 	private EstudoSemanalDao estudoSemanalDao;
 	@Inject
 	private ResumoMateriaEstudadaDao resumoMateriaEstudadaDao;
+	@Inject
+	private EstudoDiaDao estudoDiaDao;
 
 	public boolean btIniciarDisabled = false;
 	public boolean btZerarDisabled = true;
@@ -79,26 +92,27 @@ public class ControleEstudoMBean implements Serializable {
 	@Inject
 	private Estudo estudoSelecionado;
 
-	private List<ResumoMateriaEstudada> concursoMateriasEstudadas;
+	private List<ResumoMateriaEstudada> resumoMateriasEstudadas;
 	private EstudoMateria estudoMateriaSelecionada;
 	private MateriaEstudada materiaEstudada;
 	private List<MateriaEstudada> materiasEstudadas;
 	private List<EstudoSemanal> estudosSemanais;
 	private List<EstudoMateria> estudoMaterias;
+	private List<EstudoDiario> estudosDiarios;
+
+	private CartesianChartModel graficoEstudoDiario;
 
 	@PostConstruct
 	private void init() {
-		// estudos = estudoDao.findAll();
-
 		materiaEstudada = build();
 	}
 
 	private void atualiza() {
-		concursoMateriasEstudadas = resumoMateriaEstudadaDao
+		resumoMateriasEstudadas = resumoMateriaEstudadaDao
 				.findAll(estudoSelecionado);
 		tempoTotalAlocado = new Duration(0);
 		tempoEstudadoTotal = new Duration(0);
-		for (ResumoMateriaEstudada resumoMateriaEstudada : concursoMateriasEstudadas) {
+		for (ResumoMateriaEstudada resumoMateriaEstudada : resumoMateriasEstudadas) {
 			tempoTotalAlocado = tempoTotalAlocado.plus(resumoMateriaEstudada
 					.getEstudoMateria().getTempoAlocado());
 			tempoEstudadoTotal = tempoEstudadoTotal.plus(resumoMateriaEstudada
@@ -106,6 +120,26 @@ public class ControleEstudoMBean implements Serializable {
 		}
 		materiasEstudadas = materiaEstudadaDao.findAll(estudoSelecionado);
 		estudosSemanais = estudoSemanalDao.findAll(estudoSelecionado);
+
+		estudosDiarios = estudoDiaDao.findAll(estudoSelecionado);
+		graficoEstudoDiario = new CartesianChartModel();
+		ChartSeries planejado = new ChartSeries();
+		planejado.setLabel("Planejado");
+		graficoEstudoDiario.addSeries(planejado);
+		ChartSeries executado = new ChartSeries();
+		executado.setLabel("Executado");
+		graficoEstudoDiario.addSeries(executado);
+		
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM");
+		for (EstudoDiario estudoDiario : estudosDiarios) {
+			if (estudoDiario != null) {
+				String date = formatter.print(estudoDiario.getDataInicioSemana().getTime());
+				planejado.set(date, estudoDiario
+						.getTempoAlocado().getMillis()/1000/60/60);
+				executado.set(date, estudoDiario
+						.getTempoEstudado().getMillis()/1000/60/60);
+			}
+		}
 	}
 
 	private MateriaEstudada build() {

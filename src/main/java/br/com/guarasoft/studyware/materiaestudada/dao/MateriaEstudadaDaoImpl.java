@@ -32,7 +32,7 @@ public class MateriaEstudadaDaoImpl extends AbstractDao<MateriaEstudada, Long>
 	public List<MateriaEstudada> findAll(Estudo estudo) {
 		return entityManager
 				.createQuery(
-						"select me from MateriaEstudada me where me.concursoMateria.estudo.id = :estudo order by me.dataHoraEstudo desc",
+						"select me from MateriaEstudada me where me.estudoMateria.estudo.id = :estudo order by me.dataHoraEstudo desc",
 						MateriaEstudada.class).setParameter("estudo", estudo.getId()).getResultList();
 	}
 

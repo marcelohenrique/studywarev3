@@ -15,10 +15,10 @@ import br.com.guarasoft.studyware.estudomateria.entidade.EstudoMateria;
 public interface EstudoMateriaDao {
 	public EstudoMateria findById(Long id);
 	/**
-	 * Método para recuperar as matérias de um concurso.
+	 * Método para recuperar as matérias de um estudo.
 	 * @param estudo TODO
 	 * 
-	 * @return Lista de matérias do concurso.
+	 * @return Lista de matérias do estudo.
 	 */
 	public List<EstudoMateria> findAll(Estudo estudo);
 }
