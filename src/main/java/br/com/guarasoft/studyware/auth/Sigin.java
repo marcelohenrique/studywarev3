@@ -1,19 +1,13 @@
 package br.com.guarasoft.studyware.auth;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -25,6 +19,8 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.plus.Plus;
+import com.google.api.services.plus.model.Person;
 
 @ManagedBean(name = "sigin")
 public class Sigin {
@@ -84,12 +80,6 @@ public class Sigin {
 		String tokenData = sessionAuth.getToken();
 		if (tokenData == null) {
 			try {
-//				HttpServletRequest req = (HttpServletRequest) FacesContext
-//						.getCurrentInstance().getExternalContext().getRequest();
-//				ByteArrayOutputStream resultStream = new ByteArrayOutputStream();
-//				getContent(req.getInputStream(), resultStream);
-//				String code = new String(resultStream.toByteArray(), "UTF-8");
-
 				// Upgrade the authorization code into an access and refresh
 				// token.
 				GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(
@@ -100,6 +90,28 @@ public class Sigin {
 				// This sample does not use the user ID.
 				// GoogleIdToken idToken = tokenResponse.parseIdToken();
 				// String gplusId = idToken.getPayload().getSubject();
+
+				// Build credential from stored token data.
+				GoogleCredential credential = new GoogleCredential.Builder()
+						.setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT)
+						.setClientSecrets(clientId, clientSecret).build()
+						.setFromTokenResponse(tokenResponse);
+
+				// Create a new authorized API client.
+				Plus service = new Plus.Builder(TRANSPORT, JSON_FACTORY,
+						credential)
+						./* setApplicationName(APPLICATION_NAME). */build();
+
+				Person mePerson = service.people().get("me").execute();
+
+				System.out.println("ID:\t" + mePerson.getId());
+				System.out.println("Display Name:\t"
+						+ mePerson.getDisplayName());
+				System.out.println("Image URL:\t"
+						+ mePerson.getImage().getUrl());
+				System.out.println("Profile URL:\t" + mePerson.getUrl());
+				System.out.println("E-mail:\t" + mePerson.getEmails());
+				System.out.println(mePerson.toPrettyString());
 
 				// Store the token in the session for later use.
 				sessionAuth.setToken(tokenResponse.toString());
@@ -112,28 +124,6 @@ public class Sigin {
 			}
 		}
 		return "main";
-	}
-
-	/*
-	 * Read the content of an InputStream.
-	 * 
-	 * @param inputStream the InputStream to be read.
-	 * 
-	 * @return the content of the InputStream as a ByteArrayOutputStream.
-	 * 
-	 * @throws IOException
-	 */
-	private void getContent(InputStream inputStream,
-			ByteArrayOutputStream outputStream) throws IOException {
-		// Read the response into a buffered stream
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-				inputStream))) {
-			int readChar;
-			while ((readChar = reader.read()) != -1) {
-				outputStream.write(readChar);
-			}
-		}
-		// reader.close();
 	}
 
 	public String logout() {
