@@ -9,6 +9,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
+import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuario;
+import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuarioImpl;
+import br.com.guarasoft.studyware.usuario.excecoes.EmailNaoEncontrado;
+import br.com.guarasoft.studyware.usuario.gateway.UsuarioGatewayImpl;
+
 import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
@@ -21,9 +26,10 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Person;
+import com.google.api.services.plus.model.Person.Emails;
 
 @ManagedBean(name = "sigin")
-public class Sigin {
+public class Signin {
 
 	/*
 	 * Default HTTP transport to use to make HTTP requests.
@@ -34,6 +40,8 @@ public class Sigin {
 	 * Default JSON factory to use to deserialize JSON.
 	 */
 	private static final JacksonFactory JSON_FACTORY = new JacksonFactory();
+
+	private static final String APPLICATION_NAME = "Studyware";
 
 	/*
 	 * Gson object to serialize JSON responses to requests to this servlet.
@@ -60,6 +68,8 @@ public class Sigin {
 
 	private String code;
 
+	private LoginUsuario loginUsuario;
+
 	@PostConstruct
 	private void init() {
 		try {
@@ -70,6 +80,8 @@ public class Sigin {
 
 			clientId = clientSecrets.getWeb().getClientId();
 			clientSecret = clientSecrets.getWeb().getClientSecret();
+
+			this.loginUsuario = new LoginUsuarioImpl(new UsuarioGatewayImpl());
 		} catch (IOException e) {
 			throw new Error("No client_secrets.json found", e);
 		}
@@ -99,19 +111,17 @@ public class Sigin {
 
 				// Create a new authorized API client.
 				Plus service = new Plus.Builder(TRANSPORT, JSON_FACTORY,
-						credential)
-						./* setApplicationName(APPLICATION_NAME). */build();
+						credential).setApplicationName(APPLICATION_NAME)
+						.build();
 
 				Person mePerson = service.people().get("me").execute();
 
-				System.out.println("ID:\t" + mePerson.getId());
-				System.out.println("Display Name:\t"
-						+ mePerson.getDisplayName());
-				System.out.println("Image URL:\t"
-						+ mePerson.getImage().getUrl());
-				System.out.println("Profile URL:\t" + mePerson.getUrl());
-				System.out.println("E-mail:\t" + mePerson.getEmails());
-				System.out.println(mePerson.toPrettyString());
+				for (Emails email : mePerson.getEmails()) {
+					if ("account".equals(email.getType())) {
+						this.loginUsuario.autenticar(email.getValue());
+						break;
+					}
+				}
 
 				// Store the token in the session for later use.
 				sessionAuth.setToken(tokenResponse.toString());
