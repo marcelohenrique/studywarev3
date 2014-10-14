@@ -21,7 +21,7 @@ then
     echo
 #    echo "Schema not found!  Importing schema from .openshift/action_hooks/redmine.sql"
 #    echo
-    /usr/bin/psql -U "$OPENSHIFT_DB_USERNAME" --password="$OPENSHIFT_DB_PASSWORD" -h "$OPENSHIFT_DB_HOST" -d "$OPENSHIFT_APP_NAME" -f "$OPENSHIFT_REPO_DIR/.openshift/action_hooks/script.sql"
+    /usr/bin/psql -U "$OPENSHIFT_DB_USERNAME" --password="$OPENSHIFT_DB_PASSWORD" -h "$OPENSHIFT_DB_HOST" -d "$OPENSHIFT_APP_NAME" -f "$OPENSHIFT_REPO_DIR/.openshift/action_hooks/script.sql" > "$OPENSHIFT_REPO_DIR/teste.txt"
     echo
     echo "done."
 # else
