@@ -26,14 +26,21 @@ public class UsuarioController {
 		this.cadastrarUsuario = new CadastrarUsuarioImpl(this.usuarioGateway);
 	}
 
+	public String telaCadastro() {
+		return "pages/usuario/cadastrar";
+	}
+
 	public String cadastrar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			this.cadastrarUsuario.executar(this.email);
-			context.addMessage(null, new FacesMessage("Sucesso", "E-mail cadastrado"));
+			context.addMessage(null, new FacesMessage("Sucesso",
+					"E-mail cadastrado"));
 			return "main";
 		} catch (EmailJaCadastrado e) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "E-mail já cadastrado"));
+			context.addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
+							"E-mail já cadastrado"));
 			return "pages/usuario/cadastro";
 		}
 	}

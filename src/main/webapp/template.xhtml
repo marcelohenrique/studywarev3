@@ -55,7 +55,7 @@
 				<p:menubar>
 
 					<p:submenu label="Usuário" icon="ui-icon-person" rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
-						<p:menuitem value="Cadastrar" icon="ui-icon-plus" url="pages/usuario/cadastrar.xhtml" />
+						<p:menuitem value="Cadastrar" icon="ui-icon-plus" action="#{usuario.telaCadastro()}" />
 					</p:submenu>
 
 					<p:submenu label="Estudo" icon="ui-icon-note">
