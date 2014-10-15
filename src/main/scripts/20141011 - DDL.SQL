@@ -1,0 +1,3 @@
+CREATE TABLE Usuario (
+   email TEXT PRIMARY KEY
+);

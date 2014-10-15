@@ -12,8 +12,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuario;
 import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuarioImpl;
-import br.com.guarasoft.studyware.usuario.entidades.Usuario;
-import br.com.guarasoft.studyware.usuario.entidades.UsuarioImpl;
+import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
+import br.com.guarasoft.studyware.usuario.entidades.UsuarioServiceImpl;
 import br.com.guarasoft.studyware.usuario.excecoes.EmailNaoEncontrado;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 
@@ -25,14 +25,14 @@ public class LoginUsuarioTest {
 
 	@Test
 	public void autenticarSucesso() {
-		when(usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(new UsuarioImpl());
-
 		String email = "teste@gmail.com";
+		when(usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(new UsuarioServiceImpl(email));
+
 
 		LoginUsuario loginUsuario = new LoginUsuarioImpl(usuarioGateway);
-		Usuario usuario = loginUsuario.autenticar(email);
+		UsuarioService usuarioService = loginUsuario.autenticar(email);
 
-		assertNotNull(usuario);
+		assertNotNull(usuarioService);
 	}
 
 	@Test(expected = EmailNaoEncontrado.class)

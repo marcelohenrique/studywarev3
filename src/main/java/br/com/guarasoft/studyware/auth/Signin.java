@@ -8,10 +8,13 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuario;
 import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuarioImpl;
+import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
 import br.com.guarasoft.studyware.usuario.excecoes.EmailNaoEncontrado;
+import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGatewayImpl;
 
 import com.google.api.client.auth.oauth2.TokenResponseException;
@@ -68,6 +71,9 @@ public class Signin {
 
 	private String code;
 
+	@Inject
+	private UsuarioGateway usuarioGateway;
+
 	private LoginUsuario loginUsuario;
 
 	@PostConstruct
@@ -81,7 +87,7 @@ public class Signin {
 			clientId = clientSecrets.getWeb().getClientId();
 			clientSecret = clientSecrets.getWeb().getClientSecret();
 
-			this.loginUsuario = new LoginUsuarioImpl(new UsuarioGatewayImpl());
+			this.loginUsuario = new LoginUsuarioImpl(usuarioGateway);
 		} catch (IOException e) {
 			throw new Error("No client_secrets.json found", e);
 		}
@@ -118,7 +124,8 @@ public class Signin {
 
 				for (Emails email : mePerson.getEmails()) {
 					if ("account".equals(email.getType())) {
-						this.loginUsuario.autenticar(email.getValue());
+						UsuarioService usuarioService = this.loginUsuario.autenticar(email.getValue());
+						sessionAuth.setUsuario(usuarioService);
 						break;
 					}
 				}
@@ -131,6 +138,8 @@ public class Signin {
 				e.printStackTrace();
 				throw new Error("Failed to read token data from Google. "
 						+ e.getMessage(), e);
+			} catch (EmailNaoEncontrado e) {
+				return "forbidden";
 			}
 		}
 		return "main";

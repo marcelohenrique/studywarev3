@@ -1,16 +1,34 @@
 package br.com.guarasoft.studyware.usuario.gateway;
 
-import br.com.guarasoft.studyware.usuario.entidades.Usuario;
-import br.com.guarasoft.studyware.usuario.entidades.UsuarioImpl;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
+import br.com.guarasoft.studyware.usuario.entidades.UsuarioServiceImpl;
+
+@Stateless
 public class UsuarioGatewayImpl implements UsuarioGateway {
 
+	@PersistenceContext(unitName = "studyware")
+	private EntityManager entityManager;
+
 	@Override
-	public Usuario pesquisaPorEmail(String email) {
-		if ("mhguara@gmail.com".equals(email)) {
-			return new UsuarioImpl();
+	public UsuarioService pesquisaPorEmail(String email) {
+		Usuario usuario = this.entityManager.find(Usuario.class, email);
+
+		if (usuario != null) {
+			return new UsuarioServiceImpl(usuario.getEmail());
 		}
+
 		return null;
+	}
+
+	@Override
+	public void cadastrar(String email) {
+		Usuario usuario = new Usuario();
+		usuario.setEmail(email);
+		this.entityManager.persist(usuario);
 	}
 
 }

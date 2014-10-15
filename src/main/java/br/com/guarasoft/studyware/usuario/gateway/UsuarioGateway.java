@@ -1,9 +1,11 @@
 package br.com.guarasoft.studyware.usuario.gateway;
 
-import br.com.guarasoft.studyware.usuario.entidades.Usuario;
+import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
 
 public interface UsuarioGateway {
 
-	Usuario pesquisaPorEmail(String email);
+	UsuarioService pesquisaPorEmail(String email);
+
+	void cadastrar(String email);
 
 }

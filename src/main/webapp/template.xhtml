@@ -53,6 +53,11 @@
 			<div class="container">
 	
 				<p:menubar>
+
+					<p:submenu label="Usuário" icon="ui-icon-person" rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
+						<p:menuitem value="Cadastrar" icon="ui-icon-plus" url="pages/usuario/cadastrar.xhtml" />
+					</p:submenu>
+
 					<f:facet name="options">
 						<p:commandButton value="Logout" icon="ui-icon-extlink" action="#{sigin.logout()}" ajax="false" />
 					</f:facet>
