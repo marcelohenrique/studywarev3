@@ -9,7 +9,7 @@
 	<!-- <link rel="stylesheet" type="text/css" href="style.css" />
 	<link rel="stylesheet" type="text/css" href="css/grid12col.css" /> -->
 	<!-- JavaScript specific to this application that is not related to API calls -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" ></script>
+	<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" ></script> -->
 </h:head>
 <h:body>
 
@@ -26,9 +26,22 @@
 		<p:growl id="growl" showDetail="true" sticky="true" />
 
 		<div class="container">
-			<p:outputLabel for="email" value="E-mail:" />
-			<p:inputText id="email" required="true" value="#{usuario.email}" />
-			<p:commandButton value="Cadastrar" ajax="false" action="#{usuario.cadastrar()}" />
+		
+			<p:panelGrid columns="2">
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="2">Cadastrar Estudo do Usuário</p:column>
+					</p:row>
+				</f:facet>
+				<p:outputLabel for="nome" value="Nome:" />
+				<p:inputText id="nome" required="true" />
+				<p:outputLabel for="fim" value="Fim:" />
+				<p:calendar id="fim" mindate="calwidget.today()" />
+				<f:facet name="footer">
+					<p:commandButton value="Cadastrar" />
+				</f:facet>
+			</p:panelGrid>
+
 		</div>
 	</h:form>
 </h:body>
