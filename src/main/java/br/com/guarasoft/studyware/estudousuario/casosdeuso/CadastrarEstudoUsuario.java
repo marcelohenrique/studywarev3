@@ -4,5 +4,4 @@ public interface CadastrarEstudoUsuario {
 
 	Boolean execute(String email, String nomeEstudo);
 
-
 }

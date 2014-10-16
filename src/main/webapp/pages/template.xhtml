@@ -6,12 +6,9 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
-	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<link rel="stylesheet" type="text/css" href="css/grid12col.css" />
 	<script type="text/javascript">
-		$( document ).ready( function() {
-		} );
-
 		function disconnectUser() {
 			var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + access_token;
 
@@ -48,28 +45,28 @@
 	</p:dialog>
 
 	<ui:insert name="menu">
-	
+
 		<h:form id="formulariomenu">
 			<div class="container">
-	
+
 				<p:menubar>
 
 					<p:submenu label="Usuário" icon="ui-icon-person" rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
-						<p:menuitem value="Cadastrar" icon="ui-icon-plus" action="#{usuario.telaCadastro()}" />
+						<p:menuitem value="Cadastrar" icon="ui-icon-plus" action="#{controller.cadastrarUsuario()}" />
 					</p:submenu>
 
 					<p:submenu label="Estudo" icon="ui-icon-note">
-						<p:menuitem value="Cadastrar" icon="ui-icon-plus" />
+						<p:menuitem value="Cadastrar" icon="ui-icon-plus" action="#{controller.cadastrarEstudoUsuario()}" />
 					</p:submenu>
 
 					<f:facet name="options">
 						<p:commandButton value="Logout" icon="ui-icon-extlink" action="#{sigin.logout()}" ajax="false" />
 					</f:facet>
 				</p:menubar>
-	
+
 			</div>
 		</h:form>
-	
+
 	</ui:insert>
 
 	<ui:insert name="main"></ui:insert>

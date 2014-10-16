@@ -15,7 +15,6 @@ import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuarioImpl;
 import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
 import br.com.guarasoft.studyware.usuario.excecoes.EmailNaoEncontrado;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
-import br.com.guarasoft.studyware.usuario.gateway.UsuarioGatewayImpl;
 
 import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -23,7 +22,6 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -124,7 +122,8 @@ public class Signin {
 
 				for (Emails email : mePerson.getEmails()) {
 					if ("account".equals(email.getType())) {
-						UsuarioService usuarioService = this.loginUsuario.autenticar(email.getValue());
+						UsuarioService usuarioService = this.loginUsuario
+								.autenticar(email.getValue());
 						sessionAuth.setUsuario(usuarioService);
 						break;
 					}
@@ -139,10 +138,10 @@ public class Signin {
 				throw new Error("Failed to read token data from Google. "
 						+ e.getMessage(), e);
 			} catch (EmailNaoEncontrado e) {
-				return "forbidden";
+				return "pages/forbidden";
 			}
 		}
-		return "main";
+		return "pages/main";
 	}
 
 	public String logout() {
@@ -160,7 +159,7 @@ public class Signin {
 								JSON_FACTORY.fromString(tokenData,
 										GoogleTokenResponse.class));
 				// Execute HTTP GET request to revoke current token.
-				HttpResponse revokeResponse = TRANSPORT
+				TRANSPORT
 						.createRequestFactory()
 						.buildGetRequest(
 								new GenericUrl(
