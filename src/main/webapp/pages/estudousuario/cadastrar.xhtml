@@ -34,11 +34,11 @@
 					</p:row>
 				</f:facet>
 				<p:outputLabel for="nome" value="Nome:" />
-				<p:inputText id="nome" required="true" />
+				<p:inputText id="nome" required="true" value="#{estudoUsuario.nome}" />
 				<p:outputLabel for="fim" value="Fim:" />
-				<p:calendar id="fim" mindate="calwidget.today()" />
+				<p:calendar id="fim" mindate="calwidget.today()" value="#{estudoUsuario.fim}" />
 				<f:facet name="footer">
-					<p:commandButton value="Cadastrar" />
+					<p:commandButton value="Cadastrar" action="#{estudoUsuario.cadastrar()}" />
 				</f:facet>
 			</p:panelGrid>
 

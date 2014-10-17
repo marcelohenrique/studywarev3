@@ -1,7 +1,9 @@
 package br.com.guarasoft.studyware.estudousuario.gateway;
 
+import java.util.Date;
+
 public interface EstudoUsuarioGateway {
 
-	Boolean cadastrar(String email, String nomeEstudo);
+	void cadastrar(String email, String nomeEstudo, Date fim);
 
 }

@@ -14,31 +14,27 @@ import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 @ManagedBean(name = "usuario")
 public class UsuarioController {
 
-	private String email;
-
-	private CadastrarUsuario cadastrarUsuario;
+	private FacesContext context = FacesContext.getCurrentInstance();
 
 	@Inject
 	private UsuarioGateway usuarioGateway;
+	private CadastrarUsuario cadastrarUsuario;
+
+	private String email;
 
 	@PostConstruct
 	private void init() {
 		this.cadastrarUsuario = new CadastrarUsuarioImpl(this.usuarioGateway);
 	}
 
-	public String telaCadastro() {
-		return "pages/usuario/cadastrar";
-	}
-
 	public String cadastrar() {
-		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			this.cadastrarUsuario.executar(this.email);
-			context.addMessage(null, new FacesMessage("Sucesso",
+			this.context.addMessage(null, new FacesMessage("Sucesso",
 					"E-mail cadastrado"));
 			return "main";
 		} catch (EmailJaCadastrado e) {
-			context.addMessage(null,
+			this.context.addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
 							"E-mail já cadastrado"));
 			return "pages/usuario/cadastro";

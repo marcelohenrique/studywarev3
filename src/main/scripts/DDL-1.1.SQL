@@ -9,3 +9,5 @@ CREATE TABLE EstudoUsuario (
    fim DATE,
    PRIMARY KEY ( id, email )
 );
+
+CREATE SEQUENCE EstudoUsuarioSeq;

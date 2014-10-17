@@ -1,7 +1,9 @@
 package br.com.guarasoft.studyware.estudousuario.casosdeuso;
 
+import java.util.Date;
+
 public interface CadastrarEstudoUsuario {
 
-	Boolean execute(String email, String nomeEstudo);
+	void execute(String email, String nomeEstudo, Date fim);
 
 }

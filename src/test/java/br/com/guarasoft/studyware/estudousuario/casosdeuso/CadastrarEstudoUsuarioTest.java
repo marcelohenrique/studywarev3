@@ -1,8 +1,10 @@
 package br.com.guarasoft.studyware.estudousuario.casosdeuso;
 
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
+
+import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,30 +22,25 @@ public class CadastrarEstudoUsuarioTest {
 
 	@Test
 	public void cadastrarEstudoUsuarioSucesso() {
-		when(this.estudoUsuarioGateway.cadastrar(anyString(), anyString()))
-				.thenReturn(Boolean.TRUE);
-
 		String email = "teste@gmail.com";
 		String nomeEstudo = "Estudo Teste";
 
 		CadastrarEstudoUsuario cadastrarEstudoUsuario = new CadastrarEstudoUsuarioImpl(
 				this.estudoUsuarioGateway);
-		Boolean sucesso = cadastrarEstudoUsuario.execute(email, nomeEstudo);
-
-		assertTrue(sucesso);
+		cadastrarEstudoUsuario.execute(email, nomeEstudo, null);
 	}
 
 	@Test(expected = EstudoJaExiste.class)
 	public void cadastrarEstudoUsuario_Falha_EstudoJaExiste() {
-		when(this.estudoUsuarioGateway.cadastrar(anyString(), anyString()))
-				.thenThrow(new EstudoJaExiste());
+		doThrow(new EstudoJaExiste()).when(this.estudoUsuarioGateway)
+				.cadastrar(anyString(), anyString(), any(Date.class));
 
 		String email = "teste@gmail.com";
 		String nomeEstudo = "Estudo Teste";
 
 		CadastrarEstudoUsuario cadastrarEstudoUsuario = new CadastrarEstudoUsuarioImpl(
 				this.estudoUsuarioGateway);
-		cadastrarEstudoUsuario.execute(email, nomeEstudo);
+		cadastrarEstudoUsuario.execute(email, nomeEstudo, null);
 	}
 
 }
