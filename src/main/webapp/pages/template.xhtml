@@ -33,14 +33,15 @@
 			});
 		}
 	</script>
+
+	<ui:insert name="header"></ui:insert>
+
 </h:head>
 <h:body>
 
-	<p:ajaxStatus onstart="statusDialog.show();"
-		onsuccess="statusDialog.hide();" />
+	<p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />
 
-	<p:dialog modal="true" widgetVar="statusDialog" header="Carregando..."
-		draggable="false" closable="false" resizable="false">
+	<p:dialog modal="true" widgetVar="statusDialog" header="Carregando..." draggable="false" closable="false" resizable="false">
 		<p:graphicImage value="/images/ajax-loader.gif" />
 	</p:dialog>
 
@@ -50,6 +51,8 @@
 			<div class="container">
 
 				<p:menubar>
+
+					<p:menuitem value="Studyware" action="#{controller.home()}" />
 
 					<p:submenu label="Usuário" icon="ui-icon-person" rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
 						<p:menuitem value="Cadastrar" icon="ui-icon-plus" action="#{controller.cadastrarUsuario()}" />
@@ -69,7 +72,11 @@
 
 	</ui:insert>
 
-	<ui:insert name="main"></ui:insert>
+	<h:form>
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" />
+		<ui:insert name="main">
+		</ui:insert>
+	</h:form>
 
 </h:body>
 </html>

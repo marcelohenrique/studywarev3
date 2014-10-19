@@ -3,9 +3,6 @@ package br.com.guarasoft.studyware.estudousuario.gateway;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.SequenceGenerator;
 
 @Embeddable
 public class EstudoUsuarioPK implements Serializable {
@@ -13,9 +10,7 @@ public class EstudoUsuarioPK implements Serializable {
 	private static final long serialVersionUID = -3665744009712951223L;
 
 	private String email;
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EstudoUsuarioSeq")
-	@SequenceGenerator(name = "EstudoUsuarioSeq", sequenceName = "EstudoUsuarioSeq", allocationSize = 1)
-	private Long id;
+	private String nome;
 
 	public String getEmail() {
 		return email;
@@ -25,12 +20,12 @@ public class EstudoUsuarioPK implements Serializable {
 		this.email = email;
 	}
 
-	public Long getId() {
-		return id;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	@Override
@@ -38,7 +33,7 @@ public class EstudoUsuarioPK implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
 
@@ -56,10 +51,10 @@ public class EstudoUsuarioPK implements Serializable {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (nome == null) {
+			if (other.nome != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!nome.equals(other.nome))
 			return false;
 		return true;
 	}

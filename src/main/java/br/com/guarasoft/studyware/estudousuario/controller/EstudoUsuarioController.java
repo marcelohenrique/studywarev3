@@ -11,13 +11,12 @@ import javax.inject.Inject;
 
 import br.com.guarasoft.studyware.estudousuario.casosdeuso.CadastrarEstudoUsuario;
 import br.com.guarasoft.studyware.estudousuario.casosdeuso.CadastrarEstudoUsuarioImpl;
+import br.com.guarasoft.studyware.estudousuario.excecoes.EstudoJaExiste;
 import br.com.guarasoft.studyware.estudousuario.gateway.EstudoUsuarioGateway;
 import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
 
 @ManagedBean(name = "estudoUsuario")
 public class EstudoUsuarioController {
-
-	private FacesContext context = FacesContext.getCurrentInstance();
 
 	@Inject
 	private EstudoUsuarioGateway estudoUsuarioGateway;
@@ -31,20 +30,17 @@ public class EstudoUsuarioController {
 
 	@PostConstruct
 	private void init() {
-		this.cadastrarEstudoUsuario = new CadastrarEstudoUsuarioImpl(
-				this.estudoUsuarioGateway);
+		this.cadastrarEstudoUsuario = new CadastrarEstudoUsuarioImpl(this.estudoUsuarioGateway);
 	}
 
-	public String cadastrar() {
-		this.cadastrarEstudoUsuario.execute(this.usuarioService.getEmail(),
-				this.nome, this.fim);
-		this.context.addMessage(null, new FacesMessage("Sucesso",
-				"Estudo cadastrado"));
-		return "main";
-	}
-
-	public UsuarioService getUsuarioService() {
-		return usuarioService;
+	public void cadastrar() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		try {
+			this.cadastrarEstudoUsuario.execute(this.usuarioService.getEmail(), this.nome, this.fim);
+			context.addMessage(null, new FacesMessage("Sucesso", "Estudo cadastrado"));
+		} catch (EstudoJaExiste e) {
+			context.addMessage(null, new FacesMessage("Falha", "Estudo já exite"));
+		}
 	}
 
 	public void setUsuarioService(UsuarioService usuarioService) {

@@ -6,6 +6,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import br.com.guarasoft.studyware.estudousuario.excecoes.EstudoJaExiste;
+
 @Stateless
 public class EstudoUsuarioGatewayImpl implements EstudoUsuarioGateway {
 
@@ -16,13 +18,17 @@ public class EstudoUsuarioGatewayImpl implements EstudoUsuarioGateway {
 	public void cadastrar(String email, String nomeEstudo, Date fim) {
 		EstudoUsuarioPK estudoUsuarioPK = new EstudoUsuarioPK();
 		estudoUsuarioPK.setEmail(email);
+		estudoUsuarioPK.setNome(nomeEstudo);
 
 		EstudoUsuario estudoUsuario = new EstudoUsuario();
-		estudoUsuario.setEstudodoEstudoUsuarioPK(estudoUsuarioPK);
-		estudoUsuario.setNome(nomeEstudo);
+		estudoUsuario.setEstudoUsuarioPK(estudoUsuarioPK);
 		estudoUsuario.setFim(fim);
 
-		this.entityManager.persist(estudoUsuario);
+		try {
+			this.entityManager.persist(estudoUsuario);
+		} catch (RuntimeException e) {
+			throw new EstudoJaExiste();
+		}
 	}
 
 }

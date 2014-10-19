@@ -21,14 +21,9 @@ import javax.transaction.UserTransaction;
 
 import lombok.Data;
 
-import org.joda.time.DateTime;
 import org.joda.time.Duration;
-import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.slf4j.Logger;
@@ -48,18 +43,11 @@ import br.com.guarasoft.studyware.materiaestudada.entidade.MateriaEstudada;
 import br.com.guarasoft.studyware.resumomateriaestudada.dao.ResumoMateriaEstudadaDao;
 import br.com.guarasoft.studyware.resumomateriaestudada.entidade.ResumoMateriaEstudada;
 
-/**
- * @author guara
- * 
- */
 @Data
 @ManagedBean(name = "controleestudo")
 @ViewScoped
 public class ControleEstudoMBean implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5358580904420656733L;
 
 	private final Logger logger = LoggerFactory
@@ -129,15 +117,18 @@ public class ControleEstudoMBean implements Serializable {
 		ChartSeries executado = new ChartSeries();
 		executado.setLabel("Executado");
 		graficoEstudoDiario.addSeries(executado);
-		
+
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM");
 		for (EstudoDiario estudoDiario : estudosDiarios) {
 			if (estudoDiario != null) {
-				String date = formatter.print(estudoDiario.getDataInicioSemana().getTime());
-				planejado.set(date, estudoDiario
-						.getTempoAlocado().getMillis()/1000/60/60);
-				executado.set(date, estudoDiario
-						.getTempoEstudado().getMillis()/1000/60/60);
+				String date = formatter.print(estudoDiario
+						.getDataInicioSemana().getTime());
+				planejado
+						.set(date,
+								estudoDiario.getTempoAlocado().getMillis() / 1000 / 60 / 60);
+				executado
+						.set(date,
+								estudoDiario.getTempoEstudado().getMillis() / 1000 / 60 / 60);
 			}
 		}
 	}

@@ -9,25 +9,15 @@ import javax.persistence.Entity;
 public class EstudoUsuario {
 
 	@EmbeddedId
-	private EstudoUsuarioPK estudodoEstudoUsuarioPK;
-	private String nome;
+	private EstudoUsuarioPK estudoUsuarioPK;
 	private Date fim;
 
-	public EstudoUsuarioPK getEstudodoEstudoUsuarioPK() {
-		return estudodoEstudoUsuarioPK;
+	public EstudoUsuarioPK getEstudoUsuarioPK() {
+		return estudoUsuarioPK;
 	}
 
-	public void setEstudodoEstudoUsuarioPK(
-			EstudoUsuarioPK estudodoEstudoUsuarioPK) {
-		this.estudodoEstudoUsuarioPK = estudodoEstudoUsuarioPK;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setEstudoUsuarioPK(EstudoUsuarioPK estudoUsuarioPK) {
+		this.estudoUsuarioPK = estudoUsuarioPK;
 	}
 
 	public Date getFim() {
