@@ -85,9 +85,8 @@
 								<p:selectOneMenu id="estudoselecionado" required="true"
 									value="#{controleestudo.estudoSelecionado.id}">
 									<f:selectItem itemLabel="Selecione" itemValue="" />
-									<f:selectItems value="#{controleestudo.estudoDao.findAll()}"
-										var="estudo" itemValue="#{estudo.id}"
-										itemLabel="#{estudo.nome}" itemDescription="#{estudo.nome}" />
+									<!-- <f:selectItems value="#{controleestudo.estudoDao.findAll()}" var="estudo" itemValue="#{estudo.id}" itemLabel="#{estudo.nome}" itemDescription="#{estudo.nome}" /> -->
+									<f:selectItems value="#{controleestudo.estudos}" var="estudo" itemValue="#{estudo.nome}" itemLabel="#{estudo.nome}" itemDescription="#{estudo.nome}" />
 									<p:ajax update="materias, dataTable, tabView"
 										listener="#{controleestudo.listaEstudoMaterias()}" />
 								</p:selectOneMenu>

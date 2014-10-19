@@ -1,6 +1,3 @@
-/**
- * 
- */
 package br.com.guarasoft.studyware.controleestudo.managedbean;
 
 import java.io.Serializable;
@@ -10,6 +7,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.transaction.HeuristicMixedException;
@@ -37,11 +35,15 @@ import br.com.guarasoft.studyware.estudomateria.dao.EstudoMateriaDao;
 import br.com.guarasoft.studyware.estudomateria.entidade.EstudoMateria;
 import br.com.guarasoft.studyware.estudosemanal.dao.EstudoSemanalDao;
 import br.com.guarasoft.studyware.estudosemanal.entidade.EstudoSemanal;
+import br.com.guarasoft.studyware.estudousuario.bean.EstudoUsuarioBean;
+import br.com.guarasoft.studyware.estudousuario.gateway.EstudoUsuarioGateway;
+import br.com.guarasoft.studyware.estudousuario.gateway.entidade.EstudoUsuarioPK;
 import br.com.guarasoft.studyware.materia.entidade.Materia;
 import br.com.guarasoft.studyware.materiaestudada.dao.MateriaEstudadaDao;
 import br.com.guarasoft.studyware.materiaestudada.entidade.MateriaEstudada;
 import br.com.guarasoft.studyware.resumomateriaestudada.dao.ResumoMateriaEstudadaDao;
 import br.com.guarasoft.studyware.resumomateriaestudada.entidade.ResumoMateriaEstudada;
+import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
 
 @Data
 @ManagedBean(name = "controleestudo")
@@ -90,9 +92,18 @@ public class ControleEstudoMBean implements Serializable {
 
 	private CartesianChartModel graficoEstudoDiario;
 
+	@Inject
+	private EstudoUsuarioGateway estudoUsuarioGateway;
+	@ManagedProperty(value = "#{sessionAuth.usuario}")
+	private UsuarioService usuarioService;
+	private List<EstudoUsuarioBean> estudos;
+
 	@PostConstruct
 	private void init() {
 		materiaEstudada = build();
+
+		this.estudos = this.estudoUsuarioGateway.recuperaEstudos(usuarioService
+				.getEmail());
 	}
 
 	private void atualiza() {

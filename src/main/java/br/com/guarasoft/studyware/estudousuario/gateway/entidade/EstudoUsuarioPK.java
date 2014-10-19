@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.estudousuario.gateway;
+package br.com.guarasoft.studyware.estudousuario.gateway.entidade;
 
 import java.io.Serializable;
 

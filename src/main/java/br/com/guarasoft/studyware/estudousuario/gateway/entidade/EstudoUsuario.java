@@ -1,15 +1,18 @@
-package br.com.guarasoft.studyware.estudousuario.gateway;
+package br.com.guarasoft.studyware.estudousuario.gateway.entidade;
 
 import java.util.Date;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class EstudoUsuario {
 
 	@EmbeddedId
 	private EstudoUsuarioPK estudoUsuarioPK;
+	@Temporal(TemporalType.DATE)
 	private Date fim;
 
 	public EstudoUsuarioPK getEstudoUsuarioPK() {

@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.controller;
+package br.com.guarasoft.studyware.menu.controller;
 
 import javax.faces.bean.ManagedBean;
 
