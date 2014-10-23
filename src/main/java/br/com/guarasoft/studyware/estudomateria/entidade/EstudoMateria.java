@@ -1,6 +1,3 @@
-/**
- * 
- */
 package br.com.guarasoft.studyware.estudomateria.entidade;
 
 import javax.persistence.Column;
@@ -20,22 +17,15 @@ import lombok.Setter;
 
 import org.joda.time.Duration;
 
-import br.com.guarasoft.studyware.estudo.entidade.Estudo;
+import br.com.guarasoft.studyware.estudousuario.gateway.entidade.EstudoUsuario;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
-import br.com.guarasoft.studyware.materia.entidade.Materia;
+import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
 
-/**
- * @author guara
- * 
- */
 @Entity
 @Table(name = "TB_ESTUDO_MATERIA")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class EstudoMateria implements Entidade {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6291112509470918058L;
 
 	@Id
@@ -43,7 +33,7 @@ public class EstudoMateria implements Entidade {
 
 	@ManyToOne
 	@JoinColumn(name = "ID_ESTUDO", referencedColumnName = "ID")
-	private Estudo estudo;
+	private EstudoUsuario estudo;
 
 	@OneToOne
 	@JoinColumn(name = "ID_MATERIA", referencedColumnName = "ID")

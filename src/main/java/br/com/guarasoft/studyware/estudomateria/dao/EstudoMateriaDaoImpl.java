@@ -2,8 +2,8 @@ package br.com.guarasoft.studyware.estudomateria.dao;
 
 import java.util.List;
 
-import br.com.guarasoft.studyware.estudo.entidade.Estudo;
 import br.com.guarasoft.studyware.estudomateria.entidade.EstudoMateria;
+import br.com.guarasoft.studyware.estudousuario.bean.EstudoUsuarioBean;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 
 public class EstudoMateriaDaoImpl extends AbstractDao<EstudoMateria, Long> implements EstudoMateriaDao {
@@ -18,7 +18,7 @@ public class EstudoMateriaDaoImpl extends AbstractDao<EstudoMateria, Long> imple
 	}
 
 	@Override
-	public List<EstudoMateria> findAll(Estudo estudo) {
+	public List<EstudoMateria> findAll(EstudoUsuarioBean estudo) {
 		return entityManager
 				.createQuery(
 						"select cm from EstudoMateria cm where cm.estudo.id = :idEstudo",

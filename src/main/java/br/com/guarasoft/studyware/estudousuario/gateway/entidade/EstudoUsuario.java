@@ -2,33 +2,22 @@ package br.com.guarasoft.studyware.estudousuario.gateway.entidade;
 
 import java.util.Date;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.Data;
+
 @Entity
+@Data
 public class EstudoUsuario {
 
-	@EmbeddedId
-	private EstudoUsuarioPK estudoUsuarioPK;
+	@Id
+	private Long id;
+	private String email;
+	private String nome;
 	@Temporal(TemporalType.DATE)
 	private Date fim;
-
-	public EstudoUsuarioPK getEstudoUsuarioPK() {
-		return estudoUsuarioPK;
-	}
-
-	public void setEstudoUsuarioPK(EstudoUsuarioPK estudoUsuarioPK) {
-		this.estudoUsuarioPK = estudoUsuarioPK;
-	}
-
-	public Date getFim() {
-		return fim;
-	}
-
-	public void setFim(Date fim) {
-		this.fim = fim;
-	}
 
 }

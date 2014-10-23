@@ -22,13 +22,14 @@ import lombok.Data;
 import org.joda.time.Duration;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.DateAxis;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.guarasoft.studyware.estudo.dao.EstudoDao;
-import br.com.guarasoft.studyware.estudo.entidade.Estudo;
 import br.com.guarasoft.studyware.estudodiario.dao.EstudoDiaDao;
 import br.com.guarasoft.studyware.estudodiario.entidade.EstudoDiario;
 import br.com.guarasoft.studyware.estudomateria.dao.EstudoMateriaDao;
@@ -37,18 +38,21 @@ import br.com.guarasoft.studyware.estudosemanal.dao.EstudoSemanalDao;
 import br.com.guarasoft.studyware.estudosemanal.entidade.EstudoSemanal;
 import br.com.guarasoft.studyware.estudousuario.bean.EstudoUsuarioBean;
 import br.com.guarasoft.studyware.estudousuario.gateway.EstudoUsuarioGateway;
-import br.com.guarasoft.studyware.estudousuario.gateway.entidade.EstudoUsuarioPK;
-import br.com.guarasoft.studyware.materia.entidade.Materia;
+import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
 import br.com.guarasoft.studyware.materiaestudada.dao.MateriaEstudadaDao;
 import br.com.guarasoft.studyware.materiaestudada.entidade.MateriaEstudada;
 import br.com.guarasoft.studyware.resumomateriaestudada.dao.ResumoMateriaEstudadaDao;
 import br.com.guarasoft.studyware.resumomateriaestudada.entidade.ResumoMateriaEstudada;
 import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
 
-@Data
 @ManagedBean(name = "controleestudo")
 @ViewScoped
+@Data
 public class ControleEstudoMBean implements Serializable {
+
+	private static final int SEGUNDO = 1000;
+	private static final int MINUTO = SEGUNDO * 60;
+	private static final int HORA = MINUTO * 60;
 
 	private static final long serialVersionUID = -5358580904420656733L;
 
@@ -58,8 +62,6 @@ public class ControleEstudoMBean implements Serializable {
 	@Resource
 	private UserTransaction userTransaction;
 
-	@Inject
-	private EstudoDao estudoDao;
 	@Inject
 	private MateriaEstudadaDao materiaEstudadaDao;
 	@Inject
@@ -80,7 +82,7 @@ public class ControleEstudoMBean implements Serializable {
 	private Duration tempoEstudadoTotal = new Duration(0);
 
 	@Inject
-	private Estudo estudoSelecionado;
+	private EstudoUsuarioBean estudoSelecionado;
 
 	private List<ResumoMateriaEstudada> resumoMateriasEstudadas;
 	private EstudoMateria estudoMateriaSelecionada;
@@ -90,7 +92,7 @@ public class ControleEstudoMBean implements Serializable {
 	private List<EstudoMateria> estudoMaterias;
 	private List<EstudoDiario> estudosDiarios;
 
-	private CartesianChartModel graficoEstudoDiario;
+	private LineChartModel graficoEstudoDiario;
 
 	@Inject
 	private EstudoUsuarioGateway estudoUsuarioGateway;
@@ -121,25 +123,40 @@ public class ControleEstudoMBean implements Serializable {
 		estudosSemanais = estudoSemanalDao.findAll(estudoSelecionado);
 
 		estudosDiarios = estudoDiaDao.findAll(estudoSelecionado);
-		graficoEstudoDiario = new CartesianChartModel();
-		ChartSeries planejado = new ChartSeries();
-		planejado.setLabel("Planejado");
-		graficoEstudoDiario.addSeries(planejado);
-		ChartSeries executado = new ChartSeries();
-		executado.setLabel("Executado");
-		graficoEstudoDiario.addSeries(executado);
 
-		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM");
-		for (EstudoDiario estudoDiario : estudosDiarios) {
+		this.graficoEstudoDiario = new LineChartModel();
+		this.graficoEstudoDiario.setLegendPosition("e");
+
+		Axis eixoY = this.graficoEstudoDiario.getAxis(AxisType.Y);
+		eixoY.setMin(0);
+		eixoY.setMax(24);
+
+		DateAxis axis = new DateAxis("Dates");
+		axis.setTickAngle(-50);
+		// axis.setMax("2014-02-01");
+		axis.setTickFormat("%b %#d, %y");
+
+		this.graficoEstudoDiario.getAxes().put(AxisType.X, axis);
+
+		LineChartSeries planejado = new LineChartSeries();
+		planejado.setLabel("Planejado");
+		this.graficoEstudoDiario.addSeries(planejado);
+
+		LineChartSeries executado = new LineChartSeries();
+		executado.setLabel("Executado");
+		this.graficoEstudoDiario.addSeries(executado);
+
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+		for (EstudoDiario estudoDiario : this.estudosDiarios) {
 			if (estudoDiario != null) {
 				String date = formatter.print(estudoDiario
 						.getDataInicioSemana().getTime());
-				planejado
-						.set(date,
-								estudoDiario.getTempoAlocado().getMillis() / 1000 / 60 / 60);
-				executado
-						.set(date,
-								estudoDiario.getTempoEstudado().getMillis() / 1000 / 60 / 60);
+				Long tempoAlocado = estudoDiario.getTempoAlocado().getMillis()
+						/ HORA;
+				Long tempoEstudado = estudoDiario.getTempoEstudado()
+						.getMillis() / HORA;
+				planejado.set(date, tempoAlocado);
+				executado.set(date, tempoEstudado);
 			}
 		}
 	}

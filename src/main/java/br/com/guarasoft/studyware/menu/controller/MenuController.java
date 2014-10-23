@@ -17,4 +17,12 @@ public class MenuController {
 		return "/pages/estudousuario/cadastrar";
 	}
 
+	public String cadastrarMateria() {
+		return "/pages/materia/cadastrar";
+	}
+
+	public String consultarMateria() {
+		return "/pages/materia/consultar";
+	}
+
 }

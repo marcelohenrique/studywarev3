@@ -62,6 +62,11 @@
 						<p:menuitem value="Cadastrar" icon="ui-icon-plus" action="#{controller.cadastrarEstudoUsuario()}" />
 					</p:submenu>
 
+					<p:submenu label="Matéria" icon="ui-icon-note" rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
+						<p:menuitem value="Cadastrar" icon="ui-icon-plus" action="#{controller.cadastrarMateria()}" />
+						<p:menuitem value="Consultar" icon="ui-icon-search" action="#{controller.consultarMateria()}" />
+					</p:submenu>
+
 					<f:facet name="options">
 						<p:commandButton value="Logout" icon="ui-icon-extlink" action="#{sigin.logout()}" ajax="false" />
 					</f:facet>

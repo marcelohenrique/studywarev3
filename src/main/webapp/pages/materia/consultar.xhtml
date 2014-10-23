@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/pages/template.xhtml">
+
+	<ui:define name="main">
+
+		<p:dataTable id="materias" var="m" value="#{materia.materias}" editable="true" style="margin-bottom:20px">
+			<f:facet name="header">Matérias</f:facet>
+
+			<p:ajax event="rowEdit" listener="#{materia.onRowEdit}" />
+			<p:ajax event="rowEditCancel" listener="#{materia.onRowCancel}" />
+
+			<p:column headerText="Sigla">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{m.sigla}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText id="modelInput" value="#{m.sigla}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Nome">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{m.nome}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{m.nome}" style="width:100%" label="Year" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable>
+
+	</ui:define>
+
+</ui:composition>
