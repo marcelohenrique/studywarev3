@@ -98,7 +98,7 @@
 							<p:column>
 								<p:selectOneMenu id="materias" value="#{controleestudo.estudoMateriaSelecionada}" required="true" converter="#{estudomateriaconverter}">
 									<f:selectItem itemLabel="Selecione" itemValue="" />
-									<f:selectItems value="#{controleestudo.estudoMaterias}" var="estudoomateria" itemValue="#{estudomateria}" itemLabel="#{estudoomateria.materia.nome}" />
+									<f:selectItems value="#{controleestudo.usuarioEstudoMaterias}" var="estudoomateria" itemValue="#{estudomateria}" itemLabel="#{estudoomateria.materia.nome}" />
 								</p:selectOneMenu>
 							</p:column>
 						</p:row>
@@ -145,14 +145,14 @@
 						<p:column>
 							<f:facet name="header">Matéria</f:facet>
 							<h:outputText
-								value="#{concursomateriaestudada.estudoMateria.materia.nome}" />
+								value="#{concursomateriaestudada.usuarioEstudoMateria.materia.nome}" />
 							<f:facet name="footer">Total:</f:facet>
 						</p:column>
 
 						<p:column headerText="Tempo Alocado"
 							styleClass="textoCentralizado">
 							<h:outputText
-								value="#{concursomateriaestudada.estudoMateria.tempoAlocado}"
+								value="#{concursomateriaestudada.usuarioEstudoMateria.tempoAlocado}"
 								converter="tempoConverter" />
 							<f:facet name="footer">
 								<h:outputText value="#{controleestudo.tempoTotalAlocado}"
@@ -189,7 +189,7 @@
 
 							<p:column headerText="Matéria">
 								<h:outputText
-									value="#{materiaestudada.estudoMateria.materia.nome}" />
+									value="#{materiaestudada.usuarioEstudoMateria.materia.nome}" />
 							</p:column>
 
 							<p:column headerText="Tempo Estudado"

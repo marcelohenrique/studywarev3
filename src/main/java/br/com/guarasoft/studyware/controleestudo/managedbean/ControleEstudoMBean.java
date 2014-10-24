@@ -33,17 +33,17 @@ import org.slf4j.LoggerFactory;
 import br.com.guarasoft.studyware.estudodiario.dao.EstudoDiaDao;
 import br.com.guarasoft.studyware.estudodiario.entidade.EstudoDiario;
 import br.com.guarasoft.studyware.estudomateria.dao.EstudoMateriaDao;
-import br.com.guarasoft.studyware.estudomateria.entidade.EstudoMateria;
 import br.com.guarasoft.studyware.estudosemanal.dao.EstudoSemanalDao;
 import br.com.guarasoft.studyware.estudosemanal.entidade.EstudoSemanal;
-import br.com.guarasoft.studyware.estudousuario.bean.EstudoUsuarioBean;
-import br.com.guarasoft.studyware.estudousuario.gateway.EstudoUsuarioGateway;
-import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
-import br.com.guarasoft.studyware.materiaestudada.dao.MateriaEstudadaDao;
-import br.com.guarasoft.studyware.materiaestudada.entidade.MateriaEstudada;
-import br.com.guarasoft.studyware.resumomateriaestudada.dao.ResumoMateriaEstudadaDao;
-import br.com.guarasoft.studyware.resumomateriaestudada.entidade.ResumoMateriaEstudada;
+import br.com.guarasoft.studyware.materia.bean.MateriaBean;
+import br.com.guarasoft.studyware.resumomateriaestudada.bean.ResumoMateriaEstudadaBean;
+import br.com.guarasoft.studyware.resumomateriaestudada.gateway.ResumoMateriaEstudadaDao;
 import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
+import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
+import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
+import br.com.guarasoft.studyware.usuarioestudomateriahistorico.bean.UsuarioEstudoMateriaHistoricoBean;
+import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.MateriaEstudadaDao;
 
 @ManagedBean(name = "controleestudo")
 @ViewScoped
@@ -82,29 +82,29 @@ public class ControleEstudoMBean implements Serializable {
 	private Duration tempoEstudadoTotal = new Duration(0);
 
 	@Inject
-	private EstudoUsuarioBean estudoSelecionado;
+	private UsuarioEstudoBean estudoSelecionado;
 
-	private List<ResumoMateriaEstudada> resumoMateriasEstudadas;
-	private EstudoMateria estudoMateriaSelecionada;
-	private MateriaEstudada materiaEstudada;
-	private List<MateriaEstudada> materiasEstudadas;
+	private List<ResumoMateriaEstudadaBean> resumoMateriasEstudadas;
+	private UsuarioEstudoMateriaBean estudoMateriaSelecionada;
+	private UsuarioEstudoMateriaHistoricoBean materiaEstudada;
+	private List<UsuarioEstudoMateriaHistoricoBean> materiasEstudadas;
 	private List<EstudoSemanal> estudosSemanais;
-	private List<EstudoMateria> estudoMaterias;
+	private List<UsuarioEstudoMateriaBean> usuarioEstudoMaterias;
 	private List<EstudoDiario> estudosDiarios;
 
 	private LineChartModel graficoEstudoDiario;
 
 	@Inject
-	private EstudoUsuarioGateway estudoUsuarioGateway;
+	private UsuarioEstudoGateway usuarioEstudoGateway;
 	@ManagedProperty(value = "#{sessionAuth.usuario}")
 	private UsuarioService usuarioService;
-	private List<EstudoUsuarioBean> estudos;
+	private List<UsuarioEstudoBean> estudos;
 
 	@PostConstruct
 	private void init() {
 		materiaEstudada = build();
 
-		this.estudos = this.estudoUsuarioGateway.recuperaEstudos(usuarioService
+		this.estudos = this.usuarioEstudoGateway.recuperaEstudos(usuarioService
 				.getEmail());
 	}
 
@@ -113,9 +113,9 @@ public class ControleEstudoMBean implements Serializable {
 				.findAll(estudoSelecionado);
 		tempoTotalAlocado = new Duration(0);
 		tempoEstudadoTotal = new Duration(0);
-		for (ResumoMateriaEstudada resumoMateriaEstudada : resumoMateriasEstudadas) {
+		for (ResumoMateriaEstudadaBean resumoMateriaEstudada : resumoMateriasEstudadas) {
 			tempoTotalAlocado = tempoTotalAlocado.plus(resumoMateriaEstudada
-					.getEstudoMateria().getTempoAlocado());
+					.getUsuarioEstudoMateria().getTempoAlocado());
 			tempoEstudadoTotal = tempoEstudadoTotal.plus(resumoMateriaEstudada
 					.getSomaTempo());
 		}
@@ -161,11 +161,12 @@ public class ControleEstudoMBean implements Serializable {
 		}
 	}
 
-	private MateriaEstudada build() {
-		MateriaEstudada materiaEstudada = new MateriaEstudada();
-		EstudoMateria estudoMateria = new EstudoMateria();
-		estudoMateria.setMateria(new Materia());
-		materiaEstudada.setEstudoMateria(estudoMateria);
+	private UsuarioEstudoMateriaHistoricoBean build() {
+		UsuarioEstudoMateriaBean usuarioEstudoMateriaBean = new UsuarioEstudoMateriaBean();
+		usuarioEstudoMateriaBean.setMateriaBean(new MateriaBean());
+
+		UsuarioEstudoMateriaHistoricoBean materiaEstudada = new UsuarioEstudoMateriaHistoricoBean();
+		materiaEstudada.setUsuarioEstudoMateria(usuarioEstudoMateriaBean);
 		return materiaEstudada;
 	}
 
@@ -193,15 +194,14 @@ public class ControleEstudoMBean implements Serializable {
 		btZerarDisabled = true;
 		btGravarDisabled = true;
 
-		materiaEstudada.setEstudoMateria(estudoMateriaSelecionada);
-		materiaEstudada.setDataHoraEstudo(new Date());
+		materiaEstudada.setUsuarioEstudoMateria(estudoMateriaSelecionada);
+		materiaEstudada.setHoraEstudo(new Date());
 		materiaEstudada.setTempoEstudado(new Duration(horasEstudadaInMillis));
 
 		try {
 			userTransaction.begin();
 			logger.info(materiaEstudada.toString());
 			materiaEstudadaDao.persist(materiaEstudada);
-			;
 			userTransaction.commit();
 		} catch (SecurityException | IllegalStateException
 				| NotSupportedException | SystemException | RollbackException
@@ -218,7 +218,7 @@ public class ControleEstudoMBean implements Serializable {
 	}
 
 	public void listaEstudoMaterias() {
-		estudoMaterias = estudoMateriaDao.findAll(estudoSelecionado);
+		usuarioEstudoMaterias = estudoMateriaDao.findAll(estudoSelecionado);
 		atualiza();
 	}
 }

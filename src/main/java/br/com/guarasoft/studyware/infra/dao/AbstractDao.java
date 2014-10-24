@@ -1,6 +1,3 @@
-/**
- * 
- */
 package br.com.guarasoft.studyware.infra.dao;
 
 import java.io.Serializable;
@@ -11,10 +8,6 @@ import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author guara
- * 
- */
 public abstract class AbstractDao<T extends Entidade, PK extends Serializable>
 		implements Dao<T, PK> {
 
@@ -25,9 +18,6 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable>
 	@PersistenceContext(unitName = "studyware")
 	protected EntityManager entityManager;
 
-	/**
-	 * 
-	 */
 	public AbstractDao(Class<T> clazz) {
 		this.clazz = clazz;
 	}

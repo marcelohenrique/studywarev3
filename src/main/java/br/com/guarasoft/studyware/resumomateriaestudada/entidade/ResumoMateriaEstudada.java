@@ -1,6 +1,3 @@
-/**
- * 
- */
 package br.com.guarasoft.studyware.resumomateriaestudada.entidade;
 
 import javax.persistence.Column;
@@ -15,28 +12,21 @@ import lombok.EqualsAndHashCode;
 
 import org.joda.time.Duration;
 
-import br.com.guarasoft.studyware.estudomateria.entidade.EstudoMateria;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
+import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 
-/**
- * @author guara
- * 
- */
 @Entity
 @Table(name = "TB_HISTORICO_ESTUDO")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ResumoMateriaEstudada implements Entidade {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 312482194973348722L;
 
 	@Id
 	@OneToOne
 	@JoinColumn(name = "ID")
-	private EstudoMateria estudoMateria;
+	private UsuarioEstudoMateria usuarioEstudoMateria;
 
 	@Column(name = "SOMA_TEMPO")
 	private Long somaTempoLong;

@@ -1,14 +1,15 @@
 package br.com.guarasoft.studyware.materia.gateway;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
+import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
 import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
 
 @Stateless
@@ -17,6 +18,9 @@ public class MateriaGatewayImpl implements MateriaGateway {
 	@PersistenceContext(unitName = "studyware")
 	private EntityManager entityManager;
 
+	@Inject
+	private MateriaEntidadeConverter converter;
+
 	@Override
 	public List<MateriaBean> buscaMaterias() {
 		TypedQuery<Materia> typedQuery = entityManager.createQuery(
@@ -24,50 +28,21 @@ public class MateriaGatewayImpl implements MateriaGateway {
 
 		List<Materia> materias = typedQuery.getResultList();
 
-		List<MateriaBean> materiasBean = converteMateriaParaMateriaBean(materias);
+		List<MateriaBean> materiasBean = this.converter.convert(materias);
 
 		return materiasBean;
-	}
-
-	private List<MateriaBean> converteMateriaParaMateriaBean(
-			List<Materia> materias) {
-		List<MateriaBean> materiasBean = new ArrayList<>();
-		for (Materia materia : materias) {
-			materiasBean.add(converteMateriaParaMateriaBean(materia));
-		}
-		return materiasBean;
-	}
-
-	private MateriaBean converteMateriaParaMateriaBean(Materia materia) {
-		MateriaBean materiaBean = new MateriaBean();
-
-		materiaBean.setId(materia.getId());
-		materiaBean.setSigla(materia.getSigla());
-		materiaBean.setNome(materia.getNome());
-
-		return materiaBean;
 	}
 
 	@Override
 	public void cadastrar(MateriaBean materiaBean) {
-		Materia materia = converteMateriaBeanParaMateria(materiaBean);
+		Materia materia = this.converter.convert(materiaBean);
 
 		this.entityManager.persist(materia);
 	}
 
-	private Materia converteMateriaBeanParaMateria(MateriaBean materiaBean) {
-		Materia materia = new Materia();
-
-		materia.setId(materiaBean.getId());
-		materia.setSigla(materiaBean.getSigla());
-		materia.setNome(materiaBean.getNome());
-
-		return materia;
-	}
-
 	@Override
 	public void alterar(MateriaBean materiaAlterada) {
-		Materia materia = converteMateriaBeanParaMateria(materiaAlterada);
+		Materia materia = this.converter.convert(materiaAlterada);
 
 		this.entityManager.merge(materia);
 	}

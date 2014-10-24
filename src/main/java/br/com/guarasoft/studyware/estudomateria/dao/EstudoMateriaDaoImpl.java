@@ -1,29 +1,58 @@
 package br.com.guarasoft.studyware.estudomateria.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import br.com.guarasoft.studyware.estudomateria.entidade.EstudoMateria;
-import br.com.guarasoft.studyware.estudousuario.bean.EstudoUsuarioBean;
-import br.com.guarasoft.studyware.infra.dao.AbstractDao;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
-public class EstudoMateriaDaoImpl extends AbstractDao<EstudoMateria, Long> implements EstudoMateriaDao {
+import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
+import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.usuarioestudo.gateway.converter.UsuarioEstudoEntidadeConverter;
+import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
+import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 
-	public EstudoMateriaDaoImpl() {
-		super(EstudoMateria.class);
+public class EstudoMateriaDaoImpl implements EstudoMateriaDao {
+
+	@PersistenceContext(unitName = "studyware")
+	private EntityManager entityManager;
+
+	@Inject
+	private UsuarioEstudoEntidadeConverter usuarioEstudoConverter;
+	@Inject
+	private MateriaEntidadeConverter materiaConverter;
+
+	@Override
+	public UsuarioEstudoMateriaBean findById(Long id) {
+
+		UsuarioEstudoMateria entidade = this.entityManager.find(
+				UsuarioEstudoMateria.class, id);
+
+		UsuarioEstudoMateriaBean bean = new UsuarioEstudoMateriaBean();
+		bean.setUsuarioEstudoBean(this.usuarioEstudoConverter.convert(entidade
+				.getUsuarioEstudoMateriaPK().getUsuarioEstudo()));
+		bean.setMateriaBean(this.materiaConverter.convert(entidade
+				.getUsuarioEstudoMateriaPK().getMateria()));
+
+		return bean;
 	}
 
 	@Override
-	public EstudoMateria findById(Long id) {
-		return find(id);
-	}
-
-	@Override
-	public List<EstudoMateria> findAll(EstudoUsuarioBean estudo) {
-		return entityManager
+	public List<UsuarioEstudoMateriaBean> findAll(
+			UsuarioEstudoBean usuarioEstudoBean) {
+		Query query = this.entityManager
 				.createQuery(
-						"select cm from EstudoMateria cm where cm.estudo.id = :idEstudo",
-						EstudoMateria.class)
-				.setParameter("idEstudo", estudo.getId()).getResultList();
-	}
+						"from UsuarioEstudoMateria cm where cm.usuarioEstudo.id = :usuarioEstudo",
+						UsuarioEstudoMateria.class);
+		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
+		List<UsuarioEstudoMateria> materias = query.getResultList();
 
+		List<UsuarioEstudoMateriaBean> materiasBean = new ArrayList<>();
+
+		// TODO
+
+		return materiasBean;
+	}
 }

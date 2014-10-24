@@ -9,21 +9,27 @@
 
 	<ui:define name="main">
 
-		<p:panelGrid columns="2">
-			<f:facet name="header">
-				<p:row>
-					<p:column colspan="2">Cadastrar Estudo do Usuário</p:column>
-				</p:row>
-			</f:facet>
-			<p:outputLabel for="nome" value="Nome:" />
-			<p:inputText id="nome" required="true" value="#{estudoUsuario.nome}" />
-			<p:outputLabel for="fim" value="Fim:" />
-			<p:calendar id="fim" mindate="calwidget.today()"
-				value="#{estudoUsuario.fim}" />
-			<f:facet name="footer">
+		<p:wizard>
+			<p:tab title="Estudo">
+				<p:panelGrid columns="2">
+					<f:facet name="header">
+						<p:row>
+							<p:column colspan="2">Cadastrar Estudo do Usuário</p:column>
+						</p:row>
+					</f:facet>
+					<p:outputLabel for="nome" value="Nome:" />
+					<p:inputText id="nome" required="true" value="#{estudoUsuario.nome}" />
+					<p:outputLabel for="fim" value="Fim:" />
+					<p:calendar id="fim" mindate="calwidget.today()" value="#{estudoUsuario.fim}" />
+				</p:panelGrid>
+			</p:tab>
+			<p:tab title="Matérias">
+				<p:pickList value="#{estudoUsuario.materias}" var="m" itemLabel="#{m.nome}" itemValue="#{m}" />
+			</p:tab>
+			<p:tab title="Horas">
 				<p:commandButton value="Cadastrar" action="#{estudoUsuario.cadastrar()}" update="@form" />
-			</f:facet>
-		</p:panelGrid>
+			</p:tab>
+		</p:wizard>
 
 	</ui:define>
 

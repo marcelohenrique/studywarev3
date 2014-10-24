@@ -11,36 +11,38 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.guarasoft.studyware.estudousuario.excecoes.EstudoJaExiste;
-import br.com.guarasoft.studyware.estudousuario.gateway.EstudoUsuarioGateway;
+import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudo;
+import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudoImpl;
+import br.com.guarasoft.studyware.usuarioestudo.excecao.UsuarioEstudoJaExiste;
+import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CadastrarEstudoUsuarioTest {
 
 	@Mock
-	private EstudoUsuarioGateway estudoUsuarioGateway;
+	private UsuarioEstudoGateway usuarioEstudoGateway;
 
 	@Test
 	public void cadastrarEstudoUsuarioSucesso() {
 		String email = "teste@gmail.com";
 		String nomeEstudo = "Estudo Teste";
 
-		CadastrarEstudoUsuario cadastrarEstudoUsuario = new CadastrarEstudoUsuarioImpl(
-				this.estudoUsuarioGateway);
-		cadastrarEstudoUsuario.execute(email, nomeEstudo, null);
+		CadastrarUsuarioEstudo cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(
+				this.usuarioEstudoGateway);
+		cadastrarUsuarioEstudo.execute(email, nomeEstudo, null);
 	}
 
-	@Test(expected = EstudoJaExiste.class)
+	@Test(expected = UsuarioEstudoJaExiste.class)
 	public void cadastrarEstudoUsuario_Falha_EstudoJaExiste() {
-		doThrow(new EstudoJaExiste()).when(this.estudoUsuarioGateway)
+		doThrow(new UsuarioEstudoJaExiste()).when(this.usuarioEstudoGateway)
 				.cadastrar(anyString(), anyString(), any(Date.class));
 
 		String email = "teste@gmail.com";
 		String nomeEstudo = "Estudo Teste";
 
-		CadastrarEstudoUsuario cadastrarEstudoUsuario = new CadastrarEstudoUsuarioImpl(
-				this.estudoUsuarioGateway);
-		cadastrarEstudoUsuario.execute(email, nomeEstudo, null);
+		CadastrarUsuarioEstudo cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(
+				this.usuarioEstudoGateway);
+		cadastrarUsuarioEstudo.execute(email, nomeEstudo, null);
 	}
 
 }

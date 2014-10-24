@@ -9,8 +9,8 @@ import javax.persistence.Query;
 import org.joda.time.Duration;
 
 import br.com.guarasoft.studyware.estudosemanal.entidade.EstudoSemanal;
-import br.com.guarasoft.studyware.estudousuario.bean.EstudoUsuarioBean;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
+import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 
 public class EstudoSemanalDaoImpl extends AbstractDao<EstudoSemanal, Long>
 		implements EstudoSemanalDao {
@@ -23,7 +23,7 @@ public class EstudoSemanalDaoImpl extends AbstractDao<EstudoSemanal, Long>
 	}
 
 	@Override
-	public List<EstudoSemanal> findAll(EstudoUsuarioBean estudo) {
+	public List<EstudoSemanal> findAll(UsuarioEstudoBean estudo) {
 		Query query = entityManager
 				.createNativeQuery(
 						"SELECT date_trunc('week', THE.DT_HORA_ESTUDO) AS \"dataInicioSemana\", SUM( THE.TEMPO_ESTUDADO ) AS \"tempoEstudadoLong\" FROM TB_HISTORICO_ESTUDO THE RIGHT OUTER JOIN TB_ESTUDO_MATERIA TEM ON THE.ID_ESTUDO_MATERIA = TEM.ID WHERE TEM.ID_ESTUDO = ? GROUP BY 1 ORDER BY 1",
