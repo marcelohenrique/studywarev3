@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.usuario.gateway;
+package br.com.guarasoft.studyware.usuario.gateway.entidade;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

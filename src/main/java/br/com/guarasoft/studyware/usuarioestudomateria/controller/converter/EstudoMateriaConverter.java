@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.estudomateria.converter;
+package br.com.guarasoft.studyware.usuarioestudomateria.controller.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -6,13 +6,13 @@ import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.guarasoft.studyware.estudomateria.dao.EstudoMateriaDao;
+import br.com.guarasoft.studyware.usuarioestudomateria.gateway.UsuarioEstudoMateriaGateway;
 
 @Named("estudomateriaconverter")
 public class EstudoMateriaConverter implements Converter {
 
 	@Inject
-	private EstudoMateriaDao estudoMateriaDao;
+	private UsuarioEstudoMateriaGateway usuarioEstudoMateriaGateway;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
@@ -20,7 +20,7 @@ public class EstudoMateriaConverter implements Converter {
 		if( value == null || "".equals(value) ) {
 			return value;
 		}
-		return estudoMateriaDao.findById(Long.parseLong(value));
+		return usuarioEstudoMateriaGateway.findById(Long.parseLong(value));
 	}
 
 	@Override

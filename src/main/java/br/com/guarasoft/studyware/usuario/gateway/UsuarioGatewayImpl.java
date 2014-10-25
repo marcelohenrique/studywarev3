@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 
 import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
 import br.com.guarasoft.studyware.usuario.entidades.UsuarioServiceImpl;
+import br.com.guarasoft.studyware.usuario.gateway.entidade.Usuario;
 
 @Stateless
 public class UsuarioGatewayImpl implements UsuarioGateway {

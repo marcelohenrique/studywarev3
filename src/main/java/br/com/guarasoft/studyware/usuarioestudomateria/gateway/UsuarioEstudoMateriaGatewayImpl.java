@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.estudomateria.dao;
+package br.com.guarasoft.studyware.usuarioestudomateria.gateway;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import br.com.guarasoft.studyware.usuarioestudo.gateway.converter.UsuarioEstudoE
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 
-public class EstudoMateriaDaoImpl implements EstudoMateriaDao {
+public class UsuarioEstudoMateriaGatewayImpl implements UsuarioEstudoMateriaGateway {
 
 	@PersistenceContext(unitName = "studyware")
 	private EntityManager entityManager;

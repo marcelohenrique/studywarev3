@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 
 import br.com.guarasoft.studyware.estudodiario.dao.EstudoDiaDao;
 import br.com.guarasoft.studyware.estudodiario.entidade.EstudoDiario;
-import br.com.guarasoft.studyware.estudomateria.dao.EstudoMateriaDao;
 import br.com.guarasoft.studyware.estudosemanal.dao.EstudoSemanalDao;
 import br.com.guarasoft.studyware.estudosemanal.entidade.EstudoSemanal;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
@@ -42,6 +41,7 @@ import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
+import br.com.guarasoft.studyware.usuarioestudomateria.gateway.UsuarioEstudoMateriaGateway;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.bean.UsuarioEstudoMateriaHistoricoBean;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.MateriaEstudadaDao;
 
@@ -65,7 +65,7 @@ public class ControleEstudoMBean implements Serializable {
 	@Inject
 	private MateriaEstudadaDao materiaEstudadaDao;
 	@Inject
-	private EstudoMateriaDao estudoMateriaDao;
+	private UsuarioEstudoMateriaGateway usuarioEstudoMateriaGateway;
 	@Inject
 	private EstudoSemanalDao estudoSemanalDao;
 	@Inject
@@ -218,7 +218,7 @@ public class ControleEstudoMBean implements Serializable {
 	}
 
 	public void listaEstudoMaterias() {
-		usuarioEstudoMaterias = estudoMateriaDao.findAll(estudoSelecionado);
+		usuarioEstudoMaterias = usuarioEstudoMateriaGateway.findAll(estudoSelecionado);
 		atualiza();
 	}
 }
