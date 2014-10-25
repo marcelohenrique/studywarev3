@@ -19,6 +19,17 @@ public class UsuarioEstudoEntidadeConverter {
 		return bean;
 	}
 
+	public UsuarioEstudo convert(UsuarioEstudoBean bean) {
+		UsuarioEstudo entidade = new UsuarioEstudo();
+
+		entidade.setId(bean.getId());
+		entidade.setEmail(bean.getEmail());
+		entidade.setNome(bean.getNome());
+		entidade.setFim(bean.getFim());
+
+		return entidade;
+	}
+
 	public List<UsuarioEstudoBean> convert(List<UsuarioEstudo> entidades) {
 		List<UsuarioEstudoBean> beans = new ArrayList<>();
 

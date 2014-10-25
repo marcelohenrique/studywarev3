@@ -1,5 +1,8 @@
 package br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.joda.time.Duration;
@@ -28,6 +31,16 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 		bean.setOrdem(entidade.getOrdem());
 
 		return bean;
+	}
+
+	public List<UsuarioEstudoMateriaBean> convert(
+			List<UsuarioEstudoMateria> entidades) {
+		List<UsuarioEstudoMateriaBean> beans = new ArrayList<>();
+
+		for (UsuarioEstudoMateria entidade : entidades) {
+			beans.add(convert(entidade));
+		}
+		return beans;
 	}
 
 }
