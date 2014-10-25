@@ -6,6 +6,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.Query;
 
+import org.joda.time.Duration;
+
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaEntidadeConverter;
@@ -26,6 +28,14 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends
 
 	public UsuarioEstudoMateriaHistoricoGatewayImpl() {
 		super(UsuarioEstudoMateriaHistorico.class);
+	}
+
+	@Override
+	public void persist(UsuarioEstudoMateriaHistoricoBean materiaEstudada) {
+		UsuarioEstudoMateriaHistorico entidade = this.usuarioEstudoMateriaHistoricoEntidadeConverter
+				.convert(materiaEstudada);
+
+		persist(entidade);
 	}
 
 	@Override
@@ -56,9 +66,8 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends
 	public List<ResumoMateriaEstudadaBean> buscaResumosMaterias(
 			UsuarioEstudoBean usuarioEstudoBean) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT uem.id, ");
-		sql.append("       SUM( uemh.tempoEstudade ) somaTempo, ");
-		sql.append("       m.nome ");
+		sql.append("SELECT new br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.ResumoMateriaEstudada.ResumoMateriaEstudada( uem, SUM( uemh.tempoEstudade ) somaTempo ) ");
+		// sql.append("       m.nome ");
 		sql.append("  FROM UsuarioEstudoMateriaHistorico uemh ");
 		sql.append(" RIGHT OUTER JOIN UsuarioEstudoMateria uem ");
 		sql.append("    ON uemh.usuarioEstudo = uem.usuarioEstudo ");
@@ -74,19 +83,20 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends
 				ResumoMateriaEstudada.class);
 		query.setParameter(1, usuarioEstudoBean.getId());
 
-		List<ResumoMateriaEstudada> resumo = query.getResultList();
+		List<ResumoMateriaEstudada> entidades = query.getResultList();
 
-		List<ResumoMateriaEstudadaBean> resumosBean = new ArrayList<>();
+		List<ResumoMateriaEstudadaBean> beans = new ArrayList<>();
+		ResumoMateriaEstudadaBean bean = null;
+		for (ResumoMateriaEstudada entidade : entidades) {
+			bean = new ResumoMateriaEstudadaBean();
+			bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaEntidadeConverter
+					.convert(entidade.getUsuarioEstudoMateria()));
+			bean.setSomaTempo(new Duration(entidade.getSomaTempo()));
 
-		return resumosBean;
-	}
+			beans.add(bean);
+		}
 
-	@Override
-	public void persist(UsuarioEstudoMateriaHistoricoBean materiaEstudada) {
-		UsuarioEstudoMateriaHistorico entidade = this.usuarioEstudoMateriaHistoricoEntidadeConverter
-				.convert(materiaEstudada);
-
-		persist(entidade);
+		return beans;
 	}
 
 }
