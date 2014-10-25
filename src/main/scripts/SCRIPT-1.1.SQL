@@ -19,3 +19,5 @@ ALTER TABLE usuarioestudomateria ADD PRIMARY KEY ( usuarioEstudo, materia );
 ALTER TABLE usuarioestudomateriahistorico ADD FOREIGN KEY ( usuarioestudo, materia ) REFERENCES usuarioestudomateria ( usuarioestudo, materia );
 
 ALTER TABLE usuarioestudomateria DROP COLUMN ID;
+
+ALTER TABLE usuarioestudomateriahistorico DROP COLUMN id_estudo_materia;

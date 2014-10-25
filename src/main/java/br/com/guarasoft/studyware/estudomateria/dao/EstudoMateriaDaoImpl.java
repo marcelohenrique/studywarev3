@@ -31,6 +31,7 @@ public class EstudoMateriaDaoImpl implements EstudoMateriaDao {
 				UsuarioEstudoMateria.class, id);
 
 		UsuarioEstudoMateriaBean bean = new UsuarioEstudoMateriaBean();
+
 		bean.setUsuarioEstudoBean(this.usuarioEstudoConverter.convert(entidade
 				.getUsuarioEstudoMateriaPK().getUsuarioEstudo()));
 		bean.setMateriaBean(this.materiaConverter.convert(entidade

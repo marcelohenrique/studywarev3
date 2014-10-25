@@ -4,10 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 
 @Entity
@@ -20,8 +17,6 @@ public class UsuarioEstudoMateria implements Entidade {
 	private UsuarioEstudoMateriaPK usuarioEstudoMateriaPK;
 
 	@Column(name = "TEMPO_ALOCADO")
-	@Getter(AccessLevel.PRIVATE)
-	@Setter(AccessLevel.PRIVATE)
 	private Long tempoAlocado;
 
 	@Column(name = "NR_ORDEM")
