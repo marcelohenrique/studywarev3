@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.resumomateriaestudada.bean;
+package br.com.guarasoft.studyware.usuarioestudomateriahistorico.bean;
 
 import lombok.Data;
 

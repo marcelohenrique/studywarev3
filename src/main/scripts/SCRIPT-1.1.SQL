@@ -21,3 +21,9 @@ ALTER TABLE usuarioestudomateriahistorico ADD FOREIGN KEY ( usuarioestudo, mater
 ALTER TABLE usuarioestudomateria DROP COLUMN ID;
 
 ALTER TABLE usuarioestudomateriahistorico DROP COLUMN id_estudo_materia;
+
+ALTER TABLE usuarioestudomateria RENAME COLUMN TEMPO_ALOCADO TO tempoAlocado;
+ALTER TABLE usuarioestudomateria RENAME COLUMN NR_ORDEM TO ordem;
+
+ALTER TABLE usuarioestudomateriahistorico RENAME COLUMN dt_hora_estudo TO horaEstudo;
+ALTER TABLE usuarioestudomateriahistorico RENAME COLUMN tempo_estudado TO tempoEstudado;

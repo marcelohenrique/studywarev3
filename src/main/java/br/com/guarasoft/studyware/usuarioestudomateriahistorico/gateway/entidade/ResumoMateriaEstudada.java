@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.resumomateriaestudada.entidade;
+package br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

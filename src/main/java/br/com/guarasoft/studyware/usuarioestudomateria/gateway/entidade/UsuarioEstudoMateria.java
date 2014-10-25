@@ -1,6 +1,5 @@
 package br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade;
 
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
@@ -16,10 +15,8 @@ public class UsuarioEstudoMateria implements Entidade {
 	@EmbeddedId
 	private UsuarioEstudoMateriaPK usuarioEstudoMateriaPK;
 
-	@Column(name = "TEMPO_ALOCADO")
 	private Long tempoAlocado;
 
-	@Column(name = "NR_ORDEM")
 	private Long ordem;
 
 }

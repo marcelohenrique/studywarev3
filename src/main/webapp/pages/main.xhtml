@@ -98,7 +98,7 @@
 							<p:column>
 								<p:selectOneMenu id="materias" value="#{controleestudo.estudoMateriaSelecionada}" required="true" converter="#{estudomateriaconverter}">
 									<f:selectItem itemLabel="Selecione" itemValue="" />
-									<f:selectItems value="#{controleestudo.usuarioEstudoMaterias}" var="estudoomateria" itemValue="#{estudomateria}" itemLabel="#{estudoomateria.materia.nome}" />
+									<f:selectItems value="#{controleestudo.usuarioEstudoMaterias}" var="estudoomateria" itemValue="#{estudomateria}" itemLabel="#{estudoomateria.materiaBean.nome}" />
 								</p:selectOneMenu>
 							</p:column>
 						</p:row>
@@ -145,7 +145,7 @@
 						<p:column>
 							<f:facet name="header">Matéria</f:facet>
 							<h:outputText
-								value="#{concursomateriaestudada.usuarioEstudoMateria.materia.nome}" />
+								value="#{concursomateriaestudada.usuarioEstudoMateria.materiaBean.nome}" />
 							<f:facet name="footer">Total:</f:facet>
 						</p:column>
 
@@ -182,14 +182,14 @@
 							rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink}" editable="true" editMode="cell">
 
 							<p:column headerText="Data/Hora" styleClass="textoCentralizado">
-								<h:outputText value="#{materiaestudada.dataHoraEstudo}">
+								<h:outputText value="#{materiaestudada.horaEstudo}">
 									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
 								</h:outputText>
 							</p:column>
 
 							<p:column headerText="Matéria">
 								<h:outputText
-									value="#{materiaestudada.usuarioEstudoMateria.materia.nome}" />
+									value="#{materiaestudada.usuarioEstudoMateria.materiaBean.nome}" />
 							</p:column>
 
 							<p:column headerText="Tempo Estudado"

@@ -11,6 +11,7 @@ import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConve
 import br.com.guarasoft.studyware.usuarioestudo.gateway.converter.UsuarioEstudoEntidadeConverter;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
+import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateriaPK;
 
 public class UsuarioEstudoMateriaEntidadeConverter {
 
@@ -31,6 +32,21 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 		bean.setOrdem(entidade.getOrdem());
 
 		return bean;
+	}
+
+	public UsuarioEstudoMateria convert(UsuarioEstudoMateriaBean bean) {
+		UsuarioEstudoMateriaPK pk = new UsuarioEstudoMateriaPK();
+		pk.setUsuarioEstudo(this.usuarioEstudoEntidadeConverter.convert(bean
+				.getUsuarioEstudoBean()));
+		pk.setMateria(this.materiaEntidadeConverter.convert(bean
+				.getMateriaBean()));
+
+		UsuarioEstudoMateria entidade = new UsuarioEstudoMateria();
+		entidade.setUsuarioEstudoMateriaPK(pk);
+		entidade.setTempoAlocado(bean.getTempoAlocado().getMillis());
+		entidade.setOrdem(bean.getOrdem());
+
+		return entidade;
 	}
 
 	public List<UsuarioEstudoMateriaBean> convert(

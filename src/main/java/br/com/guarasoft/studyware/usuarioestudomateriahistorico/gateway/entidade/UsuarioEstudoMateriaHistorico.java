@@ -2,23 +2,20 @@ package br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidad
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 
@@ -36,25 +33,21 @@ public class UsuarioEstudoMateriaHistorico implements Entidade {
 	private Long id;
 
 	@OneToOne
-	@JoinColumn(name = "ID_ESTUDO_MATERIA")
+	@JoinColumns({ @JoinColumn(referencedColumnName = "usuarioEstudo"),
+			@JoinColumn(referencedColumnName = "materia") })
 	@NotNull
 	private UsuarioEstudoMateria usuarioEstudoMateria;
 
-	@Column(name = "DT_HORA_ESTUDO")
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
-	private Date dataHoraEstudo;
+	private Date horaEstudo;
 
 	/**
 	 * Tempo estudado em segundos.
 	 */
-	@Column(name = "TEMPO_ESTUDADO")
 	@NotNull
-	@Getter(AccessLevel.PRIVATE)
-	@Setter(AccessLevel.PRIVATE)
-	private Long tempoEstudadoLong;
+	private Long tempoEstudado;
 
-	@Column(name = "OBSERVACAO")
 	@NotNull
 	private String observacao;
 
