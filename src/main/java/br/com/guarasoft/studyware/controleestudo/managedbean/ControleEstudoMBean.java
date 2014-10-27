@@ -116,8 +116,7 @@ public class ControleEstudoMBean implements Serializable {
 			tempoEstudadoTotal = tempoEstudadoTotal.plus(resumoMateriaEstudada
 					.getSomaTempo());
 		}
-		materiasEstudadas = usuarioEstudoMateriaHistoricoGateway
-				.findAll(estudoSelecionado);
+		materiasEstudadas = usuarioEstudoMateriaHistoricoGateway.findAll(estudoSelecionado);
 		estudosSemanais = estudoSemanalGateway.findAll(estudoSelecionado);
 
 		estudosDiarios = estudoDiaGateway.findAll(estudoSelecionado);

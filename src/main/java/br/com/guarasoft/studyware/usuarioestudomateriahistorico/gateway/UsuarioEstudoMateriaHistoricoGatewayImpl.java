@@ -51,17 +51,8 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends
 						UsuarioEstudoMateriaHistorico.class)
 				.setParameter("usuarioEstudo", estudo.getId()).getResultList();
 
-		List<UsuarioEstudoMateriaHistoricoBean> beans = new ArrayList<>();
-		UsuarioEstudoMateriaHistoricoBean bean = null;
-		for (UsuarioEstudoMateriaHistorico entidade : entidades) {
-			bean = new UsuarioEstudoMateriaHistoricoBean();
-
-			bean.setId(entidade.getId());
-			bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaEntidadeConverter
-					.convert(entidade.getUsuarioEstudoMateria()));
-
-			beans.add(bean);
-		}
+		List<UsuarioEstudoMateriaHistoricoBean> beans = this.usuarioEstudoMateriaHistoricoEntidadeConverter
+				.convert(entidades);
 
 		return beans;
 	}
