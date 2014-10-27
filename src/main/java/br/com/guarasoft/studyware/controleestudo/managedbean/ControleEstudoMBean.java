@@ -30,10 +30,10 @@ import org.primefaces.model.chart.LineChartSeries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.guarasoft.studyware.estudodiario.dao.EstudoDiaDao;
-import br.com.guarasoft.studyware.estudodiario.entidade.EstudoDiario;
-import br.com.guarasoft.studyware.estudosemanal.dao.EstudoSemanalDao;
-import br.com.guarasoft.studyware.estudosemanal.entidade.EstudoSemanal;
+import br.com.guarasoft.studyware.estudodiario.bean.EstudoDiarioBean;
+import br.com.guarasoft.studyware.estudodiario.gateway.EstudoDiaGateway;
+import br.com.guarasoft.studyware.estudosemanal.bean.EstudoSemanalBean;
+import br.com.guarasoft.studyware.estudosemanal.gateway.EstudoSemanalGateway;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
@@ -66,9 +66,9 @@ public class ControleEstudoMBean implements Serializable {
 	@Inject
 	private UsuarioEstudoMateriaGateway usuarioEstudoMateriaGateway;
 	@Inject
-	private EstudoSemanalDao estudoSemanalDao;
+	private EstudoSemanalGateway estudoSemanalGateway;
 	@Inject
-	private EstudoDiaDao estudoDiaDao;
+	private EstudoDiaGateway estudoDiaGateway;
 
 	public boolean btIniciarDisabled = false;
 	public boolean btZerarDisabled = true;
@@ -85,9 +85,9 @@ public class ControleEstudoMBean implements Serializable {
 	private UsuarioEstudoMateriaBean estudoMateriaSelecionada;
 	private UsuarioEstudoMateriaHistoricoBean materiaEstudada;
 	private List<UsuarioEstudoMateriaHistoricoBean> materiasEstudadas;
-	private List<EstudoSemanal> estudosSemanais;
+	private List<EstudoSemanalBean> estudosSemanais;
 	private List<UsuarioEstudoMateriaBean> usuarioEstudoMaterias;
-	private List<EstudoDiario> estudosDiarios;
+	private List<EstudoDiarioBean> estudosDiarios;
 
 	private LineChartModel graficoEstudoDiario;
 
@@ -118,9 +118,9 @@ public class ControleEstudoMBean implements Serializable {
 		}
 		materiasEstudadas = usuarioEstudoMateriaHistoricoGateway
 				.findAll(estudoSelecionado);
-		estudosSemanais = estudoSemanalDao.findAll(estudoSelecionado);
+		estudosSemanais = estudoSemanalGateway.findAll(estudoSelecionado);
 
-		estudosDiarios = estudoDiaDao.findAll(estudoSelecionado);
+		estudosDiarios = estudoDiaGateway.findAll(estudoSelecionado);
 
 		this.graficoEstudoDiario = new LineChartModel();
 		this.graficoEstudoDiario.setLegendPosition("e");
@@ -145,10 +145,10 @@ public class ControleEstudoMBean implements Serializable {
 		this.graficoEstudoDiario.addSeries(executado);
 
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-		for (EstudoDiario estudoDiario : this.estudosDiarios) {
+		for (EstudoDiarioBean estudoDiario : this.estudosDiarios) {
 			if (estudoDiario != null) {
 				String date = formatter.print(estudoDiario
-						.getDataInicioSemana().getTime());
+						.getInicioSemana().getTime());
 				Long tempoAlocado = estudoDiario.getTempoAlocado().getMillis()
 						/ HORA;
 				Long tempoEstudado = estudoDiario.getTempoEstudado()

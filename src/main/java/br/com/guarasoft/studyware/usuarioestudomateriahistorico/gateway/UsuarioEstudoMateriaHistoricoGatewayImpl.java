@@ -41,11 +41,15 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends
 	@Override
 	public List<UsuarioEstudoMateriaHistoricoBean> findAll(
 			UsuarioEstudoBean estudo) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" FROM UsuarioEstudoMateriaHistorico uemh ");
+		sql.append("WHERE uemh.usuarioEstudoMateria.usuarioEstudoMateriaPK.usuarioEstudo.id = :usuarioEstudo ");
+		sql.append("ORDER BY uemh.horaEstudo DESC");
+
 		List<UsuarioEstudoMateriaHistorico> entidades = this.entityManager
-				.createQuery(
-						"select me from UsuarioEstudoMateriaHistorico me where me.estudoMateria.estudo.id = :estudo order by me.dataHoraEstudo desc",
+				.createQuery(sql.toString(),
 						UsuarioEstudoMateriaHistorico.class)
-				.setParameter("estudo", estudo.getId()).getResultList();
+				.setParameter("usuarioEstudo", estudo.getId()).getResultList();
 
 		List<UsuarioEstudoMateriaHistoricoBean> beans = new ArrayList<>();
 		UsuarioEstudoMateriaHistoricoBean bean = null;
@@ -66,22 +70,17 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends
 	public List<ResumoMateriaEstudadaBean> buscaResumosMaterias(
 			UsuarioEstudoBean usuarioEstudoBean) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT new br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.ResumoMateriaEstudada.ResumoMateriaEstudada( uem, SUM( uemh.tempoEstudade ) somaTempo ) ");
-		// sql.append("       m.nome ");
+		sql.append("SELECT new br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.ResumoMateriaEstudada( uem, SUM( uemh.tempoEstudado ) ) ");
 		sql.append("  FROM UsuarioEstudoMateriaHistorico uemh ");
-		sql.append(" RIGHT OUTER JOIN UsuarioEstudoMateria uem ");
-		sql.append("    ON uemh.usuarioEstudo = uem.usuarioEstudo ");
-		sql.append("   AND uemh.materia = uem.materia ");
-		sql.append("  JOIN Materia m ");
-		sql.append("    ON uem.materia = m.id ");
-		sql.append(" WHERE uem.usuarioEstudo = ? ");
-		sql.append(" GROUP BY uem.usuarioEstudo, ");
-		sql.append("       uem.materia ");
+		sql.append("  LEFT OUTER JOIN uemh.usuarioEstudoMateria uem ");
+		sql.append(" WHERE uem.usuarioEstudoMateriaPK.usuarioEstudo.id = :usuarioEstudo ");
+		sql.append(" GROUP BY uem.usuarioEstudoMateriaPK.usuarioEstudo, ");
+		sql.append("       uem.usuarioEstudoMateriaPK.materia ");
 		sql.append(" ORDER BY uem.ordem ");
 
-		Query query = this.entityManager.createNativeQuery(sql.toString(),
+		Query query = this.entityManager.createQuery(sql.toString(),
 				ResumoMateriaEstudada.class);
-		query.setParameter(1, usuarioEstudoBean.getId());
+		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
 
 		List<ResumoMateriaEstudada> entidades = query.getResultList();
 

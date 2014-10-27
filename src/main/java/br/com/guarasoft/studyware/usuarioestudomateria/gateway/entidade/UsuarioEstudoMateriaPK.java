@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
@@ -17,11 +16,11 @@ public class UsuarioEstudoMateriaPK implements Serializable {
 
 	private static final long serialVersionUID = 9133924471471666635L;
 
-	@JoinColumn(referencedColumnName = "id")
-	@ManyToOne
+	@JoinColumn(name = "usuarioEstudo", referencedColumnName = "id")
+	@OneToOne
 	private UsuarioEstudo usuarioEstudo;
 
-	@JoinColumn(referencedColumnName = "id")
+	@JoinColumn(name = "materia", referencedColumnName = "id")
 	@OneToOne
 	private Materia materia;
 

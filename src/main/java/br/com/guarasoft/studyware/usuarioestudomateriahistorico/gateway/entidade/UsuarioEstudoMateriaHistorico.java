@@ -33,8 +33,9 @@ public class UsuarioEstudoMateriaHistorico implements Entidade {
 	private Long id;
 
 	@OneToOne
-	@JoinColumns({ @JoinColumn(referencedColumnName = "usuarioEstudo"),
-			@JoinColumn(referencedColumnName = "materia") })
+	@JoinColumns({
+			@JoinColumn(name = "usuarioEstudo", referencedColumnName = "usuarioEstudo"),
+			@JoinColumn(name = "materia", referencedColumnName = "materia") })
 	@NotNull
 	private UsuarioEstudoMateria usuarioEstudoMateria;
 

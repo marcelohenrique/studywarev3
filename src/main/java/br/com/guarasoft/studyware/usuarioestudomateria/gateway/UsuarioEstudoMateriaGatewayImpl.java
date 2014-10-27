@@ -31,8 +31,8 @@ public class UsuarioEstudoMateriaGatewayImpl extends
 	private MateriaEntidadeConverter materiaEntidadeConverter;
 
 	@Override
-	public UsuarioEstudoMateriaBean find(
-			UsuarioEstudoBean usuarioEstudoBean, MateriaBean materiaBean) {
+	public UsuarioEstudoMateriaBean find(UsuarioEstudoBean usuarioEstudoBean,
+			MateriaBean materiaBean) {
 		UsuarioEstudoMateriaPK pk = new UsuarioEstudoMateriaPK();
 		pk.setUsuarioEstudo(this.usuarioEstudoEntidadeConverter
 				.convert(usuarioEstudoBean));
@@ -50,10 +50,12 @@ public class UsuarioEstudoMateriaGatewayImpl extends
 	@Override
 	public List<UsuarioEstudoMateriaBean> findAll(
 			UsuarioEstudoBean usuarioEstudoBean) {
-		Query query = this.entityManager
-				.createQuery(
-						"from UsuarioEstudoMateria cm where cm.usuarioEstudo.id = :usuarioEstudo",
-						UsuarioEstudoMateria.class);
+		StringBuilder sql = new StringBuilder();
+		sql.append(" from UsuarioEstudoMateria uem ");
+		sql.append("where uem.usuarioEstudoMateriaPK.usuarioEstudo.id = :usuarioEstudo");
+
+		Query query = this.entityManager.createQuery(sql.toString(),
+				UsuarioEstudoMateria.class);
 		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
 		List<UsuarioEstudoMateria> entidades = query.getResultList();
 

@@ -38,6 +38,9 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
+		if ("".equals(value)) {
+			return "";
+		}
 		UsuarioEstudoMateriaBean bean = (UsuarioEstudoMateriaBean) value;
 		return bean.getUsuarioEstudoBean().getEmail() + "-"
 				+ bean.getMateriaBean().getId();
