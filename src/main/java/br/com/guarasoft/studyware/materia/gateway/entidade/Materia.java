@@ -6,8 +6,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+import br.com.guarasoft.studyware.infra.dao.Entidade;
+
 @Entity
-public class Materia {
+public class Materia implements Entidade {
+
+	private static final long serialVersionUID = -8089662973205060676L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "materiaSeq")

@@ -8,19 +8,28 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
+
 import org.primefaces.event.RowEditEvent;
 
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.casodeuso.CadastrarMateria;
 import br.com.guarasoft.studyware.materia.casodeuso.CadastrarMateriaImpl;
+import br.com.guarasoft.studyware.materia.casodeuso.RemoverMateria;
+import br.com.guarasoft.studyware.materia.casodeuso.RemoverMateriaImpl;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
+import br.com.guarasoft.studyware.menu.controller.MenuController;
 
 @ManagedBean(name = "materia")
+@Data
 public class MateriaController {
 
 	private String sigla;
 	private String nome;
 
+	@Setter(AccessLevel.PRIVATE)
 	private List<MateriaBean> materias;
 
 	@Inject
@@ -31,10 +40,28 @@ public class MateriaController {
 		this.materias = this.materiaGateway.buscaMaterias();
 	}
 
-	public void cadastrar() {
+	public String cadastrar() {
 		CadastrarMateria cadastrarMateria = new CadastrarMateriaImpl(
 				this.materiaGateway);
+
 		cadastrarMateria.execute(this.sigla, this.nome);
+		this.materias = this.materiaGateway.buscaMaterias();
+
+		FacesMessage msg = new FacesMessage("Matéria Cadastrada", this.sigla);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+
+		return new MenuController().consultarMateria();
+	}
+
+	public void remover(MateriaBean materiaBean) {
+		RemoverMateria removerMateria = new RemoverMateriaImpl(
+				this.materiaGateway);
+		removerMateria.execute(materiaBean);
+		this.materias = this.materiaGateway.buscaMaterias();
+
+		FacesMessage msg = new FacesMessage("Matéria Removida",
+				materiaBean.getSigla());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void onRowEdit(RowEditEvent event) {
@@ -53,26 +80,6 @@ public class MateriaController {
 		FacesMessage msg = new FacesMessage("Alteração Cancelada",
 				materiaBean.getSigla());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-
-	public String getSigla() {
-		return sigla;
-	}
-
-	public void setSigla(String sigla) {
-		this.sigla = sigla;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public List<MateriaBean> getMaterias() {
-		return materias;
 	}
 
 }

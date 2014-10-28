@@ -1,8 +1,0 @@
-ALTER TABLE TB_ESTUDO_DIA RENAME TO UsuarioEstudoDiario;
-ALTER TABLE UsuarioEstudoDiario DROP COLUMN ID;
-ALTER TABLE UsuarioEstudoDiario RENAME COLUMN ID_ESTUDO TO usuarioEstudo;
-ALTER TABLE UsuarioEstudoDiario RENAME COLUMN ID_DIA TO dia;
-ALTER TABLE UsuarioEstudoDiario RENAME COLUMN TEMPO_ALOCADO TO tempoAlocado;
-ALTER TABLE UsuarioEstudoDiario ADD PRIMARY KEY ( usuarioEstudo, dia );
-
-ALTER TABLE TB_DIA RENAME TO Dia;

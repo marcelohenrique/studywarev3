@@ -4,22 +4,23 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
 import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
 
 @Stateless
-public class MateriaGatewayImpl implements MateriaGateway {
-
-	@PersistenceContext(unitName = "studyware")
-	private EntityManager entityManager;
+public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements
+		MateriaGateway {
 
 	@Inject
 	private MateriaEntidadeConverter converter;
+
+	public MateriaGatewayImpl() {
+		super(Materia.class);
+	}
 
 	@Override
 	public List<MateriaBean> buscaMaterias() {
@@ -37,14 +38,23 @@ public class MateriaGatewayImpl implements MateriaGateway {
 	public void cadastrar(MateriaBean materiaBean) {
 		Materia materia = this.converter.convert(materiaBean);
 
-		this.entityManager.persist(materia);
+		// this.entityManager.persist(materia);
+		this.persist(materia);
 	}
 
 	@Override
-	public void alterar(MateriaBean materiaAlterada) {
-		Materia materia = this.converter.convert(materiaAlterada);
+	public void alterar(MateriaBean materiaBean) {
+		Materia materia = this.converter.convert(materiaBean);
 
-		this.entityManager.merge(materia);
+		// this.entityManager.merge(materia);
+		this.merge(materia);
+	}
+
+	@Override
+	public void remover(MateriaBean materiaBean) {
+		Materia materia = this.converter.convert(materiaBean);
+
+		this.remove(this.merge(materia));
 	}
 
 }

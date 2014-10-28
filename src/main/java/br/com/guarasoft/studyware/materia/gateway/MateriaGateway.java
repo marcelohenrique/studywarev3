@@ -10,6 +10,8 @@ public interface MateriaGateway {
 
 	void cadastrar(MateriaBean materiaBean);
 
-	void alterar(MateriaBean materia);
+	void alterar(MateriaBean materiaBean);
+
+	void remover(MateriaBean materiaBean);
 
 }

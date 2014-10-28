@@ -40,6 +40,15 @@
 			<p:column style="width:32px">
 				<p:rowEditor />
 			</p:column>
+
+			<p:column style="width:32px;text-align: center">
+				<p:commandButton update="@form" icon="ui-icon-close" title="Remover" actionListener="#{materia.remover(m)}">
+				</p:commandButton>
+			</p:column>
+
+			<f:facet name="footer">
+				<p:commandButton value="Cadastrar" action="#{controller.cadastrarMateria()}" />
+			</f:facet>
 		</p:dataTable>
 
 	</ui:define>
