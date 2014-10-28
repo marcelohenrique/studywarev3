@@ -6,13 +6,11 @@ import lombok.Data;
 
 import org.joda.time.Duration;
 
-import br.com.guarasoft.studyware.Dia;
-
 @Data
 public class EstudoDiarioBean {
 
 	private Date inicioSemana;
-	private Dia diaSemana;
+	private DiaBean diaSemana;
 	private Duration tempoAlocado;
 	private Duration tempoEstudado;
 

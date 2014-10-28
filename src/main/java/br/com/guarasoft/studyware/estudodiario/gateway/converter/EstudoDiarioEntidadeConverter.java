@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.joda.time.Duration;
 
+import br.com.guarasoft.studyware.estudodiario.bean.DiaBean;
 import br.com.guarasoft.studyware.estudodiario.bean.EstudoDiarioBean;
 import br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiario;
 
@@ -26,7 +27,7 @@ public class EstudoDiarioEntidadeConverter {
 		EstudoDiarioBean bean = new EstudoDiarioBean();
 
 		bean.setInicioSemana(entidade.getInicioSemana());
-		bean.setDiaSemana(entidade.getDiaSemana());
+		bean.setDiaSemana(DiaBean.values()[entidade.getDiaSemana().intValue()]);
 		bean.setTempoAlocado(new Duration(entidade.getTempoAlocado()));
 		bean.setTempoEstudado(new Duration(entidade.getTempoEstudado()));
 

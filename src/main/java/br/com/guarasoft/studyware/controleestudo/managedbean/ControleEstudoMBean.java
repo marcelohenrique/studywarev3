@@ -146,12 +146,9 @@ public class ControleEstudoMBean implements Serializable {
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 		for (EstudoDiarioBean estudoDiario : this.estudosDiarios) {
 			if (estudoDiario != null) {
-				String date = formatter.print(estudoDiario
-						.getInicioSemana().getTime());
-				Long tempoAlocado = estudoDiario.getTempoAlocado().getMillis()
-						/ HORA;
-				Long tempoEstudado = estudoDiario.getTempoEstudado()
-						.getMillis() / HORA;
+				String date = formatter.print(estudoDiario.getInicioSemana().getTime());
+				Long tempoAlocado = estudoDiario.getTempoAlocado().getMillis() / HORA;
+				Long tempoEstudado = estudoDiario.getTempoEstudado().getMillis() / HORA;
 				planejado.set(date, tempoAlocado);
 				executado.set(date, tempoEstudado);
 			}
