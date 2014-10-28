@@ -179,7 +179,7 @@
 				<p:tabView id="tabView">
 					<p:tab id="tabHistoricoEstudo" title="Histórico Estudo">
 						<p:dataTable id="dataTableHistoricoEstudo" var="materiaestudada" value="#{controleestudo.materiasEstudadas}" paginator="true"
-							rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink}" editable="true" editMode="cell">
+							rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" editable="true" editMode="cell">
 
 							<p:column headerText="Data/Hora" styleClass="textoCentralizado">
 								<h:outputText value="#{materiaestudada.horaEstudo}">
@@ -214,7 +214,7 @@
 
 					<p:tab id="tbResumoSemanal" title="Acompanhamento Semanal">
 						<p:dataTable id="dataTableResumoSemanal" var="estudoSemanal" value="#{controleestudo.estudosSemanais}" paginator="true"
-							rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink}">
+							rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
 							<p:column headerText="Início" styleClass="textoCentralizado">
 								<h:outputText value="#{estudoSemanal.inicioSemana}">

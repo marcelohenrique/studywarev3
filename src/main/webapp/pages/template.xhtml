@@ -52,19 +52,15 @@
 
 				<p:menubar>
 
-					<p:menuitem value="Studyware" action="#{controller.home()}" />
-
-					<p:submenu label="Usuário" icon="ui-icon-person" rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
-						<p:menuitem value="Cadastrar" icon="ui-icon-plus" action="#{controller.cadastrarUsuario()}" />
-					</p:submenu>
+					<p:menuitem icon="ui-icon-home" action="#{controller.home()}" />
 
 					<p:submenu label="Estudo" icon="ui-icon-note">
 						<p:menuitem value="Cadastrar" icon="ui-icon-plus" action="#{controller.cadastrarEstudoUsuario()}" />
 					</p:submenu>
 
-					<p:submenu label="Matéria" icon="ui-icon-note" rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
-						<p:menuitem value="Cadastrar" icon="ui-icon-plus" action="#{controller.cadastrarMateria()}" />
-						<p:menuitem value="Consultar" icon="ui-icon-search" action="#{controller.consultarMateria()}" />
+					<p:submenu label="Administração" icon="ui-icon-gear" rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
+						<p:menuitem value="Usuário" icon="ui-icon-person" action="#{controller.cadastrarUsuario()}" />
+						<p:menuitem value="Matéria" icon="ui-icon-note" action="#{controller.consultarMateria()}" />
 					</p:submenu>
 
 					<f:facet name="options">
