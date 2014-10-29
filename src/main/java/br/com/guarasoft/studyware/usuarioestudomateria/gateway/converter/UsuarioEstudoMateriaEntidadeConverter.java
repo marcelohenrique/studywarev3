@@ -48,7 +48,7 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 		return entidade;
 	}
 
-	public List<UsuarioEstudoMateriaBean> convert(
+	public List<UsuarioEstudoMateriaBean> converteEntidadesParaBeans(
 			List<UsuarioEstudoMateria> entidades) {
 		List<UsuarioEstudoMateriaBean> beans = new ArrayList<>();
 
@@ -56,6 +56,12 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 			beans.add(convert(entidade));
 		}
 		return beans;
+	}
+
+	public List<UsuarioEstudoMateria> converteBeansParaEntidades(
+			List<UsuarioEstudoMateriaBean> beans) {
+		List<UsuarioEstudoMateria> entidades = new ArrayList<>();
+		return entidades;
 	}
 
 }

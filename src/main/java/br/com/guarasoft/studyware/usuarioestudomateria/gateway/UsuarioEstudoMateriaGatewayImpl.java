@@ -60,7 +60,7 @@ public class UsuarioEstudoMateriaGatewayImpl extends
 		List<UsuarioEstudoMateria> entidades = query.getResultList();
 
 		List<UsuarioEstudoMateriaBean> beans = this.usuarioEstudoMateriaEntidadeConverter
-				.convert(entidades);
+				.converteEntidadesParaBeans(entidades);
 
 		return beans;
 	}

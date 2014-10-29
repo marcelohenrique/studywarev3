@@ -1,9 +1,9 @@
 package br.com.guarasoft.studyware.usuarioestudo.casodeuso;
 
-import java.util.Date;
+import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 
 public interface CadastrarUsuarioEstudo {
 
-	void execute(String email, String nomeEstudo, Date fim);
+	void execute(UsuarioEstudoBean usuarioEstudoBean);
 
 }

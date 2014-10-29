@@ -3,10 +3,16 @@ package br.com.guarasoft.studyware.usuarioestudo.gateway.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
+import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaEntidadeConverter;
 
 public class UsuarioEstudoEntidadeConverter {
+
+	@Inject
+	private UsuarioEstudoMateriaEntidadeConverter usuarioEstudoMateriaEntidadeConverter;
 
 	public UsuarioEstudoBean convert(UsuarioEstudo entidade) {
 		UsuarioEstudoBean bean = new UsuarioEstudoBean();
@@ -26,6 +32,9 @@ public class UsuarioEstudoEntidadeConverter {
 		entidade.setEmail(bean.getEmail());
 		entidade.setNome(bean.getNome());
 		entidade.setFim(bean.getFim());
+
+		entidade.setMaterias(this.usuarioEstudoMateriaEntidadeConverter
+				.converteBeansParaEntidades(bean.getMaterias()));
 
 		return entidade;
 	}

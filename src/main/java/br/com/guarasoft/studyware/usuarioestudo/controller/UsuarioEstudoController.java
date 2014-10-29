@@ -23,6 +23,7 @@ import org.primefaces.model.DualListModel;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
+import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudo;
 import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudoImpl;
 import br.com.guarasoft.studyware.usuarioestudo.excecao.UsuarioEstudoJaExiste;
@@ -70,8 +71,12 @@ public class UsuarioEstudoController {
 	public void cadastrar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			this.cadastrarUsuarioEstudo.execute(this.usuarioService.getEmail(),
-					this.nome, this.fim);
+			UsuarioEstudoBean usuarioEstudoBean = new UsuarioEstudoBean();
+			usuarioEstudoBean.setEmail(this.usuarioService.getEmail());
+			usuarioEstudoBean.setNome(this.nome);
+			usuarioEstudoBean.setFim(this.fim);
+
+			this.cadastrarUsuarioEstudo.execute(usuarioEstudoBean);
 			context.addMessage(null, new FacesMessage("Sucesso",
 					"Estudo cadastrado"));
 		} catch (UsuarioEstudoJaExiste e) {

@@ -1,7 +1,6 @@
 package br.com.guarasoft.studyware.usuarioestudo.casodeuso;
 
-import java.util.Date;
-
+import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.excecao.UsuarioEstudoJaExiste;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
 
@@ -14,9 +13,9 @@ public class CadastrarUsuarioEstudoImpl implements CadastrarUsuarioEstudo {
 	}
 
 	@Override
-	public void execute(String email, String nomeEstudo, Date fim) {
+	public void execute(UsuarioEstudoBean usuarioEstudoBean) {
 		try {
-			this.usuarioEstudoGateway.cadastrar(email, nomeEstudo, fim);
+			this.usuarioEstudoGateway.cadastrar(usuarioEstudoBean);
 		} catch (Exception e) {
 			throw new UsuarioEstudoJaExiste();
 		}

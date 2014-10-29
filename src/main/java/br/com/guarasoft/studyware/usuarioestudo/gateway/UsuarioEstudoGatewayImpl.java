@@ -1,6 +1,5 @@
 package br.com.guarasoft.studyware.usuarioestudo.gateway;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -23,11 +22,8 @@ public class UsuarioEstudoGatewayImpl implements UsuarioEstudoGateway {
 	private UsuarioEstudoEntidadeConverter converter;
 
 	@Override
-	public void cadastrar(String email, String nomeEstudo, Date fim) {
-		UsuarioEstudo usuarioEstudo = new UsuarioEstudo();
-		usuarioEstudo.setEmail(email);
-		usuarioEstudo.setNome(nomeEstudo);
-		usuarioEstudo.setFim(fim);
+	public void cadastrar(UsuarioEstudoBean usuarioEstudoBean) {
+		UsuarioEstudo usuarioEstudo = this.converter.convert(usuarioEstudoBean);
 
 		this.entityManager.persist(usuarioEstudo);
 	}
