@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.estudousuario.casosdeuso;
+package br.com.guarasoft.studyware.usuarioestudo.casodeuso;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -17,7 +17,7 @@ import br.com.guarasoft.studyware.usuarioestudo.excecao.UsuarioEstudoJaExiste;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CadastrarEstudoUsuarioTest {
+public class CadastrarUsuarioEstudoTest {
 
 	@Mock
 	private UsuarioEstudoGateway usuarioEstudoGateway;

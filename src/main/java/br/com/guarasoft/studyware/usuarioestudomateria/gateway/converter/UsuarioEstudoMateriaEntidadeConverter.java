@@ -24,10 +24,9 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 		UsuarioEstudoMateriaBean bean = new UsuarioEstudoMateriaBean();
 
 		bean.setUsuarioEstudoBean(this.usuarioEstudoEntidadeConverter
-				.convert(entidade.getUsuarioEstudoMateriaPK()
-						.getUsuarioEstudo()));
+				.convert(entidade.getPk().getUsuarioEstudo()));
 		bean.setMateriaBean(this.materiaEntidadeConverter.convert(entidade
-				.getUsuarioEstudoMateriaPK().getMateria()));
+				.getPk().getMateria()));
 		bean.setTempoAlocado(new Duration(entidade.getTempoAlocado()));
 		bean.setOrdem(entidade.getOrdem());
 
@@ -42,7 +41,7 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 				.getMateriaBean()));
 
 		UsuarioEstudoMateria entidade = new UsuarioEstudoMateria();
-		entidade.setUsuarioEstudoMateriaPK(pk);
+		entidade.setPk(pk);
 		entidade.setTempoAlocado(bean.getTempoAlocado().getMillis());
 		entidade.setOrdem(bean.getOrdem());
 

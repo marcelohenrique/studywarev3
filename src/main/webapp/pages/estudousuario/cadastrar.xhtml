@@ -9,25 +9,27 @@
 
 	<ui:define name="main">
 
-		<p:wizard>
-			<p:tab title="Estudo">
-				<p:panelGrid columns="2">
-					<f:facet name="header">
-						<p:row>
-							<p:column colspan="2">Cadastrar Estudo do Usuário</p:column>
-						</p:row>
-					</f:facet>
-					<p:outputLabel for="nome" value="Nome:" />
-					<p:inputText id="nome" required="true" value="#{estudoUsuario.nome}" />
-					<p:outputLabel for="fim" value="Fim:" />
-					<p:calendar id="fim" mindate="calwidget.today()" value="#{estudoUsuario.fim}" />
-				</p:panelGrid>
+		<p:wizard flowListener="#{estudoUsuario.onFlowProcess}">
+			<p:tab id="estudo" title="Estudo">
+				<p:panel>
+					<p:panelGrid columns="2">
+						<p:outputLabel for="nome" value="Nome:" />
+						<p:inputText id="nome" required="true" value="#{estudoUsuario.nome}" />
+						<p:outputLabel for="fim" value="Fim:" />
+						<p:calendar id="fim" mindate="calwidget.today()" value="#{estudoUsuario.fim}" />
+					</p:panelGrid>
+				</p:panel>
 			</p:tab>
-			<p:tab title="Matérias">
-				<p:pickList value="#{estudoUsuario.materias}" var="m" itemLabel="#{m.nome}" itemValue="#{m}" />
+			<p:tab id="materias" title="Matérias">
+				<p:panel>
+					<p:pickList value="#{estudoUsuario.materias}" var="m" itemLabel="#{m.nome}" itemValue="#{m}" />
+				</p:panel>
 			</p:tab>
-			<p:tab title="Horas">
-				<p:commandButton value="Cadastrar" action="#{estudoUsuario.cadastrar()}" update="@form" />
+			<p:tab id="horas" title="Horas">
+				<p:panel>
+				asdf
+					<p:commandButton value="Cadastrar" action="#{estudoUsuario.cadastrar()}" update="@form" />
+				</p:panel>
 			</p:tab>
 		</p:wizard>
 

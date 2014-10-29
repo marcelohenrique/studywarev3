@@ -11,6 +11,7 @@ import javax.persistence.TemporalType;
 
 import lombok.Data;
 import br.com.guarasoft.studyware.estudodiario.gateway.entidade.UsuarioEstudoDiario;
+import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 
 @Entity
 @Data
@@ -22,6 +23,9 @@ public class UsuarioEstudo {
 	private String nome;
 	@Temporal(TemporalType.DATE)
 	private Date fim;
+
+	@OneToMany(mappedBy = "pk.usuarioEstudo")
+	private List<UsuarioEstudoMateria> materias;
 
 	@OneToMany(mappedBy = "pk.usuarioEstudo")
 	private List<UsuarioEstudoDiario> usuarioEstudoDiarios;

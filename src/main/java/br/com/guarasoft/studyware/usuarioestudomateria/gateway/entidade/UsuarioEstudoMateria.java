@@ -13,7 +13,7 @@ public class UsuarioEstudoMateria implements Entidade {
 	private static final long serialVersionUID = 6291112509470918058L;
 
 	@EmbeddedId
-	private UsuarioEstudoMateriaPK usuarioEstudoMateriaPK;
+	private UsuarioEstudoMateriaPK pk;
 
 	private Long tempoAlocado;
 

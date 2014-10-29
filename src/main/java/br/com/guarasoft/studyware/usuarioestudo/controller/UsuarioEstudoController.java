@@ -8,9 +8,16 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+import org.primefaces.event.FlowEvent;
 import org.primefaces.model.DualListModel;
 
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
@@ -22,22 +29,29 @@ import br.com.guarasoft.studyware.usuarioestudo.excecao.UsuarioEstudoJaExiste;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
 
 @ManagedBean(name = "estudoUsuario")
+@ViewScoped
+@Data
 public class UsuarioEstudoController {
 
 	@Inject
+	@Getter(AccessLevel.PRIVATE)
+	@Setter(AccessLevel.PRIVATE)
 	private UsuarioEstudoGateway usuarioEstudoGateway;
 	@Inject
+	@Getter(AccessLevel.PRIVATE)
+	@Setter(AccessLevel.PRIVATE)
 	private MateriaGateway materiaGateway;
+	@Getter(AccessLevel.PRIVATE)
+	@Setter(AccessLevel.PRIVATE)
 	private CadastrarUsuarioEstudo cadastrarUsuarioEstudo;
 
 	@ManagedProperty(value = "#{sessionAuth.usuario}")
+	@Getter(AccessLevel.PRIVATE)
 	private UsuarioService usuarioService;
-
-	private DualListModel<MateriaBean> materias;
 
 	private String nome;
 	private Date fim;
-	private List<MateriaBean> materiasSelecionadas = new ArrayList<>();
+	private DualListModel<MateriaBean> materias;
 
 	@PostConstruct
 	private void init() {
@@ -45,7 +59,12 @@ public class UsuarioEstudoController {
 				this.usuarioEstudoGateway);
 
 		List<MateriaBean> materias = this.materiaGateway.buscaMaterias();
-		this.materias = new DualListModel<>(materias, this.materiasSelecionadas);
+		this.materias = new DualListModel<>(materias,
+				new ArrayList<MateriaBean>());
+	}
+
+	public String onFlowProcess(FlowEvent event) {
+		return event.getNewStep();
 	}
 
 	public void cadastrar() {
@@ -59,30 +78,6 @@ public class UsuarioEstudoController {
 			context.addMessage(null, new FacesMessage("Falha",
 					"Estudo já exite"));
 		}
-	}
-
-	public void setUsuarioService(UsuarioService usuarioService) {
-		this.usuarioService = usuarioService;
-	}
-
-	public DualListModel<MateriaBean> getMaterias() {
-		return materias;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Date getFim() {
-		return fim;
-	}
-
-	public void setFim(Date fim) {
-		this.fim = fim;
 	}
 
 }
