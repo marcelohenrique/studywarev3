@@ -23,8 +23,7 @@ public class CadastrarUsuarioEstudoTest {
 		String email = "teste@gmail.com";
 		String nomeEstudo = "Estudo Teste";
 
-		CadastrarUsuarioEstudo cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(
-				this.usuarioEstudoGateway);
+		CadastrarUsuarioEstudo cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(this.usuarioEstudoGateway);
 
 		UsuarioEstudoBean usuarioEstudoBean = new UsuarioEstudoBean();
 		usuarioEstudoBean.setEmail(email);
@@ -35,14 +34,12 @@ public class CadastrarUsuarioEstudoTest {
 
 	@Test(expected = UsuarioEstudoJaExiste.class)
 	public void cadastrarEstudoUsuario_Falha_EstudoJaExiste() {
-		doThrow(new UsuarioEstudoJaExiste()).when(this.usuarioEstudoGateway)
-				.cadastrar(any(UsuarioEstudoBean.class));
+		doThrow(new UsuarioEstudoJaExiste()).when(this.usuarioEstudoGateway).cadastrar(any(UsuarioEstudoBean.class));
 
 		String email = "teste@gmail.com";
 		String nomeEstudo = "Estudo Teste";
 
-		CadastrarUsuarioEstudo cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(
-				this.usuarioEstudoGateway);
+		CadastrarUsuarioEstudo cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(this.usuarioEstudoGateway);
 
 		UsuarioEstudoBean usuarioEstudoBean = new UsuarioEstudoBean();
 		usuarioEstudoBean.setEmail(email);

@@ -21,8 +21,7 @@ public class CadastrarMateriaTest {
 
 	@Test
 	public void testCadastrarMateriaSucessso() {
-		CadastrarMateria cadastrarMateria = new CadastrarMateriaImpl(
-				this.materiaGateway);
+		CadastrarMateria cadastrarMateria = new CadastrarMateriaImpl(this.materiaGateway);
 
 		String sigla = "DEV";
 		String nome = "Desenvolvimento";
@@ -32,8 +31,7 @@ public class CadastrarMateriaTest {
 
 	@Test
 	public void testCadastrarMateriaSemSigla() {
-		CadastrarMateria cadastrarMateria = new CadastrarMateriaImpl(
-				this.materiaGateway);
+		CadastrarMateria cadastrarMateria = new CadastrarMateriaImpl(this.materiaGateway);
 
 		String sigla = null;
 		String nome = null;
@@ -45,8 +43,7 @@ public class CadastrarMateriaTest {
 
 	@Test
 	public void testCadastrarMateriaSemNome() {
-		CadastrarMateria cadastrarMateria = new CadastrarMateriaImpl(
-				this.materiaGateway);
+		CadastrarMateria cadastrarMateria = new CadastrarMateriaImpl(this.materiaGateway);
 
 		String sigla = "DEV";
 		String nome = null;

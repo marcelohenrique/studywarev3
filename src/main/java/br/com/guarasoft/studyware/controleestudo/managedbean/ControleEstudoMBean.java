@@ -55,8 +55,7 @@ public class ControleEstudoMBean implements Serializable {
 
 	private static final long serialVersionUID = -5358580904420656733L;
 
-	private final Logger logger = LoggerFactory
-			.getLogger(ControleEstudoMBean.class);
+	private final Logger logger = LoggerFactory.getLogger(ControleEstudoMBean.class);
 
 	@Resource
 	private UserTransaction userTransaction;
@@ -101,20 +100,16 @@ public class ControleEstudoMBean implements Serializable {
 	private void init() {
 		materiaEstudada = build();
 
-		this.estudos = this.usuarioEstudoGateway.recuperaEstudos(usuarioService
-				.getEmail());
+		this.estudos = this.usuarioEstudoGateway.recuperaEstudos(usuarioService.getEmail());
 	}
 
 	private void atualiza() {
-		resumoMateriasEstudadas = this.usuarioEstudoMateriaHistoricoGateway
-				.buscaResumosMaterias(estudoSelecionado);
+		resumoMateriasEstudadas = this.usuarioEstudoMateriaHistoricoGateway.buscaResumosMaterias(estudoSelecionado);
 		tempoTotalAlocado = new Duration(0);
 		tempoEstudadoTotal = new Duration(0);
 		for (ResumoMateriaEstudadaBean resumoMateriaEstudada : resumoMateriasEstudadas) {
-			tempoTotalAlocado = tempoTotalAlocado.plus(resumoMateriaEstudada
-					.getUsuarioEstudoMateria().getTempoAlocado());
-			tempoEstudadoTotal = tempoEstudadoTotal.plus(resumoMateriaEstudada
-					.getSomaTempo());
+			tempoTotalAlocado = tempoTotalAlocado.plus(resumoMateriaEstudada.getUsuarioEstudoMateria().getTempoAlocado());
+			tempoEstudadoTotal = tempoEstudadoTotal.plus(resumoMateriaEstudada.getSomaTempo());
 		}
 		materiasEstudadas = usuarioEstudoMateriaHistoricoGateway.findAll(estudoSelecionado);
 		estudosSemanais = estudoSemanalGateway.findAll(estudoSelecionado);
@@ -197,13 +192,10 @@ public class ControleEstudoMBean implements Serializable {
 			logger.info(materiaEstudada.toString());
 			usuarioEstudoMateriaHistoricoGateway.persist(materiaEstudada);
 			userTransaction.commit();
-		} catch (SecurityException | IllegalStateException
-				| NotSupportedException | SystemException | RollbackException
-				| HeuristicMixedException | HeuristicRollbackException e) {
+		} catch (SecurityException | IllegalStateException | NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
-		materiasEstudadas = usuarioEstudoMateriaHistoricoGateway
-				.findAll(estudoSelecionado);
+		materiasEstudadas = usuarioEstudoMateriaHistoricoGateway.findAll(estudoSelecionado);
 		materiaEstudada = build();
 		atualiza();
 	}
@@ -213,8 +205,7 @@ public class ControleEstudoMBean implements Serializable {
 	}
 
 	public void listaEstudoMaterias() {
-		usuarioEstudoMaterias = usuarioEstudoMateriaGateway
-				.buscaPorUsuarioEstudo(estudoSelecionado);
+		usuarioEstudoMaterias = usuarioEstudoMateriaGateway.buscaPorUsuarioEstudo(estudoSelecionado);
 		atualiza();
 	}
 }

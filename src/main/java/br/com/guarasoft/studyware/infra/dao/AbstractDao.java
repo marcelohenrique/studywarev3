@@ -8,8 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractDao<T extends Entidade, PK extends Serializable>
-		implements Dao<T, PK> {
+public abstract class AbstractDao<T extends Entidade, PK extends Serializable> implements Dao<T, PK> {
 
 	private final Logger logger = LoggerFactory.getLogger(AbstractDao.class);
 

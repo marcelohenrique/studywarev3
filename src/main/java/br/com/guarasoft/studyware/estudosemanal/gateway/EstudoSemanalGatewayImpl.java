@@ -11,8 +11,7 @@ import br.com.guarasoft.studyware.estudosemanal.gateway.entidade.EstudoSemanal;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 
-public class EstudoSemanalGatewayImpl extends AbstractDao<EstudoSemanal, Long>
-		implements EstudoSemanalGateway {
+public class EstudoSemanalGatewayImpl extends AbstractDao<EstudoSemanal, Long> implements EstudoSemanalGateway {
 
 	@Inject
 	private EstudoSemanalEntidadeConverter estudoSemanalEntidadeConverter;
@@ -31,8 +30,7 @@ public class EstudoSemanalGatewayImpl extends AbstractDao<EstudoSemanal, Long>
 		sql.append(" GROUP BY date_trunc( 'week', uemh.horaEstudo ) ");
 		sql.append(" ORDER BY date_trunc( 'week', uemh.horaEstudo ) ");
 
-		Query query = entityManager.createQuery(sql.toString(),
-				EstudoSemanal.class);
+		Query query = entityManager.createQuery(sql.toString(), EstudoSemanal.class);
 		query.setParameter(1, estudo.getId());
 		List<EstudoSemanal> estudosSemanais = query.getResultList();
 
@@ -45,8 +43,7 @@ public class EstudoSemanalGatewayImpl extends AbstractDao<EstudoSemanal, Long>
 		// }
 		// }
 
-		List<EstudoSemanalBean> beans = this.estudoSemanalEntidadeConverter
-				.convert(estudosSemanais);
+		List<EstudoSemanalBean> beans = this.estudoSemanalEntidadeConverter.convert(estudosSemanais);
 
 		return beans;
 	}

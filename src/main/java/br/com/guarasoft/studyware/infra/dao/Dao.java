@@ -7,12 +7,15 @@ import java.io.Serializable;
 
 /**
  * @author guara
- *
+ * 
  */
 public interface Dao<T extends Entidade, PK extends Serializable> {
 	public void persist(T t);
+
 	public T find(PK pk);
+
 	// public List<T> findAll();
-	public T merge( T t );
-	public void remove( T t );
+	public T merge(T t);
+
+	public void remove(T t);
 }

@@ -24,8 +24,7 @@ public class UsuarioEstudoEntidadeConverter {
 		bean.setNome(entidade.getNome());
 		bean.setFim(entidade.getFim());
 
-		bean.setMaterias(this.usuarioEstudoMateriaEntidadeConverter
-				.convert(bean, entidade.getMaterias()));
+		bean.setMaterias(this.usuarioEstudoMateriaEntidadeConverter.convert(bean, entidade.getMaterias()));
 
 		return bean;
 	}
@@ -38,8 +37,7 @@ public class UsuarioEstudoEntidadeConverter {
 		entidade.setNome(bean.getNome());
 		entidade.setFim(bean.getFim());
 
-		entidade.setMaterias(this.usuarioEstudoMateriaEntidadeConverter
-				.convert(entidade, bean.getMaterias()));
+		entidade.setMaterias(this.usuarioEstudoMateriaEntidadeConverter.convert(entidade, bean.getMaterias()));
 
 		return entidade;
 	}

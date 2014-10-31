@@ -30,9 +30,7 @@ public class UsuarioEstudoGatewayImpl implements UsuarioEstudoGateway {
 
 	@Override
 	public List<UsuarioEstudoBean> recuperaEstudos(String email) {
-		TypedQuery<UsuarioEstudo> typedQuery = this.entityManager.createQuery(
-				"from UsuarioEstudo eu where eu.email = :email",
-				UsuarioEstudo.class);
+		TypedQuery<UsuarioEstudo> typedQuery = this.entityManager.createQuery("from UsuarioEstudo eu where eu.email = :email", UsuarioEstudo.class);
 
 		typedQuery.setParameter("email", email);
 

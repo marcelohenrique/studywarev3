@@ -21,11 +21,9 @@ public class EstudoSemanalEntidadeConverter {
 			bean.setInicioSemana(entidade.getInicioSemana());
 			bean.setTempoEstudado(new Duration(entidade.getTempoEstudado()));
 
-			estudoSemanalAcumuladoParcial = estudoSemanalAcumuladoParcial
-					.plus(entidade.getTempoEstudado());
+			estudoSemanalAcumuladoParcial = estudoSemanalAcumuladoParcial.plus(entidade.getTempoEstudado());
 
-			bean.setTempoEstudadoAcumulado(estudoSemanalAcumuladoParcial
-					.toDuration());
+			bean.setTempoEstudadoAcumulado(estudoSemanalAcumuladoParcial.toDuration());
 
 			beans.add(bean);
 		}

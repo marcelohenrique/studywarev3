@@ -30,13 +30,10 @@ public class UsuarioController {
 	public String cadastrar() {
 		try {
 			this.cadastrarUsuario.executar(this.email);
-			this.context.addMessage(null, new FacesMessage("Sucesso",
-					"E-mail cadastrado"));
+			this.context.addMessage(null, new FacesMessage("Sucesso", "E-mail cadastrado"));
 			return "main";
 		} catch (EmailJaCadastrado e) {
-			this.context.addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
-							"E-mail já cadastrado"));
+			this.context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "E-mail já cadastrado"));
 			return "pages/usuario/cadastro";
 		}
 	}

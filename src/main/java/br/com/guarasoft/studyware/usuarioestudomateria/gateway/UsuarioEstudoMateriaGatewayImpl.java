@@ -56,25 +56,29 @@ public class UsuarioEstudoMateriaGatewayImpl extends AbstractDao<UsuarioEstudoMa
 		return beans;
 	}
 
-//	@Override
-//	public List<UsuarioEstudoMateriaBean> buscaTodos(UsuarioEstudoBean usuarioEstudoBean) {
-//		StringBuilder sql = new StringBuilder();
-//		// sql.append("FROM Materia m ");
-//		// sql.append("  LEFT OUTER JOIN m.usuarioEstudoMaterias uem ");
-//		// sql.append("  WITH uem.pk.usuarioEstudo.id = :usuarioEstudo ");
-//		sql.append("SELECT * FROM MATERIA M ");
-//		sql.append("  LEFT JOIN USUARIOESTUDOMATERIA UEM ");
-//		sql.append("    ON M.ID = UEM.MATERIA ");
-//		sql.append("   AND UEM.USUARIOESTUDO = 1001 ");
-//
-//		// Query query = this.entityManager.createQuery(sql.toString(),
-//		// UsuarioEstudoMateria.class);
-//		Query query = this.entityManager.createNativeQuery(sql.toString(), UsuarioEstudoMateria.class);
-////		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
-//		List<UsuarioEstudoMateria> entidades = query.getResultList();
-//
-//		List<UsuarioEstudoMateriaBean> beans = this.usuarioEstudoMateriaEntidadeConverter.convert(usuarioEstudoBean, entidades);
-//
-//		return beans;
-//	}
+	// @Override
+	// public List<UsuarioEstudoMateriaBean> buscaTodos(UsuarioEstudoBean
+	// usuarioEstudoBean) {
+	// StringBuilder sql = new StringBuilder();
+	// // sql.append("FROM Materia m ");
+	// // sql.append("  LEFT OUTER JOIN m.usuarioEstudoMaterias uem ");
+	// // sql.append("  WITH uem.pk.usuarioEstudo.id = :usuarioEstudo ");
+	// sql.append("SELECT * FROM MATERIA M ");
+	// sql.append("  LEFT JOIN USUARIOESTUDOMATERIA UEM ");
+	// sql.append("    ON M.ID = UEM.MATERIA ");
+	// sql.append("   AND UEM.USUARIOESTUDO = 1001 ");
+	//
+	// // Query query = this.entityManager.createQuery(sql.toString(),
+	// // UsuarioEstudoMateria.class);
+	// Query query = this.entityManager.createNativeQuery(sql.toString(),
+	// UsuarioEstudoMateria.class);
+	// // query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
+	// List<UsuarioEstudoMateria> entidades = query.getResultList();
+	//
+	// List<UsuarioEstudoMateriaBean> beans =
+	// this.usuarioEstudoMateriaEntidadeConverter.convert(usuarioEstudoBean,
+	// entidades);
+	//
+	// return beans;
+	// }
 }

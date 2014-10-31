@@ -41,8 +41,7 @@ public class MateriaController {
 	}
 
 	public String cadastrar() {
-		CadastrarMateria cadastrarMateria = new CadastrarMateriaImpl(
-				this.materiaGateway);
+		CadastrarMateria cadastrarMateria = new CadastrarMateriaImpl(this.materiaGateway);
 
 		cadastrarMateria.execute(this.sigla, this.nome);
 		this.materias = this.materiaGateway.buscaMaterias();
@@ -54,13 +53,11 @@ public class MateriaController {
 	}
 
 	public void remover(MateriaBean materiaBean) {
-		RemoverMateria removerMateria = new RemoverMateriaImpl(
-				this.materiaGateway);
+		RemoverMateria removerMateria = new RemoverMateriaImpl(this.materiaGateway);
 		removerMateria.execute(materiaBean);
 		this.materias = this.materiaGateway.buscaMaterias();
 
-		FacesMessage msg = new FacesMessage("Matéria Removida",
-				materiaBean.getSigla());
+		FacesMessage msg = new FacesMessage("Matéria Removida", materiaBean.getSigla());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
@@ -69,16 +66,14 @@ public class MateriaController {
 
 		this.materiaGateway.alterar(materiaBean);
 
-		FacesMessage msg = new FacesMessage("Matéria Editada",
-				materiaBean.getSigla());
+		FacesMessage msg = new FacesMessage("Matéria Editada", materiaBean.getSigla());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void onRowCancel(RowEditEvent event) {
 		MateriaBean materiaBean = (MateriaBean) event.getObject();
 
-		FacesMessage msg = new FacesMessage("Alteração Cancelada",
-				materiaBean.getSigla());
+		FacesMessage msg = new FacesMessage("Alteração Cancelada", materiaBean.getSigla());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 

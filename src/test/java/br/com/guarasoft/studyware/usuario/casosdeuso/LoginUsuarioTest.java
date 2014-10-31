@@ -28,7 +28,6 @@ public class LoginUsuarioTest {
 		String email = "teste@gmail.com";
 		when(usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(new UsuarioServiceImpl(email));
 
-
 		LoginUsuario loginUsuario = new LoginUsuarioImpl(usuarioGateway);
 		UsuarioService usuarioService = loginUsuario.autenticar(email);
 

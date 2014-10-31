@@ -37,7 +37,7 @@ public class Interval implements UserType {
 
 	@Override
 	public boolean equals(Object x, Object y) throws HibernateException {
-		if( x == null || y == null ) {
+		if (x == null || y == null) {
 			return false;
 		}
 		return x.equals(y);
@@ -49,9 +49,7 @@ public class Interval implements UserType {
 	}
 
 	@Override
-	public Object nullSafeGet(ResultSet rs, String[] names,
-			SessionImplementor sessionImplementor, Object owner)
-			throws HibernateException, SQLException {
+	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor sessionImplementor, Object owner) throws HibernateException, SQLException {
 		String interval = rs.getString(names[0]);
 		if (rs.wasNull() || interval == null) {
 			return null;
@@ -67,16 +65,13 @@ public class Interval implements UserType {
 	}
 
 	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index,
-			SessionImplementor sessionImplementor) throws HibernateException,
-			SQLException {
+	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor sessionImplementor) throws HibernateException, SQLException {
 		if (value == null) {
 			st.setNull(index, Types.VARCHAR);
 		} else {
 			// this
 			// http://postgresql.1045698.n5.nabble.com/Inserting-Information-in-PostgreSQL-interval-td2175203.html#a2175205
-			st.setObject(index, getInterval(((Integer) value).intValue()),
-					Types.OTHER);
+			st.setObject(index, getInterval(((Integer) value).intValue()), Types.OTHER);
 		}
 	}
 
@@ -96,14 +91,12 @@ public class Interval implements UserType {
 	}
 
 	@Override
-	public Object assemble(Serializable cached, Object owner)
-			throws HibernateException {
+	public Object assemble(Serializable cached, Object owner) throws HibernateException {
 		return cached;
 	}
 
 	@Override
-	public Object replace(Object original, Object target, Object owner)
-			throws HibernateException {
+	public Object replace(Object original, Object target, Object owner) throws HibernateException {
 		return original;
 	}
 

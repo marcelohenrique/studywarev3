@@ -18,8 +18,7 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 	private UsuarioEstudoMateriaGateway usuarioEstudoMateriaGateway;
 
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component,
-			String value) {
+	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		if (value == null || "".equals(value)) {
 			return value;
 		}
@@ -36,14 +35,12 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 	}
 
 	@Override
-	public String getAsString(FacesContext context, UIComponent component,
-			Object value) {
+	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if ("".equals(value)) {
 			return "";
 		}
 		UsuarioEstudoMateriaBean bean = (UsuarioEstudoMateriaBean) value;
-		return bean.getUsuarioEstudoBean().getEmail() + "-"
-				+ bean.getMateriaBean().getId();
+		return bean.getUsuarioEstudoBean().getEmail() + "-" + bean.getMateriaBean().getId();
 	}
 
 }

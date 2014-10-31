@@ -16,13 +16,11 @@ public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 	@Inject
 	private UsuarioEstudoMateriaEntidadeConverter usuarioEstudoMateriaEntidadeConverter;
 
-	public UsuarioEstudoMateriaHistorico convert(
-			UsuarioEstudoMateriaHistoricoBean bean) {
+	public UsuarioEstudoMateriaHistorico convert(UsuarioEstudoMateriaHistoricoBean bean) {
 		UsuarioEstudoMateriaHistorico entidade = new UsuarioEstudoMateriaHistorico();
 
 		entidade.setId(bean.getId());
-		entidade.setUsuarioEstudoMateria(this.usuarioEstudoMateriaEntidadeConverter
-				.convert(bean.getUsuarioEstudoMateria()));
+		entidade.setUsuarioEstudoMateria(this.usuarioEstudoMateriaEntidadeConverter.convert(bean.getUsuarioEstudoMateria()));
 		entidade.setHoraEstudo(bean.getHoraEstudo());
 		entidade.setTempoEstudado(bean.getTempoEstudado().getMillis());
 		entidade.setObservacao(bean.getObservacao());
@@ -30,8 +28,7 @@ public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 		return entidade;
 	}
 
-	public List<UsuarioEstudoMateriaHistoricoBean> convert(
-			List<UsuarioEstudoMateriaHistorico> entidades) {
+	public List<UsuarioEstudoMateriaHistoricoBean> convert(List<UsuarioEstudoMateriaHistorico> entidades) {
 		List<UsuarioEstudoMateriaHistoricoBean> beans = new ArrayList<>();
 
 		for (UsuarioEstudoMateriaHistorico entidade : entidades) {
@@ -41,13 +38,11 @@ public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 		return beans;
 	}
 
-	public UsuarioEstudoMateriaHistoricoBean convert(
-			UsuarioEstudoMateriaHistorico entidade) {
+	public UsuarioEstudoMateriaHistoricoBean convert(UsuarioEstudoMateriaHistorico entidade) {
 		UsuarioEstudoMateriaHistoricoBean bean = new UsuarioEstudoMateriaHistoricoBean();
 
 		bean.setId(entidade.getId());
-		bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaEntidadeConverter
-				.convert(entidade.getUsuarioEstudoMateria()));
+		bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaEntidadeConverter.convert(entidade.getUsuarioEstudoMateria()));
 		bean.setHoraEstudo(entidade.getHoraEstudo());
 		bean.setTempoEstudado(new Duration(entidade.getTempoEstudado()));
 		bean.setObservacao(entidade.getObservacao());

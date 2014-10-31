@@ -77,9 +77,7 @@ public class Signin {
 	@PostConstruct
 	private void init() {
 		try {
-			Reader reader = new FileReader(FacesContext.getCurrentInstance()
-					.getExternalContext().getRealPath("WEB-INF/")
-					+ "/client_secrets.json");
+			Reader reader = new FileReader(FacesContext.getCurrentInstance().getExternalContext().getRealPath("WEB-INF/") + "/client_secrets.json");
 			clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, reader);
 
 			clientId = clientSecrets.getWeb().getClientId();
@@ -98,9 +96,7 @@ public class Signin {
 			try {
 				// Upgrade the authorization code into an access and refresh
 				// token.
-				GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(
-						TRANSPORT, JSON_FACTORY, clientId, clientSecret, code,
-						"postmessage").execute();
+				GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(TRANSPORT, JSON_FACTORY, clientId, clientSecret, code, "postmessage").execute();
 
 				// You can read the Google user ID in the ID token.
 				// This sample does not use the user ID.
@@ -108,22 +104,17 @@ public class Signin {
 				// String gplusId = idToken.getPayload().getSubject();
 
 				// Build credential from stored token data.
-				GoogleCredential credential = new GoogleCredential.Builder()
-						.setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT)
-						.setClientSecrets(clientId, clientSecret).build()
+				GoogleCredential credential = new GoogleCredential.Builder().setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT).setClientSecrets(clientId, clientSecret).build()
 						.setFromTokenResponse(tokenResponse);
 
 				// Create a new authorized API client.
-				Plus service = new Plus.Builder(TRANSPORT, JSON_FACTORY,
-						credential).setApplicationName(APPLICATION_NAME)
-						.build();
+				Plus service = new Plus.Builder(TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
 
 				Person mePerson = service.people().get("me").execute();
 
 				for (Emails email : mePerson.getEmails()) {
 					if ("account".equals(email.getType())) {
-						UsuarioService usuarioService = this.loginUsuario
-								.autenticar(email.getValue());
+						UsuarioService usuarioService = this.loginUsuario.autenticar(email.getValue());
 						sessionAuth.setUsuario(usuarioService);
 						break;
 					}
@@ -135,8 +126,7 @@ public class Signin {
 				throw new Error("Failed to upgrade the authorization code.", e);
 			} catch (IOException e) {
 				e.printStackTrace();
-				throw new Error("Failed to read token data from Google. "
-						+ e.getMessage(), e);
+				throw new Error("Failed to read token data from Google. " + e.getMessage(), e);
 			} catch (EmailNaoEncontrado e) {
 				return "pages/forbidden";
 			}
@@ -150,23 +140,10 @@ public class Signin {
 		if (tokenData != null) {
 			try {
 				// Build credential from stored token data.
-				GoogleCredential credential = new GoogleCredential.Builder()
-						.setJsonFactory(JSON_FACTORY)
-						.setTransport(TRANSPORT)
-						.setClientSecrets(clientId, clientSecret)
-						.build()
-						.setFromTokenResponse(
-								JSON_FACTORY.fromString(tokenData,
-										GoogleTokenResponse.class));
+				GoogleCredential credential = new GoogleCredential.Builder().setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT).setClientSecrets(clientId, clientSecret).build()
+						.setFromTokenResponse(JSON_FACTORY.fromString(tokenData, GoogleTokenResponse.class));
 				// Execute HTTP GET request to revoke current token.
-				TRANSPORT
-						.createRequestFactory()
-						.buildGetRequest(
-								new GenericUrl(
-										String.format(
-												"https://accounts.google.com/o/oauth2/revoke?token=%s",
-												credential.getAccessToken())))
-						.execute();
+				TRANSPORT.createRequestFactory().buildGetRequest(new GenericUrl(String.format("https://accounts.google.com/o/oauth2/revoke?token=%s", credential.getAccessToken()))).execute();
 				// Reset the user's session.
 				sessionAuth.setToken(null);
 			} catch (IOException e) {

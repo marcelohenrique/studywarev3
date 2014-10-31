@@ -16,8 +16,7 @@ public class RemoverMateriaTest {
 
 	@Test
 	public void test() {
-		RemoverMateria removerMateria = new RemoverMateriaImpl(
-				this.materiaGateway);
+		RemoverMateria removerMateria = new RemoverMateriaImpl(this.materiaGateway);
 
 		MateriaBean materia = new MateriaBean();
 

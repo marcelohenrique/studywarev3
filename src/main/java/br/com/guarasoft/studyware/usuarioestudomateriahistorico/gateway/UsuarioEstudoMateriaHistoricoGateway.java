@@ -9,9 +9,7 @@ import br.com.guarasoft.studyware.usuarioestudomateriahistorico.bean.UsuarioEstu
 public interface UsuarioEstudoMateriaHistoricoGateway {
 	public void persist(UsuarioEstudoMateriaHistoricoBean materiaEstudada);
 
-	public List<UsuarioEstudoMateriaHistoricoBean> findAll(
-			UsuarioEstudoBean estudo);
+	public List<UsuarioEstudoMateriaHistoricoBean> findAll(UsuarioEstudoBean estudo);
 
-	List<ResumoMateriaEstudadaBean> buscaResumosMaterias(
-			UsuarioEstudoBean usuarioEstudoBean);
+	List<ResumoMateriaEstudadaBean> buscaResumosMaterias(UsuarioEstudoBean usuarioEstudoBean);
 }

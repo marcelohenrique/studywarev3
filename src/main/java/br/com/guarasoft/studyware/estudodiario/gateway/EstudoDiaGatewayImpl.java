@@ -11,8 +11,7 @@ import br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiario;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 
-public class EstudoDiaGatewayImpl extends AbstractDao<EstudoDiario, Long>
-		implements EstudoDiaGateway {
+public class EstudoDiaGatewayImpl extends AbstractDao<EstudoDiario, Long> implements EstudoDiaGateway {
 
 	@Inject
 	private EstudoDiarioEntidadeConverter estudoDiarioEntidadeConverter;
@@ -32,13 +31,10 @@ public class EstudoDiaGatewayImpl extends AbstractDao<EstudoDiario, Long>
 		sql.append(" GROUP BY date_trunc( 'day', uemh.horaEstudo ), extract( DOW FROM uemh.horaEstudo ), ued.tempoAlocado ");
 		sql.append(" ORDER BY date_trunc( 'day', uemh.horaEstudo ) ");
 
-		Query query = entityManager.createQuery(sql.toString(),
-				EstudoDiario.class);
-		List<EstudoDiario> entidades = query.setParameter(1, estudo.getId())
-				.getResultList();
+		Query query = entityManager.createQuery(sql.toString(), EstudoDiario.class);
+		List<EstudoDiario> entidades = query.setParameter(1, estudo.getId()).getResultList();
 
-		List<EstudoDiarioBean> beans = this.estudoDiarioEntidadeConverter
-				.convert(entidades);
+		List<EstudoDiarioBean> beans = this.estudoDiarioEntidadeConverter.convert(entidades);
 
 		return beans;
 	}
