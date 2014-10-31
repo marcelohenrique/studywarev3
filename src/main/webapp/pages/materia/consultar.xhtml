@@ -32,7 +32,7 @@
 						<h:outputText value="#{m.nome}" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText value="#{m.nome}" style="width:100%" label="Year" />
+						<p:inputText value="#{m.nome}" style="width:100%" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -42,8 +42,7 @@
 			</p:column>
 
 			<p:column style="width:32px;text-align: center">
-				<p:commandButton update="@form" icon="ui-icon-close" title="Remover" actionListener="#{materia.remover(m)}">
-				</p:commandButton>
+				<p:commandButton update="@form" icon="ui-icon-close" title="Remover" actionListener="#{materia.remover(m)}" />
 			</p:column>
 
 			<f:facet name="footer">

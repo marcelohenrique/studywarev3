@@ -1,12 +1,16 @@
 package br.com.guarasoft.studyware.materia.gateway.entidade;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import br.com.guarasoft.studyware.infra.dao.Entidade;
+import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 
 @Entity
 public class Materia implements Entidade {
@@ -19,6 +23,8 @@ public class Materia implements Entidade {
 	private Long id;
 	private String sigla;
 	private String nome;
+	@OneToMany(mappedBy = "pk.materia")
+	private List<UsuarioEstudoMateria> usuarioEstudoMaterias;
 
 	public Long getId() {
 		return id;

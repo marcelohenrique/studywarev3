@@ -10,10 +10,10 @@ import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
 import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
+import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 
 @Stateless
-public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements
-		MateriaGateway {
+public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements MateriaGateway {
 
 	@Inject
 	private MateriaEntidadeConverter converter;
@@ -24,21 +24,39 @@ public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements
 
 	@Override
 	public List<MateriaBean> buscaMaterias() {
-		TypedQuery<Materia> typedQuery = entityManager.createQuery(
-				"from Materia m order by m.sigla", Materia.class);
+		TypedQuery<Materia> typedQuery = this.entityManager.createQuery("from Materia m order by m.sigla", Materia.class);
 
-		List<Materia> materias = typedQuery.getResultList();
+		List<Materia> entidades = typedQuery.getResultList();
 
-		List<MateriaBean> materiasBean = this.converter.convert(materias);
+		List<MateriaBean> beans = this.converter.convert(entidades);
 
-		return materiasBean;
+		return beans;
+	}
+
+	@Override
+	public List<MateriaBean> buscaMateriasRestantes(UsuarioEstudoBean usuarioEstudoBean) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select m from Materia m ");
+		sql.append(" where not exists ( ");
+		sql.append("select 1 from UsuarioEstudoMateria uem ");
+		sql.append("  join uem.pk.materia mt ");
+		sql.append(" where uem.pk.usuarioEstudo.id = :usuarioEstudo ");
+		sql.append("   and mt.id = m.id ) ");
+
+		TypedQuery<Materia> typedQuery = this.entityManager.createQuery(sql.toString(), Materia.class);
+		typedQuery.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
+
+		List<Materia> entidades = typedQuery.getResultList();
+
+		List<MateriaBean> beans = this.converter.convert(entidades);
+
+		return beans;
 	}
 
 	@Override
 	public void cadastrar(MateriaBean materiaBean) {
 		Materia materia = this.converter.convert(materiaBean);
 
-		// this.entityManager.persist(materia);
 		this.persist(materia);
 	}
 
@@ -46,7 +64,6 @@ public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements
 	public void alterar(MateriaBean materiaBean) {
 		Materia materia = this.converter.convert(materiaBean);
 
-		// this.entityManager.merge(materia);
 		this.merge(materia);
 	}
 

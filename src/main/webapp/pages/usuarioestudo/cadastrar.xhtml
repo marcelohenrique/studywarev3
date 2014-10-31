@@ -9,26 +9,26 @@
 
 	<ui:define name="main">
 
-		<p:wizard flowListener="#{estudoUsuario.onFlowProcess}">
+		<p:wizard flowListener="#{usuarioEstudo.onFlowProcess}">
 			<p:tab id="estudo" title="Estudo">
 				<p:panel>
 					<p:panelGrid columns="2">
 						<p:outputLabel for="nome" value="Nome:" />
-						<p:inputText id="nome" required="true" value="#{estudoUsuario.nome}" />
+						<p:inputText id="nome" required="true" value="#{usuarioEstudo.bean.nome}" />
 						<p:outputLabel for="fim" value="Fim:" />
-						<p:calendar id="fim" mindate="calwidget.today()" value="#{estudoUsuario.fim}" />
+						<p:calendar id="fim" mindate="calwidget.today()" value="#{usuarioEstudo.bean.fim}" />
 					</p:panelGrid>
 				</p:panel>
 			</p:tab>
 			<p:tab id="materias" title="Matérias">
 				<p:panel>
-					<p:pickList value="#{estudoUsuario.materias}" var="m" itemLabel="#{m.nome}" itemValue="#{m}" />
+					<p:pickList value="#{usuarioEstudo.materias}" var="m" itemLabel="#{m.nome}" itemValue="#{m}" />
 				</p:panel>
 			</p:tab>
 			<p:tab id="horas" title="Horas">
 				<p:panel>
 				asdf
-					<p:commandButton value="Cadastrar" action="#{estudoUsuario.cadastrar()}" update="@form" />
+					<p:commandButton value="Cadastrar" action="#{usuarioEstudo.cadastrar()}" update="@form" />
 				</p:panel>
 			</p:tab>
 		</p:wizard>

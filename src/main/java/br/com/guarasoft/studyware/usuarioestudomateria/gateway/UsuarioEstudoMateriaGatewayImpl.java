@@ -15,9 +15,7 @@ import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.Usuario
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateriaPK;
 
-public class UsuarioEstudoMateriaGatewayImpl extends
-		AbstractDao<UsuarioEstudoMateria, UsuarioEstudoMateriaPK> implements
-		UsuarioEstudoMateriaGateway {
+public class UsuarioEstudoMateriaGatewayImpl extends AbstractDao<UsuarioEstudoMateria, UsuarioEstudoMateriaPK> implements UsuarioEstudoMateriaGateway {
 
 	public UsuarioEstudoMateriaGatewayImpl() {
 		super(UsuarioEstudoMateria.class);
@@ -31,37 +29,52 @@ public class UsuarioEstudoMateriaGatewayImpl extends
 	private MateriaEntidadeConverter materiaEntidadeConverter;
 
 	@Override
-	public UsuarioEstudoMateriaBean find(UsuarioEstudoBean usuarioEstudoBean,
-			MateriaBean materiaBean) {
+	public UsuarioEstudoMateriaBean find(UsuarioEstudoBean usuarioEstudoBean, MateriaBean materiaBean) {
 		UsuarioEstudoMateriaPK pk = new UsuarioEstudoMateriaPK();
-		pk.setUsuarioEstudo(this.usuarioEstudoEntidadeConverter
-				.convert(usuarioEstudoBean));
+		pk.setUsuarioEstudo(this.usuarioEstudoEntidadeConverter.convert(usuarioEstudoBean));
 		pk.setMateria(this.materiaEntidadeConverter.convert(materiaBean));
 
-		UsuarioEstudoMateria entidade = this.entityManager.find(
-				UsuarioEstudoMateria.class, pk);
+		UsuarioEstudoMateria entidade = this.entityManager.find(UsuarioEstudoMateria.class, pk);
 
-		UsuarioEstudoMateriaBean bean = this.usuarioEstudoMateriaEntidadeConverter
-				.convert(entidade);
+		UsuarioEstudoMateriaBean bean = this.usuarioEstudoMateriaEntidadeConverter.convert(entidade);
 
 		return bean;
 	}
 
 	@Override
-	public List<UsuarioEstudoMateriaBean> findAll(
-			UsuarioEstudoBean usuarioEstudoBean) {
+	public List<UsuarioEstudoMateriaBean> buscaPorUsuarioEstudo(UsuarioEstudoBean usuarioEstudoBean) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" from UsuarioEstudoMateria uem ");
 		sql.append("where uem.usuarioEstudoMateriaPK.usuarioEstudo.id = :usuarioEstudo");
 
-		Query query = this.entityManager.createQuery(sql.toString(),
-				UsuarioEstudoMateria.class);
+		Query query = this.entityManager.createQuery(sql.toString(), UsuarioEstudoMateria.class);
 		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
 		List<UsuarioEstudoMateria> entidades = query.getResultList();
 
-		List<UsuarioEstudoMateriaBean> beans = this.usuarioEstudoMateriaEntidadeConverter
-				.converteEntidadesParaBeans(entidades);
+		List<UsuarioEstudoMateriaBean> beans = this.usuarioEstudoMateriaEntidadeConverter.convert(usuarioEstudoBean, entidades);
 
 		return beans;
 	}
+
+//	@Override
+//	public List<UsuarioEstudoMateriaBean> buscaTodos(UsuarioEstudoBean usuarioEstudoBean) {
+//		StringBuilder sql = new StringBuilder();
+//		// sql.append("FROM Materia m ");
+//		// sql.append("  LEFT OUTER JOIN m.usuarioEstudoMaterias uem ");
+//		// sql.append("  WITH uem.pk.usuarioEstudo.id = :usuarioEstudo ");
+//		sql.append("SELECT * FROM MATERIA M ");
+//		sql.append("  LEFT JOIN USUARIOESTUDOMATERIA UEM ");
+//		sql.append("    ON M.ID = UEM.MATERIA ");
+//		sql.append("   AND UEM.USUARIOESTUDO = 1001 ");
+//
+//		// Query query = this.entityManager.createQuery(sql.toString(),
+//		// UsuarioEstudoMateria.class);
+//		Query query = this.entityManager.createNativeQuery(sql.toString(), UsuarioEstudoMateria.class);
+////		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
+//		List<UsuarioEstudoMateria> entidades = query.getResultList();
+//
+//		List<UsuarioEstudoMateriaBean> beans = this.usuarioEstudoMateriaEntidadeConverter.convert(usuarioEstudoBean, entidades);
+//
+//		return beans;
+//	}
 }

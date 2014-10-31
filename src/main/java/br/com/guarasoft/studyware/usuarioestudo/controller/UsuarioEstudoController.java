@@ -1,7 +1,6 @@
 package br.com.guarasoft.studyware.usuarioestudo.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -9,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -22,14 +22,17 @@ import org.primefaces.model.DualListModel;
 
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
+import br.com.guarasoft.studyware.menu.controller.MenuController;
 import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudo;
 import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudoImpl;
 import br.com.guarasoft.studyware.usuarioestudo.excecao.UsuarioEstudoJaExiste;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
+import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
+import br.com.guarasoft.studyware.usuarioestudomateria.gateway.UsuarioEstudoMateriaGateway;
 
-@ManagedBean(name = "estudoUsuario")
+@ManagedBean(name = "usuarioEstudo")
 @ViewScoped
 @Data
 public class UsuarioEstudoController {
@@ -38,10 +41,17 @@ public class UsuarioEstudoController {
 	@Getter(AccessLevel.PRIVATE)
 	@Setter(AccessLevel.PRIVATE)
 	private UsuarioEstudoGateway usuarioEstudoGateway;
+
+	@Inject
+	@Getter(AccessLevel.PRIVATE)
+	@Setter(AccessLevel.PRIVATE)
+	private UsuarioEstudoMateriaGateway usuarioEstudoMateriaGateway;
+
 	@Inject
 	@Getter(AccessLevel.PRIVATE)
 	@Setter(AccessLevel.PRIVATE)
 	private MateriaGateway materiaGateway;
+
 	@Getter(AccessLevel.PRIVATE)
 	@Setter(AccessLevel.PRIVATE)
 	private CadastrarUsuarioEstudo cadastrarUsuarioEstudo;
@@ -50,18 +60,37 @@ public class UsuarioEstudoController {
 	@Getter(AccessLevel.PRIVATE)
 	private UsuarioService usuarioService;
 
-	private String nome;
-	private Date fim;
 	private DualListModel<MateriaBean> materias;
+
+	private List<UsuarioEstudoBean> estudos;
+
+	private UsuarioEstudoBean bean;
 
 	@PostConstruct
 	private void init() {
-		this.cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(
-				this.usuarioEstudoGateway);
+		this.cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(this.usuarioEstudoGateway);
 
-		List<MateriaBean> materias = this.materiaGateway.buscaMaterias();
-		this.materias = new DualListModel<>(materias,
-				new ArrayList<MateriaBean>());
+		List<MateriaBean> materiasRestantes;
+		List<MateriaBean> materiasUsuario = new ArrayList<>();
+
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		this.bean = (UsuarioEstudoBean) ec.getFlash().get("usuarioEstudo");
+		if (this.bean == null) {
+			this.bean = new UsuarioEstudoBean();
+			this.bean.setEmail(this.usuarioService.getEmail());
+
+			materiasRestantes = this.materiaGateway.buscaMaterias();
+		} else {
+			materiasRestantes = this.materiaGateway.buscaMateriasRestantes(this.bean);
+
+			for (UsuarioEstudoMateriaBean usuarioEstudoMateriaBean : this.bean.getMaterias()) {
+				materiasUsuario.add(usuarioEstudoMateriaBean.getMateriaBean());
+			}
+		}
+
+		this.materias = new DualListModel<>(materiasRestantes, materiasUsuario);
+
+		this.estudos = this.usuarioEstudoGateway.recuperaEstudos(this.usuarioService.getEmail());
 	}
 
 	public String onFlowProcess(FlowEvent event) {
@@ -71,18 +100,18 @@ public class UsuarioEstudoController {
 	public void cadastrar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			UsuarioEstudoBean usuarioEstudoBean = new UsuarioEstudoBean();
-			usuarioEstudoBean.setEmail(this.usuarioService.getEmail());
-			usuarioEstudoBean.setNome(this.nome);
-			usuarioEstudoBean.setFim(this.fim);
-
-			this.cadastrarUsuarioEstudo.execute(usuarioEstudoBean);
-			context.addMessage(null, new FacesMessage("Sucesso",
-					"Estudo cadastrado"));
+			this.cadastrarUsuarioEstudo.execute(this.bean);
+			context.addMessage(null, new FacesMessage("Sucesso", "Estudo cadastrado"));
 		} catch (UsuarioEstudoJaExiste e) {
-			context.addMessage(null, new FacesMessage("Falha",
-					"Estudo já exite"));
+			context.addMessage(null, new FacesMessage("Falha", "Estudo já exite"));
 		}
+	}
+
+	public String alterar(UsuarioEstudoBean usuarioEstudoBean) {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		ec.getFlash().put("usuarioEstudo", usuarioEstudoBean);
+
+		return new MenuController().cadastrarUsuarioEstudo();
 	}
 
 }

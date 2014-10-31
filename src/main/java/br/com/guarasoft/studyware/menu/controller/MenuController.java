@@ -9,12 +9,16 @@ public class MenuController {
 		return "/pages/main";
 	}
 
-	public String cadastrarUsuario() {
-		return "/pages/usuario/cadastrar";
+	public String cadastrarUsuarioEstudo() {
+		return "/pages/usuarioestudo/cadastrar";
 	}
 
-	public String cadastrarEstudoUsuario() {
-		return "/pages/estudousuario/cadastrar";
+	public String consultarUsuarioEstudo() {
+		return "/pages/usuarioestudo/consultar";
+	}
+
+	public String cadastrarUsuario() {
+		return "/pages/usuario/cadastrar";
 	}
 
 	public String cadastrarMateria() {

@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import lombok.Data;
 import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
@@ -22,7 +21,7 @@ public class UsuarioEstudoMateriaPK implements Serializable {
 	private UsuarioEstudo usuarioEstudo;
 
 	@JoinColumn(name = "materia", referencedColumnName = "id")
-	@OneToOne
+	@ManyToOne
 	private Materia materia;
 
 }

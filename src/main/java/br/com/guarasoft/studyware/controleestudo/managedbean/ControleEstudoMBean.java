@@ -214,7 +214,7 @@ public class ControleEstudoMBean implements Serializable {
 
 	public void listaEstudoMaterias() {
 		usuarioEstudoMaterias = usuarioEstudoMateriaGateway
-				.findAll(estudoSelecionado);
+				.buscaPorUsuarioEstudo(estudoSelecionado);
 		atualiza();
 	}
 }
