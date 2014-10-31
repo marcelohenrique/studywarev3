@@ -60,7 +60,7 @@ public class UsuarioEstudoController {
 	@Getter(AccessLevel.PRIVATE)
 	private UsuarioService usuarioService;
 
-	private DualListModel<MateriaBean> materias;
+	private DualListModel<UsuarioEstudoMateriaBean> materias;
 
 	private List<UsuarioEstudoBean> estudos;
 
@@ -71,7 +71,7 @@ public class UsuarioEstudoController {
 		this.cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(this.usuarioEstudoGateway);
 
 		List<MateriaBean> materiasRestantes;
-		List<MateriaBean> materiasUsuario = new ArrayList<>();
+		List<UsuarioEstudoMateriaBean> materiasUsuario;
 
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 		this.bean = (UsuarioEstudoBean) ec.getFlash().get("usuarioEstudo");
@@ -80,20 +80,33 @@ public class UsuarioEstudoController {
 			this.bean.setEmail(this.usuarioService.getEmail());
 
 			materiasRestantes = this.materiaGateway.buscaMaterias();
+
+			materiasUsuario = new ArrayList<>();
 		} else {
 			materiasRestantes = this.materiaGateway.buscaMateriasRestantes(this.bean);
 
-			for (UsuarioEstudoMateriaBean usuarioEstudoMateriaBean : this.bean.getMaterias()) {
-				materiasUsuario.add(usuarioEstudoMateriaBean.getMateriaBean());
-			}
+			materiasUsuario = this.bean.getMaterias();
 		}
 
-		this.materias = new DualListModel<>(materiasRestantes, materiasUsuario);
+		List<UsuarioEstudoMateriaBean> usuarioEstudoMateriasRestantes = new ArrayList<>();
+
+		for (MateriaBean materiaBean : materiasRestantes) {
+			UsuarioEstudoMateriaBean usuarioEstudoMateriaBean = new UsuarioEstudoMateriaBean();
+			usuarioEstudoMateriaBean.setUsuarioEstudoBean(this.bean);
+			usuarioEstudoMateriaBean.setMateriaBean(materiaBean);
+			usuarioEstudoMateriasRestantes.add(usuarioEstudoMateriaBean);
+		}
+
+		this.materias = new DualListModel<>(usuarioEstudoMateriasRestantes, materiasUsuario);
 
 		this.estudos = this.usuarioEstudoGateway.recuperaEstudos(this.usuarioService.getEmail());
 	}
 
 	public String onFlowProcess(FlowEvent event) {
+		// String newStep = event.getNewStep();
+		// if ("horas".equals(newStep)) {
+		// }
+		// return newStep;
 		return event.getNewStep();
 	}
 

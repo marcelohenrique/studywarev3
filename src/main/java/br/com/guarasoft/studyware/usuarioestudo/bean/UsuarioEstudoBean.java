@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
+import lombok.ToString;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 
 @Data
+@ToString(exclude = { "materias" })
 public class UsuarioEstudoBean {
 
 	private Long id;
