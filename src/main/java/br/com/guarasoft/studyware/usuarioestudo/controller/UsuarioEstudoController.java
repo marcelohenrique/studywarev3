@@ -21,10 +21,12 @@ import lombok.Setter;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.model.DualListModel;
 
+import br.com.guarasoft.studyware.controller.converter.DurationConverter;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 import br.com.guarasoft.studyware.menu.controller.MenuController;
 import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
+import br.com.guarasoft.studyware.usuarioestudo.bean.MateriaCicloBean;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudo;
 import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudoImpl;
@@ -69,6 +71,11 @@ public class UsuarioEstudoController implements Serializable {
 
 	private UsuarioEstudoBean bean;
 
+	private List<MateriaCicloBean> ciclo;
+
+	@Inject
+	private DurationConverter durationConverter;
+
 	@PostConstruct
 	private void init() {
 		this.cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(this.usuarioEstudoGateway);
@@ -106,11 +113,21 @@ public class UsuarioEstudoController implements Serializable {
 	}
 
 	public String onFlowProcess(FlowEvent event) {
-		// String newStep = event.getNewStep();
-		// if ("horas".equals(newStep)) {
-		// }
-		// return newStep;
-		return event.getNewStep();
+		String newStep = event.getNewStep();
+		if ("ciclo".equals(newStep)) {
+			this.ciclo = new ArrayList<>();
+
+			MateriaCicloBean materiaCiclo = null;
+			for (UsuarioEstudoMateriaBean materia : this.bean.getMaterias()) {
+				materiaCiclo = new MateriaCicloBean();
+
+				materiaCiclo.setMateria(materia);
+				materiaCiclo.setTempoAlocado(durationConverter.toDate(materia.getTempoAlocado()));
+
+				this.ciclo.add(materiaCiclo);
+			}
+		}
+		return newStep;
 	}
 
 	public void cadastrar() {

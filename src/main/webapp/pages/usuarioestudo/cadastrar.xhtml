@@ -30,15 +30,15 @@
 			</p:tab>
 			<p:tab id="ciclo" title="Ciclo">
 				<p:panel>
-					<p:dataTable value="#{usuarioEstudo.bean.materias}" var="m"
+					<p:dataTable value="#{usuarioEstudo.ciclo}" var="m"
 						style="margin-bottom:20px">
 
 						<p:column headerText="Nome">
-							<h:outputText value="#{m.materiaBean.nome}" />
+							<h:outputText value="#{m.materia.materiaBean.nome}" />
 						</p:column>
 
 						<p:column headerText="Tempo">
-							<p:calendar value="#{m.tempoAlocadoDate}" pattern="HH:mm" timeOnly="true" />
+							<p:calendar value="#{m.tempoAlocado}" pattern="HH:mm" timeOnly="true" required="true" />
 						</p:column>
 
 					</p:dataTable>
