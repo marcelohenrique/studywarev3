@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.joda.time.Duration;
 
@@ -39,13 +40,14 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 	public List<UsuarioEstudoMateriaHistoricoBean> findAll(UsuarioEstudoBean estudo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" FROM UsuarioEstudoMateriaHistorico uemh ");
-		sql.append("WHERE uemh.usuarioEstudoMateria.usuarioEstudoMateriaPK.usuarioEstudo.id = :usuarioEstudo ");
+		sql.append("WHERE uemh.usuarioEstudoMateria.pk.usuarioEstudo.id = :usuarioEstudo ");
 		sql.append("ORDER BY uemh.horaEstudo DESC");
 
-		List<UsuarioEstudoMateriaHistorico> entidades = this.entityManager.createQuery(sql.toString(), UsuarioEstudoMateriaHistorico.class).setParameter("usuarioEstudo", estudo.getId())
-				.getResultList();
+		TypedQuery<UsuarioEstudoMateriaHistorico> query = this.entityManager.createQuery(sql.toString(), UsuarioEstudoMateriaHistorico.class);
+		query.setParameter("usuarioEstudo", estudo.getId());
+		List<UsuarioEstudoMateriaHistorico> entidades = query.getResultList();
 
-		List<UsuarioEstudoMateriaHistoricoBean> beans = this.usuarioEstudoMateriaHistoricoEntidadeConverter.convert(entidades);
+		List<UsuarioEstudoMateriaHistoricoBean> beans = this.usuarioEstudoMateriaHistoricoEntidadeConverter.convert(estudo, entidades);
 
 		return beans;
 	}
@@ -56,9 +58,9 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 		sql.append("SELECT new br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.ResumoMateriaEstudada( uem, SUM( uemh.tempoEstudado ) ) ");
 		sql.append("  FROM UsuarioEstudoMateriaHistorico uemh ");
 		sql.append("  LEFT OUTER JOIN uemh.usuarioEstudoMateria uem ");
-		sql.append(" WHERE uem.usuarioEstudoMateriaPK.usuarioEstudo.id = :usuarioEstudo ");
-		sql.append(" GROUP BY uem.usuarioEstudoMateriaPK.usuarioEstudo, ");
-		sql.append("       uem.usuarioEstudoMateriaPK.materia ");
+		sql.append(" WHERE uem.pk.usuarioEstudo.id = :usuarioEstudo ");
+		sql.append(" GROUP BY uem.pk.usuarioEstudo, ");
+		sql.append("       uem.pk.materia ");
 		sql.append(" ORDER BY uem.ordem ");
 
 		Query query = this.entityManager.createQuery(sql.toString(), ResumoMateriaEstudada.class);
@@ -70,7 +72,7 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 		ResumoMateriaEstudadaBean bean = null;
 		for (ResumoMateriaEstudada entidade : entidades) {
 			bean = new ResumoMateriaEstudadaBean();
-			bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaEntidadeConverter.convert(entidade.getUsuarioEstudoMateria()));
+			bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaEntidadeConverter.convert(usuarioEstudoBean, entidade.getUsuarioEstudoMateria()));
 			bean.setSomaTempo(new Duration(entidade.getSomaTempo()));
 
 			beans.add(bean);

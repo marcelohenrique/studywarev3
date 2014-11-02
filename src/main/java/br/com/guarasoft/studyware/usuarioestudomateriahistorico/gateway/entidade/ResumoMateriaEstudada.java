@@ -9,7 +9,6 @@ import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioE
 public class ResumoMateriaEstudada {
 
 	private UsuarioEstudoMateria usuarioEstudoMateria;
-
 	private Long somaTempo;
 
 }

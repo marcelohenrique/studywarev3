@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.joda.time.Duration;
 
+import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaEntidadeConverter;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.bean.UsuarioEstudoMateriaHistoricoBean;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.UsuarioEstudoMateriaHistorico;
@@ -28,26 +29,26 @@ public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 		return entidade;
 	}
 
-	public List<UsuarioEstudoMateriaHistoricoBean> convert(List<UsuarioEstudoMateriaHistorico> entidades) {
-		List<UsuarioEstudoMateriaHistoricoBean> beans = new ArrayList<>();
-
-		for (UsuarioEstudoMateriaHistorico entidade : entidades) {
-			beans.add(this.convert(entidade));
-		}
-
-		return beans;
-	}
-
-	public UsuarioEstudoMateriaHistoricoBean convert(UsuarioEstudoMateriaHistorico entidade) {
+	public UsuarioEstudoMateriaHistoricoBean convert(UsuarioEstudoBean beanPai, UsuarioEstudoMateriaHistorico entidade) {
 		UsuarioEstudoMateriaHistoricoBean bean = new UsuarioEstudoMateriaHistoricoBean();
 
 		bean.setId(entidade.getId());
-		bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaEntidadeConverter.convert(entidade.getUsuarioEstudoMateria()));
+		bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaEntidadeConverter.convert(beanPai, entidade.getUsuarioEstudoMateria()));
 		bean.setHoraEstudo(entidade.getHoraEstudo());
 		bean.setTempoEstudado(new Duration(entidade.getTempoEstudado()));
 		bean.setObservacao(entidade.getObservacao());
 
 		return bean;
+	}
+
+	public List<UsuarioEstudoMateriaHistoricoBean> convert(UsuarioEstudoBean beanPai, List<UsuarioEstudoMateriaHistorico> entidades) {
+		List<UsuarioEstudoMateriaHistoricoBean> beans = new ArrayList<>();
+
+		for (UsuarioEstudoMateriaHistorico entidade : entidades) {
+			beans.add(this.convert(beanPai, entidade));
+		}
+
+		return beans;
 	}
 
 }

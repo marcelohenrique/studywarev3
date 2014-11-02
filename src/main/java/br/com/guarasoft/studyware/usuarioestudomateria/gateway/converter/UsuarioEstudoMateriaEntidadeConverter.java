@@ -24,18 +24,18 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 	@Inject
 	private MateriaEntidadeConverter materiaEntidadeConverter;
 
-	public UsuarioEstudoMateriaBean convert(UsuarioEstudoMateria entidade) {
-		UsuarioEstudoMateriaBean bean = new UsuarioEstudoMateriaBean();
+	// public UsuarioEstudoMateriaBean convert(UsuarioEstudoMateria entidade) {
+	// UsuarioEstudoMateriaBean bean = new UsuarioEstudoMateriaBean();
+	//
+	// bean.setUsuarioEstudoBean(this.usuarioEstudoEntidadeConverter.convert(entidade.getPk().getUsuarioEstudo()));
+	// bean.setMateriaBean(this.materiaEntidadeConverter.convert(entidade.getPk().getMateria()));
+	// bean.setTempoAlocado(new Duration(entidade.getTempoAlocado()));
+	// bean.setOrdem(entidade.getOrdem());
+	//
+	// return bean;
+	// }
 
-		bean.setUsuarioEstudoBean(this.usuarioEstudoEntidadeConverter.convert(entidade.getPk().getUsuarioEstudo()));
-		bean.setMateriaBean(this.materiaEntidadeConverter.convert(entidade.getPk().getMateria()));
-		bean.setTempoAlocado(new Duration(entidade.getTempoAlocado()));
-		bean.setOrdem(entidade.getOrdem());
-
-		return bean;
-	}
-
-	private UsuarioEstudoMateriaBean convert(UsuarioEstudoBean beanPai, UsuarioEstudoMateria entidade) {
+	public UsuarioEstudoMateriaBean convert(UsuarioEstudoBean beanPai, UsuarioEstudoMateria entidade) {
 		UsuarioEstudoMateriaBean bean = new UsuarioEstudoMateriaBean();
 
 		bean.setUsuarioEstudoBean(beanPai);

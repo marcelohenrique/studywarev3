@@ -36,7 +36,7 @@ public class UsuarioEstudoMateriaGatewayImpl extends AbstractDao<UsuarioEstudoMa
 
 		UsuarioEstudoMateria entidade = this.entityManager.find(UsuarioEstudoMateria.class, pk);
 
-		UsuarioEstudoMateriaBean bean = this.usuarioEstudoMateriaEntidadeConverter.convert(entidade);
+		UsuarioEstudoMateriaBean bean = this.usuarioEstudoMateriaEntidadeConverter.convert(usuarioEstudoBean, entidade);
 
 		return bean;
 	}
@@ -45,7 +45,7 @@ public class UsuarioEstudoMateriaGatewayImpl extends AbstractDao<UsuarioEstudoMa
 	public List<UsuarioEstudoMateriaBean> buscaPorUsuarioEstudo(UsuarioEstudoBean usuarioEstudoBean) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" from UsuarioEstudoMateria uem ");
-		sql.append("where uem.usuarioEstudoMateriaPK.usuarioEstudo.id = :usuarioEstudo");
+		sql.append("where uem.pk.usuarioEstudo.id = :usuarioEstudo");
 
 		Query query = this.entityManager.createQuery(sql.toString(), UsuarioEstudoMateria.class);
 		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());

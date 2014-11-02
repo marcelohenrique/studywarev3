@@ -25,8 +25,8 @@ public class EstudoDiaGatewayImpl extends AbstractDao<EstudoDiario, Long> implem
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT new br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiario( date_trunc( 'day', uemh.horaEstudo ), extract( DOW FROM uemh.horaEstudo ), ued.tempoAlocado, SUM( uemh.tempoEstudado ) ) ");
 		sql.append("  FROM UsuarioEstudoMateriaHistorico uemh ");
-		sql.append("  LEFT OUTER JOIN uemh.usuarioEstudoMateria.usuarioEstudoMateriaPK.usuarioEstudo.usuarioEstudoDiarios ued ");
-		sql.append(" WHERE uemh.usuarioEstudoMateria.usuarioEstudoMateriaPK.usuarioEstudo.id = ? ");
+		sql.append("  LEFT OUTER JOIN uemh.usuarioEstudoMateria.pk.usuarioEstudo.usuarioEstudoDiarios ued ");
+		sql.append(" WHERE uemh.usuarioEstudoMateria.pk.usuarioEstudo.id = ? ");
 		sql.append("   AND ued.pk.dia = extract( DOW FROM uemh.horaEstudo ) ");
 		sql.append(" GROUP BY date_trunc( 'day', uemh.horaEstudo ), extract( DOW FROM uemh.horaEstudo ), ued.tempoAlocado ");
 		sql.append(" ORDER BY date_trunc( 'day', uemh.horaEstudo ) ");

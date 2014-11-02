@@ -1,5 +1,6 @@
 package br.com.guarasoft.studyware.usuarioestudo.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,9 @@ import br.com.guarasoft.studyware.usuarioestudomateria.gateway.UsuarioEstudoMate
 @ManagedBean(name = "usuarioEstudo")
 @ViewScoped
 @Data
-public class UsuarioEstudoController {
+public class UsuarioEstudoController implements Serializable {
+
+	private static final long serialVersionUID = -2586448860897763084L;
 
 	@Inject
 	@Getter(AccessLevel.PRIVATE)

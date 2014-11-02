@@ -10,6 +10,7 @@
 	<ui:define name="main">
 
 		<p:dataTable id="estudos" var="e" value="#{usuarioEstudo.estudos}" style="margin-bottom:20px">
+						<!-- selection="#{usuarioEstudo.bean}" selectionMode="single" rowKey="#{e.id}"> -->
 			<f:facet name="header">Estudos</f:facet>
 
 			<p:column headerText="Nome">
