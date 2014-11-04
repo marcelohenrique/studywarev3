@@ -4,18 +4,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
-import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.converter.UsuarioEstudoEntidadeConverter;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaEntidadeConverter;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
-import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateriaPK;
 
-public class UsuarioEstudoMateriaGatewayImpl extends AbstractDao<UsuarioEstudoMateria, UsuarioEstudoMateriaPK> implements UsuarioEstudoMateriaGateway {
+public class UsuarioEstudoMateriaGatewayImpl extends AbstractDao<UsuarioEstudoMateria, Long> implements UsuarioEstudoMateriaGateway {
 
 	public UsuarioEstudoMateriaGatewayImpl() {
 		super(UsuarioEstudoMateria.class);
@@ -23,18 +21,20 @@ public class UsuarioEstudoMateriaGatewayImpl extends AbstractDao<UsuarioEstudoMa
 
 	@Inject
 	private UsuarioEstudoMateriaEntidadeConverter usuarioEstudoMateriaEntidadeConverter;
-	@Inject
-	private UsuarioEstudoEntidadeConverter usuarioEstudoEntidadeConverter;
-	@Inject
-	private MateriaEntidadeConverter materiaEntidadeConverter;
 
 	@Override
 	public UsuarioEstudoMateriaBean find(UsuarioEstudoBean usuarioEstudoBean, MateriaBean materiaBean) {
-		UsuarioEstudoMateriaPK pk = new UsuarioEstudoMateriaPK();
-		pk.setUsuarioEstudo(this.usuarioEstudoEntidadeConverter.convert(usuarioEstudoBean));
-		pk.setMateria(this.materiaEntidadeConverter.convert(materiaBean));
+		StringBuilder sql = new StringBuilder();
+		sql.append(" FROM UsuarioEstudoMateria uem ");
+		sql.append("WHERE uem.usuarioEstudo.id = :usuarioEstudo ");
+		sql.append("  AND uem.materia.id = :materia ");
 
-		UsuarioEstudoMateria entidade = this.entityManager.find(UsuarioEstudoMateria.class, pk);
+		TypedQuery<UsuarioEstudoMateria> query = this.entityManager.createQuery(sql.toString(), UsuarioEstudoMateria.class);
+
+		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
+		query.setParameter("materia", materiaBean.getId());
+
+		UsuarioEstudoMateria entidade = query.getSingleResult();
 
 		UsuarioEstudoMateriaBean bean = this.usuarioEstudoMateriaEntidadeConverter.convert(usuarioEstudoBean, entidade);
 
@@ -45,7 +45,7 @@ public class UsuarioEstudoMateriaGatewayImpl extends AbstractDao<UsuarioEstudoMa
 	public List<UsuarioEstudoMateriaBean> buscaPorUsuarioEstudo(UsuarioEstudoBean usuarioEstudoBean) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" from UsuarioEstudoMateria uem ");
-		sql.append("where uem.pk.usuarioEstudo.id = :usuarioEstudo");
+		sql.append("where uem.usuarioEstudo.id = :usuarioEstudo");
 
 		Query query = this.entityManager.createQuery(sql.toString(), UsuarioEstudoMateria.class);
 		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());

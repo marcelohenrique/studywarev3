@@ -8,7 +8,10 @@ import lombok.Data;
 @Entity
 @Data
 public class UsuarioEstudoDiario {
+
 	@EmbeddedId
 	private UsuarioEstudoDiarioPK pk;
+
 	private Long tempoAlocado;
+
 }

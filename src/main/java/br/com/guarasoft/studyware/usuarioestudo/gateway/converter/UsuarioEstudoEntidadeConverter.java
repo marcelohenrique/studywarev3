@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import br.com.guarasoft.studyware.estudodiario.gateway.converter.UsuarioEstudoDiarioEntidadeConverter;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaEntidadeConverter;
@@ -15,6 +16,8 @@ public class UsuarioEstudoEntidadeConverter {
 
 	@Inject
 	private UsuarioEstudoMateriaEntidadeConverter usuarioEstudoMateriaEntidadeConverter;
+	@Inject
+	private UsuarioEstudoDiarioEntidadeConverter estudoDiarioConverter;
 
 	public UsuarioEstudoBean convert(UsuarioEstudo entidade) {
 		UsuarioEstudoBean bean = new UsuarioEstudoBean();
@@ -25,6 +28,7 @@ public class UsuarioEstudoEntidadeConverter {
 		bean.setFim(entidade.getFim());
 
 		bean.setMaterias(this.usuarioEstudoMateriaEntidadeConverter.convert(bean, entidade.getMaterias()));
+		bean.setDias(this.estudoDiarioConverter.convert(bean, entidade.getUsuarioEstudoDiarios()));
 
 		return bean;
 	}
@@ -38,6 +42,7 @@ public class UsuarioEstudoEntidadeConverter {
 		entidade.setFim(bean.getFim());
 
 		entidade.setMaterias(this.usuarioEstudoMateriaEntidadeConverter.convert(entidade, bean.getMaterias()));
+		entidade.setUsuarioEstudoDiarios(this.estudoDiarioConverter.convert(entidade, bean.getDias()));
 
 		return entidade;
 	}

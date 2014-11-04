@@ -7,9 +7,9 @@ import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 
 public interface UsuarioEstudoMateriaGateway {
+
 	public UsuarioEstudoMateriaBean find(UsuarioEstudoBean usuarioEstudoBean, MateriaBean materiaBean);
 
 	public List<UsuarioEstudoMateriaBean> buscaPorUsuarioEstudo(UsuarioEstudoBean estudo);
-	// public List<UsuarioEstudoMateriaBean> buscaTodos(UsuarioEstudoBean
-	// usuarioEstudoBean);
+
 }

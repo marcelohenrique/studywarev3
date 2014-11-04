@@ -25,7 +25,8 @@
 			<p:tab id="materias" title="Matérias">
 				<p:panel>
 					<p:pickList value="#{usuarioEstudo.materias}" var="m"
-						itemLabel="#{m.materiaBean.nome}" itemValue="#{m}" />
+						itemLabel="#{m.materiaBean.nome}" itemValue="#{m}"
+						converter="#{estudomateriaconverter}" />
 				</p:panel>
 			</p:tab>
 			<p:tab id="ciclo" title="Ciclo">
@@ -38,7 +39,8 @@
 						</p:column>
 
 						<p:column headerText="Tempo">
-							<p:calendar value="#{m.tempoAlocado}" pattern="HH:mm" timeOnly="true" required="true" />
+							<p:calendar value="#{m.tempoAlocado}" pattern="HH:mm"
+								timeOnly="true" required="true" />
 						</p:column>
 
 					</p:dataTable>
@@ -46,6 +48,19 @@
 			</p:tab>
 			<p:tab id="semana" title="Semana">
 				<p:panel>
+					<p:dataTable value="#{usuarioEstudo.semana}" var="d"
+						style="margin-bottom:20px">
+
+						<p:column headerText="Dia">
+							<h:outputText value="#{d.estudoDiario.dia.nome}" />
+						</p:column>
+
+						<p:column headerText="Tempo">
+							<p:calendar value="#{d.tempoAlocado}" pattern="HH:mm"
+								timeOnly="true" required="true" />
+						</p:column>
+
+					</p:dataTable>
 					<p:commandButton value="Cadastrar"
 						action="#{usuarioEstudo.cadastrar()}" update="@form" />
 				</p:panel>

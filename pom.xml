@@ -26,10 +26,9 @@
 
 		<!-- Java EE -->
 		<dependency>
-			<groupId>org.jboss.spec</groupId>
-			<artifactId>jboss-javaee-6.0</artifactId>
-			<version>1.0.0.Final</version>
-			<type>pom</type>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>6.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- Java EE -->
@@ -39,11 +38,11 @@
 			<artifactId>lombok</artifactId>
 			<version>0.11.6</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>4.2.4.Final</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -77,11 +76,6 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- <dependency> <groupId>org.jboss.arquillian.container</groupId> <artifactId>arquillian-glassfish-embedded-3.1</artifactId> 
-			<version>1.0.0.CR3</version> <scope>test</scope> </dependency> <dependency> 
-			<groupId>org.glassfish.main.extras</groupId> <artifactId>glassfish-embedded-all</artifactId> 
-			<version>3.1.2</version> <scope>provided</scope> </dependency> -->
 
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -120,7 +114,6 @@
 			<artifactId>google-api-services-plus</artifactId>
 			<version>v1-rev174-1.19.0</version>
 		</dependency>
-
 	</dependencies>
 
 	<profiles>

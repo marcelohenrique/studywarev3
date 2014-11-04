@@ -9,10 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import lombok.Data;
+import lombok.ToString;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 
 @Entity
+@Data
+@ToString(exclude = { "usuarioEstudoMaterias" })
 public class Materia implements Entidade {
 
 	private static final long serialVersionUID = -8089662973205060676L;
@@ -23,31 +27,7 @@ public class Materia implements Entidade {
 	private Long id;
 	private String sigla;
 	private String nome;
-	@OneToMany(mappedBy = "pk.materia")
+	@OneToMany(mappedBy = "materia")
 	private List<UsuarioEstudoMateria> usuarioEstudoMaterias;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getSigla() {
-		return sigla;
-	}
-
-	public void setSigla(String sigla) {
-		this.sigla = sigla;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
 
 }

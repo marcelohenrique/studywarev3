@@ -14,7 +14,6 @@ import br.com.guarasoft.studyware.usuarioestudo.gateway.converter.UsuarioEstudoE
 import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
-import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateriaPK;
 
 @ApplicationScoped
 public class UsuarioEstudoMateriaEntidadeConverter {
@@ -24,22 +23,12 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 	@Inject
 	private MateriaEntidadeConverter materiaEntidadeConverter;
 
-	// public UsuarioEstudoMateriaBean convert(UsuarioEstudoMateria entidade) {
-	// UsuarioEstudoMateriaBean bean = new UsuarioEstudoMateriaBean();
-	//
-	// bean.setUsuarioEstudoBean(this.usuarioEstudoEntidadeConverter.convert(entidade.getPk().getUsuarioEstudo()));
-	// bean.setMateriaBean(this.materiaEntidadeConverter.convert(entidade.getPk().getMateria()));
-	// bean.setTempoAlocado(new Duration(entidade.getTempoAlocado()));
-	// bean.setOrdem(entidade.getOrdem());
-	//
-	// return bean;
-	// }
-
 	public UsuarioEstudoMateriaBean convert(UsuarioEstudoBean beanPai, UsuarioEstudoMateria entidade) {
 		UsuarioEstudoMateriaBean bean = new UsuarioEstudoMateriaBean();
 
+		bean.setId(entidade.getId());
 		bean.setUsuarioEstudoBean(beanPai);
-		bean.setMateriaBean(this.materiaEntidadeConverter.convert(entidade.getPk().getMateria()));
+		bean.setMateriaBean(this.materiaEntidadeConverter.convert(entidade.getMateria()));
 		bean.setTempoAlocado(new Duration(entidade.getTempoAlocado()));
 		bean.setOrdem(entidade.getOrdem());
 
@@ -47,12 +36,11 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 	}
 
 	public UsuarioEstudoMateria convert(UsuarioEstudoMateriaBean bean) {
-		UsuarioEstudoMateriaPK pk = new UsuarioEstudoMateriaPK();
-		pk.setUsuarioEstudo(this.usuarioEstudoEntidadeConverter.convert(bean.getUsuarioEstudoBean()));
-		pk.setMateria(this.materiaEntidadeConverter.convert(bean.getMateriaBean()));
-
 		UsuarioEstudoMateria entidade = new UsuarioEstudoMateria();
-		entidade.setPk(pk);
+
+		entidade.setId(bean.getId());
+		entidade.setUsuarioEstudo(this.usuarioEstudoEntidadeConverter.convert(bean.getUsuarioEstudoBean()));
+		entidade.setMateria(this.materiaEntidadeConverter.convert(bean.getMateriaBean()));
 		entidade.setTempoAlocado(bean.getTempoAlocado().getMillis());
 		entidade.setOrdem(bean.getOrdem());
 
@@ -60,12 +48,11 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 	}
 
 	private UsuarioEstudoMateria convert(UsuarioEstudo entidadePai, UsuarioEstudoMateriaBean bean) {
-		UsuarioEstudoMateriaPK pk = new UsuarioEstudoMateriaPK();
-		pk.setUsuarioEstudo(entidadePai);
-		pk.setMateria(this.materiaEntidadeConverter.convert(bean.getMateriaBean()));
-
 		UsuarioEstudoMateria entidade = new UsuarioEstudoMateria();
-		entidade.setPk(pk);
+
+		entidade.setId(bean.getId());
+		entidade.setUsuarioEstudo(entidadePai);
+		entidade.setMateria(this.materiaEntidadeConverter.convert(bean.getMateriaBean()));
 		entidade.setTempoAlocado(bean.getTempoAlocado().getMillis());
 		entidade.setOrdem(bean.getOrdem());
 

@@ -39,8 +39,8 @@ public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements Ma
 		sql.append("select m from Materia m ");
 		sql.append(" where not exists ( ");
 		sql.append("select 1 from UsuarioEstudoMateria uem ");
-		sql.append("  join uem.pk.materia mt ");
-		sql.append(" where uem.pk.usuarioEstudo.id = :usuarioEstudo ");
+		sql.append("  join uem.materia mt ");
+		sql.append(" where uem.usuarioEstudo.id = :usuarioEstudo ");
 		sql.append("   and mt.id = m.id ) ");
 
 		TypedQuery<Materia> typedQuery = this.entityManager.createQuery(sql.toString(), Materia.class);

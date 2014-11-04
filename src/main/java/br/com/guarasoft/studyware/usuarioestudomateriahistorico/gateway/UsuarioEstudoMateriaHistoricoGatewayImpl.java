@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.joda.time.Duration;
@@ -40,7 +39,7 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 	public List<UsuarioEstudoMateriaHistoricoBean> findAll(UsuarioEstudoBean estudo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" FROM UsuarioEstudoMateriaHistorico uemh ");
-		sql.append("WHERE uemh.usuarioEstudoMateria.pk.usuarioEstudo.id = :usuarioEstudo ");
+		sql.append("WHERE uemh.usuarioEstudoMateria.usuarioEstudo.id = :usuarioEstudo ");
 		sql.append("ORDER BY uemh.horaEstudo DESC");
 
 		TypedQuery<UsuarioEstudoMateriaHistorico> query = this.entityManager.createQuery(sql.toString(), UsuarioEstudoMateriaHistorico.class);
@@ -57,13 +56,14 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT new br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.ResumoMateriaEstudada( uem, SUM( uemh.tempoEstudado ) ) ");
 		sql.append("  FROM UsuarioEstudoMateriaHistorico uemh ");
-		sql.append("  LEFT OUTER JOIN uemh.usuarioEstudoMateria uem ");
-		sql.append(" WHERE uem.pk.usuarioEstudo.id = :usuarioEstudo ");
-		sql.append(" GROUP BY uem.pk.usuarioEstudo, ");
-		sql.append("       uem.pk.materia ");
+		sql.append("  LEFT JOIN uemh.usuarioEstudoMateria uem ");
+		sql.append(" WHERE uem.usuarioEstudo.id = :usuarioEstudo ");
+		sql.append(" GROUP BY uem.usuarioEstudo, ");
+		sql.append("       uem.materia, ");
+		sql.append("       uem ");
 		sql.append(" ORDER BY uem.ordem ");
 
-		Query query = this.entityManager.createQuery(sql.toString(), ResumoMateriaEstudada.class);
+		TypedQuery<ResumoMateriaEstudada> query = this.entityManager.createQuery(sql.toString(), ResumoMateriaEstudada.class);
 		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
 
 		List<ResumoMateriaEstudada> entidades = query.getResultList();
@@ -80,5 +80,4 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 
 		return beans;
 	}
-
 }

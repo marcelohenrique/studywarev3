@@ -26,7 +26,7 @@ public class EstudoSemanalGatewayImpl extends AbstractDao<EstudoSemanal, Long> i
 		sql.append("SELECT new br.com.guarasoft.studyware.estudosemanal.gateway.entidade.EstudoSemanal( date_trunc( 'week', uemh.horaEstudo ), SUM( uemh.tempoEstudado ) ) ");
 		sql.append("  FROM UsuarioEstudoMateriaHistorico uemh ");
 		sql.append("  LEFT OUTER JOIN uemh.usuarioEstudoMateria uem ");
-		sql.append(" WHERE uem.pk.usuarioEstudo.id = ? ");
+		sql.append(" WHERE uem.usuarioEstudo.id = ? ");
 		sql.append(" GROUP BY date_trunc( 'week', uemh.horaEstudo ) ");
 		sql.append(" ORDER BY date_trunc( 'week', uemh.horaEstudo ) ");
 

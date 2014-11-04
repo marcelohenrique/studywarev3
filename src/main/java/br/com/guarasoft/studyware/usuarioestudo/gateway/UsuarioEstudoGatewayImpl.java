@@ -25,7 +25,7 @@ public class UsuarioEstudoGatewayImpl implements UsuarioEstudoGateway {
 	public void cadastrar(UsuarioEstudoBean usuarioEstudoBean) {
 		UsuarioEstudo usuarioEstudo = this.converter.convert(usuarioEstudoBean);
 
-		this.entityManager.persist(usuarioEstudo);
+		this.entityManager.merge(usuarioEstudo);
 	}
 
 	@Override

@@ -7,8 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,8 +31,11 @@ public class UsuarioEstudoMateriaHistorico implements Entidade {
 	@NotNull
 	private Long id;
 
-	@OneToOne
-	@JoinColumns({ @JoinColumn(name = "usuarioEstudo", referencedColumnName = "usuarioEstudo"), @JoinColumn(name = "materia", referencedColumnName = "materia") })
+	// @JoinColumns({ @JoinColumn(name = "usuarioEstudo", referencedColumnName =
+	// "usuarioEstudo"), @JoinColumn(name = "materia", referencedColumnName =
+	// "materia") })
+	@JoinColumn(name = "usuarioEstudoMateria", referencedColumnName = "id")
+	@ManyToOne
 	@NotNull
 	private UsuarioEstudoMateria usuarioEstudoMateria;
 
