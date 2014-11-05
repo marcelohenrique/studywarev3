@@ -61,9 +61,11 @@ public class ControleEstudoMBean implements Serializable {
 	private UserTransaction userTransaction;
 
 	@Inject
-	private UsuarioEstudoMateriaHistoricoGateway usuarioEstudoMateriaHistoricoGateway;
+	private UsuarioEstudoGateway usuarioEstudoGateway;
 	@Inject
 	private UsuarioEstudoMateriaGateway usuarioEstudoMateriaGateway;
+	@Inject
+	private UsuarioEstudoMateriaHistoricoGateway usuarioEstudoMateriaHistoricoGateway;
 	@Inject
 	private EstudoSemanalGateway estudoSemanalGateway;
 	@Inject
@@ -90,10 +92,9 @@ public class ControleEstudoMBean implements Serializable {
 
 	private LineChartModel graficoEstudoDiario;
 
-	@Inject
-	private UsuarioEstudoGateway usuarioEstudoGateway;
 	@ManagedProperty(value = "#{sessionAuth.usuario}")
 	private UsuarioService usuarioService;
+
 	private List<UsuarioEstudoBean> estudos;
 
 	@PostConstruct
@@ -152,7 +153,7 @@ public class ControleEstudoMBean implements Serializable {
 
 	private UsuarioEstudoMateriaHistoricoBean build() {
 		UsuarioEstudoMateriaBean usuarioEstudoMateriaBean = new UsuarioEstudoMateriaBean();
-		usuarioEstudoMateriaBean.setMateriaBean(new MateriaBean());
+		usuarioEstudoMateriaBean.setMateria(new MateriaBean());
 
 		UsuarioEstudoMateriaHistoricoBean materiaEstudada = new UsuarioEstudoMateriaHistoricoBean();
 		materiaEstudada.setUsuarioEstudoMateria(usuarioEstudoMateriaBean);

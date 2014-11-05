@@ -99,8 +99,8 @@ public class UsuarioEstudoController implements Serializable {
 
 		for (MateriaBean materiaBean : materiasRestantes) {
 			UsuarioEstudoMateriaBean usuarioEstudoMateriaBean = new UsuarioEstudoMateriaBean();
-			usuarioEstudoMateriaBean.setUsuarioEstudoBean(this.bean);
-			usuarioEstudoMateriaBean.setMateriaBean(materiaBean);
+			usuarioEstudoMateriaBean.setUsuarioEstudo(this.bean);
+			usuarioEstudoMateriaBean.setMateria(materiaBean);
 			usuarioEstudoMateriasRestantes.add(usuarioEstudoMateriaBean);
 		}
 

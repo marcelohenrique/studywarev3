@@ -17,4 +17,6 @@ public interface MateriaGateway {
 
 	List<MateriaBean> buscaMateriasRestantes(UsuarioEstudoBean usuarioEstudoBean);
 
+	MateriaBean buscaPorId(Long id);
+
 }

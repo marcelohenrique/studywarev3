@@ -3,8 +3,6 @@ package br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.convert
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.joda.time.Duration;
 
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
@@ -14,8 +12,7 @@ import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade
 
 public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 
-	@Inject
-	private UsuarioEstudoMateriaEntidadeConverter usuarioEstudoMateriaEntidadeConverter;
+	private final UsuarioEstudoMateriaEntidadeConverter usuarioEstudoMateriaEntidadeConverter = new UsuarioEstudoMateriaEntidadeConverter();
 
 	public UsuarioEstudoMateriaHistorico convert(UsuarioEstudoMateriaHistoricoBean bean) {
 		UsuarioEstudoMateriaHistorico entidade = new UsuarioEstudoMateriaHistorico();

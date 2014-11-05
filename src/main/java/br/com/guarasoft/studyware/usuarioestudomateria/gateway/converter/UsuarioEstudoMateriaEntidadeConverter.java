@@ -3,9 +3,6 @@ package br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 import org.joda.time.Duration;
 
 import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
@@ -15,20 +12,17 @@ import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 
-@ApplicationScoped
 public class UsuarioEstudoMateriaEntidadeConverter {
 
-	@Inject
-	private UsuarioEstudoEntidadeConverter usuarioEstudoEntidadeConverter;
-	@Inject
-	private MateriaEntidadeConverter materiaEntidadeConverter;
+	private final UsuarioEstudoEntidadeConverter usuarioEstudoEntidadeConverter = new UsuarioEstudoEntidadeConverter();
+	private final MateriaEntidadeConverter materiaEntidadeConverter = new MateriaEntidadeConverter();
 
 	public UsuarioEstudoMateriaBean convert(UsuarioEstudoBean beanPai, UsuarioEstudoMateria entidade) {
 		UsuarioEstudoMateriaBean bean = new UsuarioEstudoMateriaBean();
 
 		bean.setId(entidade.getId());
-		bean.setUsuarioEstudoBean(beanPai);
-		bean.setMateriaBean(this.materiaEntidadeConverter.convert(entidade.getMateria()));
+		bean.setUsuarioEstudo(beanPai);
+		bean.setMateria(this.materiaEntidadeConverter.convert(entidade.getMateria()));
 		bean.setTempoAlocado(new Duration(entidade.getTempoAlocado()));
 		bean.setOrdem(entidade.getOrdem());
 
@@ -36,15 +30,23 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 	}
 
 	public UsuarioEstudoMateria convert(UsuarioEstudoMateriaBean bean) {
-		UsuarioEstudoMateria entidade = new UsuarioEstudoMateria();
+		UsuarioEstudo entidadePai = this.usuarioEstudoEntidadeConverter.convert(bean.getUsuarioEstudo());
 
-		entidade.setId(bean.getId());
-		entidade.setUsuarioEstudo(this.usuarioEstudoEntidadeConverter.convert(bean.getUsuarioEstudoBean()));
-		entidade.setMateria(this.materiaEntidadeConverter.convert(bean.getMateriaBean()));
-		entidade.setTempoAlocado(bean.getTempoAlocado().getMillis());
-		entidade.setOrdem(bean.getOrdem());
+		UsuarioEstudoMateria entidade = this.convert(entidadePai, bean);
 
 		return entidade;
+	}
+
+	public UsuarioEstudoMateriaBean convert(UsuarioEstudoMateria entidade) {
+		UsuarioEstudoMateriaBean bean = new UsuarioEstudoMateriaBean();
+
+		bean.setId(entidade.getId());
+		bean.setUsuarioEstudo(this.usuarioEstudoEntidadeConverter.convert(entidade.getUsuarioEstudo()));
+		bean.setMateria(this.materiaEntidadeConverter.convert(entidade.getMateria()));
+		bean.setTempoAlocado(new Duration(entidade.getTempoAlocado()));
+		bean.setOrdem(entidade.getOrdem());
+
+		return bean;
 	}
 
 	private UsuarioEstudoMateria convert(UsuarioEstudo entidadePai, UsuarioEstudoMateriaBean bean) {
@@ -52,7 +54,7 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 
 		entidade.setId(bean.getId());
 		entidade.setUsuarioEstudo(entidadePai);
-		entidade.setMateria(this.materiaEntidadeConverter.convert(bean.getMateriaBean()));
+		entidade.setMateria(this.materiaEntidadeConverter.convert(bean.getMateria()));
 		entidade.setTempoAlocado(bean.getTempoAlocado().getMillis());
 		entidade.setOrdem(bean.getOrdem());
 
@@ -63,7 +65,7 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 		List<UsuarioEstudoMateria> entidades = new ArrayList<>();
 
 		for (UsuarioEstudoMateriaBean bean : beans) {
-			entidades.add(convert(entidadePai, bean));
+			entidades.add(this.convert(entidadePai, bean));
 		}
 
 		return entidades;
@@ -74,7 +76,7 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 
 		for (UsuarioEstudoMateria entidade : entidades) {
 			if (entidade != null) {
-				beans.add(convert(beanPai, entidade));
+				beans.add(this.convert(beanPai, entidade));
 			}
 		}
 

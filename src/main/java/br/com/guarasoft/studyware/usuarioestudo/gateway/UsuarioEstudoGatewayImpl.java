@@ -3,23 +3,21 @@ package br.com.guarasoft.studyware.usuarioestudo.gateway;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.converter.UsuarioEstudoEntidadeConverter;
+import br.com.guarasoft.studyware.usuarioestudo.gateway.converter.UsuarioEstudoBuilder;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
 
 @Stateless
-public class UsuarioEstudoGatewayImpl implements UsuarioEstudoGateway {
+public class UsuarioEstudoGatewayImpl extends AbstractDao<UsuarioEstudo, Long> implements UsuarioEstudoGateway {
 
-	@PersistenceContext(unitName = "studyware")
-	private EntityManager entityManager;
+	private final UsuarioEstudoBuilder converter = new UsuarioEstudoBuilder();
 
-	@Inject
-	private UsuarioEstudoEntidadeConverter converter;
+	public UsuarioEstudoGatewayImpl() {
+		super(UsuarioEstudo.class);
+	}
 
 	@Override
 	public void cadastrar(UsuarioEstudoBean usuarioEstudoBean) {
@@ -36,9 +34,18 @@ public class UsuarioEstudoGatewayImpl implements UsuarioEstudoGateway {
 
 		List<UsuarioEstudo> estudosUsuario = typedQuery.getResultList();
 
-		List<UsuarioEstudoBean> estudos = converter.convert(estudosUsuario);
+		List<UsuarioEstudoBean> estudos = this.converter.converteMaterias().converteDias().convert(estudosUsuario);
 
 		return estudos;
+	}
+
+	@Override
+	public UsuarioEstudoBean buscaPorId(Long id) {
+		UsuarioEstudo entidade = this.find(id);
+
+		UsuarioEstudoBean bean = this.converter.converteMaterias().converteDias().convert(entidade);
+
+		return bean;
 	}
 
 }

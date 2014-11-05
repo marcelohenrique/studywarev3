@@ -2,8 +2,7 @@ package br.com.guarasoft.studyware.estudodiario.gateway;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import br.com.guarasoft.studyware.estudodiario.bean.EstudoDiarioBean;
 import br.com.guarasoft.studyware.estudodiario.gateway.converter.EstudoDiarioEntidadeConverter;
@@ -13,8 +12,7 @@ import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 
 public class EstudoDiaGatewayImpl extends AbstractDao<EstudoDiario, Long> implements EstudoDiaGateway {
 
-	@Inject
-	private EstudoDiarioEntidadeConverter estudoDiarioEntidadeConverter;
+	private final EstudoDiarioEntidadeConverter estudoDiarioEntidadeConverter = new EstudoDiarioEntidadeConverter();
 
 	public EstudoDiaGatewayImpl() {
 		super(EstudoDiario.class);
@@ -31,7 +29,7 @@ public class EstudoDiaGatewayImpl extends AbstractDao<EstudoDiario, Long> implem
 		sql.append(" GROUP BY date_trunc( 'day', uemh.horaEstudo ), extract( DOW FROM uemh.horaEstudo ), ued.tempoAlocado ");
 		sql.append(" ORDER BY date_trunc( 'day', uemh.horaEstudo ) ");
 
-		Query query = entityManager.createQuery(sql.toString(), EstudoDiario.class);
+		TypedQuery<EstudoDiario> query = this.entityManager.createQuery(sql.toString(), EstudoDiario.class);
 		List<EstudoDiario> entidades = query.setParameter(1, estudo.getId()).getResultList();
 
 		List<EstudoDiarioBean> beans = this.estudoDiarioEntidadeConverter.convert(entidades);

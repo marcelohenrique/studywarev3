@@ -12,11 +12,14 @@ import javax.persistence.TemporalType;
 
 import lombok.Data;
 import br.com.guarasoft.studyware.estudodiario.gateway.entidade.UsuarioEstudoDiario;
+import br.com.guarasoft.studyware.infra.dao.Entidade;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 
 @Entity
 @Data
-public class UsuarioEstudo {
+public class UsuarioEstudo implements Entidade {
+
+	private static final long serialVersionUID = 1502275345514321869L;
 
 	@Id
 	private Long id;

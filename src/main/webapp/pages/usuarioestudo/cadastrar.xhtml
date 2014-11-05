@@ -25,7 +25,7 @@
 			<p:tab id="materias" title="Matérias">
 				<p:panel>
 					<p:pickList value="#{usuarioEstudo.materias}" var="m"
-						itemLabel="#{m.materiaBean.nome}" itemValue="#{m}"
+						itemLabel="#{m.materia.nome}" itemValue="#{m}"
 						converter="#{estudomateriaconverter}" />
 				</p:panel>
 			</p:tab>
@@ -35,7 +35,7 @@
 						style="margin-bottom:20px">
 
 						<p:column headerText="Nome">
-							<h:outputText value="#{m.materia.materiaBean.nome}" />
+							<h:outputText value="#{m.materia.materia.nome}" />
 						</p:column>
 
 						<p:column headerText="Tempo">

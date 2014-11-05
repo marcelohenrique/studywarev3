@@ -10,4 +10,6 @@ public interface UsuarioEstudoGateway {
 
 	List<UsuarioEstudoBean> recuperaEstudos(String email);
 
+	UsuarioEstudoBean buscaPorId(Long id);
+
 }

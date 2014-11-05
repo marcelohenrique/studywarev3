@@ -3,7 +3,6 @@ package br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 
 import org.joda.time.Duration;
@@ -19,10 +18,8 @@ import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade
 
 public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<UsuarioEstudoMateriaHistorico, Long> implements UsuarioEstudoMateriaHistoricoGateway {
 
-	@Inject
-	private UsuarioEstudoMateriaEntidadeConverter usuarioEstudoMateriaEntidadeConverter;
-	@Inject
-	private UsuarioEstudoMateriaHistoricoEntidadeConverter usuarioEstudoMateriaHistoricoEntidadeConverter;
+	private final UsuarioEstudoMateriaEntidadeConverter usuarioEstudoMateriaEntidadeConverter = new UsuarioEstudoMateriaEntidadeConverter();
+	private final UsuarioEstudoMateriaHistoricoEntidadeConverter usuarioEstudoMateriaHistoricoEntidadeConverter = new UsuarioEstudoMateriaHistoricoEntidadeConverter();
 
 	public UsuarioEstudoMateriaHistoricoGatewayImpl() {
 		super(UsuarioEstudoMateriaHistorico.class);
@@ -32,7 +29,7 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 	public void persist(UsuarioEstudoMateriaHistoricoBean materiaEstudada) {
 		UsuarioEstudoMateriaHistorico entidade = this.usuarioEstudoMateriaHistoricoEntidadeConverter.convert(materiaEstudada);
 
-		persist(entidade);
+		this.persist(entidade);
 	}
 
 	@Override

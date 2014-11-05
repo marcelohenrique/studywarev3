@@ -9,12 +9,12 @@ import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 
 @Data
-@ToString(exclude = { "usuarioEstudoBean" })
+@ToString(exclude = { "usuarioEstudo" })
 public class UsuarioEstudoMateriaBean {
 
 	private Long id;
-	private UsuarioEstudoBean usuarioEstudoBean;
-	private MateriaBean materiaBean;
+	private UsuarioEstudoBean usuarioEstudo;
+	private MateriaBean materia;
 	private Duration tempoAlocado;
 	private Long ordem;
 }

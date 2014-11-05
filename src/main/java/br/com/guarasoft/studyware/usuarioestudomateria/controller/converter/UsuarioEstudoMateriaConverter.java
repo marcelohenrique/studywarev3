@@ -6,13 +6,26 @@ import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
+import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.UsuarioEstudoMateriaGateway;
 
 @Named("estudomateriaconverter")
 public class UsuarioEstudoMateriaConverter implements Converter {
+
+	private Logger logger = LoggerFactory.getLogger(UsuarioEstudoMateriaConverter.class);
+
+	@Inject
+	private UsuarioEstudoGateway usuarioEstudoGateway;
+
+	@Inject
+	private MateriaGateway materiaGateway;
 
 	@Inject
 	private UsuarioEstudoMateriaGateway usuarioEstudoMateriaGateway;
@@ -25,13 +38,22 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 
 		String[] values = value.split("-");
 
-		UsuarioEstudoBean usuarioEstudoBean = new UsuarioEstudoBean();
-		usuarioEstudoBean.setEmail(values[0]);
+		UsuarioEstudoMateriaBean bean = null;
+		if ("null".equals(values[0])) {
+			UsuarioEstudoBean usuarioEstudo = this.usuarioEstudoGateway.buscaPorId(Long.parseLong(values[1]));
 
-		MateriaBean materiaBean = new MateriaBean();
-		materiaBean.setId(Long.parseLong(values[1]));
+			MateriaBean materia = this.materiaGateway.buscaPorId(Long.parseLong(values[2]));
 
-		return usuarioEstudoMateriaGateway.find(usuarioEstudoBean, materiaBean);
+			bean = new UsuarioEstudoMateriaBean();
+			bean.setUsuarioEstudo(usuarioEstudo);
+			bean.setMateria(materia);
+		} else {
+			Long usuarioEstudoMateriaId = Long.parseLong(values[0]);
+
+			bean = this.usuarioEstudoMateriaGateway.buscaPorId(usuarioEstudoMateriaId);
+		}
+
+		return bean;
 	}
 
 	@Override
@@ -39,8 +61,14 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 		if ("".equals(value)) {
 			return "";
 		}
+
 		UsuarioEstudoMateriaBean bean = (UsuarioEstudoMateriaBean) value;
-		return bean.getUsuarioEstudoBean().getEmail() + "-" + bean.getMateriaBean().getId();
+
+		String valor = bean.getId() + "-" + bean.getUsuarioEstudo().getId() + "-" + bean.getMateria().getId();
+
+		logger.info(valor);
+
+		return valor;
 	}
 
 }

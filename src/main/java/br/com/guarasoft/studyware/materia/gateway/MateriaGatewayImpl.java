@@ -74,4 +74,13 @@ public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements Ma
 		this.remove(this.merge(materia));
 	}
 
+	@Override
+	public MateriaBean buscaPorId(Long id) {
+		Materia entidade = this.find(id);
+
+		MateriaBean bean = this.converter.convert(entidade);
+
+		return bean;
+	}
+
 }
