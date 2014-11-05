@@ -3,8 +3,6 @@ package br.com.guarasoft.studyware.estudodiario.gateway.converter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.joda.time.Duration;
 
 import br.com.guarasoft.studyware.estudodiario.bean.UsuarioEstudoDiarioBean;
@@ -15,8 +13,7 @@ import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
 
 public class UsuarioEstudoDiarioEntidadeConverter {
 
-	@Inject
-	private DiaEntidadeConverter diaConverter;
+	private final DiaEntidadeConverter diaConverter = new DiaEntidadeConverter();
 
 	private UsuarioEstudoDiarioBean convert(UsuarioEstudoBean beanPai, UsuarioEstudoDiario entidade) {
 		UsuarioEstudoDiarioBean bean = new UsuarioEstudoDiarioBean();

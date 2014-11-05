@@ -1,8 +1,5 @@
 package br.com.guarasoft.studyware.usuarioestudo.gateway.converter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
 
@@ -28,19 +25,6 @@ public class UsuarioEstudoEntidadeConverter {
 		entidade.setFim(bean.getFim());
 
 		return entidade;
-	}
-
-	public List<UsuarioEstudoBean> convert(List<UsuarioEstudo> entidades) {
-		List<UsuarioEstudoBean> beans = new ArrayList<>();
-
-		UsuarioEstudoBean bean = null;
-		for (UsuarioEstudo usuarioEstudo : entidades) {
-			bean = this.convert(usuarioEstudo);
-
-			beans.add(bean);
-		}
-
-		return beans;
 	}
 
 }

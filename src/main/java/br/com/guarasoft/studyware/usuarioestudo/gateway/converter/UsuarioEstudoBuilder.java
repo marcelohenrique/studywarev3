@@ -1,5 +1,6 @@
 package br.com.guarasoft.studyware.usuarioestudo.gateway.converter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.guarasoft.studyware.estudodiario.gateway.converter.UsuarioEstudoDiarioEntidadeConverter;
@@ -56,7 +57,14 @@ public class UsuarioEstudoBuilder {
 	}
 
 	public List<UsuarioEstudoBean> convert(List<UsuarioEstudo> entidades) {
-		List<UsuarioEstudoBean> beans = this.usuarioEstudoEntidadeConverter.convert(entidades);
+		List<UsuarioEstudoBean> beans = new ArrayList<>();
+
+		UsuarioEstudoBean bean = null;
+		for (UsuarioEstudo usuarioEstudo : entidades) {
+			bean = this.convert(usuarioEstudo);
+
+			beans.add(bean);
+		}
 
 		return beans;
 	}
