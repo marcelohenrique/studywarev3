@@ -3,7 +3,6 @@ package br.com.guarasoft.studyware.materia.gateway;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
@@ -15,8 +14,7 @@ import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 @Stateless
 public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements MateriaGateway {
 
-	@Inject
-	private MateriaEntidadeConverter converter;
+	private final MateriaEntidadeConverter materiaEntidadeConverter = new MateriaEntidadeConverter();
 
 	public MateriaGatewayImpl() {
 		super(Materia.class);
@@ -28,7 +26,7 @@ public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements Ma
 
 		List<Materia> entidades = typedQuery.getResultList();
 
-		List<MateriaBean> beans = this.converter.convert(entidades);
+		List<MateriaBean> beans = this.materiaEntidadeConverter.convert(entidades);
 
 		return beans;
 	}
@@ -48,28 +46,28 @@ public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements Ma
 
 		List<Materia> entidades = typedQuery.getResultList();
 
-		List<MateriaBean> beans = this.converter.convert(entidades);
+		List<MateriaBean> beans = this.materiaEntidadeConverter.convert(entidades);
 
 		return beans;
 	}
 
 	@Override
 	public void cadastrar(MateriaBean materiaBean) {
-		Materia materia = this.converter.convert(materiaBean);
+		Materia materia = this.materiaEntidadeConverter.convert(materiaBean);
 
 		this.persist(materia);
 	}
 
 	@Override
 	public void alterar(MateriaBean materiaBean) {
-		Materia materia = this.converter.convert(materiaBean);
+		Materia materia = this.materiaEntidadeConverter.convert(materiaBean);
 
 		this.merge(materia);
 	}
 
 	@Override
 	public void remover(MateriaBean materiaBean) {
-		Materia materia = this.converter.convert(materiaBean);
+		Materia materia = this.materiaEntidadeConverter.convert(materiaBean);
 
 		this.remove(this.merge(materia));
 	}
@@ -78,7 +76,7 @@ public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements Ma
 	public MateriaBean buscaPorId(Long id) {
 		Materia entidade = this.find(id);
 
-		MateriaBean bean = this.converter.convert(entidade);
+		MateriaBean bean = this.materiaEntidadeConverter.convert(entidade);
 
 		return bean;
 	}

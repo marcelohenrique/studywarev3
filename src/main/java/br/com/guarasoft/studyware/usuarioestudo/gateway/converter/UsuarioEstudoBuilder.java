@@ -6,13 +6,12 @@ import java.util.List;
 import br.com.guarasoft.studyware.estudodiario.gateway.converter.UsuarioEstudoDiarioEntidadeConverter;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
-import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaEntidadeConverter;
+import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaBuilder;
 
 public class UsuarioEstudoBuilder {
 
+	private final UsuarioEstudoMateriaBuilder usuarioEstudoMateriaBuilder = new UsuarioEstudoMateriaBuilder();
 	private final UsuarioEstudoEntidadeConverter usuarioEstudoEntidadeConverter = new UsuarioEstudoEntidadeConverter();
-
-	private final UsuarioEstudoMateriaEntidadeConverter usuarioEstudoMateriaEntidadeConverter = new UsuarioEstudoMateriaEntidadeConverter();;
 	private final UsuarioEstudoDiarioEntidadeConverter estudoDiarioConverter = new UsuarioEstudoDiarioEntidadeConverter();
 
 	private boolean converteMaterias;
@@ -32,7 +31,7 @@ public class UsuarioEstudoBuilder {
 		UsuarioEstudoBean bean = this.usuarioEstudoEntidadeConverter.convert(entidade);
 
 		if (this.converteMaterias) {
-			bean.setMaterias(this.usuarioEstudoMateriaEntidadeConverter.convert(bean, entidade.getMaterias()));
+			bean.setMaterias(this.usuarioEstudoMateriaBuilder.convert(bean, entidade.getMaterias()));
 		}
 
 		if (this.converteDias) {
@@ -46,7 +45,7 @@ public class UsuarioEstudoBuilder {
 		UsuarioEstudo entidade = this.usuarioEstudoEntidadeConverter.convert(bean);
 
 		if (this.converteMaterias) {
-			entidade.setMaterias(this.usuarioEstudoMateriaEntidadeConverter.convert(entidade, bean.getMaterias()));
+			entidade.setMaterias(this.usuarioEstudoMateriaBuilder.convert(entidade, bean.getMaterias()));
 		}
 
 		if (this.converteDias) {

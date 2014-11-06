@@ -35,7 +35,6 @@ import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
 import br.com.guarasoft.studyware.usuarioestudo.view.EstudoDiaView;
 import br.com.guarasoft.studyware.usuarioestudo.view.MateriaCicloView;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
-import br.com.guarasoft.studyware.usuarioestudomateria.gateway.UsuarioEstudoMateriaGateway;
 
 @ManagedBean(name = "usuarioEstudo")
 @ViewScoped
@@ -48,11 +47,6 @@ public class UsuarioEstudoController implements Serializable {
 	@Getter(AccessLevel.PRIVATE)
 	@Setter(AccessLevel.PRIVATE)
 	private UsuarioEstudoGateway usuarioEstudoGateway;
-
-	@Inject
-	@Getter(AccessLevel.PRIVATE)
-	@Setter(AccessLevel.PRIVATE)
-	private UsuarioEstudoMateriaGateway usuarioEstudoMateriaGateway;
 
 	@Inject
 	@Getter(AccessLevel.PRIVATE)
@@ -127,7 +121,7 @@ public class UsuarioEstudoController implements Serializable {
 		} else if ("semana".equals(newStep)) {
 			this.semana = new ArrayList<>();
 
-			if (this.bean.getDias() != null && !this.bean.getDias().isEmpty()) {
+			if ((this.bean.getDias() != null) && !this.bean.getDias().isEmpty()) {
 				EstudoDiaView dia = null;
 				for (UsuarioEstudoDiarioBean estudoDiario : this.bean.getDias()) {
 					dia = new EstudoDiaView();

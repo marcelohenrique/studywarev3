@@ -19,7 +19,7 @@ import br.com.guarasoft.studyware.usuarioestudomateria.gateway.UsuarioEstudoMate
 @Named("estudomateriaconverter")
 public class UsuarioEstudoMateriaConverter implements Converter {
 
-	private Logger logger = LoggerFactory.getLogger(UsuarioEstudoMateriaConverter.class);
+	private final Logger logger = LoggerFactory.getLogger(UsuarioEstudoMateriaConverter.class);
 
 	@Inject
 	private UsuarioEstudoGateway usuarioEstudoGateway;
@@ -32,7 +32,7 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		if (value == null || "".equals(value)) {
+		if ((value == null) || "".equals(value)) {
 			return value;
 		}
 
@@ -53,6 +53,8 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 			bean = this.usuarioEstudoMateriaGateway.buscaPorId(usuarioEstudoMateriaId);
 		}
 
+		this.logger.info(bean.toString());
+
 		return bean;
 	}
 
@@ -66,7 +68,7 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 
 		String valor = bean.getId() + "-" + bean.getUsuarioEstudo().getId() + "-" + bean.getMateria().getId();
 
-		logger.info(valor);
+		this.logger.info(valor);
 
 		return valor;
 	}

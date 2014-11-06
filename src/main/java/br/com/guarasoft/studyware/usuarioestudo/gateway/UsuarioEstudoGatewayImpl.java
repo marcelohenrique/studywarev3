@@ -43,7 +43,7 @@ public class UsuarioEstudoGatewayImpl extends AbstractDao<UsuarioEstudo, Long> i
 	public UsuarioEstudoBean buscaPorId(Long id) {
 		UsuarioEstudo entidade = this.find(id);
 
-		UsuarioEstudoBean bean = this.converter.converteMaterias().converteDias().convert(entidade);
+		UsuarioEstudoBean bean = this.converter.convert(entidade);
 
 		return bean;
 	}
