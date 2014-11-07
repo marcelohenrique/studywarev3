@@ -9,10 +9,6 @@ import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.guarasoft.studyware.materia.bean.MateriaBean;
-import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.UsuarioEstudoMateriaGateway;
 
@@ -21,11 +17,11 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 
 	private final Logger logger = LoggerFactory.getLogger(UsuarioEstudoMateriaConverter.class);
 
-	@Inject
-	private UsuarioEstudoGateway usuarioEstudoGateway;
+	// @Inject
+	// private UsuarioEstudoGateway usuarioEstudoGateway;
 
-	@Inject
-	private MateriaGateway materiaGateway;
+	// @Inject
+	// private MateriaGateway materiaGateway;
 
 	@Inject
 	private UsuarioEstudoMateriaGateway usuarioEstudoMateriaGateway;
@@ -36,22 +32,24 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 			return value;
 		}
 
-		String[] values = value.split("-");
+		// String[] values = value.split("-");
 
 		UsuarioEstudoMateriaBean bean = null;
-		if ("null".equals(values[0])) {
-			UsuarioEstudoBean usuarioEstudo = this.usuarioEstudoGateway.buscaPorId(Long.parseLong(values[1]));
+		// if ("null".equals(values[0])) {
+		// UsuarioEstudoBean usuarioEstudo =
+		// this.usuarioEstudoGateway.buscaPorId(Long.parseLong(values[1]));
+		//
+		// MateriaBean materia =
+		// this.materiaGateway.buscaPorId(Long.parseLong(values[2]));
+		//
+		// bean = new UsuarioEstudoMateriaBean();
+		// bean.setUsuarioEstudo(usuarioEstudo);
+		// bean.setMateria(materia);
+		// } else {
+		Long usuarioEstudoMateriaId = Long.parseLong(/* values[0] */value);
 
-			MateriaBean materia = this.materiaGateway.buscaPorId(Long.parseLong(values[2]));
-
-			bean = new UsuarioEstudoMateriaBean();
-			bean.setUsuarioEstudo(usuarioEstudo);
-			bean.setMateria(materia);
-		} else {
-			Long usuarioEstudoMateriaId = Long.parseLong(values[0]);
-
-			bean = this.usuarioEstudoMateriaGateway.buscaPorId(usuarioEstudoMateriaId);
-		}
+		bean = this.usuarioEstudoMateriaGateway.buscaPorId(usuarioEstudoMateriaId);
+		// }
 
 		this.logger.info(bean.toString());
 
@@ -66,7 +64,11 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 
 		UsuarioEstudoMateriaBean bean = (UsuarioEstudoMateriaBean) value;
 
-		String valor = bean.getId() + "-" + bean.getUsuarioEstudo().getId() + "-" + bean.getMateria().getId();
+		String valor = bean.getId().toString()/*
+											 * + "-" +
+											 * bean.getUsuarioEstudo().getId() +
+											 * "-" + bean.getMateria().getId()
+											 */;
 
 		this.logger.info(valor);
 

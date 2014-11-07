@@ -41,3 +41,5 @@ UPDATE UsuarioEstudoMateriaHistorico SET usuarioEstudoMateria = ( SELECT id FROM
 ALTER TABLE UsuarioEstudoMateriaHistorico ADD FOREIGN KEY ( usuarioEstudoMateria ) REFERENCES UsuarioEstudoMateria ( id );
 ALTER TABLE UsuarioEstudoMateriaHistorico DROP COLUMN usuarioEstudo;
 ALTER TABLE UsuarioEstudoMateriaHistorico DROP COLUMN materia;
+
+CREATE SEQUENCE UsuarioEstudoSeq START WITH 1001;

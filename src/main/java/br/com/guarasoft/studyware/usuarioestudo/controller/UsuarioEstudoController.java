@@ -61,7 +61,7 @@ public class UsuarioEstudoController implements Serializable {
 	@Getter(AccessLevel.PRIVATE)
 	private UsuarioService usuarioService;
 
-	private DualListModel<UsuarioEstudoMateriaBean> materias;
+	private DualListModel<MateriaBean> materias;
 
 	private List<UsuarioEstudoBean> estudos;
 
@@ -76,6 +76,7 @@ public class UsuarioEstudoController implements Serializable {
 		this.cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(this.usuarioEstudoGateway);
 
 		List<MateriaBean> materiasRestantes = null;
+		List<MateriaBean> materiasSelecionadas = new ArrayList<>();
 
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 		this.bean = (UsuarioEstudoBean) ec.getFlash().get("usuarioEstudo");
@@ -83,22 +84,18 @@ public class UsuarioEstudoController implements Serializable {
 			this.bean = new UsuarioEstudoBean();
 			this.bean.setEmail(this.usuarioService.getEmail());
 			this.bean.setMaterias(new ArrayList<UsuarioEstudoMateriaBean>());
+			this.bean.setDias(new ArrayList<UsuarioEstudoDiarioBean>());
 
 			materiasRestantes = this.materiaGateway.buscaMaterias();
 		} else {
 			materiasRestantes = this.materiaGateway.buscaMateriasRestantes(this.bean);
+
+			for (UsuarioEstudoMateriaBean usuarioEstudoMateriaBean : this.bean.getMaterias()) {
+				materiasSelecionadas.add(usuarioEstudoMateriaBean.getMateria());
+			}
 		}
 
-		List<UsuarioEstudoMateriaBean> usuarioEstudoMateriasRestantes = new ArrayList<>();
-
-		for (MateriaBean materiaBean : materiasRestantes) {
-			UsuarioEstudoMateriaBean usuarioEstudoMateriaBean = new UsuarioEstudoMateriaBean();
-			usuarioEstudoMateriaBean.setUsuarioEstudo(this.bean);
-			usuarioEstudoMateriaBean.setMateria(materiaBean);
-			usuarioEstudoMateriasRestantes.add(usuarioEstudoMateriaBean);
-		}
-
-		this.materias = new DualListModel<UsuarioEstudoMateriaBean>(usuarioEstudoMateriasRestantes, this.bean.getMaterias());
+		this.materias = new DualListModel<>(materiasRestantes, materiasSelecionadas);
 
 		this.estudos = this.usuarioEstudoGateway.recuperaEstudos(this.usuarioService.getEmail());
 	}
@@ -106,7 +103,19 @@ public class UsuarioEstudoController implements Serializable {
 	public String onFlowProcess(FlowEvent event) {
 		String newStep = event.getNewStep();
 		if ("ciclo".equals(newStep)) {
-			this.bean.setMaterias(this.materias.getTarget());
+			Long ordem = 1L;
+			for (MateriaBean materia : this.materias.getTarget()) {
+				UsuarioEstudoMateriaBean usuarioEstudoMateriaBean = new UsuarioEstudoMateriaBean();
+				usuarioEstudoMateriaBean.setMateria(materia);
+
+				if (this.bean.getMaterias().contains(usuarioEstudoMateriaBean)) {
+					usuarioEstudoMateriaBean = this.bean.getMaterias().get(this.bean.getMaterias().indexOf(usuarioEstudoMateriaBean));
+				} else {
+					this.bean.getMaterias().add(usuarioEstudoMateriaBean);
+				}
+
+				usuarioEstudoMateriaBean.setOrdem(ordem++);
+			}
 
 			this.ciclo = new ArrayList<>();
 

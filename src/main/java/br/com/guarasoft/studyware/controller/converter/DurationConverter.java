@@ -22,9 +22,12 @@ public class DurationConverter {
 	}
 
 	public Date toDate(Duration duration) {
-		String tempo = toString(duration);
+		if (duration == null) {
+			return null;
+		}
+		String tempo = this.toString(duration);
 		try {
-			return SDF.parse(tempo);
+			return this.SDF.parse(tempo);
 		} catch (ParseException e) {
 			throw new RuntimeException("DurationConverter => toDate: erro no parse da string.");
 		}
@@ -33,7 +36,7 @@ public class DurationConverter {
 	public Duration toDuration(String value) {
 		try {
 			this.SDF.setTimeZone(TimeZone.getTimeZone("UTC"));
-			Date d = SDF.parse(value);
+			Date d = this.SDF.parse(value);
 			this.SDF.setTimeZone(TimeZone.getDefault());
 			DateTime dt = new DateTime(d, DateTimeZone.UTC);
 			return new Duration(dt.getMillis());
@@ -43,7 +46,10 @@ public class DurationConverter {
 	}
 
 	public Duration toDuration(Date date) {
-		return toDuration(SDF.format(date));
+		if (date == null) {
+			return null;
+		}
+		return this.toDuration(this.SDF.format(date));
 	}
 
 }
