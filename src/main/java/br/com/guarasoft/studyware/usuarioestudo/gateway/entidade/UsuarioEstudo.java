@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,6 +38,7 @@ public class UsuarioEstudo implements Entidade {
 	private Date fim;
 
 	@OneToMany(mappedBy = "usuarioEstudo", cascade = { CascadeType.MERGE })
+	@OrderBy("ordem")
 	private List<UsuarioEstudoMateria> materias;
 
 	@OneToMany(mappedBy = "pk.usuarioEstudo")
