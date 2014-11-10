@@ -48,4 +48,11 @@ public class UsuarioEstudoGatewayImpl extends AbstractDao<UsuarioEstudo, Long> i
 		return bean;
 	}
 
+	@Override
+	public void remover(UsuarioEstudoBean usuarioEstudo) {
+		UsuarioEstudo entidade = this.builder.convert(usuarioEstudo);
+
+		this.remove(entidade);
+	}
+
 }

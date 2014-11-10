@@ -9,8 +9,9 @@
 
 	<ui:define name="main">
 
-		<p:dataTable id="estudos" var="e" value="#{usuarioEstudo.estudos}" style="margin-bottom:20px">
-						<!-- selection="#{usuarioEstudo.bean}" selectionMode="single" rowKey="#{e.id}"> -->
+		<p:dataTable id="estudos" var="e" value="#{usuarioEstudo.estudos}"
+			style="margin-bottom:20px">
+			<!-- selection="#{usuarioEstudo.bean}" selectionMode="single" rowKey="#{e.id}"> -->
 			<f:facet name="header">Estudos</f:facet>
 
 			<p:column headerText="Nome">
@@ -24,14 +25,30 @@
 			</p:column>
 
 			<p:column style="width:32px;text-align: center">
-				<p:commandButton icon="ui-icon-pencil" title="Alterar" action="#{usuarioEstudo.alterar(e)}" >
+				<p:commandButton icon="ui-icon-pencil" title="Alterar"
+					action="#{usuarioEstudo.alterar(e)}" />
+			</p:column>
+
+			<p:column style="width:32px;text-align: center">
+				<p:commandButton update="@form" icon="ui-icon-close" title="Remover"
+					actionListener="#{usuarioEstudo.remover(e)}">
+					<p:confirm header="Confirmação"
+						message="Você deseja excluir o estudo?" icon="ui-icon-alert" />
 				</p:commandButton>
 			</p:column>
 
 			<f:facet name="footer">
-				<p:commandButton value="Cadastrar" action="#{controller.cadastrarUsuarioEstudo()}" />
+				<p:commandButton value="Cadastrar"
+					action="#{controller.cadastrarUsuarioEstudo()}" />
 			</f:facet>
 		</p:dataTable>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
 
 	</ui:define>
 

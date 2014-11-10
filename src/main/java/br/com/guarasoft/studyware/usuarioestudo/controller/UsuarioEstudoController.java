@@ -30,6 +30,8 @@ import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudo;
 import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudoImpl;
+import br.com.guarasoft.studyware.usuarioestudo.casodeuso.RemoverUsuarioEstudo;
+import br.com.guarasoft.studyware.usuarioestudo.casodeuso.RemoverUsuarioEstudoImpl;
 import br.com.guarasoft.studyware.usuarioestudo.excecao.UsuarioEstudoJaExiste;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
 import br.com.guarasoft.studyware.usuarioestudo.view.EstudoDiaView;
@@ -57,6 +59,10 @@ public class UsuarioEstudoController implements Serializable {
 	@Setter(AccessLevel.PRIVATE)
 	private CadastrarUsuarioEstudo cadastrarUsuarioEstudo;
 
+	@Getter(AccessLevel.PRIVATE)
+	@Setter(AccessLevel.PRIVATE)
+	private RemoverUsuarioEstudo removerUsuarioEstudo;
+
 	@ManagedProperty(value = "#{sessionAuth.usuario}")
 	@Getter(AccessLevel.PRIVATE)
 	private UsuarioService usuarioService;
@@ -74,6 +80,7 @@ public class UsuarioEstudoController implements Serializable {
 	@PostConstruct
 	private void init() {
 		this.cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(this.usuarioEstudoGateway);
+		this.removerUsuarioEstudo = new RemoverUsuarioEstudoImpl(this.usuarioEstudoGateway);
 
 		List<MateriaBean> materiasRestantes = null;
 		List<MateriaBean> materiasSelecionadas = new ArrayList<>();
@@ -170,6 +177,19 @@ public class UsuarioEstudoController implements Serializable {
 		ec.getFlash().put("usuarioEstudo", usuarioEstudoBean);
 
 		return new MenuController().cadastrarUsuarioEstudo();
+	}
+
+	public void remover(UsuarioEstudoBean usuarioEstudo) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		try {
+			this.removerUsuarioEstudo.execute(usuarioEstudo);
+
+			this.estudos = this.usuarioEstudoGateway.recuperaEstudos(this.usuarioService.getEmail());
+
+			context.addMessage(null, new FacesMessage("Sucesso", "Estudo removido"));
+		} catch (Exception e) {
+			context.addMessage(null, new FacesMessage("Erro", "Erro ao remover o estudo"));
+		}
 	}
 
 }

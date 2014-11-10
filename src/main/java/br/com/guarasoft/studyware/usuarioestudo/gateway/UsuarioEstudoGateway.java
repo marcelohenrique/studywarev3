@@ -12,4 +12,6 @@ public interface UsuarioEstudoGateway {
 
 	UsuarioEstudoBean buscaPorId(Long id);
 
+	void remover(UsuarioEstudoBean usuarioEstudo);
+
 }

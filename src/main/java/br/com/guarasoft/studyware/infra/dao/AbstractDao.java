@@ -12,7 +12,7 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable> i
 
 	private final Logger logger = LoggerFactory.getLogger(AbstractDao.class);
 
-	private Class<T> clazz;
+	private final Class<T> clazz;
 
 	@PersistenceContext(unitName = "studyware")
 	protected EntityManager entityManager;
@@ -23,12 +23,12 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable> i
 
 	@Override
 	public void persist(T t) {
-		entityManager.persist(t);
+		this.entityManager.persist(t);
 	}
 
 	@Override
 	public T find(PK pk) {
-		return entityManager.find(clazz, pk);
+		return this.entityManager.find(this.clazz, pk);
 	}
 
 	/*
@@ -38,13 +38,13 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable> i
 	// TODO: Avaliar renomear para saveOrUpdate e eliminar o persist.
 	@Override
 	public T merge(T t) {
-		logger.debug(entityManager.toString());
-		return entityManager.merge(t);
+		this.logger.debug(this.entityManager.toString());
+		return this.entityManager.merge(t);
 	}
 
 	@Override
 	public void remove(T t) {
-		entityManager.remove(t);
+		this.entityManager.remove(this.merge(t));
 	}
 
 }
