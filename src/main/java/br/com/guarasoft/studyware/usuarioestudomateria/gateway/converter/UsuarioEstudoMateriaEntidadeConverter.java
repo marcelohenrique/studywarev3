@@ -38,6 +38,8 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 		entidade.setTempoAlocado(bean.getTempoAlocado().getMillis());
 		entidade.setOrdem(bean.getOrdem());
 
+		// entidade.setDetached(bean.getDetached());
+
 		return entidade;
 	}
 

@@ -13,7 +13,7 @@ import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
 @Stateless
 public class UsuarioEstudoGatewayImpl extends AbstractDao<UsuarioEstudo, Long> implements UsuarioEstudoGateway {
 
-	private final UsuarioEstudoBuilder converter = new UsuarioEstudoBuilder();
+	private final UsuarioEstudoBuilder builder = new UsuarioEstudoBuilder();
 
 	public UsuarioEstudoGatewayImpl() {
 		super(UsuarioEstudo.class);
@@ -21,9 +21,9 @@ public class UsuarioEstudoGatewayImpl extends AbstractDao<UsuarioEstudo, Long> i
 
 	@Override
 	public void cadastrar(UsuarioEstudoBean usuarioEstudoBean) {
-		UsuarioEstudo usuarioEstudo = this.converter.convert(usuarioEstudoBean);
+		UsuarioEstudo usuarioEstudo = this.builder.converteMaterias().converteDias().convert(usuarioEstudoBean);
 
-		this.entityManager.merge(usuarioEstudo);
+		this.merge(usuarioEstudo);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class UsuarioEstudoGatewayImpl extends AbstractDao<UsuarioEstudo, Long> i
 
 		List<UsuarioEstudo> estudosUsuario = typedQuery.getResultList();
 
-		List<UsuarioEstudoBean> estudos = this.converter.converteMaterias().converteDias().convert(estudosUsuario);
+		List<UsuarioEstudoBean> estudos = this.builder.converteMaterias().converteDias().convert(estudosUsuario);
 
 		return estudos;
 	}
@@ -43,7 +43,7 @@ public class UsuarioEstudoGatewayImpl extends AbstractDao<UsuarioEstudo, Long> i
 	public UsuarioEstudoBean buscaPorId(Long id) {
 		UsuarioEstudo entidade = this.find(id);
 
-		UsuarioEstudoBean bean = this.converter.convert(entidade);
+		UsuarioEstudoBean bean = this.builder.convert(entidade);
 
 		return bean;
 	}

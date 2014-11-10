@@ -1,7 +1,10 @@
 package br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
@@ -49,8 +52,8 @@ public class UsuarioEstudoMateriaBuilder {
 		return bean;
 	}
 
-	public List<UsuarioEstudoMateria> convert(UsuarioEstudo entidadePai, List<UsuarioEstudoMateriaBean> beans) {
-		List<UsuarioEstudoMateria> entidades = new ArrayList<>();
+	public Set<UsuarioEstudoMateria> convert(UsuarioEstudo entidadePai, List<UsuarioEstudoMateriaBean> beans) {
+		Set<UsuarioEstudoMateria> entidades = new LinkedHashSet<>();
 
 		for (UsuarioEstudoMateriaBean bean : beans) {
 			entidades.add(this.convert(entidadePai, bean));
@@ -59,7 +62,7 @@ public class UsuarioEstudoMateriaBuilder {
 		return entidades;
 	}
 
-	public List<UsuarioEstudoMateriaBean> convert(UsuarioEstudoBean beanPai, List<UsuarioEstudoMateria> entidades) {
+	public List<UsuarioEstudoMateriaBean> convert(UsuarioEstudoBean beanPai, Collection<UsuarioEstudoMateria> entidades) {
 		List<UsuarioEstudoMateriaBean> beans = new ArrayList<>();
 
 		for (UsuarioEstudoMateria entidade : entidades) {

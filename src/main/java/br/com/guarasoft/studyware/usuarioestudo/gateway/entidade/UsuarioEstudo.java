@@ -2,6 +2,7 @@ package br.com.guarasoft.studyware.usuarioestudo.gateway.entidade;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -37,11 +38,49 @@ public class UsuarioEstudo implements Entidade {
 	@Temporal(TemporalType.DATE)
 	private Date fim;
 
-	@OneToMany(mappedBy = "usuarioEstudo", cascade = { CascadeType.MERGE })
+	@OneToMany(mappedBy = "usuarioEstudo", cascade = { CascadeType.ALL }, orphanRemoval = true)
 	@OrderBy("ordem")
-	private List<UsuarioEstudoMateria> materias;
+	private Set<UsuarioEstudoMateria> materias;
 
-	@OneToMany(mappedBy = "pk.usuarioEstudo")
+	@OneToMany(mappedBy = "pk.usuarioEstudo", cascade = { CascadeType.ALL })
 	private List<UsuarioEstudoDiario> usuarioEstudoDiarios;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		UsuarioEstudo other = (UsuarioEstudo) obj;
+		if (this.email == null) {
+			if (other.email != null) {
+				return false;
+			}
+		} else if (!this.email.equals(other.email)) {
+			return false;
+		}
+		if (this.nome == null) {
+			if (other.nome != null) {
+				return false;
+			}
+		} else if (!this.nome.equals(other.nome)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.email == null) ? 0 : this.email.hashCode());
+		result = prime * result + ((this.nome == null) ? 0 : this.nome.hashCode());
+		return result;
+	}
 
 }

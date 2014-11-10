@@ -104,67 +104,65 @@ public class UsuarioEstudoController implements Serializable {
 		String newStep = event.getNewStep();
 		if ("ciclo".equals(newStep)) {
 			Long ordem = 1L;
+			this.ciclo = new ArrayList<>();
+			MateriaCicloView materiaCiclo = null;
+			List<UsuarioEstudoMateriaBean> materiasEstudo = this.bean.getMaterias();
+			this.bean.setMaterias(new ArrayList<UsuarioEstudoMateriaBean>());
 			for (MateriaBean materia : this.materias.getTarget()) {
 				UsuarioEstudoMateriaBean usuarioEstudoMateriaBean = new UsuarioEstudoMateriaBean();
 				usuarioEstudoMateriaBean.setMateria(materia);
 
-				if (this.bean.getMaterias().contains(usuarioEstudoMateriaBean)) {
-					usuarioEstudoMateriaBean = this.bean.getMaterias().get(this.bean.getMaterias().indexOf(usuarioEstudoMateriaBean));
-				} else {
-					this.bean.getMaterias().add(usuarioEstudoMateriaBean);
+				if (materiasEstudo.contains(usuarioEstudoMateriaBean)) {
+					usuarioEstudoMateriaBean = materiasEstudo.get(materiasEstudo.indexOf(usuarioEstudoMateriaBean));
 				}
+				this.bean.getMaterias().add(usuarioEstudoMateriaBean);
 
 				usuarioEstudoMateriaBean.setOrdem(ordem++);
-			}
 
-			this.ciclo = new ArrayList<>();
-
-			MateriaCicloView materiaCiclo = null;
-			for (UsuarioEstudoMateriaBean materia : this.bean.getMaterias()) {
 				materiaCiclo = new MateriaCicloView();
-
-				materiaCiclo.setMateria(materia);
-
+				materiaCiclo.setMateria(usuarioEstudoMateriaBean);
 				this.ciclo.add(materiaCiclo);
 			}
 		} else if ("semana".equals(newStep)) {
 			this.semana = new ArrayList<>();
 
-			if ((this.bean.getDias() != null) && !this.bean.getDias().isEmpty()) {
-				EstudoDiaView dia = null;
-				for (UsuarioEstudoDiarioBean estudoDiario : this.bean.getDias()) {
-					dia = new EstudoDiaView();
+			EstudoDiaView dia = null;
+			UsuarioEstudoDiarioBean estudoDiario = null;
+			for (DiaBean diaBean : DiaBean.values()) {
+				estudoDiario = new UsuarioEstudoDiarioBean();
+				estudoDiario.setDia(diaBean);
 
-					dia.setEstudoDiario(estudoDiario);
-
-					this.semana.add(dia);
+				if (this.bean.getDias().contains(estudoDiario)) {
+					estudoDiario = this.bean.getDias().get(this.bean.getDias().indexOf(estudoDiario));
 				}
-			} else {
-				EstudoDiaView dia = null;
-				UsuarioEstudoDiarioBean estudoDiario = null;
-				for (DiaBean diaBean : DiaBean.values()) {
-					dia = new EstudoDiaView();
 
-					estudoDiario = new UsuarioEstudoDiarioBean();
-					estudoDiario.setUsuarioEstudo(this.bean);
-					estudoDiario.setDia(diaBean);
-					dia.setEstudoDiario(estudoDiario);
-
-					this.semana.add(dia);
-				}
+				dia = new EstudoDiaView();
+				dia.setEstudoDiario(estudoDiario);
+				this.semana.add(dia);
 			}
 		}
 		return newStep;
 	}
 
-	public void cadastrar() {
+	public String cadastrar() {
+		if (this.semana != null) {
+			this.bean.setDias(new ArrayList<UsuarioEstudoDiarioBean>());
+			for (EstudoDiaView diaView : this.semana) {
+				if (diaView.getEstudoDiario().getTempoAlocado() != null) {
+					this.bean.getDias().add(diaView.getEstudoDiario());
+				}
+			}
+		}
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			this.cadastrarUsuarioEstudo.execute(this.bean);
 			context.addMessage(null, new FacesMessage("Sucesso", "Estudo cadastrado"));
+			return new MenuController().consultarUsuarioEstudo();
 		} catch (UsuarioEstudoJaExiste e) {
 			context.addMessage(null, new FacesMessage("Falha", "Estudo já exite"));
 		}
+		return null;
 	}
 
 	public String alterar(UsuarioEstudoBean usuarioEstudoBean) {

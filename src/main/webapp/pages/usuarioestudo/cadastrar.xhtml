@@ -24,6 +24,10 @@
 						<p:calendar id="fim" mindate="calwidget.today()"
 							value="#{usuarioEstudo.bean.fim}" />
 					</p:panelGrid>
+					<p:separator />
+					<p:commandButton value="Cadastrar"
+						action="#{usuarioEstudo.cadastrar()}"
+						rendered="#{usuarioEstudo.bean.id != null}" />
 				</p:panel>
 			</p:tab>
 			<p:tab id="materias" title="Matérias">
@@ -32,6 +36,10 @@
 						showTargetControls="true" showCheckbox="true"
 						itemLabel="#{m.nome}" itemValue="#{m}"
 						converter="#{materiaConverter}" />
+					<p:separator />
+					<p:commandButton value="Cadastrar"
+						action="#{usuarioEstudo.cadastrar()}"
+						rendered="#{usuarioEstudo.bean.id != null}" />
 				</p:panel>
 			</p:tab>
 			<p:tab id="ciclo" title="Ciclo">
@@ -49,6 +57,10 @@
 						</p:column>
 
 					</p:dataTable>
+					<p:separator />
+					<p:commandButton value="Cadastrar"
+						action="#{usuarioEstudo.cadastrar()}"
+						rendered="#{usuarioEstudo.bean.id != null}" />
 				</p:panel>
 			</p:tab>
 			<p:tab id="semana" title="Semana">
@@ -66,8 +78,9 @@
 						</p:column>
 
 					</p:dataTable>
+					<p:separator />
 					<p:commandButton value="Cadastrar"
-						action="#{usuarioEstudo.cadastrar()}" update="@form" />
+						action="#{usuarioEstudo.cadastrar()}" />
 				</p:panel>
 			</p:tab>
 		</p:wizard>

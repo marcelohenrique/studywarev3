@@ -15,4 +15,30 @@ public class UsuarioEstudoDiarioBean {
 	private DiaBean dia;
 	private Duration tempoAlocado;
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		UsuarioEstudoDiarioBean other = (UsuarioEstudoDiarioBean) obj;
+		if (this.dia != other.dia) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.dia == null) ? 0 : this.dia.hashCode());
+		return result;
+	}
+
 }

@@ -43,3 +43,5 @@ ALTER TABLE UsuarioEstudoMateriaHistorico DROP COLUMN usuarioEstudo;
 ALTER TABLE UsuarioEstudoMateriaHistorico DROP COLUMN materia;
 
 CREATE SEQUENCE UsuarioEstudoSeq START WITH 1001;
+
+ALTER TABLE UsuarioEstudoMateria ADD UNIQUE ( usuarioEstudo, ordem );
