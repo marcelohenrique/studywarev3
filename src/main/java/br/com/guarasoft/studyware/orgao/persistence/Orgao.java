@@ -25,7 +25,7 @@ public class Orgao extends AbstractDao<Orgao, Long> implements OrgaoRepository {
 
 	@Override
 	public Orgao find() {
-		return super.find(id.longValue());
+		return super.find(this.id.longValue());
 	}
 
 }

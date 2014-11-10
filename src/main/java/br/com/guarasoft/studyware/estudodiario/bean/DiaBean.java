@@ -19,11 +19,11 @@ public enum DiaBean {
 	}
 
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	public String getDescricao() {
-		return descricao;
+		return this.descricao;
 	}
 
 }

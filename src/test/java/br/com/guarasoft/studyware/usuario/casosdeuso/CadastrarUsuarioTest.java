@@ -1,12 +1,11 @@
 package br.com.guarasoft.studyware.usuario.casosdeuso;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.mockito.Mockito.*;
-
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -34,7 +33,7 @@ public class CadastrarUsuarioTest {
 	public void cadastrarEmailJaCadastrado() {
 		String email = "teste@gmail.com";
 
-		when(usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(new UsuarioServiceImpl(email));
+		when(this.usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(new UsuarioServiceImpl(email));
 
 		CadastrarUsuario cadastrarUsuario = new CadastrarUsuarioImpl(this.usuarioGateway);
 		cadastrarUsuario.executar(email);

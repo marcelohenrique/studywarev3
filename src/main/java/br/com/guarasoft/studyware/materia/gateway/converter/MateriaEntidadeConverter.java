@@ -32,7 +32,7 @@ public class MateriaEntidadeConverter {
 		List<MateriaBean> materiasBean = new ArrayList<>();
 
 		for (Materia materia : materias) {
-			materiasBean.add(convert(materia));
+			materiasBean.add(this.convert(materia));
 		}
 
 		return materiasBean;

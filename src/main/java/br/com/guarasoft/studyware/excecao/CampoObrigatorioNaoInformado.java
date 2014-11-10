@@ -4,7 +4,7 @@ public class CampoObrigatorioNaoInformado extends RuntimeException {
 
 	private static final long serialVersionUID = -6799832538623034592L;
 
-	private String campo;
+	private final String campo;
 
 	public CampoObrigatorioNaoInformado(String campo) {
 		super();
@@ -13,7 +13,7 @@ public class CampoObrigatorioNaoInformado extends RuntimeException {
 
 	@Override
 	public String getMessage() {
-		return "O campo " + campo + " é obrigatório";
+		return "O campo " + this.campo + " é obrigatório";
 	}
 
 }

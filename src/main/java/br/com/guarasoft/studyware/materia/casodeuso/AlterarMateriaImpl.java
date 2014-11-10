@@ -5,7 +5,7 @@ import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 
 public class AlterarMateriaImpl implements AlterarMateria {
 
-	private MateriaGateway materiaGateway;
+	private final MateriaGateway materiaGateway;
 
 	public AlterarMateriaImpl(MateriaGateway materiaGateway) {
 		this.materiaGateway = materiaGateway;

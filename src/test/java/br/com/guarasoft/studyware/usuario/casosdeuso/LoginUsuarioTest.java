@@ -1,17 +1,14 @@
 package br.com.guarasoft.studyware.usuario.casosdeuso;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-
-import static org.mockito.Mockito.*;
-
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuario;
-import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuarioImpl;
 import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
 import br.com.guarasoft.studyware.usuario.entidades.UsuarioServiceImpl;
 import br.com.guarasoft.studyware.usuario.excecoes.EmailNaoEncontrado;
@@ -26,9 +23,9 @@ public class LoginUsuarioTest {
 	@Test
 	public void autenticarSucesso() {
 		String email = "teste@gmail.com";
-		when(usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(new UsuarioServiceImpl(email));
+		when(this.usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(new UsuarioServiceImpl(email));
 
-		LoginUsuario loginUsuario = new LoginUsuarioImpl(usuarioGateway);
+		LoginUsuario loginUsuario = new LoginUsuarioImpl(this.usuarioGateway);
 		UsuarioService usuarioService = loginUsuario.autenticar(email);
 
 		assertNotNull(usuarioService);
@@ -38,7 +35,7 @@ public class LoginUsuarioTest {
 	public void autenticarFalha() {
 		String email = "teste@gmail.com";
 
-		LoginUsuario loginUsuario = new LoginUsuarioImpl(usuarioGateway);
+		LoginUsuario loginUsuario = new LoginUsuarioImpl(this.usuarioGateway);
 		loginUsuario.autenticar(email);
 	}
 

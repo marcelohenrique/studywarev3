@@ -15,7 +15,7 @@ public class EstudoSemanalBean {
 	private Duration tempoEstudadoAcumulado;
 
 	public Date getDataFimSemana() {
-		return new DateTime(inicioSemana).plusDays(6).toDate();
+		return new DateTime(this.inicioSemana).plusDays(6).toDate();
 	}
 
 }

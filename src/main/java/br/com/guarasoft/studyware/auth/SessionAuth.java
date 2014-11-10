@@ -17,7 +17,7 @@ public class SessionAuth implements Serializable {
 	private UsuarioService usuario;
 
 	public String getToken() {
-		return token;
+		return this.token;
 	}
 
 	public void setToken(String token) {
@@ -25,7 +25,7 @@ public class SessionAuth implements Serializable {
 	}
 
 	public UsuarioService getUsuario() {
-		return usuario;
+		return this.usuario;
 	}
 
 	public void setUsuario(UsuarioService usuario) {

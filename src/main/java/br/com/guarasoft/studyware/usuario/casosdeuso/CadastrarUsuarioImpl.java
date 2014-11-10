@@ -6,7 +6,7 @@ import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 
 public class CadastrarUsuarioImpl implements CadastrarUsuario {
 
-	private UsuarioGateway usuarioGateway;
+	private final UsuarioGateway usuarioGateway;
 
 	public CadastrarUsuarioImpl(UsuarioGateway usuarioGateway) {
 		this.usuarioGateway = usuarioGateway;

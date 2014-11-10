@@ -36,8 +36,8 @@ public class CadastrarMateriaTest {
 		String sigla = null;
 		String nome = null;
 
-		expectedException.expect(CampoObrigatorioNaoInformado.class);
-		expectedException.expectMessage("O campo Sigla é obrigatório");
+		this.expectedException.expect(CampoObrigatorioNaoInformado.class);
+		this.expectedException.expectMessage("O campo Sigla é obrigatório");
 		cadastrarMateria.execute(sigla, nome);
 	}
 
@@ -48,8 +48,8 @@ public class CadastrarMateriaTest {
 		String sigla = "DEV";
 		String nome = null;
 
-		expectedException.expect(CampoObrigatorioNaoInformado.class);
-		expectedException.expectMessage("O campo Nome é obrigatório");
+		this.expectedException.expect(CampoObrigatorioNaoInformado.class);
+		this.expectedException.expectMessage("O campo Nome é obrigatório");
 		cadastrarMateria.execute(sigla, nome);
 	}
 

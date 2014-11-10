@@ -99,23 +99,23 @@ public class ControleEstudoMBean implements Serializable {
 
 	@PostConstruct
 	private void init() {
-		materiaEstudada = build();
+		this.materiaEstudada = this.build();
 
-		this.estudos = this.usuarioEstudoGateway.recuperaEstudos(usuarioService.getEmail());
+		this.estudos = this.usuarioEstudoGateway.recuperaEstudos(this.usuarioService.getEmail());
 	}
 
 	private void atualiza() {
-		resumoMateriasEstudadas = this.usuarioEstudoMateriaHistoricoGateway.buscaResumosMaterias(estudoSelecionado);
-		tempoTotalAlocado = new Duration(0);
-		tempoEstudadoTotal = new Duration(0);
-		for (ResumoMateriaEstudadaBean resumoMateriaEstudada : resumoMateriasEstudadas) {
-			tempoTotalAlocado = tempoTotalAlocado.plus(resumoMateriaEstudada.getUsuarioEstudoMateria().getTempoAlocado());
-			tempoEstudadoTotal = tempoEstudadoTotal.plus(resumoMateriaEstudada.getSomaTempo());
+		this.resumoMateriasEstudadas = this.usuarioEstudoMateriaHistoricoGateway.buscaResumosMaterias(this.estudoSelecionado);
+		this.tempoTotalAlocado = new Duration(0);
+		this.tempoEstudadoTotal = new Duration(0);
+		for (ResumoMateriaEstudadaBean resumoMateriaEstudada : this.resumoMateriasEstudadas) {
+			this.tempoTotalAlocado = this.tempoTotalAlocado.plus(resumoMateriaEstudada.getUsuarioEstudoMateria().getTempoAlocado());
+			this.tempoEstudadoTotal = this.tempoEstudadoTotal.plus(resumoMateriaEstudada.getSomaTempo());
 		}
-		materiasEstudadas = usuarioEstudoMateriaHistoricoGateway.findAll(estudoSelecionado);
-		estudosSemanais = estudoSemanalGateway.findAll(estudoSelecionado);
+		this.materiasEstudadas = this.usuarioEstudoMateriaHistoricoGateway.findAll(this.estudoSelecionado);
+		this.estudosSemanais = this.estudoSemanalGateway.findAll(this.estudoSelecionado);
 
-		estudosDiarios = estudoDiaGateway.findAll(estudoSelecionado);
+		this.estudosDiarios = this.estudoDiaGateway.findAll(this.estudoSelecionado);
 
 		this.graficoEstudoDiario = new LineChartModel();
 		this.graficoEstudoDiario.setLegendPosition("e");
@@ -161,52 +161,52 @@ public class ControleEstudoMBean implements Serializable {
 	}
 
 	public void iniciar() {
-		btIniciarDisabled = true;
-		btZerarDisabled = false;
-		btGravarDisabled = false;
+		this.btIniciarDisabled = true;
+		this.btZerarDisabled = false;
+		this.btGravarDisabled = false;
 	}
 
 	public void pausar() {
-		btIniciarDisabled = false;
+		this.btIniciarDisabled = false;
 	}
 
 	public void zerar() {
-		btIniciarDisabled = false;
-		btZerarDisabled = true;
-		btGravarDisabled = true;
+		this.btIniciarDisabled = false;
+		this.btZerarDisabled = true;
+		this.btGravarDisabled = true;
 
-		horasEstudadaInMillis = null;
-		materiaEstudada = build();
+		this.horasEstudadaInMillis = null;
+		this.materiaEstudada = this.build();
 	}
 
 	public void gravar() {
-		btIniciarDisabled = false;
-		btZerarDisabled = true;
-		btGravarDisabled = true;
+		this.btIniciarDisabled = false;
+		this.btZerarDisabled = true;
+		this.btGravarDisabled = true;
 
-		materiaEstudada.setUsuarioEstudoMateria(estudoMateriaSelecionada);
-		materiaEstudada.setHoraEstudo(new Date());
-		materiaEstudada.setTempoEstudado(new Duration(horasEstudadaInMillis));
+		this.materiaEstudada.setUsuarioEstudoMateria(this.estudoMateriaSelecionada);
+		this.materiaEstudada.setHoraEstudo(new Date());
+		this.materiaEstudada.setTempoEstudado(new Duration(this.horasEstudadaInMillis));
 
 		try {
-			userTransaction.begin();
-			logger.info(materiaEstudada.toString());
-			usuarioEstudoMateriaHistoricoGateway.persist(materiaEstudada);
-			userTransaction.commit();
+			this.userTransaction.begin();
+			this.logger.info(this.materiaEstudada.toString());
+			this.usuarioEstudoMateriaHistoricoGateway.persist(this.materiaEstudada);
+			this.userTransaction.commit();
 		} catch (SecurityException | IllegalStateException | NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
-		materiasEstudadas = usuarioEstudoMateriaHistoricoGateway.findAll(estudoSelecionado);
-		materiaEstudada = build();
-		atualiza();
+		this.materiasEstudadas = this.usuarioEstudoMateriaHistoricoGateway.findAll(this.estudoSelecionado);
+		this.materiaEstudada = this.build();
+		this.atualiza();
 	}
 
 	public boolean getBtPausarDisabled() {
-		return !btIniciarDisabled;
+		return !this.btIniciarDisabled;
 	}
 
 	public void listaEstudoMaterias() {
-		usuarioEstudoMaterias = usuarioEstudoMateriaGateway.buscaPorUsuarioEstudo(estudoSelecionado);
-		atualiza();
+		this.usuarioEstudoMaterias = this.usuarioEstudoMateriaGateway.buscaPorUsuarioEstudo(this.estudoSelecionado);
+		this.atualiza();
 	}
 }

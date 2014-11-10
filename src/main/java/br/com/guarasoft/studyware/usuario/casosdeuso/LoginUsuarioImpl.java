@@ -6,7 +6,7 @@ import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 
 public class LoginUsuarioImpl implements LoginUsuario {
 
-	private UsuarioGateway usuarioGateway;
+	private final UsuarioGateway usuarioGateway;
 
 	public LoginUsuarioImpl(UsuarioGateway usuarioGateway) {
 		this.usuarioGateway = usuarioGateway;
@@ -14,7 +14,7 @@ public class LoginUsuarioImpl implements LoginUsuario {
 
 	@Override
 	public UsuarioService autenticar(String email) {
-		UsuarioService usuarioService = usuarioGateway.pesquisaPorEmail(email);
+		UsuarioService usuarioService = this.usuarioGateway.pesquisaPorEmail(email);
 		if (usuarioService == null) {
 			throw new EmailNaoEncontrado();
 		}

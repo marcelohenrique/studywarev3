@@ -14,7 +14,7 @@ import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 @ManagedBean(name = "usuario")
 public class UsuarioController {
 
-	private FacesContext context = FacesContext.getCurrentInstance();
+	private final FacesContext context = FacesContext.getCurrentInstance();
 
 	@Inject
 	private UsuarioGateway usuarioGateway;
@@ -39,7 +39,7 @@ public class UsuarioController {
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {

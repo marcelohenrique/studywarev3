@@ -6,7 +6,7 @@ import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 
 public class CadastrarMateriaImpl implements CadastrarMateria {
 
-	private MateriaGateway materiaGateway;
+	private final MateriaGateway materiaGateway;
 
 	public CadastrarMateriaImpl(MateriaGateway materiaGateway) {
 		this.materiaGateway = materiaGateway;
@@ -14,8 +14,8 @@ public class CadastrarMateriaImpl implements CadastrarMateria {
 
 	@Override
 	public void execute(String sigla, String nome) {
-		verificaCampo(sigla, "Sigla");
-		verificaCampo(nome, "Nome");
+		this.verificaCampo(sigla, "Sigla");
+		this.verificaCampo(nome, "Nome");
 
 		MateriaBean materia = new MateriaBean();
 		materia.setSigla(sigla);

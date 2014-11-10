@@ -78,12 +78,12 @@ public class Signin {
 	private void init() {
 		try {
 			Reader reader = new FileReader(FacesContext.getCurrentInstance().getExternalContext().getRealPath("WEB-INF/") + "/client_secrets.json");
-			clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, reader);
+			this.clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, reader);
 
-			clientId = clientSecrets.getWeb().getClientId();
-			clientSecret = clientSecrets.getWeb().getClientSecret();
+			this.clientId = this.clientSecrets.getWeb().getClientId();
+			this.clientSecret = this.clientSecrets.getWeb().getClientSecret();
 
-			this.loginUsuario = new LoginUsuarioImpl(usuarioGateway);
+			this.loginUsuario = new LoginUsuarioImpl(this.usuarioGateway);
 		} catch (IOException e) {
 			throw new Error("No client_secrets.json found", e);
 		}
@@ -91,12 +91,12 @@ public class Signin {
 
 	public String login() {
 		// Only connect a user that is not already connected.
-		String tokenData = sessionAuth.getToken();
+		String tokenData = this.sessionAuth.getToken();
 		if (tokenData == null) {
 			try {
 				// Upgrade the authorization code into an access and refresh
 				// token.
-				GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(TRANSPORT, JSON_FACTORY, clientId, clientSecret, code, "postmessage").execute();
+				GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(TRANSPORT, JSON_FACTORY, this.clientId, this.clientSecret, this.code, "postmessage").execute();
 
 				// You can read the Google user ID in the ID token.
 				// This sample does not use the user ID.
@@ -104,7 +104,7 @@ public class Signin {
 				// String gplusId = idToken.getPayload().getSubject();
 
 				// Build credential from stored token data.
-				GoogleCredential credential = new GoogleCredential.Builder().setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT).setClientSecrets(clientId, clientSecret).build()
+				GoogleCredential credential = new GoogleCredential.Builder().setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT).setClientSecrets(this.clientId, this.clientSecret).build()
 						.setFromTokenResponse(tokenResponse);
 
 				// Create a new authorized API client.
@@ -115,13 +115,13 @@ public class Signin {
 				for (Emails email : mePerson.getEmails()) {
 					if ("account".equals(email.getType())) {
 						UsuarioService usuarioService = this.loginUsuario.autenticar(email.getValue());
-						sessionAuth.setUsuario(usuarioService);
+						this.sessionAuth.setUsuario(usuarioService);
 						break;
 					}
 				}
 
 				// Store the token in the session for later use.
-				sessionAuth.setToken(tokenResponse.toString());
+				this.sessionAuth.setToken(tokenResponse.toString());
 			} catch (TokenResponseException e) {
 				throw new Error("Failed to upgrade the authorization code.", e);
 			} catch (IOException e) {
@@ -136,16 +136,16 @@ public class Signin {
 
 	public String logout() {
 		// Only disconnect a connected user.
-		String tokenData = sessionAuth.getToken();
+		String tokenData = this.sessionAuth.getToken();
 		if (tokenData != null) {
 			try {
 				// Build credential from stored token data.
-				GoogleCredential credential = new GoogleCredential.Builder().setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT).setClientSecrets(clientId, clientSecret).build()
+				GoogleCredential credential = new GoogleCredential.Builder().setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT).setClientSecrets(this.clientId, this.clientSecret).build()
 						.setFromTokenResponse(JSON_FACTORY.fromString(tokenData, GoogleTokenResponse.class));
 				// Execute HTTP GET request to revoke current token.
 				TRANSPORT.createRequestFactory().buildGetRequest(new GenericUrl(String.format("https://accounts.google.com/o/oauth2/revoke?token=%s", credential.getAccessToken()))).execute();
 				// Reset the user's session.
-				sessionAuth.setToken(null);
+				this.sessionAuth.setToken(null);
 			} catch (IOException e) {
 				// For whatever reason, the given token was invalid.
 				e.printStackTrace();
@@ -155,7 +155,7 @@ public class Signin {
 	}
 
 	public SessionAuth getSessionAuth() {
-		return sessionAuth;
+		return this.sessionAuth;
 	}
 
 	public void setSessionAuth(SessionAuth sessionAuth) {
@@ -163,7 +163,7 @@ public class Signin {
 	}
 
 	public String getCode() {
-		return code;
+		return this.code;
 	}
 
 	public void setCode(String code) {
