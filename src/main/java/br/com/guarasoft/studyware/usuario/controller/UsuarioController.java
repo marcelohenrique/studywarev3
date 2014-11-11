@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
 import br.com.guarasoft.studyware.usuario.casosdeuso.CadastrarUsuario;
 import br.com.guarasoft.studyware.usuario.casosdeuso.CadastrarUsuarioImpl;
 import br.com.guarasoft.studyware.usuario.excecoes.EmailJaCadastrado;
@@ -29,7 +30,9 @@ public class UsuarioController {
 
 	public String cadastrar() {
 		try {
-			this.cadastrarUsuario.executar(this.email);
+			UsuarioBean usuario = new UsuarioBean();
+			usuario.setEmail(this.email);
+			this.cadastrarUsuario.executar(usuario);
 			this.context.addMessage(null, new FacesMessage("Sucesso", "E-mail cadastrado"));
 			return "main";
 		} catch (EmailJaCadastrado e) {

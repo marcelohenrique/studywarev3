@@ -1,6 +1,7 @@
 package br.com.guarasoft.studyware.usuario.casosdeuso;
 
-import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
+import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
+import br.com.guarasoft.studyware.usuario.excecao.UsuarioInativo;
 import br.com.guarasoft.studyware.usuario.excecoes.EmailNaoEncontrado;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 
@@ -13,12 +14,14 @@ public class LoginUsuarioImpl implements LoginUsuario {
 	}
 
 	@Override
-	public UsuarioService autenticar(String email) {
-		UsuarioService usuarioService = this.usuarioGateway.pesquisaPorEmail(email);
-		if (usuarioService == null) {
+	public UsuarioBean autentica(String email) {
+		UsuarioBean usuario = this.usuarioGateway.pesquisaPorEmail(email);
+		if (usuario == null) {
 			throw new EmailNaoEncontrado();
+		} else if (!usuario.isAtivo()) {
+			throw new UsuarioInativo();
 		}
-		return usuarioService;
+		return usuario;
 	}
 
 }

@@ -1,9 +1,9 @@
 package br.com.guarasoft.studyware.usuario.casosdeuso;
 
-import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
+import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
 
 public interface LoginUsuario {
 
-	UsuarioService autenticar(String email);
+	UsuarioBean autentica(String email);
 
 }

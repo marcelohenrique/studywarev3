@@ -5,31 +5,17 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
+import lombok.Data;
+import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
 
 @ManagedBean(name = "sessionAuth")
 @SessionScoped
+@Data
 public class SessionAuth implements Serializable {
 
 	private static final long serialVersionUID = -4516153840248949753L;
 
 	private String token;
-	private UsuarioService usuario;
-
-	public String getToken() {
-		return this.token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public UsuarioService getUsuario() {
-		return this.usuario;
-	}
-
-	public void setUsuario(UsuarioService usuario) {
-		this.usuario = usuario;
-	}
+	private UsuarioBean usuario;
 
 }

@@ -10,9 +10,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
 import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuario;
 import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuarioImpl;
-import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
+import br.com.guarasoft.studyware.usuario.excecao.UsuarioInativo;
 import br.com.guarasoft.studyware.usuario.excecoes.EmailNaoEncontrado;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 
@@ -114,8 +115,8 @@ public class Signin {
 
 				for (Emails email : mePerson.getEmails()) {
 					if ("account".equals(email.getType())) {
-						UsuarioService usuarioService = this.loginUsuario.autenticar(email.getValue());
-						this.sessionAuth.setUsuario(usuarioService);
+						UsuarioBean usuario = this.loginUsuario.autentica(email.getValue());
+						this.sessionAuth.setUsuario(usuario);
 						break;
 					}
 				}
@@ -127,7 +128,7 @@ public class Signin {
 			} catch (IOException e) {
 				e.printStackTrace();
 				throw new Error("Failed to read token data from Google. " + e.getMessage(), e);
-			} catch (EmailNaoEncontrado e) {
+			} catch (EmailNaoEncontrado | UsuarioInativo e) {
 				return "pages/forbidden";
 			}
 		}

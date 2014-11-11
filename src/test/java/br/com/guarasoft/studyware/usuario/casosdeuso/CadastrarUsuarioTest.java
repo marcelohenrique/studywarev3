@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.guarasoft.studyware.usuario.entidades.UsuarioServiceImpl;
+import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
 import br.com.guarasoft.studyware.usuario.excecoes.EmailJaCadastrado;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 
@@ -21,22 +21,24 @@ public class CadastrarUsuarioTest {
 
 	@Test
 	public void cadastrarSucesso() {
-		String email = "teste@gmail.com";
+		UsuarioBean usuario = new UsuarioBean();
+		usuario.setEmail("teste@gmail.com");
 
 		CadastrarUsuario cadastrarUsuario = new CadastrarUsuarioImpl(this.usuarioGateway);
-		Boolean sucesso = cadastrarUsuario.executar(email);
+		Boolean sucesso = cadastrarUsuario.executar(usuario);
 
 		assertTrue(sucesso);
 	}
 
 	@Test(expected = EmailJaCadastrado.class)
 	public void cadastrarEmailJaCadastrado() {
-		String email = "teste@gmail.com";
+		UsuarioBean usuario = new UsuarioBean();
+		usuario.setEmail("teste@gmail.com");
 
-		when(this.usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(new UsuarioServiceImpl(email));
+		when(this.usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(new UsuarioBean());
 
 		CadastrarUsuario cadastrarUsuario = new CadastrarUsuarioImpl(this.usuarioGateway);
-		cadastrarUsuario.executar(email);
+		cadastrarUsuario.executar(usuario);
 	}
 
 }

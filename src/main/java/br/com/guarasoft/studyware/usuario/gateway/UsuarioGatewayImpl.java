@@ -4,8 +4,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
-import br.com.guarasoft.studyware.usuario.entidades.UsuarioServiceImpl;
+import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
 import br.com.guarasoft.studyware.usuario.gateway.entidade.Usuario;
 
 @Stateless
@@ -15,21 +14,25 @@ public class UsuarioGatewayImpl implements UsuarioGateway {
 	private EntityManager entityManager;
 
 	@Override
-	public UsuarioService pesquisaPorEmail(String email) {
+	public UsuarioBean pesquisaPorEmail(String email) {
 		Usuario usuario = this.entityManager.find(Usuario.class, email);
 
 		if (usuario != null) {
-			return new UsuarioServiceImpl(usuario.getEmail());
+			UsuarioBean bean = new UsuarioBean();
+			bean.setEmail(usuario.getEmail());
+			bean.setAtivo(usuario.getAtivo());
+			return bean;
 		}
 
 		return null;
 	}
 
 	@Override
-	public void cadastrar(String email) {
-		Usuario usuario = new Usuario();
-		usuario.setEmail(email);
-		this.entityManager.persist(usuario);
+	public void cadastrar(UsuarioBean usuario) {
+		Usuario entidade = new Usuario();
+		entidade.setEmail(usuario.getEmail());
+		entidade.setAtivo(usuario.isAtivo());
+		this.entityManager.persist(entidade);
 	}
 
 }

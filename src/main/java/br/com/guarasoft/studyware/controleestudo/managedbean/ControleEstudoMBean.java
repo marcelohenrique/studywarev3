@@ -35,7 +35,7 @@ import br.com.guarasoft.studyware.estudodiario.gateway.EstudoDiaGateway;
 import br.com.guarasoft.studyware.estudosemanal.bean.EstudoSemanalBean;
 import br.com.guarasoft.studyware.estudosemanal.gateway.EstudoSemanalGateway;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
-import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
+import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
@@ -93,7 +93,7 @@ public class ControleEstudoMBean implements Serializable {
 	private LineChartModel graficoEstudoDiario;
 
 	@ManagedProperty(value = "#{sessionAuth.usuario}")
-	private UsuarioService usuarioService;
+	private UsuarioBean usuario;
 
 	private List<UsuarioEstudoBean> estudos;
 
@@ -101,7 +101,7 @@ public class ControleEstudoMBean implements Serializable {
 	private void init() {
 		this.materiaEstudada = this.build();
 
-		this.estudos = this.usuarioEstudoGateway.recuperaEstudos(this.usuarioService.getEmail());
+		this.estudos = this.usuarioEstudoGateway.recuperaEstudos(this.usuario.getEmail());
 	}
 
 	private void atualiza() {

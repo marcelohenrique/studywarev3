@@ -9,8 +9,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.guarasoft.studyware.usuario.entidades.UsuarioService;
-import br.com.guarasoft.studyware.usuario.entidades.UsuarioServiceImpl;
+import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
+import br.com.guarasoft.studyware.usuario.excecao.UsuarioInativo;
 import br.com.guarasoft.studyware.usuario.excecoes.EmailNaoEncontrado;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 
@@ -23,12 +23,16 @@ public class LoginUsuarioTest {
 	@Test
 	public void autenticarSucesso() {
 		String email = "teste@gmail.com";
-		when(this.usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(new UsuarioServiceImpl(email));
+
+		UsuarioBean usuarioMock = new UsuarioBean();
+		usuarioMock.setEmail(email);
+		usuarioMock.setAtivo(true);
+		when(this.usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(usuarioMock);
 
 		LoginUsuario loginUsuario = new LoginUsuarioImpl(this.usuarioGateway);
-		UsuarioService usuarioService = loginUsuario.autenticar(email);
+		UsuarioBean usuario = loginUsuario.autentica(email);
 
-		assertNotNull(usuarioService);
+		assertNotNull(usuario);
 	}
 
 	@Test(expected = EmailNaoEncontrado.class)
@@ -36,7 +40,20 @@ public class LoginUsuarioTest {
 		String email = "teste@gmail.com";
 
 		LoginUsuario loginUsuario = new LoginUsuarioImpl(this.usuarioGateway);
-		loginUsuario.autenticar(email);
+		loginUsuario.autentica(email);
+	}
+
+	@Test(expected = UsuarioInativo.class)
+	public void autenticaUsuarioInativo() {
+		String email = "teste@gmail.com";
+
+		UsuarioBean usuario = new UsuarioBean();
+		usuario.setEmail(email);
+		usuario.setAtivo(false);
+		when(this.usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(usuario);
+
+		LoginUsuario loginUsuario = new LoginUsuarioImpl(this.usuarioGateway);
+		loginUsuario.autentica(email);
 	}
 
 }
