@@ -11,6 +11,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
+import br.com.guarasoft.studyware.usuario.casosdeuso.CadastrarUsuario;
+import br.com.guarasoft.studyware.usuario.casosdeuso.CadastrarUsuarioImpl;
 import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuario;
 import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuarioImpl;
 import br.com.guarasoft.studyware.usuario.excecao.UsuarioInativo;
@@ -75,6 +77,8 @@ public class Signin {
 
 	private LoginUsuario loginUsuario;
 
+	private CadastrarUsuario cadastrarUsuario;
+
 	@PostConstruct
 	private void init() {
 		try {
@@ -85,6 +89,7 @@ public class Signin {
 			this.clientSecret = this.clientSecrets.getWeb().getClientSecret();
 
 			this.loginUsuario = new LoginUsuarioImpl(this.usuarioGateway);
+			this.cadastrarUsuario = new CadastrarUsuarioImpl(this.usuarioGateway);
 		} catch (IOException e) {
 			throw new Error("No client_secrets.json found", e);
 		}
@@ -128,7 +133,10 @@ public class Signin {
 			} catch (IOException e) {
 				e.printStackTrace();
 				throw new Error("Failed to read token data from Google. " + e.getMessage(), e);
-			} catch (EmailNaoEncontrado | UsuarioInativo e) {
+			} catch (EmailNaoEncontrado e) {
+				this.cadastrarUsuario.executar(e.getUsuario());
+				return "pages/forbidden";
+			} catch (UsuarioInativo e) {
 				return "pages/forbidden";
 			}
 		}

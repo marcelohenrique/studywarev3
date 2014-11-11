@@ -17,7 +17,9 @@ public class LoginUsuarioImpl implements LoginUsuario {
 	public UsuarioBean autentica(String email) {
 		UsuarioBean usuario = this.usuarioGateway.pesquisaPorEmail(email);
 		if (usuario == null) {
-			throw new EmailNaoEncontrado();
+			usuario = new UsuarioBean();
+			usuario.setEmail(email);
+			throw new EmailNaoEncontrado(usuario);
 		} else if (!usuario.isAtivo()) {
 			throw new UsuarioInativo();
 		}
