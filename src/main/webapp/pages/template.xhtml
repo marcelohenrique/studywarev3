@@ -39,9 +39,11 @@
 </h:head>
 <h:body>
 
-	<p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />
+	<p:ajaxStatus onstart="PF('statusDialog').show();"
+		onsuccess="PF('statusDialog').hide();" />
 
-	<p:dialog modal="true" widgetVar="statusDialog" header="Carregando..." draggable="false" closable="false" resizable="false">
+	<p:dialog modal="true" widgetVar="statusDialog" header="Carregando..."
+		draggable="false" closable="false" resizable="false">
 		<p:graphicImage value="/images/ajax-loader.gif" />
 	</p:dialog>
 
@@ -54,15 +56,20 @@
 
 					<p:menuitem icon="ui-icon-home" action="#{controller.home()}" />
 
-					<p:menuitem value="Estudo" icon="ui-icon-note" action="#{controller.consultarUsuarioEstudo()}" />
+					<p:menuitem value="Estudo" icon="ui-icon-note"
+						action="#{controller.consultarUsuarioEstudo()}" />
 
-					<p:submenu label="Administração" icon="ui-icon-gear" rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
-						<p:menuitem value="Usuário" icon="ui-icon-person" action="#{controller.consultarUsuario()}" />
-						<p:menuitem value="Matéria" icon="ui-icon-document" action="#{controller.consultarMateria()}" />
+					<p:submenu label="Administração" icon="ui-icon-gear"
+						rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
+						<p:menuitem value="Usuário" icon="ui-icon-person"
+							action="#{controller.consultarUsuario()}" />
+						<p:menuitem value="Matéria" icon="ui-icon-document"
+							action="#{controller.consultarMateria()}" />
 					</p:submenu>
 
 					<f:facet name="options">
-						<p:commandButton value="Logout" icon="ui-icon-extlink" action="#{sigin.logout()}" ajax="false" />
+						<p:commandButton value="Logout" icon="ui-icon-extlink"
+							action="#{sigin.logout()}" ajax="false" />
 					</f:facet>
 				</p:menubar>
 
@@ -72,9 +79,12 @@
 	</ui:insert>
 
 	<h:form>
+
 		<p:growl autoUpdate="true" showDetail="true" sticky="true" />
+
 		<ui:insert name="main">
 		</ui:insert>
+
 	</h:form>
 
 	<!-- <ui:debug hotkey="k"/> -->

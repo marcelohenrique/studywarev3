@@ -160,7 +160,7 @@ public class Signin {
 				e.printStackTrace();
 			}
 		}
-		return "index";
+		return "/index";
 	}
 
 	public SessionAuth getSessionAuth() {
