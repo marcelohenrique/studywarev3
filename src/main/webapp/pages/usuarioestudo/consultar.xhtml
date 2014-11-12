@@ -14,11 +14,11 @@
 			<!-- selection="#{usuarioEstudo.bean}" selectionMode="single" rowKey="#{e.id}"> -->
 			<f:facet name="header">Estudos</f:facet>
 
-			<p:column headerText="Nome">
+			<p:column headerText="Nome" sortBy="#{e.nome}">
 				<h:outputText value="#{e.nome}" />
 			</p:column>
 
-			<p:column headerText="Fim">
+			<p:column headerText="Fim" sortBy="#{e.fim}">
 				<h:outputText value="#{e.fim}">
 					<f:convertDateTime pattern="dd/MM/yyyy" />
 				</h:outputText>

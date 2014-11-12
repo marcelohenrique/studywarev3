@@ -27,8 +27,32 @@ public class UsuarioEstudoGatewayImpl extends AbstractDao<UsuarioEstudo, Long> i
 	}
 
 	@Override
-	public List<UsuarioEstudoBean> recuperaEstudos(String email) {
-		TypedQuery<UsuarioEstudo> typedQuery = this.entityManager.createQuery("from UsuarioEstudo eu where eu.email = :email", UsuarioEstudo.class);
+	public List<UsuarioEstudoBean> recuperaTodosEstudos(String email) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" from UsuarioEstudo ue ");
+		sql.append("where ue.email = :email ");
+		sql.append("order by ue.fim, ue.nome ");
+
+		TypedQuery<UsuarioEstudo> typedQuery = this.entityManager.createQuery(sql.toString(), UsuarioEstudo.class);
+
+		typedQuery.setParameter("email", email);
+
+		List<UsuarioEstudo> estudosUsuario = typedQuery.getResultList();
+
+		List<UsuarioEstudoBean> estudos = this.builder.converteMaterias().converteDias().convert(estudosUsuario);
+
+		return estudos;
+	}
+
+	@Override
+	public List<UsuarioEstudoBean> recuperaEstudosValidos(String email) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" from UsuarioEstudo ue ");
+		sql.append("where ue.email = :email ");
+		sql.append("  and ue.fim >= current_date ");
+		sql.append("   or ue.fim is null ");
+
+		TypedQuery<UsuarioEstudo> typedQuery = this.entityManager.createQuery(sql.toString(), UsuarioEstudo.class);
 
 		typedQuery.setParameter("email", email);
 

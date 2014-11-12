@@ -8,7 +8,9 @@ public interface UsuarioEstudoGateway {
 
 	void cadastrar(UsuarioEstudoBean usuarioEstudoBean);
 
-	List<UsuarioEstudoBean> recuperaEstudos(String email);
+	List<UsuarioEstudoBean> recuperaTodosEstudos(String email);
+
+	List<UsuarioEstudoBean> recuperaEstudosValidos(String email);
 
 	UsuarioEstudoBean buscaPorId(Long id);
 

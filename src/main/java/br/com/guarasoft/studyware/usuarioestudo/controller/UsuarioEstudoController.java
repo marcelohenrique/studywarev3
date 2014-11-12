@@ -104,7 +104,7 @@ public class UsuarioEstudoController implements Serializable {
 
 		this.materias = new DualListModel<>(materiasRestantes, materiasSelecionadas);
 
-		this.estudos = this.usuarioEstudoGateway.recuperaEstudos(this.usuario.getEmail());
+		this.estudos = this.usuarioEstudoGateway.recuperaTodosEstudos(this.usuario.getEmail());
 	}
 
 	public String onFlowProcess(FlowEvent event) {
@@ -184,7 +184,7 @@ public class UsuarioEstudoController implements Serializable {
 		try {
 			this.removerUsuarioEstudo.execute(usuarioEstudo);
 
-			this.estudos = this.usuarioEstudoGateway.recuperaEstudos(this.usuario.getEmail());
+			this.estudos = this.usuarioEstudoGateway.recuperaEstudosValidos(this.usuario.getEmail());
 
 			context.addMessage(null, new FacesMessage("Sucesso", "Estudo removido"));
 		} catch (Exception e) {

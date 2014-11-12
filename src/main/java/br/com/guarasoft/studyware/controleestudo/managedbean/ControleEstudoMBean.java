@@ -101,7 +101,7 @@ public class ControleEstudoMBean implements Serializable {
 	private void init() {
 		this.materiaEstudada = this.build();
 
-		this.estudos = this.usuarioEstudoGateway.recuperaEstudos(this.usuario.getEmail());
+		this.estudos = this.usuarioEstudoGateway.recuperaEstudosValidos(this.usuario.getEmail());
 	}
 
 	private void atualiza() {
