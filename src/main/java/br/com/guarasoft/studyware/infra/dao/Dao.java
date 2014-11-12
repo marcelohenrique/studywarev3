@@ -8,9 +8,11 @@ public interface Dao<T extends Entidade, PK extends Serializable> {
 
 	public T find(PK pk);
 
-	public List<T> findAll();
+	// public List<T> findAll();
+	public abstract List<T> findAll(String... orderByFields);
 
 	public T merge(T t);
 
 	public void remove(T t);
+
 }

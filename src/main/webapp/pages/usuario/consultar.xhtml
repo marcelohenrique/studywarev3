@@ -18,17 +18,10 @@
 				listener="#{usuarioConsulta.onRowCancel}" />
 
 			<p:column headerText="E-mail">
-				<!-- <p:cellEditor>
-					<f:facet name="output"> -->
-						<h:outputText value="#{u.email}" />
-					<!-- </f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{u.email}" style="width:100%" />
-					</f:facet>
-				</p:cellEditor> -->
+				<h:outputText value="#{u.email}" />
 			</p:column>
 
-			<p:column headerText="Ativo"  style="width:100px;text-align: center">
+			<p:column headerText="Ativo" style="width:100px;text-align: center">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{u.ativo}" />

@@ -38,7 +38,7 @@ public class UsuarioGatewayImpl extends AbstractDao<Usuario, String> implements 
 
 	@Override
 	public List<UsuarioBean> buscaUsuarios() {
-		List<Usuario> entidades = this.findAll();
+		List<Usuario> entidades = this.findAll("email");
 		List<UsuarioBean> beans = this.usuarioEntidadeConverter.convert(entidades);
 		return beans;
 	}

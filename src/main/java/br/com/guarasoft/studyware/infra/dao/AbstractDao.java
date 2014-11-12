@@ -1,6 +1,7 @@
 package br.com.guarasoft.studyware.infra.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
@@ -37,11 +39,16 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable> i
 	}
 
 	@Override
-	public List<T> findAll() {
+	public List<T> findAll(String... orderByFields) {
 		CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> cq = cb.createQuery(this.clazz);
 		Root<T> root = cq.from(this.clazz);
 		cq.select(root);
+		List<Order> orders = new ArrayList<>();
+		for (String field : orderByFields) {
+			orders.add(cb.asc(root.get(field)));
+		}
+		cq.orderBy(orders);
 		TypedQuery<T> q = this.entityManager.createQuery(cq);
 		List<T> resultList = q.getResultList();
 		return resultList;
