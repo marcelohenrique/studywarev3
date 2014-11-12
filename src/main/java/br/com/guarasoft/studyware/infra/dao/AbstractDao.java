@@ -1,9 +1,14 @@
 package br.com.guarasoft.studyware.infra.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +36,16 @@ public abstract class AbstractDao<T extends Entidade, PK extends Serializable> i
 		return this.entityManager.find(this.clazz, pk);
 	}
 
-	/*
-	 * @Override public List<T> findAll() { return null; }
-	 */
+	@Override
+	public List<T> findAll() {
+		CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
+		CriteriaQuery<T> cq = cb.createQuery(this.clazz);
+		Root<T> root = cq.from(this.clazz);
+		cq.select(root);
+		TypedQuery<T> q = this.entityManager.createQuery(cq);
+		List<T> resultList = q.getResultList();
+		return resultList;
+	}
 
 	// TODO: Avaliar renomear para saveOrUpdate e eliminar o persist.
 	@Override

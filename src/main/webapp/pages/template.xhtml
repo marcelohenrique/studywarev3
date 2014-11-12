@@ -57,7 +57,7 @@
 					<p:menuitem value="Estudo" icon="ui-icon-note" action="#{controller.consultarUsuarioEstudo()}" />
 
 					<p:submenu label="Administração" icon="ui-icon-gear" rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
-						<p:menuitem value="Usuário" icon="ui-icon-person" action="#{controller.cadastrarUsuario()}" />
+						<p:menuitem value="Usuário" icon="ui-icon-person" action="#{controller.consultarUsuario()}" />
 						<p:menuitem value="Matéria" icon="ui-icon-document" action="#{controller.consultarMateria()}" />
 					</p:submenu>
 

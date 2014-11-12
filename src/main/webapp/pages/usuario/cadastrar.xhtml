@@ -9,18 +9,26 @@
 
 	<ui:define name="main">
 
-			<p:panelGrid columns="2">
-				<f:facet name="header">
-					<p:row>
-						<p:column colspan="2">Cadastrar Usuário</p:column>
-					</p:row>
-				</f:facet>
-				<p:outputLabel for="email" value="E-mail:" />
-				<p:inputText id="email" required="true" value="#{usuario.email}" />
-				<f:facet name="footer">
-					<p:commandButton value="Cadastrar" action="#{usuario.cadastrar()}" update="@form" />
-				</f:facet>
-			</p:panelGrid>
+		<p:panelGrid columns="2">
+
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="2">Cadastrar Usuário</p:column>
+				</p:row>
+			</f:facet>
+
+			<p:outputLabel for="email" value="E-mail:" />
+			<p:inputText id="email" required="true" value="#{usuario.email}" />
+
+			<p:outputLabel for="ativo" value="Ativo:" />
+			<p:selectBooleanButton id="ativo" value="#{usuario.ativo}"
+				onLabel="Sim" offLabel="Não" style="width:60px" />
+
+			<f:facet name="footer">
+				<p:commandButton value="Cadastrar" action="#{usuario.cadastrar()}" />
+			</f:facet>
+
+		</p:panelGrid>
 
 	</ui:define>
 

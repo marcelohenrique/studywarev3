@@ -1,26 +1,29 @@
 package br.com.guarasoft.studyware.usuario.gateway;
 
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.List;
 
+import javax.ejb.Stateless;
+
+import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
+import br.com.guarasoft.studyware.usuario.gateway.converter.UsuarioEntidadeConverter;
 import br.com.guarasoft.studyware.usuario.gateway.entidade.Usuario;
 
 @Stateless
-public class UsuarioGatewayImpl implements UsuarioGateway {
+public class UsuarioGatewayImpl extends AbstractDao<Usuario, String> implements UsuarioGateway {
 
-	@PersistenceContext(unitName = "studyware")
-	private EntityManager entityManager;
+	private final UsuarioEntidadeConverter usuarioEntidadeConverter = new UsuarioEntidadeConverter();
+
+	public UsuarioGatewayImpl() {
+		super(Usuario.class);
+	}
 
 	@Override
 	public UsuarioBean pesquisaPorEmail(String email) {
-		Usuario usuario = this.entityManager.find(Usuario.class, email);
+		Usuario usuario = this.find(email);
 
 		if (usuario != null) {
-			UsuarioBean bean = new UsuarioBean();
-			bean.setEmail(usuario.getEmail());
-			bean.setAtivo(usuario.getAtivo());
+			UsuarioBean bean = this.usuarioEntidadeConverter.convert(usuario);
 			return bean;
 		}
 
@@ -29,10 +32,21 @@ public class UsuarioGatewayImpl implements UsuarioGateway {
 
 	@Override
 	public void cadastrar(UsuarioBean usuario) {
-		Usuario entidade = new Usuario();
-		entidade.setEmail(usuario.getEmail());
-		entidade.setAtivo(usuario.isAtivo());
-		this.entityManager.persist(entidade);
+		Usuario entidade = this.usuarioEntidadeConverter.convert(usuario);
+		this.persist(entidade);
+	}
+
+	@Override
+	public List<UsuarioBean> buscaUsuarios() {
+		List<Usuario> entidades = this.findAll();
+		List<UsuarioBean> beans = this.usuarioEntidadeConverter.convert(entidades);
+		return beans;
+	}
+
+	@Override
+	public void alterar(UsuarioBean usuario) {
+		Usuario entidade = this.usuarioEntidadeConverter.convert(usuario);
+		this.merge(entidade);
 	}
 
 }
