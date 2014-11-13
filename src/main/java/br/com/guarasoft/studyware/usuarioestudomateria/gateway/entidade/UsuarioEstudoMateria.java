@@ -38,17 +38,6 @@ public class UsuarioEstudoMateria implements Entidade {
 
 	private Long ordem;
 
-	// @Transient
-	// private boolean detached;
-	//
-	// @PreUpdate
-	// public void detachFromClient() {
-	// if (this.detached) {
-	// this.usuarioEstudo.getMaterias().remove(this);
-	// this.usuarioEstudo = null;
-	// }
-	// }
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

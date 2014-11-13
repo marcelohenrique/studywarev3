@@ -25,7 +25,7 @@ public class EstudoDiaGatewayImpl extends AbstractDao<EstudoDiario, Long> implem
 		sql.append("  FROM UsuarioEstudoMateriaHistorico uemh ");
 		sql.append("  LEFT OUTER JOIN uemh.usuarioEstudoMateria.usuarioEstudo.usuarioEstudoDiarios ued ");
 		sql.append(" WHERE uemh.usuarioEstudoMateria.usuarioEstudo.id = ? ");
-		sql.append("   AND ued.pk.dia = extract( DOW FROM uemh.horaEstudo ) ");
+		sql.append("   AND ued.dia = extract( DOW FROM uemh.horaEstudo ) ");
 		sql.append(" GROUP BY date_trunc( 'day', uemh.horaEstudo ), extract( DOW FROM uemh.horaEstudo ), ued.tempoAlocado ");
 		sql.append(" ORDER BY date_trunc( 'day', uemh.horaEstudo ) ");
 

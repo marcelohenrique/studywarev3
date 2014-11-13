@@ -1,7 +1,6 @@
 package br.com.guarasoft.studyware.usuarioestudo.gateway.entidade;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -42,8 +41,8 @@ public class UsuarioEstudo implements Entidade {
 	@OrderBy("ordem")
 	private Set<UsuarioEstudoMateria> materias;
 
-	@OneToMany(mappedBy = "pk.usuarioEstudo", cascade = { CascadeType.ALL })
-	private List<UsuarioEstudoDiario> usuarioEstudoDiarios;
+	@OneToMany(mappedBy = "usuarioEstudo", cascade = { CascadeType.ALL }, orphanRemoval = true)
+	private Set<UsuarioEstudoDiario> usuarioEstudoDiarios;
 
 	@Override
 	public boolean equals(Object obj) {
