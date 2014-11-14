@@ -49,8 +49,8 @@
 						actionListener="#{usuarioEstudo.atualizaTotalCiclo()}"
 						update="dataTableCiclo" />
 
-					<p:dataTable id="dataTableCiclo" value="#{usuarioEstudo.ciclo}" var="m"
-						style="margin-bottom:20px">
+					<p:dataTable id="dataTableCiclo" value="#{usuarioEstudo.ciclo}"
+						var="m" style="margin-bottom:20px">
 
 						<p:column headerText="Nome">
 							<h:outputText value="#{m.materia.materia.nome}" />
@@ -77,8 +77,13 @@
 			</p:tab>
 			<p:tab id="semana" title="Semana">
 				<p:panel>
-					<p:dataTable value="#{usuarioEstudo.semana}" var="d"
-						style="margin-bottom:20px">
+
+					<p:remoteCommand name="atualizaTotalSemana"
+						actionListener="#{usuarioEstudo.atualizaTotalSemana()}"
+						update="dataTableSemana" />
+
+					<p:dataTable id="dataTableSemana" value="#{usuarioEstudo.semana}"
+						var="d" style="margin-bottom:20px">
 
 						<p:column headerText="Dia">
 							<h:outputText value="#{d.estudoDiario.dia.nome}" />
@@ -86,13 +91,23 @@
 
 						<p:column headerText="Tempo">
 							<p:calendar value="#{d.tempoAlocado}" pattern="HH:mm"
-								timeOnly="true" readonlyInput="true" />
+								timeOnly="true" readonlyInput="true">
+								<p:ajax event="dateSelect" oncomplete="atualizaTotalSemana();" />
+							</p:calendar>
 						</p:column>
 
+						<f:facet name="footer">Total: <h:outputText
+								id="totalSemana" value="#{usuarioEstudo.totalSemana}"
+								converter="durationhhmmConverter" />
+						</f:facet>
+
 					</p:dataTable>
+
 					<p:separator />
+
 					<p:commandButton value="Cadastrar"
 						action="#{usuarioEstudo.cadastrar()}" />
+
 				</p:panel>
 			</p:tab>
 		</p:wizard>

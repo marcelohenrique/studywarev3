@@ -20,7 +20,6 @@ import lombok.Setter;
 
 import org.joda.time.Duration;
 import org.primefaces.event.FlowEvent;
-import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
 
 import br.com.guarasoft.studyware.estudodiario.bean.DiaBean;
@@ -79,6 +78,7 @@ public class UsuarioEstudoController implements Serializable {
 	private Duration totalCiclo = new Duration(0);
 
 	private List<EstudoDiaView> semana;
+	private Duration totalSemana = new Duration(0);
 
 	@PostConstruct
 	private void init() {
@@ -142,6 +142,7 @@ public class UsuarioEstudoController implements Serializable {
 			UsuarioEstudoDiarioBean estudoDiario = null;
 			for (DiaBean diaBean : DiaBean.values()) {
 				estudoDiario = new UsuarioEstudoDiarioBean();
+				estudoDiario.setUsuarioEstudo(this.bean);
 				estudoDiario.setDia(diaBean);
 
 				if (this.bean.getDias().contains(estudoDiario)) {
@@ -152,6 +153,8 @@ public class UsuarioEstudoController implements Serializable {
 				dia.setEstudoDiario(estudoDiario);
 				this.semana.add(dia);
 			}
+
+			this.atualizaTotalSemana();
 		}
 		return newStep;
 	}
@@ -197,14 +200,17 @@ public class UsuarioEstudoController implements Serializable {
 		}
 	}
 
-	public void onDateSelect(SelectEvent event) {
-		this.atualizaTotalCiclo();
-	}
-
 	public void atualizaTotalCiclo() {
 		this.totalCiclo = new Duration(0);
 		for (MateriaCicloView materiaCicloView : this.ciclo) {
 			this.totalCiclo = this.totalCiclo.plus(materiaCicloView.getMateria().getTempoAlocado());
+		}
+	}
+
+	public void atualizaTotalSemana() {
+		this.totalSemana = new Duration(0);
+		for (EstudoDiaView estudoDiaView : this.semana) {
+			this.totalSemana = this.totalSemana.plus(estudoDiaView.getEstudoDiario().getTempoAlocado());
 		}
 	}
 
