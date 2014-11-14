@@ -82,11 +82,15 @@
 								<p:outputLabel value="Estudo:" />
 							</p:column>
 							<p:column>
-								<p:selectOneMenu id="estudoselecionado" required="true" value="#{controleestudo.estudoSelecionado.id}">
+								<p:selectOneMenu id="estudoselecionado" required="true"
+									value="#{controleestudo.estudoSelecionado.id}">
 									<f:selectItem itemLabel="Selecione" itemValue="" />
-									<!-- <f:selectItems value="#{controleestudo.estudoDao.findAll()}" var="estudo" itemValue="#{estudo.id}" itemLabel="#{estudo.nome}" itemDescription="#{estudo.nome}" /> -->
-									<f:selectItems value="#{controleestudo.estudos}" var="estudo" itemValue="#{estudo.id}" itemLabel="#{estudo.nome}" itemDescription="#{estudo.nome}" />
-									<p:ajax update="materias, dataTable, tabView" listener="#{controleestudo.listaEstudoMaterias()}" />
+									<f:selectItems value="#{controleestudo.estudos}" var="estudo"
+										itemValue="#{estudo.id}" itemLabel="#{estudo.nome}"
+										itemDescription="#{estudo.nome}" />
+									<!-- <p:ajax update="materias, dataTable, tabView" listener="#{controleestudo.listaEstudoMaterias()}" /> -->
+									<p:ajax update="@form"
+										listener="#{controleestudo.listaEstudoMaterias()}" />
 								</p:selectOneMenu>
 							</p:column>
 						</p:row>
@@ -96,9 +100,13 @@
 								<p:outputLabel value="Matéria:" />
 							</p:column>
 							<p:column>
-								<p:selectOneMenu id="materias" value="#{controleestudo.estudoMateriaSelecionada}" required="true" converter="#{estudomateriaconverter}">
+								<p:selectOneMenu id="materias"
+									value="#{controleestudo.estudoMateriaSelecionada}"
+									required="true" converter="#{estudomateriaconverter}">
 									<f:selectItem itemLabel="Selecione" itemValue="" />
-									<f:selectItems value="#{controleestudo.usuarioEstudoMaterias}" var="estudoomateria" itemValue="#{estudomateria}" itemLabel="#{estudoomateria.materia.nome}" />
+									<f:selectItems value="#{controleestudo.usuarioEstudoMaterias}"
+										var="estudoomateria" itemValue="#{estudomateria}"
+										itemLabel="#{estudoomateria.materia.nome}" />
 								</p:selectOneMenu>
 							</p:column>
 						</p:row>
@@ -178,8 +186,11 @@
 			<div class="maginTop30">
 				<p:tabView id="tabView">
 					<p:tab id="tabHistoricoEstudo" title="Histórico Estudo">
-						<p:dataTable id="dataTableHistoricoEstudo" var="materiaestudada" value="#{controleestudo.materiasEstudadas}" paginator="true"
-							rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" editable="true" editMode="cell">
+						<p:dataTable id="dataTableHistoricoEstudo" var="materiaestudada"
+							value="#{controleestudo.materiasEstudadas}" paginator="true"
+							rows="10"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							editable="true" editMode="cell">
 
 							<p:column headerText="Data/Hora" styleClass="textoCentralizado">
 								<h:outputText value="#{materiaestudada.horaEstudo}">
@@ -213,8 +224,10 @@
 					</p:tab>
 
 					<p:tab id="tbResumoSemanal" title="Acompanhamento Semanal">
-						<p:dataTable id="dataTableResumoSemanal" var="estudoSemanal" value="#{controleestudo.estudosSemanais}" paginator="true"
-							rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+						<p:dataTable id="dataTableResumoSemanal" var="estudoSemanal"
+							value="#{controleestudo.estudosSemanais}" paginator="true"
+							rows="10"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
 							<p:column headerText="Início" styleClass="textoCentralizado">
 								<h:outputText value="#{estudoSemanal.inicioSemana}">
@@ -247,7 +260,10 @@
 
 
 					<p:tab id="tbAcompanhamentoDiario" title="Acompanhamento Diário">
-						<p:chart id="graficoAcompanhamentoDiario" type="line" model="#{controleestudo.graficoEstudoDiario}" style="height:300px;margin-top:20px" rendered="#{not empty controleestudo.graficoEstudoDiario}" />
+						<p:chart id="graficoAcompanhamentoDiario" type="line"
+							model="#{controleestudo.graficoEstudoDiario}"
+							style="height:300px;margin-top:20px"
+							rendered="#{not empty controleestudo.graficoEstudoDiario}" />
 					</p:tab>
 
 				</p:tabView>

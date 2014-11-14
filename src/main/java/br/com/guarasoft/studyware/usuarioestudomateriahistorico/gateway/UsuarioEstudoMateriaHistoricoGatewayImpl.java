@@ -9,7 +9,7 @@ import org.joda.time.Duration;
 
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaEntidadeConverter;
+import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaBuilder;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.bean.ResumoMateriaEstudadaBean;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.bean.UsuarioEstudoMateriaHistoricoBean;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.converter.UsuarioEstudoMateriaHistoricoEntidadeConverter;
@@ -18,7 +18,7 @@ import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade
 
 public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<UsuarioEstudoMateriaHistorico, Long> implements UsuarioEstudoMateriaHistoricoGateway {
 
-	private final UsuarioEstudoMateriaEntidadeConverter usuarioEstudoMateriaEntidadeConverter = new UsuarioEstudoMateriaEntidadeConverter();
+	private final UsuarioEstudoMateriaBuilder usuarioEstudoMateriaBuilder = new UsuarioEstudoMateriaBuilder();
 	private final UsuarioEstudoMateriaHistoricoEntidadeConverter usuarioEstudoMateriaHistoricoEntidadeConverter = new UsuarioEstudoMateriaHistoricoEntidadeConverter();
 
 	public UsuarioEstudoMateriaHistoricoGatewayImpl() {
@@ -52,8 +52,8 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 	public List<ResumoMateriaEstudadaBean> buscaResumosMaterias(UsuarioEstudoBean usuarioEstudoBean) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT new br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.ResumoMateriaEstudada( uem, SUM( uemh.tempoEstudado ) ) ");
-		sql.append("  FROM UsuarioEstudoMateriaHistorico uemh ");
-		sql.append("  LEFT JOIN uemh.usuarioEstudoMateria uem ");
+		sql.append("  FROM UsuarioEstudoMateria uem ");
+		sql.append("  LEFT JOIN uem.historico uemh ");
 		sql.append(" WHERE uem.usuarioEstudo.id = :usuarioEstudo ");
 		sql.append(" GROUP BY uem.usuarioEstudo, ");
 		sql.append("       uem.materia, ");
@@ -69,7 +69,7 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 		ResumoMateriaEstudadaBean bean = null;
 		for (ResumoMateriaEstudada entidade : entidades) {
 			bean = new ResumoMateriaEstudadaBean();
-			bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaEntidadeConverter.convert(usuarioEstudoBean, entidade.getUsuarioEstudoMateria()));
+			bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaBuilder.convert(usuarioEstudoBean, entidade.getUsuarioEstudoMateria()));
 			bean.setSomaTempo(new Duration(entidade.getSomaTempo()));
 
 			beans.add(bean);

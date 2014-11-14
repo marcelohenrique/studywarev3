@@ -1,11 +1,14 @@
 package br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
@@ -13,6 +16,7 @@ import lombok.ToString;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
+import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.UsuarioEstudoMateriaHistorico;
 
 @Entity
 @Data
@@ -37,6 +41,9 @@ public class UsuarioEstudoMateria implements Entidade {
 	private Long tempoAlocado;
 
 	private Long ordem;
+
+	@OneToMany(mappedBy = "usuarioEstudoMateria")
+	private Set<UsuarioEstudoMateriaHistorico> historico;
 
 	@Override
 	public boolean equals(Object obj) {
