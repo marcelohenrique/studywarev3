@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
@@ -17,6 +19,7 @@ import javax.persistence.TemporalType;
 import lombok.Data;
 import br.com.guarasoft.studyware.estudodiario.gateway.entidade.UsuarioEstudoDiario;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
+import br.com.guarasoft.studyware.usuario.gateway.entidade.Usuario;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 
 @Entity
@@ -30,7 +33,9 @@ public class UsuarioEstudo implements Entidade {
 	@SequenceGenerator(name = "UsuarioEstudoSeq", sequenceName = "UsuarioEstudoSeq", allocationSize = 1)
 	private Long id;
 
-	private String email;
+	@JoinColumn(name = "email", referencedColumnName = "email")
+	@ManyToOne
+	private Usuario usuario;
 
 	private String nome;
 
@@ -56,18 +61,11 @@ public class UsuarioEstudo implements Entidade {
 			return false;
 		}
 		UsuarioEstudo other = (UsuarioEstudo) obj;
-		if (this.email == null) {
-			if (other.email != null) {
+		if (this.id == null) {
+			if (other.id != null) {
 				return false;
 			}
-		} else if (!this.email.equals(other.email)) {
-			return false;
-		}
-		if (this.nome == null) {
-			if (other.nome != null) {
-				return false;
-			}
-		} else if (!this.nome.equals(other.nome)) {
+		} else if (!this.id.equals(other.id)) {
 			return false;
 		}
 		return true;
@@ -77,8 +75,7 @@ public class UsuarioEstudo implements Entidade {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.email == null) ? 0 : this.email.hashCode());
-		result = prime * result + ((this.nome == null) ? 0 : this.nome.hashCode());
+		result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
 		return result;
 	}
 

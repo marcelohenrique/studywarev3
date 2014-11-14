@@ -44,7 +44,12 @@
 			</p:tab>
 			<p:tab id="ciclo" title="Ciclo">
 				<p:panel>
-					<p:dataTable value="#{usuarioEstudo.ciclo}" var="m"
+
+					<p:remoteCommand name="atualizaTotalCiclo"
+						actionListener="#{usuarioEstudo.atualizaTotalCiclo()}"
+						update="@form" />
+
+					<p:dataTable id="dataTableCiclo" value="#{usuarioEstudo.ciclo}" var="m"
 						style="margin-bottom:20px">
 
 						<p:column headerText="Nome">
@@ -53,8 +58,15 @@
 
 						<p:column headerText="Tempo">
 							<p:calendar value="#{m.tempoAlocado}" pattern="HH:mm"
-								timeOnly="true" required="true" readonlyInput="true" />
+								timeOnly="true" required="true" readonlyInput="true">
+								<p:ajax event="dateSelect" oncomplete="atualizaTotalCiclo();" />
+							</p:calendar>
 						</p:column>
+
+						<f:facet name="footer">Total: <h:outputText
+								id="totalCiclo" value="#{usuarioEstudo.totalCiclo}"
+								converter="durationhhmmssConverter" />
+						</f:facet>
 
 					</p:dataTable>
 					<p:separator />

@@ -9,7 +9,6 @@ public class UsuarioEstudoEntidadeConverter {
 		UsuarioEstudoBean bean = new UsuarioEstudoBean();
 
 		bean.setId(entidade.getId());
-		bean.setEmail(entidade.getEmail());
 		bean.setNome(entidade.getNome());
 		bean.setFim(entidade.getFim());
 
@@ -20,7 +19,6 @@ public class UsuarioEstudoEntidadeConverter {
 		UsuarioEstudo entidade = new UsuarioEstudo();
 
 		entidade.setId(bean.getId());
-		entidade.setEmail(bean.getEmail());
 		entidade.setNome(bean.getNome());
 		entidade.setFim(bean.getFim());
 

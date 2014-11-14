@@ -18,7 +18,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import org.joda.time.Duration;
 import org.primefaces.event.FlowEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
 
 import br.com.guarasoft.studyware.estudodiario.bean.DiaBean;
@@ -74,6 +76,7 @@ public class UsuarioEstudoController implements Serializable {
 	private UsuarioEstudoBean bean;
 
 	private List<MateriaCicloView> ciclo;
+	private Duration totalCiclo = new Duration(0);
 
 	private List<EstudoDiaView> semana;
 
@@ -89,7 +92,7 @@ public class UsuarioEstudoController implements Serializable {
 		this.bean = (UsuarioEstudoBean) ec.getFlash().get("usuarioEstudo");
 		if (this.bean == null) {
 			this.bean = new UsuarioEstudoBean();
-			this.bean.setEmail(this.usuario.getEmail());
+			this.bean.setUsuario(this.usuario);
 			this.bean.setMaterias(new ArrayList<UsuarioEstudoMateriaBean>());
 			this.bean.setDias(new ArrayList<UsuarioEstudoDiarioBean>());
 
@@ -130,6 +133,8 @@ public class UsuarioEstudoController implements Serializable {
 				materiaCiclo.setMateria(usuarioEstudoMateriaBean);
 				this.ciclo.add(materiaCiclo);
 			}
+
+			this.atualizaTotalCiclo();
 		} else if ("semana".equals(newStep)) {
 			this.semana = new ArrayList<>();
 
@@ -189,6 +194,17 @@ public class UsuarioEstudoController implements Serializable {
 			context.addMessage(null, new FacesMessage("Sucesso", "Estudo removido"));
 		} catch (Exception e) {
 			context.addMessage(null, new FacesMessage("Erro", "Erro ao remover o estudo"));
+		}
+	}
+
+	public void onDateSelect(SelectEvent event) {
+		this.atualizaTotalCiclo();
+	}
+
+	public void atualizaTotalCiclo() {
+		this.totalCiclo = new Duration(0);
+		for (MateriaCicloView materiaCicloView : this.ciclo) {
+			this.totalCiclo = this.totalCiclo.plus(materiaCicloView.getMateria().getTempoAlocado());
 		}
 	}
 

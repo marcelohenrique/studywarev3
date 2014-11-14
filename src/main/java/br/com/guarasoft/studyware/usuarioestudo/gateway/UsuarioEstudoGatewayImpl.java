@@ -30,7 +30,7 @@ public class UsuarioEstudoGatewayImpl extends AbstractDao<UsuarioEstudo, Long> i
 	public List<UsuarioEstudoBean> recuperaTodosEstudos(String email) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" from UsuarioEstudo ue ");
-		sql.append("where ue.email = :email ");
+		sql.append("where ue.usuario.email = :email ");
 		sql.append("order by ue.fim, ue.nome ");
 
 		TypedQuery<UsuarioEstudo> typedQuery = this.entityManager.createQuery(sql.toString(), UsuarioEstudo.class);
@@ -48,7 +48,7 @@ public class UsuarioEstudoGatewayImpl extends AbstractDao<UsuarioEstudo, Long> i
 	public List<UsuarioEstudoBean> recuperaEstudosValidos(String email) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" from UsuarioEstudo ue ");
-		sql.append("where ue.email = :email ");
+		sql.append("where ue.usuario.email = :email ");
 		sql.append("  and ue.fim >= current_date ");
 		sql.append("   or ue.fim is null ");
 
