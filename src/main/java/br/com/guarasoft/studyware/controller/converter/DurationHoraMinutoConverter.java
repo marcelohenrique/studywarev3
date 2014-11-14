@@ -9,8 +9,8 @@ import org.joda.time.Duration;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
-@FacesConverter("durationhhmmssConverter")
-public class DurationHoraMinutoSegundoConverter implements Converter {
+@FacesConverter("durationhhmmConverter")
+public class DurationHoraMinutoConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
@@ -23,8 +23,6 @@ public class DurationHoraMinutoSegundoConverter implements Converter {
 		builder.printZeroAlways().minimumPrintedDigits(2).appendHours();
 		builder.appendSeparator(":");
 		builder.printZeroAlways().minimumPrintedDigits(2).appendMinutes();
-		builder.appendSeparator(":");
-		builder.printZeroAlways().minimumPrintedDigits(2).appendSeconds();
 		PeriodFormatter formatter = builder.toFormatter();
 		return formatter.print(((Duration) value).toPeriod());
 	}

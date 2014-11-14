@@ -47,7 +47,7 @@
 
 					<p:remoteCommand name="atualizaTotalCiclo"
 						actionListener="#{usuarioEstudo.atualizaTotalCiclo()}"
-						update="@form" />
+						update="dataTableCiclo" />
 
 					<p:dataTable id="dataTableCiclo" value="#{usuarioEstudo.ciclo}" var="m"
 						style="margin-bottom:20px">
@@ -65,7 +65,7 @@
 
 						<f:facet name="footer">Total: <h:outputText
 								id="totalCiclo" value="#{usuarioEstudo.totalCiclo}"
-								converter="durationhhmmssConverter" />
+								converter="durationhhmmConverter" />
 						</f:facet>
 
 					</p:dataTable>
