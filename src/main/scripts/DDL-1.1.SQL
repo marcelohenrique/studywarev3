@@ -247,14 +247,6 @@ ALTER TABLE ONLY usuarioestudodiario
 
 
 --
--- Name: tb_estudo_materia_id_estudo_id_materia_key; Type: CONSTRAINT; Schema: public; Owner: adminz9euiyz; Tablespace: 
---
-
-ALTER TABLE ONLY usuarioestudomateria
-    ADD CONSTRAINT tb_estudo_materia_id_estudo_id_materia_key UNIQUE (usuarioestudo, materia);
-
-
---
 -- Name: tb_estudo_nome_key; Type: CONSTRAINT; Schema: public; Owner: adminz9euiyz; Tablespace: 
 --
 
@@ -324,14 +316,6 @@ ALTER TABLE ONLY usuarioestudomateria
 
 ALTER TABLE ONLY usuarioestudomateria
     ADD CONSTRAINT usuarioestudomateria_usuarioestudo_materia_key UNIQUE (usuarioestudo, materia);
-
-
---
--- Name: usuarioestudomateria_usuarioestudo_ordem_key; Type: CONSTRAINT; Schema: public; Owner: adminz9euiyz; Tablespace: 
---
-
-ALTER TABLE ONLY usuarioestudomateria
-    ADD CONSTRAINT usuarioestudomateria_usuarioestudo_ordem_key UNIQUE (usuarioestudo, ordem);
 
 
 --

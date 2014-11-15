@@ -113,26 +113,7 @@ public class UsuarioEstudoController implements Serializable {
 	public String onFlowProcess(FlowEvent event) {
 		String newStep = event.getNewStep();
 		if ("ciclo".equals(newStep)) {
-			Long ordem = 1L;
-			this.ciclo = new ArrayList<>();
-			MateriaCicloView materiaCiclo = null;
-			List<UsuarioEstudoMateriaBean> materiasEstudo = this.bean.getMaterias();
-			this.bean.setMaterias(new ArrayList<UsuarioEstudoMateriaBean>());
-			for (MateriaBean materia : this.materias.getTarget()) {
-				UsuarioEstudoMateriaBean usuarioEstudoMateriaBean = new UsuarioEstudoMateriaBean();
-				usuarioEstudoMateriaBean.setMateria(materia);
-
-				if (materiasEstudo.contains(usuarioEstudoMateriaBean)) {
-					usuarioEstudoMateriaBean = materiasEstudo.get(materiasEstudo.indexOf(usuarioEstudoMateriaBean));
-				}
-				this.bean.getMaterias().add(usuarioEstudoMateriaBean);
-
-				usuarioEstudoMateriaBean.setOrdem(ordem++);
-
-				materiaCiclo = new MateriaCicloView();
-				materiaCiclo.setMateria(usuarioEstudoMateriaBean);
-				this.ciclo.add(materiaCiclo);
-			}
+			this.atualizaCiclo();
 
 			this.atualizaTotalCiclo();
 		} else if ("semana".equals(newStep)) {
@@ -159,7 +140,31 @@ public class UsuarioEstudoController implements Serializable {
 		return newStep;
 	}
 
+	private void atualizaCiclo() {
+		Long ordem = 1L;
+		this.ciclo = new ArrayList<>();
+		List<UsuarioEstudoMateriaBean> materiasEstudo = this.bean.getMaterias();
+		this.bean.setMaterias(new ArrayList<UsuarioEstudoMateriaBean>());
+		MateriaCicloView materiaCiclo = null;
+		for (MateriaBean materia : this.materias.getTarget()) {
+			UsuarioEstudoMateriaBean usuarioEstudoMateriaBean = new UsuarioEstudoMateriaBean();
+			usuarioEstudoMateriaBean.setMateria(materia);
+
+			if (materiasEstudo.contains(usuarioEstudoMateriaBean)) {
+				usuarioEstudoMateriaBean = materiasEstudo.get(materiasEstudo.indexOf(usuarioEstudoMateriaBean));
+			}
+			this.bean.getMaterias().add(usuarioEstudoMateriaBean);
+
+			usuarioEstudoMateriaBean.setOrdem(ordem++);
+
+			materiaCiclo = new MateriaCicloView();
+			materiaCiclo.setMateria(usuarioEstudoMateriaBean);
+			this.ciclo.add(materiaCiclo);
+		}
+	}
+
 	public String cadastrar() {
+		this.atualizaCiclo();
 		if (this.semana != null) {
 			this.bean.setDias(new ArrayList<UsuarioEstudoDiarioBean>());
 			for (EstudoDiaView diaView : this.semana) {
