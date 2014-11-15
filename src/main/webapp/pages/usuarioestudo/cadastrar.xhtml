@@ -58,7 +58,7 @@
 
 						<p:column headerText="Tempo">
 							<p:calendar value="#{m.tempoAlocado}" pattern="HH:mm"
-								timeOnly="true" required="true" readonlyInput="true">
+								timeOnly="true" readonlyInput="true">
 								<p:ajax event="dateSelect" oncomplete="atualizaTotalCiclo();" />
 							</p:calendar>
 						</p:column>
