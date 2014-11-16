@@ -17,8 +17,8 @@
 			function iniciar() {
 				var materias = $( '#formulario\\:materias_input' );
 				if( materias.val() == '' ) {
-				alert( 'Selecione uma matéria' );
-				return ;
+					alert( 'Selecione uma matéria' );
+					return ;
 				}
 				$( '#relogio' ).countdown( 'resume' );
 			}
@@ -88,9 +88,9 @@
 									<f:selectItems value="#{controleestudo.estudos}" var="estudo"
 										itemValue="#{estudo.id}" itemLabel="#{estudo.nome}"
 										itemDescription="#{estudo.nome}" />
-									<!-- <p:ajax update="materias, dataTable, tabView" listener="#{controleestudo.listaEstudoMaterias()}" /> -->
-									<p:ajax update="@form"
-										listener="#{controleestudo.listaEstudoMaterias()}" />
+									<p:ajax update="materias, dataTable, tabView" listener="#{controleestudo.listaEstudoMaterias()}" />
+									<!-- <p:ajax update="@form"
+										listener="#{controleestudo.listaEstudoMaterias()}" /> -->
 								</p:selectOneMenu>
 							</p:column>
 						</p:row>
