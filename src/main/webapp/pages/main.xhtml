@@ -36,7 +36,7 @@
 				var times = $( '#relogio' ).countdown( 'getTimes' );
 				$( '#formulario\\:horasEstudadaInMillis' ).val( times[ 4 ] * 60 * 60 * 1000 + times[ 5 ] * 60 * 1000 + times[ 6 ] * 1000 );
 				zerar();
-				cd.show();
+				PF( 'cd' ).show();
 			}
 		</script>
 	</ui:define>
@@ -57,7 +57,7 @@
 				</f:facet>
 
 				<p:commandButton value="OK"
-					actionListener="#{controleestudo.gravar()}" oncomplete="cd.hide()"
+					actionListener="#{controleestudo.gravar()}" oncomplete="PF( 'cd' ).hide()"
 					update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar, observacao, materias, dataTable, tabView" />
 			</p:confirmDialog>
 
