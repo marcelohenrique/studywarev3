@@ -5,17 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 import lombok.Data;
 
@@ -49,16 +42,13 @@ import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.UsuarioE
 @Data
 public class ControleEstudoMBean implements Serializable {
 
-	private static final int SEGUNDO = 1000;
-	private static final int MINUTO = SEGUNDO * 60;
-	private static final int HORA = MINUTO * 60;
+	private static final Double SEGUNDO = 1000.0;
+	private static final Double MINUTO = SEGUNDO * 60;
+	private static final Double HORA = MINUTO * 60;
 
 	private static final long serialVersionUID = -5358580904420656733L;
 
 	private final Logger logger = LoggerFactory.getLogger(ControleEstudoMBean.class);
-
-	@Resource
-	private UserTransaction userTransaction;
 
 	@Inject
 	private UsuarioEstudoGateway usuarioEstudoGateway;
@@ -76,6 +66,7 @@ public class ControleEstudoMBean implements Serializable {
 	public boolean btGravarDisabled = true;
 
 	private Long horasEstudadaInMillis;
+	private Long agoraInMillis;
 	private Duration tempoTotalAlocado = new Duration(0);
 	private Duration tempoEstudadoTotal = new Duration(0);
 
@@ -118,18 +109,19 @@ public class ControleEstudoMBean implements Serializable {
 		this.estudosDiarios = this.estudoDiaGateway.findAll(this.estudoSelecionado);
 
 		this.graficoEstudoDiario = new LineChartModel();
+		this.graficoEstudoDiario.setAnimate(true);
+		this.graficoEstudoDiario.setZoom(true);
 		this.graficoEstudoDiario.setLegendPosition("e");
 
 		Axis eixoY = this.graficoEstudoDiario.getAxis(AxisType.Y);
 		eixoY.setMin(0);
-		eixoY.setMax(24);
+		eixoY.setMax(12);
 
-		DateAxis axis = new DateAxis("Dates");
-		axis.setTickAngle(-50);
-		// axis.setMax("2014-02-01");
-		axis.setTickFormat("%b %#d, %y");
+		DateAxis axisX = new DateAxis();
+		axisX.setTickAngle(-50);
+		axisX.setTickFormat("%d/%m/%y");
 
-		this.graficoEstudoDiario.getAxes().put(AxisType.X, axis);
+		this.graficoEstudoDiario.getAxes().put(AxisType.X, axisX);
 
 		LineChartSeries planejado = new LineChartSeries();
 		planejado.setLabel("Planejado");
@@ -143,8 +135,8 @@ public class ControleEstudoMBean implements Serializable {
 		for (EstudoDiarioBean estudoDiario : this.estudosDiarios) {
 			if (estudoDiario != null) {
 				String date = formatter.print(estudoDiario.getInicioSemana().getTime());
-				Long tempoAlocado = estudoDiario.getTempoAlocado().getMillis() / HORA;
-				Long tempoEstudado = estudoDiario.getTempoEstudado().getMillis() / HORA;
+				Double tempoAlocado = estudoDiario.getTempoAlocado().getMillis() / HORA;
+				Double tempoEstudado = estudoDiario.getTempoEstudado().getMillis() / HORA;
 				planejado.set(date, tempoAlocado);
 				executado.set(date, tempoEstudado);
 			}
@@ -188,14 +180,8 @@ public class ControleEstudoMBean implements Serializable {
 		this.materiaEstudada.setHoraEstudo(new Date());
 		this.materiaEstudada.setTempoEstudado(new Duration(this.horasEstudadaInMillis));
 
-		try {
-			this.userTransaction.begin();
-			this.logger.info(this.materiaEstudada.toString());
-			this.usuarioEstudoMateriaHistoricoGateway.persist(this.materiaEstudada);
-			this.userTransaction.commit();
-		} catch (SecurityException | IllegalStateException | NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
-			e.printStackTrace();
-		}
+		this.logger.info(this.materiaEstudada.toString());
+		this.usuarioEstudoMateriaHistoricoGateway.persist(this.materiaEstudada);
 		this.materiasEstudadas = this.usuarioEstudoMateriaHistoricoGateway.findAll(this.estudoSelecionado);
 		this.materiaEstudada = this.build();
 		this.atualiza();

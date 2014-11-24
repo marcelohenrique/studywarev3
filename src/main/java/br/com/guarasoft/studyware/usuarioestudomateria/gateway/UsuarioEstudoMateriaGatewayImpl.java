@@ -18,30 +18,6 @@ public class UsuarioEstudoMateriaGatewayImpl extends AbstractDao<UsuarioEstudoMa
 		super(UsuarioEstudoMateria.class);
 	}
 
-	// @Override
-	// public UsuarioEstudoMateriaBean find(UsuarioEstudoBean usuarioEstudoBean,
-	// MateriaBean materiaBean) {
-	// StringBuilder sql = new StringBuilder();
-	// sql.append(" FROM UsuarioEstudoMateria uem ");
-	// sql.append("WHERE uem.usuarioEstudo.id = :usuarioEstudo ");
-	// sql.append("  AND uem.materia.id = :materia ");
-	//
-	// TypedQuery<UsuarioEstudoMateria> query =
-	// this.entityManager.createQuery(sql.toString(),
-	// UsuarioEstudoMateria.class);
-	//
-	// query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
-	// query.setParameter("materia", materiaBean.getId());
-	//
-	// UsuarioEstudoMateria entidade = query.getSingleResult();
-	//
-	// UsuarioEstudoMateriaBean bean =
-	// this.usuarioEstudoMateriaEntidadeConverter.convert(usuarioEstudoBean,
-	// entidade);
-	//
-	// return bean;
-	// }
-
 	@Override
 	public UsuarioEstudoMateriaBean buscaPorId(Long id) {
 		UsuarioEstudoMateria entidade = this.find(id);
@@ -55,7 +31,8 @@ public class UsuarioEstudoMateriaGatewayImpl extends AbstractDao<UsuarioEstudoMa
 	public List<UsuarioEstudoMateriaBean> buscaPorUsuarioEstudo(UsuarioEstudoBean usuarioEstudoBean) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" from UsuarioEstudoMateria uem ");
-		sql.append("where uem.usuarioEstudo.id = :usuarioEstudo");
+		sql.append("where uem.usuarioEstudo.id = :usuarioEstudo ");
+		sql.append("order by uem.materia.nome ");
 
 		TypedQuery<UsuarioEstudoMateria> query = this.entityManager.createQuery(sql.toString(), UsuarioEstudoMateria.class);
 		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());

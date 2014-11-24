@@ -35,6 +35,8 @@
 				pausar();
 				var times = $( '#relogio' ).countdown( 'getTimes' );
 				$( '#formulario\\:horasEstudadaInMillis' ).val( times[ 4 ] * 60 * 60 * 1000 + times[ 5 ] * 60 * 1000 + times[ 6 ] * 1000 );
+				var agora = new Date().getTime();
+				$( '#formulario\\:agoraInMillis' ).val( agora );
 				zerar();
 				PF( 'cd' ).show();
 			}
@@ -47,6 +49,8 @@
 
 			<h:inputHidden id="horasEstudadaInMillis"
 				value="#{controleestudo.horasEstudadaInMillis}" />
+			<h:inputHidden id="agoraInMillis"
+				value="#{controleestudo.agoraInMillis}" />
 
 			<p:confirmDialog header="Observações" widgetVar="cd" severity="info">
 				<f:facet name="message">
@@ -89,8 +93,6 @@
 										itemValue="#{estudo.id}" itemLabel="#{estudo.nome}"
 										itemDescription="#{estudo.nome}" />
 									<p:ajax update="materias, dataTable, tabView" listener="#{controleestudo.listaEstudoMaterias()}" />
-									<!-- <p:ajax update="@form"
-										listener="#{controleestudo.listaEstudoMaterias()}" /> -->
 								</p:selectOneMenu>
 							</p:column>
 						</p:row>
@@ -194,7 +196,7 @@
 
 							<p:column headerText="Data/Hora" styleClass="textoCentralizado">
 								<h:outputText value="#{materiaestudada.horaEstudo}">
-									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo" />
 								</h:outputText>
 							</p:column>
 

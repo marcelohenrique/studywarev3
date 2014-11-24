@@ -3,6 +3,7 @@ package br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
 import org.joda.time.Duration;
@@ -16,6 +17,7 @@ import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.converte
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.ResumoMateriaEstudada;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.UsuarioEstudoMateriaHistorico;
 
+@Stateless
 public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<UsuarioEstudoMateriaHistorico, Long> implements UsuarioEstudoMateriaHistoricoGateway {
 
 	private final UsuarioEstudoMateriaBuilder usuarioEstudoMateriaBuilder = new UsuarioEstudoMateriaBuilder();
