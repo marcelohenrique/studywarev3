@@ -10,5 +10,6 @@ public class ResumoMateriaEstudada {
 
 	private UsuarioEstudoMateria usuarioEstudoMateria;
 	private Long somaTempo;
+	private String observacao;
 
 }

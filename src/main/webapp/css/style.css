@@ -57,3 +57,14 @@
 .ui-selectonemenu-label {
 	width: 100% !important;
 }
+
+.colunaTempo {
+	width: 200px;
+}
+
+.ui-stack {
+	position: fixed;
+	bottom: 28px;
+	right: 40px;
+	z-index: 999;
+}

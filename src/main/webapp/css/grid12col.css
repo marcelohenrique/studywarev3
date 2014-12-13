@@ -6,7 +6,7 @@
 
 	.container { position:relative; padding: 0px 0px; }
 	
-	.row { width: 100%; max-width: 1120px; min-width: 720px; margin: 0 auto;}
+	.row { width: 100%; /*max-width: 1120px;*/ min-width: 720px; margin: 0 auto;}
 	/* Para configurar o tamanho do grid, basta alterar o atributo max-width para o valor desejado. Recomendo 1140px como padrão pra Desktops */
 	/* Lembrando que do max-width, deverá ser subtraido o valor em px das margem esquerda e direita configuradas no .container, nesse caso, 20px */
 	
@@ -90,7 +90,7 @@
 
 	/*** Regra para redimensionamento de imagem ***/
 	
-	img, object, embed { max-width: 100%; height: auto; }
+	img, object, embed { /*max-width: 100%;*/ height: auto; }
 	img { -ms-interpolation-mode: bicubic; }
 	 
 	 /*** Clearfix criado por Nicolas Gallagher (http://nicolasgallagher.com/micro-clearfix-hack/) ***/

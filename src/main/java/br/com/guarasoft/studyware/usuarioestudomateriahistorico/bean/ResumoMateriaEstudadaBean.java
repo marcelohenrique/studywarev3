@@ -11,5 +11,6 @@ public class ResumoMateriaEstudadaBean {
 
 	private UsuarioEstudoMateriaBean usuarioEstudoMateria;
 	private Duration somaTempo;
+	private String observacao;
 
 }

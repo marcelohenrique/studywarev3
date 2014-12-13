@@ -45,6 +45,11 @@
 
 	<ui:define name="main">
 
+		<!-- <p:stack icon="/resources/studyware/img/stack.png" expanded="true">
+			<p:menuitem value="Tempo"
+				icon="/resources/studyware/img/add-notes.png" url="#" />
+		</p:stack> -->
+
 		<div class="container">
 
 			<h:inputHidden id="horasEstudadaInMillis"
@@ -61,13 +66,14 @@
 				</f:facet>
 
 				<p:commandButton value="OK"
-					actionListener="#{controleestudo.gravar()}" oncomplete="PF( 'cd' ).hide()"
+					actionListener="#{controleestudo.gravar()}"
+					oncomplete="PF( 'cd' ).hide()"
 					update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar, observacao, materias, dataTable, tabView" />
 			</p:confirmDialog>
 
 			<div class="row">
 
-				<div class="six columns">
+				<div class="four columns">
 					<p:panelGrid>
 						<f:facet name="header">
 							<p:row>
@@ -92,7 +98,8 @@
 									<f:selectItems value="#{controleestudo.estudos}" var="estudo"
 										itemValue="#{estudo.id}" itemLabel="#{estudo.nome}"
 										itemDescription="#{estudo.nome}" />
-									<p:ajax update="materias, dataTable, tabView" listener="#{controleestudo.listaEstudoMaterias()}" />
+									<p:ajax update="materias, dataTable, tabView"
+										listener="#{controleestudo.listaEstudoMaterias()}" />
 								</p:selectOneMenu>
 							</p:column>
 						</p:row>
@@ -148,7 +155,7 @@
 					</p:panelGrid>
 				</div>
 
-				<div class="six columns">
+				<div class="eight columns">
 					<p:dataTable id="dataTable" var="concursomateriaestudada"
 						value="#{controleestudo.resumoMateriasEstudadas}">
 
@@ -160,7 +167,7 @@
 						</p:column>
 
 						<p:column headerText="Tempo Alocado"
-							styleClass="textoCentralizado">
+							styleClass="colunaTempo textoCentralizado">
 							<h:outputText
 								value="#{concursomateriaestudada.usuarioEstudoMateria.tempoAlocado}"
 								converter="tempoConverter" />
@@ -171,12 +178,19 @@
 						</p:column>
 
 						<p:column headerText="Tempo Estudado"
-							styleClass="textoCentralizado">
+							styleClass="colunaTempo textoCentralizado">
 							<h:outputText value="#{concursomateriaestudada.somaTempo}"
 								converter="tempoConverter" />
 							<f:facet name="footer">
 								<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
 									converter="tempoConverter" />
+							</f:facet>
+						</p:column>
+
+						<p:column headerText="Observação" styleClass="textoCentralizado">
+							<h:outputText value="#{concursomateriaestudada.observacao}" />
+							<f:facet name="footer">
+								<h:outputText value="---" />
 							</f:facet>
 						</p:column>
 
@@ -190,13 +204,15 @@
 					<p:tab id="tabHistoricoEstudo" title="Histórico Estudo">
 						<p:dataTable id="dataTableHistoricoEstudo" var="materiaestudada"
 							value="#{controleestudo.materiasEstudadas}" paginator="true"
-							rows="10"
+							rows="30"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							editable="true" editMode="cell">
 
-							<p:column headerText="Data/Hora" styleClass="textoCentralizado">
+							<p:column headerText="Data/Hora"
+								styleClass="colunaTempo textoCentralizado">
 								<h:outputText value="#{materiaestudada.horaEstudo}">
-									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo" />
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+										timeZone="America/Sao_Paulo" />
 								</h:outputText>
 							</p:column>
 
@@ -206,7 +222,7 @@
 							</p:column>
 
 							<p:column headerText="Tempo Estudado"
-								styleClass="textoCentralizado">
+								styleClass="colunaTempo textoCentralizado">
 								<h:outputText value="#{materiaestudada.tempoEstudado}"
 									converter="durationhhmmssConverter" />
 							</p:column>
