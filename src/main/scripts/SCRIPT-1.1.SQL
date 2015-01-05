@@ -1,0 +1,1 @@
+ALTER TABLE UsuarioEstudoMateriaHistorico ADD COLUMN horaEstudo2 TIMESTAMP WITH TIME ZONE;
