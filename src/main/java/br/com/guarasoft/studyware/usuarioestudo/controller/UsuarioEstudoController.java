@@ -27,7 +27,7 @@ import br.com.guarasoft.studyware.estudodiario.bean.UsuarioEstudoDiarioBean;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 import br.com.guarasoft.studyware.menu.controller.MenuController;
-import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
+import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudo;
 import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudoImpl;
@@ -66,7 +66,7 @@ public class UsuarioEstudoController implements Serializable {
 
 	@ManagedProperty(value = "#{sessionAuth.usuario}")
 	@Getter(AccessLevel.PRIVATE)
-	private UsuarioBean usuario;
+	private Usuario usuario;
 
 	private DualListModel<MateriaBean> materias;
 

@@ -60,7 +60,7 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 		sql.append("  LEFT JOIN uem.historico uemh ");
 		sql.append(" WHERE uem.usuarioEstudo.id = :usuarioEstudo ");
 		sql.append(" GROUP BY uem ");
-		sql.append(" ORDER BY uem.ordem ");
+		sql.append(" ORDER BY uem.ordem");
 
 		TypedQuery<ResumoMateriaEstudada> query = this.entityManager.createQuery(sql.toString(), ResumoMateriaEstudada.class);
 		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());

@@ -5,8 +5,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
+import br.com.guarasoft.studyware.usuario.casodeuso.AlterarUsuario;
+import br.com.guarasoft.studyware.usuario.casodeuso.AlterarUsuarioImpl;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
+import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AlterarUsuarioTest {
@@ -16,7 +18,7 @@ public class AlterarUsuarioTest {
 
 	@Test
 	public void alterarUsuarioSucesso() {
-		UsuarioBean usuario = new UsuarioBean();
+		Usuario usuario = new Usuario();
 
 		AlterarUsuario alterarUsuario = new AlterarUsuarioImpl(this.usuarioGateway);
 		alterarUsuario.execute(usuario);

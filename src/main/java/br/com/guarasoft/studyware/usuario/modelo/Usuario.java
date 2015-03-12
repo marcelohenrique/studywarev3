@@ -1,9 +1,9 @@
-package br.com.guarasoft.studyware.usuario.bean;
+package br.com.guarasoft.studyware.usuario.modelo;
 
 import lombok.Data;
 
 @Data
-public class UsuarioBean {
+public class Usuario {
 
 	private String email;
 	private boolean ativo;
@@ -19,7 +19,7 @@ public class UsuarioBean {
 		if (this.getClass() != obj.getClass()) {
 			return false;
 		}
-		UsuarioBean other = (UsuarioBean) obj;
+		Usuario other = (Usuario) obj;
 		if (this.email == null) {
 			if (other.email != null) {
 				return false;

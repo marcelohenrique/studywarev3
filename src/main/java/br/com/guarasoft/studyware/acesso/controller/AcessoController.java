@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.auth;
+package br.com.guarasoft.studyware.acesso.controller;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,14 +10,14 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
-import br.com.guarasoft.studyware.usuario.casosdeuso.CadastrarUsuario;
-import br.com.guarasoft.studyware.usuario.casosdeuso.CadastrarUsuarioImpl;
-import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuario;
-import br.com.guarasoft.studyware.usuario.casosdeuso.LoginUsuarioImpl;
+import br.com.guarasoft.studyware.usuario.casodeuso.CadastrarUsuario;
+import br.com.guarasoft.studyware.usuario.casodeuso.CadastrarUsuarioImpl;
+import br.com.guarasoft.studyware.usuario.casodeuso.LoginUsuario;
+import br.com.guarasoft.studyware.usuario.casodeuso.LoginUsuarioImpl;
+import br.com.guarasoft.studyware.usuario.excecao.EmailNaoEncontrado;
 import br.com.guarasoft.studyware.usuario.excecao.UsuarioInativo;
-import br.com.guarasoft.studyware.usuario.excecoes.EmailNaoEncontrado;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
+import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -32,8 +32,8 @@ import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Person;
 import com.google.api.services.plus.model.Person.Emails;
 
-@ManagedBean(name = "sigin")
-public class Signin {
+@ManagedBean(name = "signin")
+public class AcessoController {
 
 	/*
 	 * Default HTTP transport to use to make HTTP requests.
@@ -46,11 +46,6 @@ public class Signin {
 	private static final JacksonFactory JSON_FACTORY = new JacksonFactory();
 
 	private static final String APPLICATION_NAME = "Studyware";
-
-	/*
-	 * Gson object to serialize JSON responses to requests to this servlet.
-	 */
-	// private static final Gson GSON = new Gson();
 
 	/*
 	 * Creates a client secrets object from the client_secrets.json file.
@@ -82,14 +77,17 @@ public class Signin {
 	@PostConstruct
 	private void init() {
 		try {
-			Reader reader = new FileReader(FacesContext.getCurrentInstance().getExternalContext().getRealPath("WEB-INF/") + "/client_secrets.json");
+			Reader reader = new FileReader(FacesContext.getCurrentInstance()
+					.getExternalContext().getRealPath("WEB-INF/")
+					+ "/client_secrets.json");
 			this.clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, reader);
 
 			this.clientId = this.clientSecrets.getWeb().getClientId();
 			this.clientSecret = this.clientSecrets.getWeb().getClientSecret();
 
 			this.loginUsuario = new LoginUsuarioImpl(this.usuarioGateway);
-			this.cadastrarUsuario = new CadastrarUsuarioImpl(this.usuarioGateway);
+			this.cadastrarUsuario = new CadastrarUsuarioImpl(
+					this.usuarioGateway);
 		} catch (IOException e) {
 			throw new Error("No client_secrets.json found", e);
 		}
@@ -102,7 +100,9 @@ public class Signin {
 			try {
 				// Upgrade the authorization code into an access and refresh
 				// token.
-				GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(TRANSPORT, JSON_FACTORY, this.clientId, this.clientSecret, this.code, "postmessage").execute();
+				GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(
+						TRANSPORT, JSON_FACTORY, this.clientId,
+						this.clientSecret, this.code, "postmessage").execute();
 
 				// You can read the Google user ID in the ID token.
 				// This sample does not use the user ID.
@@ -110,17 +110,22 @@ public class Signin {
 				// String gplusId = idToken.getPayload().getSubject();
 
 				// Build credential from stored token data.
-				GoogleCredential credential = new GoogleCredential.Builder().setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT).setClientSecrets(this.clientId, this.clientSecret).build()
-						.setFromTokenResponse(tokenResponse);
+				GoogleCredential credential = new GoogleCredential.Builder()
+						.setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT)
+						.setClientSecrets(this.clientId, this.clientSecret)
+						.build().setFromTokenResponse(tokenResponse);
 
 				// Create a new authorized API client.
-				Plus service = new Plus.Builder(TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
+				Plus service = new Plus.Builder(TRANSPORT, JSON_FACTORY,
+						credential).setApplicationName(APPLICATION_NAME)
+						.build();
 
 				Person mePerson = service.people().get("me").execute();
 
 				for (Emails email : mePerson.getEmails()) {
 					if ("account".equals(email.getType())) {
-						UsuarioBean usuario = this.loginUsuario.autentica(email.getValue());
+						Usuario usuario = this.loginUsuario.autentica(email
+								.getValue());
 						this.sessionAuth.setUsuario(usuario);
 						break;
 					}
@@ -131,8 +136,8 @@ public class Signin {
 			} catch (TokenResponseException e) {
 				throw new Error("Failed to upgrade the authorization code.", e);
 			} catch (IOException e) {
-				e.printStackTrace();
-				throw new Error("Failed to read token data from Google. " + e.getMessage(), e);
+				throw new Error("Failed to read token data from Google. "
+						+ e.getMessage(), e);
 			} catch (EmailNaoEncontrado e) {
 				this.cadastrarUsuario.executar(e.getUsuario());
 				return "pages/forbidden";
@@ -149,10 +154,23 @@ public class Signin {
 		if (tokenData != null) {
 			try {
 				// Build credential from stored token data.
-				GoogleCredential credential = new GoogleCredential.Builder().setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT).setClientSecrets(this.clientId, this.clientSecret).build()
-						.setFromTokenResponse(JSON_FACTORY.fromString(tokenData, GoogleTokenResponse.class));
+				GoogleCredential credential = new GoogleCredential.Builder()
+						.setJsonFactory(JSON_FACTORY)
+						.setTransport(TRANSPORT)
+						.setClientSecrets(this.clientId, this.clientSecret)
+						.build()
+						.setFromTokenResponse(
+								JSON_FACTORY.fromString(tokenData,
+										GoogleTokenResponse.class));
 				// Execute HTTP GET request to revoke current token.
-				TRANSPORT.createRequestFactory().buildGetRequest(new GenericUrl(String.format("https://accounts.google.com/o/oauth2/revoke?token=%s", credential.getAccessToken()))).execute();
+				TRANSPORT
+						.createRequestFactory()
+						.buildGetRequest(
+								new GenericUrl(
+										String.format(
+												"https://accounts.google.com/o/oauth2/revoke?token=%s",
+												credential.getAccessToken())))
+						.execute();
 				// Reset the user's session.
 				this.sessionAuth.setToken(null);
 			} catch (IOException e) {

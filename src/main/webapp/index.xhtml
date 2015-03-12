@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<link rel="stylesheet" type="text/css" href="css/grid12col.css" />
@@ -14,20 +15,14 @@
 </h:head>
 <h:body>
 
-	<p:ajaxStatus onstart="PF('statusDialog').show();"
-		onsuccess="PF('statusDialog').hide();" />
-
-	<p:dialog modal="true" widgetVar="statusDialog" header="Carregando..."
-		draggable="false" closable="false" resizable="false">
-		<p:graphicImage value="/images/ajax-loader.gif" />
-	</p:dialog>
+	<ui:include src="/status.xhtml" />
 
 	<h:form id="formulario">
-		<p:remoteCommand name="login" action="#{sigin.login}" />
 
-		<h:inputHidden id="code" value="#{sigin.code}" />
+		<p:remoteCommand name="login" action="#{signin.login}" />
 
-		<!-- <div class="container"> -->
+		<h:inputHidden id="code" value="#{signin.code}" />
+
 		<div id="gConnect">
 			<span id="signinButton"> <span class="g-signin"
 				data-callback="signinCallback"
@@ -38,8 +33,9 @@
 			</span>
 			</span>
 		</div>
-		<!-- </div> -->
+
 	</h:form>
+
 </h:body>
 <script type="text/javascript">
 	(function() {

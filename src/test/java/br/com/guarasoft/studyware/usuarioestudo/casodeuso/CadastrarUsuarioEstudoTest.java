@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
+import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudo.excecao.UsuarioEstudoJaExiste;
 import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
@@ -27,7 +27,7 @@ public class CadastrarUsuarioEstudoTest {
 		CadastrarUsuarioEstudo cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(this.usuarioEstudoGateway);
 
 		UsuarioEstudoBean usuarioEstudoBean = new UsuarioEstudoBean();
-		UsuarioBean usuario = new UsuarioBean();
+		Usuario usuario = new Usuario();
 		usuario.setEmail(email);
 		usuarioEstudoBean.setUsuario(usuario);
 		usuarioEstudoBean.setNome(nomeEstudo);
@@ -45,7 +45,7 @@ public class CadastrarUsuarioEstudoTest {
 		CadastrarUsuarioEstudo cadastrarUsuarioEstudo = new CadastrarUsuarioEstudoImpl(this.usuarioEstudoGateway);
 
 		UsuarioEstudoBean usuarioEstudoBean = new UsuarioEstudoBean();
-		UsuarioBean usuario = new UsuarioBean();
+		Usuario usuario = new Usuario();
 		usuario.setEmail(email);
 		usuarioEstudoBean.setUsuario(usuario);
 		usuarioEstudoBean.setNome(nomeEstudo);

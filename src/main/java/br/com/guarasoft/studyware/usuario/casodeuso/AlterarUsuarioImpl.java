@@ -1,7 +1,7 @@
-package br.com.guarasoft.studyware.usuario.casosdeuso;
+package br.com.guarasoft.studyware.usuario.casodeuso;
 
-import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
+import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 public class AlterarUsuarioImpl implements AlterarUsuario {
 
@@ -12,7 +12,7 @@ public class AlterarUsuarioImpl implements AlterarUsuario {
 	}
 
 	@Override
-	public void execute(UsuarioBean usuario) {
+	public void execute(Usuario usuario) {
 		this.usuarioGateway.alterar(usuario);
 	}
 

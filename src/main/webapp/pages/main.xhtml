@@ -159,11 +159,16 @@
 					<p:dataTable id="dataTable" var="concursomateriaestudada"
 						value="#{controleestudo.resumoMateriasEstudadas}">
 
-						<p:column>
-							<f:facet name="header">Matéria</f:facet>
+						<p:column headerText="Ordem"
+							sortBy="#{concursomateriaestudada.usuarioEstudoMateria.ordem}">
+							<h:outputText
+								value="#{concursomateriaestudada.usuarioEstudoMateria.ordem}" />
+						</p:column>
+
+						<p:column headerText="Matéria"
+							sortBy="#{concursomateriaestudada.usuarioEstudoMateria.materia.nome}">
 							<h:outputText
 								value="#{concursomateriaestudada.usuarioEstudoMateria.materia.nome}" />
-							<f:facet name="footer">Total:</f:facet>
 						</p:column>
 
 						<p:column headerText="Tempo Alocado"
@@ -171,28 +176,34 @@
 							<h:outputText
 								value="#{concursomateriaestudada.usuarioEstudoMateria.tempoAlocado}"
 								converter="tempoConverter" />
-							<f:facet name="footer">
-								<h:outputText value="#{controleestudo.tempoTotalAlocado}"
-									converter="tempoConverter" />
-							</f:facet>
 						</p:column>
 
 						<p:column headerText="Tempo Estudado"
 							styleClass="colunaTempo textoCentralizado">
 							<h:outputText value="#{concursomateriaestudada.somaTempo}"
 								converter="tempoConverter" />
-							<f:facet name="footer">
-								<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
-									converter="tempoConverter" />
-							</f:facet>
 						</p:column>
 
 						<p:column headerText="Observação" styleClass="textoCentralizado">
 							<h:outputText value="#{concursomateriaestudada.observacao}" />
-							<f:facet name="footer">
-								<h:outputText value="---" />
-							</f:facet>
 						</p:column>
+
+						<p:columnGroup type="footer">
+							<p:row>
+								<p:column colspan="2" footerText="Total:" />
+								<p:column>
+									<h:outputText value="#{controleestudo.tempoTotalAlocado}"
+										converter="tempoConverter" />
+								</p:column>
+								<p:column>
+									<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
+										converter="tempoConverter" />
+								</p:column>
+								<p:column>
+									<h:outputText value="---" />
+								</p:column>
+							</p:row>
+						</p:columnGroup>
 
 					</p:dataTable>
 				</div>
@@ -279,9 +290,9 @@
 
 					<p:tab id="tbAcompanhamentoDiario" title="Acompanhamento Diário">
 						<p:chart id="graficoAcompanhamentoDiario" type="line"
-							model="#{controleestudo.graficoEstudoDiario}"
+							model="#{controleestudo.graficoDiario.graficoEstudoDiario}"
 							style="height:300px;margin-top:20px"
-							rendered="#{not empty controleestudo.graficoEstudoDiario}" />
+							rendered="#{not empty controleestudo.graficoDiario}" />
 					</p:tab>
 
 				</p:tabView>

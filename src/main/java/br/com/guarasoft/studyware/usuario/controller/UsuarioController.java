@@ -7,11 +7,11 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import br.com.guarasoft.studyware.menu.controller.MenuController;
-import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
-import br.com.guarasoft.studyware.usuario.casosdeuso.CadastrarUsuario;
-import br.com.guarasoft.studyware.usuario.casosdeuso.CadastrarUsuarioImpl;
-import br.com.guarasoft.studyware.usuario.excecoes.EmailJaCadastrado;
+import br.com.guarasoft.studyware.usuario.casodeuso.CadastrarUsuario;
+import br.com.guarasoft.studyware.usuario.casodeuso.CadastrarUsuarioImpl;
+import br.com.guarasoft.studyware.usuario.excecao.EmailJaCadastrado;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
+import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 @ManagedBean(name = "usuario")
 public class UsuarioController {
@@ -32,7 +32,7 @@ public class UsuarioController {
 
 	public String cadastrar() {
 		try {
-			UsuarioBean usuario = new UsuarioBean();
+			Usuario usuario = new Usuario();
 			usuario.setEmail(this.email);
 			this.cadastrarUsuario.executar(usuario);
 			this.context.addMessage(null, new FacesMessage("Sucesso", "E-mail cadastrado"));

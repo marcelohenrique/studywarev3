@@ -5,25 +5,25 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
-import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
 import br.com.guarasoft.studyware.usuario.gateway.converter.UsuarioEntidadeConverter;
-import br.com.guarasoft.studyware.usuario.gateway.entidade.Usuario;
+import br.com.guarasoft.studyware.usuario.gateway.entidade.UsuarioEntity;
+import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 @Stateless
-public class UsuarioGatewayImpl extends AbstractDao<Usuario, String> implements UsuarioGateway {
+public class UsuarioGatewayImpl extends AbstractDao<UsuarioEntity, String> implements UsuarioGateway {
 
 	private final UsuarioEntidadeConverter usuarioEntidadeConverter = new UsuarioEntidadeConverter();
 
 	public UsuarioGatewayImpl() {
-		super(Usuario.class);
+		super(UsuarioEntity.class);
 	}
 
 	@Override
-	public UsuarioBean pesquisaPorEmail(String email) {
-		Usuario usuario = this.find(email);
+	public Usuario pesquisaPorEmail(String email) {
+		UsuarioEntity usuario = this.find(email);
 
 		if (usuario != null) {
-			UsuarioBean bean = this.usuarioEntidadeConverter.convert(usuario);
+			Usuario bean = this.usuarioEntidadeConverter.convert(usuario);
 			return bean;
 		}
 
@@ -31,21 +31,21 @@ public class UsuarioGatewayImpl extends AbstractDao<Usuario, String> implements 
 	}
 
 	@Override
-	public void cadastrar(UsuarioBean usuario) {
-		Usuario entidade = this.usuarioEntidadeConverter.convert(usuario);
+	public void cadastrar(Usuario usuario) {
+		UsuarioEntity entidade = this.usuarioEntidadeConverter.convert(usuario);
 		this.persist(entidade);
 	}
 
 	@Override
-	public List<UsuarioBean> buscaUsuarios() {
-		List<Usuario> entidades = this.findAll("email");
-		List<UsuarioBean> beans = this.usuarioEntidadeConverter.convert(entidades);
+	public List<Usuario> buscaUsuarios() {
+		List<UsuarioEntity> entidades = this.findAll("email");
+		List<Usuario> beans = this.usuarioEntidadeConverter.convert(entidades);
 		return beans;
 	}
 
 	@Override
-	public void alterar(UsuarioBean usuario) {
-		Usuario entidade = this.usuarioEntidadeConverter.convert(usuario);
+	public void alterar(Usuario usuario) {
+		UsuarioEntity entidade = this.usuarioEntidadeConverter.convert(usuario);
 		this.merge(entidade);
 	}
 

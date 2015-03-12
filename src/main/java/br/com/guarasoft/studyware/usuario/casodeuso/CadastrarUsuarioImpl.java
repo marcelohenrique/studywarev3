@@ -1,8 +1,8 @@
-package br.com.guarasoft.studyware.usuario.casosdeuso;
+package br.com.guarasoft.studyware.usuario.casodeuso;
 
-import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
-import br.com.guarasoft.studyware.usuario.excecoes.EmailJaCadastrado;
+import br.com.guarasoft.studyware.usuario.excecao.EmailJaCadastrado;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
+import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 public class CadastrarUsuarioImpl implements CadastrarUsuario {
 
@@ -13,8 +13,8 @@ public class CadastrarUsuarioImpl implements CadastrarUsuario {
 	}
 
 	@Override
-	public Boolean executar(UsuarioBean usuario) {
-		UsuarioBean usuarioPesquisa = this.usuarioGateway.pesquisaPorEmail(usuario.getEmail());
+	public Boolean executar(Usuario usuario) {
+		Usuario usuarioPesquisa = this.usuarioGateway.pesquisaPorEmail(usuario.getEmail());
 		if (usuarioPesquisa != null) {
 			throw new EmailJaCadastrado();
 		}

@@ -10,10 +10,10 @@ import javax.inject.Inject;
 
 import org.primefaces.event.RowEditEvent;
 
-import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
-import br.com.guarasoft.studyware.usuario.casosdeuso.AlterarUsuario;
-import br.com.guarasoft.studyware.usuario.casosdeuso.AlterarUsuarioImpl;
+import br.com.guarasoft.studyware.usuario.casodeuso.AlterarUsuario;
+import br.com.guarasoft.studyware.usuario.casodeuso.AlterarUsuarioImpl;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
+import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 @ManagedBean(name = "usuarioConsulta")
 public class UsuarioConsultaController {
@@ -22,7 +22,7 @@ public class UsuarioConsultaController {
 	private UsuarioGateway usuarioGateway;
 	private AlterarUsuario alterarUsuario;
 
-	private List<UsuarioBean> usuarios;
+	private List<Usuario> usuarios;
 
 	@PostConstruct
 	private void init() {
@@ -32,7 +32,7 @@ public class UsuarioConsultaController {
 	}
 
 	public void onRowEdit(RowEditEvent event) {
-		UsuarioBean usuario = (UsuarioBean) event.getObject();
+		Usuario usuario = (Usuario) event.getObject();
 
 		this.alterarUsuario.execute(usuario);
 
@@ -41,17 +41,17 @@ public class UsuarioConsultaController {
 	}
 
 	public void onRowCancel(RowEditEvent event) {
-		UsuarioBean usuario = (UsuarioBean) event.getObject();
+		Usuario usuario = (Usuario) event.getObject();
 
 		FacesMessage msg = new FacesMessage("Alteração Cancelada", usuario.getEmail());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public List<UsuarioBean> getUsuarios() {
+	public List<Usuario> getUsuarios() {
 		return this.usuarios;
 	}
 
-	public void setUsuarios(List<UsuarioBean> usuarios) {
+	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
 

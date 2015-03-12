@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.usuario.excecoes;
+package br.com.guarasoft.studyware.usuario.excecao;
 
 public class EmailJaCadastrado extends RuntimeException {
 

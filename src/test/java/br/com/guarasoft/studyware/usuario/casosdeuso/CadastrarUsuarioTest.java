@@ -9,9 +9,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
-import br.com.guarasoft.studyware.usuario.excecoes.EmailJaCadastrado;
+import br.com.guarasoft.studyware.usuario.casodeuso.CadastrarUsuario;
+import br.com.guarasoft.studyware.usuario.casodeuso.CadastrarUsuarioImpl;
+import br.com.guarasoft.studyware.usuario.excecao.EmailJaCadastrado;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
+import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CadastrarUsuarioTest {
@@ -21,7 +23,7 @@ public class CadastrarUsuarioTest {
 
 	@Test
 	public void cadastrarSucesso() {
-		UsuarioBean usuario = new UsuarioBean();
+		Usuario usuario = new Usuario();
 		usuario.setEmail("teste@gmail.com");
 
 		CadastrarUsuario cadastrarUsuario = new CadastrarUsuarioImpl(this.usuarioGateway);
@@ -32,10 +34,10 @@ public class CadastrarUsuarioTest {
 
 	@Test(expected = EmailJaCadastrado.class)
 	public void cadastrarEmailJaCadastrado() {
-		UsuarioBean usuario = new UsuarioBean();
+		Usuario usuario = new Usuario();
 		usuario.setEmail("teste@gmail.com");
 
-		when(this.usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(new UsuarioBean());
+		when(this.usuarioGateway.pesquisaPorEmail(anyString())).thenReturn(new Usuario());
 
 		CadastrarUsuario cadastrarUsuario = new CadastrarUsuarioImpl(this.usuarioGateway);
 		cadastrarUsuario.executar(usuario);

@@ -39,13 +39,7 @@
 </h:head>
 <h:body>
 
-	<p:ajaxStatus onstart="PF('statusDialog').show();"
-		onsuccess="PF('statusDialog').hide();" />
-
-	<p:dialog modal="true" widgetVar="statusDialog" header="Carregando..."
-		draggable="false" closable="false" resizable="false">
-		<p:graphicImage value="/images/ajax-loader.gif" />
-	</p:dialog>
+	<ui:include src="/status.xhtml" />
 
 	<ui:insert name="menu">
 
@@ -69,7 +63,7 @@
 
 					<f:facet name="options">
 						<p:commandButton value="Logout" icon="ui-icon-extlink"
-							action="#{sigin.logout()}" ajax="false" />
+							action="#{signin.logout()}" ajax="false" />
 					</f:facet>
 				</p:menubar>
 

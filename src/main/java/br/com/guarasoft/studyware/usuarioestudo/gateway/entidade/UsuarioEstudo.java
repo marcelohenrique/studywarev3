@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 import lombok.Data;
 import br.com.guarasoft.studyware.estudodiario.gateway.entidade.UsuarioEstudoDiario;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
-import br.com.guarasoft.studyware.usuario.gateway.entidade.Usuario;
+import br.com.guarasoft.studyware.usuario.gateway.entidade.UsuarioEntity;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 
 @Entity
@@ -35,7 +35,7 @@ public class UsuarioEstudo implements Entidade {
 
 	@JoinColumn(name = "email", referencedColumnName = "email")
 	@ManyToOne
-	private Usuario usuario;
+	private UsuarioEntity usuario;
 
 	private String nome;
 

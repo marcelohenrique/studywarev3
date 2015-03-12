@@ -2,16 +2,16 @@ package br.com.guarasoft.studyware.usuario.gateway;
 
 import java.util.List;
 
-import br.com.guarasoft.studyware.usuario.bean.UsuarioBean;
+import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 public interface UsuarioGateway {
 
-	void cadastrar(UsuarioBean usuario);
+	void cadastrar(Usuario usuario);
 
-	UsuarioBean pesquisaPorEmail(String email);
+	Usuario pesquisaPorEmail(String email);
 
-	List<UsuarioBean> buscaUsuarios();
+	List<Usuario> buscaUsuarios();
 
-	void alterar(UsuarioBean usuario);
+	void alterar(Usuario usuario);
 
 }

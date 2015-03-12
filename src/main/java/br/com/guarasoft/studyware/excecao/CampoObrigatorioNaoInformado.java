@@ -7,7 +7,6 @@ public class CampoObrigatorioNaoInformado extends RuntimeException {
 	private final String campo;
 
 	public CampoObrigatorioNaoInformado(String campo) {
-		super();
 		this.campo = campo;
 	}
 
