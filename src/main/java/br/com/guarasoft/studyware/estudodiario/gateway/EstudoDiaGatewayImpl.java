@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.estudodiario.bean.EstudoDiarioBean;
 import br.com.guarasoft.studyware.estudodiario.gateway.converter.EstudoDiarioEntidadeConverter;
 import br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiario;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 
 public class EstudoDiaGatewayImpl extends AbstractDao<EstudoDiario, Long> implements EstudoDiaGateway {
 

@@ -6,10 +6,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.gateway.converter.UsuarioEstudoEntidadeConverter;
+import br.com.guarasoft.studyware.estudo.gateway.entidade.UsuarioEstudo;
 import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.converter.UsuarioEstudoEntidadeConverter;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 

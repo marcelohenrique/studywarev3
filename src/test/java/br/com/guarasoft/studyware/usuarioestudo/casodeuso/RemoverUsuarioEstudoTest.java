@@ -5,8 +5,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.casodeuso.RemoverUsuarioEstudo;
+import br.com.guarasoft.studyware.estudo.casodeuso.RemoverUsuarioEstudoImpl;
+import br.com.guarasoft.studyware.estudo.gateway.UsuarioEstudoGateway;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RemoverUsuarioEstudoTest {

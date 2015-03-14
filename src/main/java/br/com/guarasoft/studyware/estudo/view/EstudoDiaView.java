@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.usuarioestudo.view;
+package br.com.guarasoft.studyware.estudo.view;
 
 import java.util.Date;
 
@@ -7,23 +7,23 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import br.com.guarasoft.studyware.controller.converter.DurationConverter;
-import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
+import br.com.guarasoft.studyware.estudodiario.bean.UsuarioEstudoDiarioBean;
 
 @Data
-public class MateriaCicloView {
+public class EstudoDiaView {
 
 	@Getter(AccessLevel.PRIVATE)
 	@Setter(AccessLevel.PRIVATE)
 	private DurationConverter durationConverter = new DurationConverter();
 
-	private UsuarioEstudoMateriaBean materia;
+	private UsuarioEstudoDiarioBean estudoDiario;
 
 	public Date getTempoAlocado() {
-		return this.durationConverter.toDate(this.materia.getTempoAlocado());
+		return this.durationConverter.toDate(this.estudoDiario.getTempoAlocado());
 	}
 
 	public void setTempoAlocado(Date tempoAlocado) {
-		this.materia.setTempoAlocado(this.durationConverter.toDuration(tempoAlocado));
+		this.estudoDiario.setTempoAlocado(this.durationConverter.toDuration(tempoAlocado));
 	}
 
 }

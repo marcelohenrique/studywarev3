@@ -1,7 +1,7 @@
-package br.com.guarasoft.studyware.usuarioestudo.gateway.converter;
+package br.com.guarasoft.studyware.estudo.gateway.converter;
 
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.gateway.entidade.UsuarioEstudo;
 
 public class UsuarioEstudoEntidadeConverter {
 

@@ -9,8 +9,8 @@ import javax.persistence.TypedQuery;
 
 import org.joda.time.Duration;
 
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaBuilder;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.bean.ResumoMateriaEstudadaBean;

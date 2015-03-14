@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.joda.time.Duration;
 
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaBuilder;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.bean.UsuarioEstudoMateriaHistoricoBean;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.UsuarioEstudoMateriaHistorico;

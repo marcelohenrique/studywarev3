@@ -7,10 +7,10 @@ import java.util.Set;
 
 import org.joda.time.Duration;
 
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.gateway.entidade.UsuarioEstudo;
 import br.com.guarasoft.studyware.estudodiario.bean.UsuarioEstudoDiarioBean;
 import br.com.guarasoft.studyware.estudodiario.gateway.entidade.UsuarioEstudoDiario;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
 
 public class UsuarioEstudoDiarioEntidadeConverter {
 

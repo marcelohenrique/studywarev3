@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.usuarioestudo.excecao;
+package br.com.guarasoft.studyware.estudo.excecao;
 
 public class UsuarioEstudoJaExiste extends RuntimeException {
 

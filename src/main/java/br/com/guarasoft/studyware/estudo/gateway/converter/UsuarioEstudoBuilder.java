@@ -1,12 +1,12 @@
-package br.com.guarasoft.studyware.usuarioestudo.gateway.converter;
+package br.com.guarasoft.studyware.estudo.gateway.converter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.gateway.entidade.UsuarioEstudo;
 import br.com.guarasoft.studyware.estudodiario.gateway.converter.UsuarioEstudoDiarioEntidadeConverter;
 import br.com.guarasoft.studyware.usuario.gateway.converter.UsuarioEntidadeConverter;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaBuilder;
 
 public class UsuarioEstudoBuilder {

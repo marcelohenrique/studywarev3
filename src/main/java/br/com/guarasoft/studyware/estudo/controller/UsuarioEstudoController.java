@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.usuarioestudo.controller;
+package br.com.guarasoft.studyware.estudo.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,21 +22,21 @@ import org.joda.time.Duration;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.model.DualListModel;
 
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.casodeuso.CadastrarUsuarioEstudo;
+import br.com.guarasoft.studyware.estudo.casodeuso.CadastrarUsuarioEstudoImpl;
+import br.com.guarasoft.studyware.estudo.casodeuso.RemoverUsuarioEstudo;
+import br.com.guarasoft.studyware.estudo.casodeuso.RemoverUsuarioEstudoImpl;
+import br.com.guarasoft.studyware.estudo.excecao.UsuarioEstudoJaExiste;
+import br.com.guarasoft.studyware.estudo.gateway.UsuarioEstudoGateway;
+import br.com.guarasoft.studyware.estudo.view.EstudoDiaView;
+import br.com.guarasoft.studyware.estudo.view.MateriaCicloView;
 import br.com.guarasoft.studyware.estudodiario.bean.DiaBean;
 import br.com.guarasoft.studyware.estudodiario.bean.UsuarioEstudoDiarioBean;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 import br.com.guarasoft.studyware.menu.controller.MenuController;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudo;
-import br.com.guarasoft.studyware.usuarioestudo.casodeuso.CadastrarUsuarioEstudoImpl;
-import br.com.guarasoft.studyware.usuarioestudo.casodeuso.RemoverUsuarioEstudo;
-import br.com.guarasoft.studyware.usuarioestudo.casodeuso.RemoverUsuarioEstudoImpl;
-import br.com.guarasoft.studyware.usuarioestudo.excecao.UsuarioEstudoJaExiste;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
-import br.com.guarasoft.studyware.usuarioestudo.view.EstudoDiaView;
-import br.com.guarasoft.studyware.usuarioestudo.view.MateriaCicloView;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 
 @ManagedBean(name = "usuarioEstudo")

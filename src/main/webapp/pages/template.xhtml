@@ -50,8 +50,12 @@
 
 					<p:menuitem icon="ui-icon-home" action="#{controller.home()}" />
 
-					<p:menuitem value="Estudos" icon="ui-icon-note"
-						action="#{controller.consultarUsuarioEstudo()}" />
+					<p:submenu label="Estudo" icon="ui-icon-note">
+						<p:menuitem value="Cadastro" icon="ui-icon-plus"
+							action="#{controller.cadastrarUsuarioEstudo()}" />
+						<p:menuitem value="Consulta" icon="ui-icon-search"
+							action="#{controller.consultarUsuarioEstudo()}" />
+					</p:submenu>
 
 					<p:submenu label="Administração" icon="ui-icon-gear"
 						rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">

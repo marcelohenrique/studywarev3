@@ -1,14 +1,14 @@
-package br.com.guarasoft.studyware.usuarioestudo.gateway;
+package br.com.guarasoft.studyware.estudo.gateway;
 
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.gateway.converter.UsuarioEstudoBuilder;
+import br.com.guarasoft.studyware.estudo.gateway.entidade.UsuarioEstudo;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.converter.UsuarioEstudoBuilder;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
 
 @Stateless
 public class UsuarioEstudoGatewayImpl extends AbstractDao<UsuarioEstudo, Long> implements UsuarioEstudoGateway {

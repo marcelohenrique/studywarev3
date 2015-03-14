@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.converter.UsuarioEstudoMateriaBuilder;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.entidade.UsuarioEstudoMateria;

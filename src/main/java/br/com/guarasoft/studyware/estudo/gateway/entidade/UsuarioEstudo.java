@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.usuarioestudo.gateway.entidade;
+package br.com.guarasoft.studyware.estudo.gateway.entidade;
 
 import java.util.Date;
 import java.util.Set;

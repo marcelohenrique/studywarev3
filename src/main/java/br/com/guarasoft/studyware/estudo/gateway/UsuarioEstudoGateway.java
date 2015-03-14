@@ -1,8 +1,8 @@
-package br.com.guarasoft.studyware.usuarioestudo.gateway;
+package br.com.guarasoft.studyware.estudo.gateway;
 
 import java.util.List;
 
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
 
 public interface UsuarioEstudoGateway {
 

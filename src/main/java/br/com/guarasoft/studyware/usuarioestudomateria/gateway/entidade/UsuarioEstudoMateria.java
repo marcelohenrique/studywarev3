@@ -13,9 +13,9 @@ import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
 import lombok.ToString;
+import br.com.guarasoft.studyware.estudo.gateway.entidade.UsuarioEstudo;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.UsuarioEstudoMateriaHistorico;
 
 @Entity

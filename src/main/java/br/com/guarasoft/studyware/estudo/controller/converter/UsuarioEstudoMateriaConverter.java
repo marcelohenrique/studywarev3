@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.usuarioestudo.controller.converter;
+package br.com.guarasoft.studyware.estudo.controller.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

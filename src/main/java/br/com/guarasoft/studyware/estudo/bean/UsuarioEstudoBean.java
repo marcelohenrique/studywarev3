@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.usuarioestudo.bean;
+package br.com.guarasoft.studyware.estudo.bean;
 
 import java.util.Date;
 import java.util.List;

@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.estudosemanal.bean.EstudoSemanalBean;
 import br.com.guarasoft.studyware.estudosemanal.gateway.converter.EstudoSemanalEntidadeConverter;
 import br.com.guarasoft.studyware.estudosemanal.gateway.entidade.EstudoSemanal;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 
 public class EstudoSemanalGatewayImpl extends AbstractDao<EstudoSemanal, Long> implements EstudoSemanalGateway {
 

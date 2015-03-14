@@ -5,8 +5,8 @@ import lombok.ToString;
 
 import org.joda.time.Duration;
 
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 
 @Data
 @ToString(exclude = { "usuarioEstudo" })

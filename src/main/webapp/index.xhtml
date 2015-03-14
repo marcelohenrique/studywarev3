@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
+
 <h:head>
-	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<link rel="stylesheet" type="text/css" href="css/grid12col.css" />
-	<!-- JavaScript specific to this application that is not related to API calls -->
-	<script
-		src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<h:outputScript library="primefaces" name="jquery/jquery.js"
+		target="head" />
+	<h:outputScript library="primefaces" name="jquery/jquery-plugins.js"
+		target="head" />
 </h:head>
+
 <h:body>
 
 	<ui:include src="/status.xhtml" />
 
-	<h:form id="formulario">
+	<h:form id="formulario" prependId="false">
 
 		<p:remoteCommand name="login" action="#{signin.login}" />
 
@@ -37,6 +36,7 @@
 	</h:form>
 
 </h:body>
+
 <script type="text/javascript">
 	(function() {
 		var po = document.createElement('script');
@@ -47,15 +47,15 @@
 		s.parentNode.insertBefore(po, s);
 	})();
 
-	function signinCallback(authResult) {
-		if (authResult['access_token']) {
-			$( '#formulario\\:code' ).val( authResult.code );
+	function signinCallback( authResult ) {
+		if ( authResult[ 'access_token' ] ) {
+			document.getElementById( 'code' ).value = authResult.code;
 			// access_token = authResult['access_token'];
 			// Autorizado com sucesso
 			// Ocultar o botão de login agora que o usuário está autorizado, por exemplo:
 			document.getElementById('signinButton').setAttribute('style', 'display: none');
 			login();
-		} else if (authResult['error']) {
+		} else if ( authResult[ 'error' ] ) {
 			// Ocorreu um erro.
 			// Possíveis códigos de erro:
 			//  "access_denied" - o usuário negou o acesso a seu aplicativo
@@ -64,4 +64,5 @@
 		}
 	}
 </script>
+
 </html>

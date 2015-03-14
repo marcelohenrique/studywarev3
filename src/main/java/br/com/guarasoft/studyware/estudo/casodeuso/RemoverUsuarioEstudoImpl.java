@@ -1,7 +1,7 @@
-package br.com.guarasoft.studyware.usuarioestudo.casodeuso;
+package br.com.guarasoft.studyware.estudo.casodeuso;
 
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.gateway.UsuarioEstudoGateway;
 
 public class RemoverUsuarioEstudoImpl implements RemoverUsuarioEstudo {
 

@@ -8,10 +8,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.casodeuso.CadastrarUsuarioEstudo;
+import br.com.guarasoft.studyware.estudo.casodeuso.CadastrarUsuarioEstudoImpl;
+import br.com.guarasoft.studyware.estudo.excecao.UsuarioEstudoJaExiste;
+import br.com.guarasoft.studyware.estudo.gateway.UsuarioEstudoGateway;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.excecao.UsuarioEstudoJaExiste;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CadastrarUsuarioEstudoTest {

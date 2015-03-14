@@ -5,11 +5,11 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
 import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
 
 @Stateless
 public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements MateriaGateway {

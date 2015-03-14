@@ -20,14 +20,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.guarasoft.studyware.controleestudo.presenter.GraficoDiario;
+import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.gateway.UsuarioEstudoGateway;
 import br.com.guarasoft.studyware.estudodiario.bean.EstudoDiarioBean;
 import br.com.guarasoft.studyware.estudodiario.gateway.EstudoDiaGateway;
 import br.com.guarasoft.studyware.estudosemanal.bean.EstudoSemanalBean;
 import br.com.guarasoft.studyware.estudosemanal.gateway.EstudoSemanalGateway;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
-import br.com.guarasoft.studyware.usuarioestudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.UsuarioEstudoGateway;
 import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
 import br.com.guarasoft.studyware.usuarioestudomateria.gateway.UsuarioEstudoMateriaGateway;
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.bean.ResumoMateriaEstudadaBean;

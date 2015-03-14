@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
-import br.com.guarasoft.studyware.usuarioestudo.gateway.entidade.UsuarioEstudo;
+import br.com.guarasoft.studyware.estudo.gateway.entidade.UsuarioEstudo;
 
 @Entity
 @Data
