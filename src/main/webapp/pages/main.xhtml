@@ -185,17 +185,9 @@
 						<p:columnGroup type="footer">
 							<p:row>
 								<p:column colspan="2" footerText="Total:" />
-								<p:column>
-									<h:outputText value="#{controleestudo.tempoTotalAlocado}"
-										converter="tempoConverter" />
-								</p:column>
-								<p:column>
-									<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
-										converter="tempoConverter" />
-								</p:column>
-								<p:column>
-									<h:outputText value="---" />
-								</p:column>
+								<p:column footerText="#{controleestudo.tempoTotalAlocadoView}" />
+								<p:column footerText="#{controleestudo.tempoEstudadoTotalView}" />
+								<p:column footerText="---" />
 							</p:row>
 						</p:columnGroup>
 
@@ -211,7 +203,9 @@
 							value="#{controleestudo.materiasEstudadas}" paginator="true"
 							rows="30"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							editable="true" editMode="cell">
+							editable="true">
+
+							<p:ajax event="rowEdit" listener="#{controleestudo.onRowEdit}" />
 
 							<p:column headerText="Data/Hora"
 								styleClass="colunaTempo textoCentralizado">
@@ -228,8 +222,16 @@
 
 							<p:column headerText="Tempo Estudado"
 								styleClass="colunaTempo textoCentralizado">
-								<h:outputText value="#{materiaestudada.tempoEstudado}"
-									converter="durationhhmmssConverter" />
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{materiaestudada.tempoEstudado}"
+											converter="durationhhmmssConverter" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{materiaestudada.tempoEstudado}"
+											converter="durationhhmmssConverter" />
+									</f:facet>
+								</p:cellEditor>
 							</p:column>
 
 							<p:column headerText="Observação">
@@ -241,6 +243,10 @@
 										<p:inputText value="#{materiaestudada.observacao}" />
 									</f:facet>
 								</p:cellEditor>
+							</p:column>
+
+							<p:column style="width:32px">
+								<p:rowEditor />
 							</p:column>
 
 						</p:dataTable>

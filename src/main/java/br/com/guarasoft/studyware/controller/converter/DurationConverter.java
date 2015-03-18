@@ -13,9 +13,20 @@ import org.joda.time.format.PeriodFormatterBuilder;
 
 public class DurationConverter {
 
-	private static final PeriodFormatter FORMATTER = new PeriodFormatterBuilder().printZeroAlways().minimumPrintedDigits(2).appendHours().appendSeparator(":").printZeroAlways()
-			.minimumPrintedDigits(2).appendMinutes().toFormatter();
-	private final SimpleDateFormat SDF = new SimpleDateFormat("HH:mm");
+	private static final PeriodFormatter FORMATTER = new PeriodFormatterBuilder()
+			.printZeroAlways().minimumPrintedDigits(2).appendHours()
+			.appendSeparator(":").printZeroAlways().minimumPrintedDigits(2)
+			.appendMinutes().toFormatter();
+	private SimpleDateFormat SDF;
+
+	@Deprecated
+	public DurationConverter() {
+		SDF = new SimpleDateFormat("HH:mm");
+	}
+
+	public DurationConverter(String pattern) {
+		SDF = new SimpleDateFormat(pattern);
+	}
 
 	public String toString(Duration duration) {
 		return FORMATTER.print(duration.toPeriod());
@@ -29,7 +40,8 @@ public class DurationConverter {
 		try {
 			return this.SDF.parse(tempo);
 		} catch (ParseException e) {
-			throw new RuntimeException("DurationConverter => toDate: erro no parse da string.");
+			throw new RuntimeException(
+					"DurationConverter => toDate: erro no parse da string.");
 		}
 	}
 
@@ -41,7 +53,8 @@ public class DurationConverter {
 			DateTime dt = new DateTime(d, DateTimeZone.UTC);
 			return new Duration(dt.getMillis());
 		} catch (ParseException e) {
-			throw new RuntimeException("DurationConverter => toDuration: erro no parse da string.");
+			throw new RuntimeException(
+					"DurationConverter => toDuration: erro no parse da string.");
 		}
 	}
 

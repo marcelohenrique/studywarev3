@@ -20,7 +20,9 @@ import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade
 import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.UsuarioEstudoMateriaHistorico;
 
 @Stateless
-public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<UsuarioEstudoMateriaHistorico, Long> implements UsuarioEstudoMateriaHistoricoGateway {
+public class UsuarioEstudoMateriaHistoricoGatewayImpl extends
+		AbstractDao<UsuarioEstudoMateriaHistorico, Long> implements
+		UsuarioEstudoMateriaHistoricoGateway {
 
 	private final UsuarioEstudoMateriaBuilder usuarioEstudoMateriaBuilder = new UsuarioEstudoMateriaBuilder();
 	private final UsuarioEstudoMateriaHistoricoEntidadeConverter usuarioEstudoMateriaHistoricoEntidadeConverter = new UsuarioEstudoMateriaHistoricoEntidadeConverter();
@@ -31,29 +33,43 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 
 	@Override
 	public void persist(UsuarioEstudoMateriaHistoricoBean materiaEstudada) {
-		UsuarioEstudoMateriaHistorico entidade = this.usuarioEstudoMateriaHistoricoEntidadeConverter.convert(materiaEstudada);
+		UsuarioEstudoMateriaHistorico entidade = this.usuarioEstudoMateriaHistoricoEntidadeConverter
+				.convert(materiaEstudada);
 
 		this.persist(entidade);
 	}
 
 	@Override
-	public List<UsuarioEstudoMateriaHistoricoBean> findAll(UsuarioEstudoBean estudo) {
+	public void merge(UsuarioEstudoMateriaHistoricoBean bean) {
+		UsuarioEstudoMateriaHistorico entidade = this.usuarioEstudoMateriaHistoricoEntidadeConverter
+				.convert(bean);
+
+		this.merge(entidade);
+	}
+
+	@Override
+	public List<UsuarioEstudoMateriaHistoricoBean> findAll(
+			UsuarioEstudoBean estudo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" FROM UsuarioEstudoMateriaHistorico uemh ");
 		sql.append("WHERE uemh.usuarioEstudoMateria.usuarioEstudo.id = :usuarioEstudo ");
 		sql.append("ORDER BY uemh.horaEstudo DESC");
 
-		TypedQuery<UsuarioEstudoMateriaHistorico> query = this.entityManager.createQuery(sql.toString(), UsuarioEstudoMateriaHistorico.class);
+		TypedQuery<UsuarioEstudoMateriaHistorico> query = this.entityManager
+				.createQuery(sql.toString(),
+						UsuarioEstudoMateriaHistorico.class);
 		query.setParameter("usuarioEstudo", estudo.getId());
 		List<UsuarioEstudoMateriaHistorico> entidades = query.getResultList();
 
-		List<UsuarioEstudoMateriaHistoricoBean> beans = this.usuarioEstudoMateriaHistoricoEntidadeConverter.convert(estudo, entidades);
+		List<UsuarioEstudoMateriaHistoricoBean> beans = this.usuarioEstudoMateriaHistoricoEntidadeConverter
+				.convert(estudo, entidades);
 
 		return beans;
 	}
 
 	@Override
-	public List<ResumoMateriaEstudadaBean> buscaResumosMaterias(UsuarioEstudoBean usuarioEstudoBean) {
+	public List<ResumoMateriaEstudadaBean> buscaResumosMaterias(
+			UsuarioEstudoBean usuarioEstudoBean) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT new br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.entidade.ResumoMateriaEstudada( uem, SUM( uemh.tempoEstudado ), '' ) ");
 		sql.append("  FROM UsuarioEstudoMateria uem ");
@@ -62,7 +78,8 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 		sql.append(" GROUP BY uem ");
 		sql.append(" ORDER BY uem.ordem");
 
-		TypedQuery<ResumoMateriaEstudada> query = this.entityManager.createQuery(sql.toString(), ResumoMateriaEstudada.class);
+		TypedQuery<ResumoMateriaEstudada> query = this.entityManager
+				.createQuery(sql.toString(), ResumoMateriaEstudada.class);
 		query.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
 
 		List<ResumoMateriaEstudada> entidades = query.getResultList();
@@ -72,9 +89,12 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 		for (ResumoMateriaEstudada entidade : entidades) {
 			bean = new ResumoMateriaEstudadaBean();
 
-			bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaBuilder.convert(usuarioEstudoBean, entidade.getUsuarioEstudoMateria()));
+			bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaBuilder
+					.convert(usuarioEstudoBean,
+							entidade.getUsuarioEstudoMateria()));
 			bean.setSomaTempo(new Duration(entidade.getSomaTempo()));
-			bean.setObservacao(this.buscaUltimaObservacao(entidade.getUsuarioEstudoMateria()));
+			bean.setObservacao(this.buscaUltimaObservacao(entidade
+					.getUsuarioEstudoMateria()));
 
 			beans.add(bean);
 		}
@@ -82,7 +102,8 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 		return beans;
 	}
 
-	private String buscaUltimaObservacao(UsuarioEstudoMateria usuarioEstudoMateria) {
+	private String buscaUltimaObservacao(
+			UsuarioEstudoMateria usuarioEstudoMateria) {
 		StringBuilder sql = new StringBuilder();
 		// sql.append("SELECT uemh.observacao ");
 		sql.append("  FROM UsuarioEstudoMateriaHistorico uemh ");
@@ -92,7 +113,9 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends AbstractDao<Usuari
 		sql.append(" WHERE h.usuarioEstudoMateria.id = :usuarioEstudoMateria ");
 		sql.append(" GROUP BY h.usuarioEstudoMateria ) ");
 
-		TypedQuery<UsuarioEstudoMateriaHistorico> query = this.entityManager.createQuery(sql.toString(), UsuarioEstudoMateriaHistorico.class);
+		TypedQuery<UsuarioEstudoMateriaHistorico> query = this.entityManager
+				.createQuery(sql.toString(),
+						UsuarioEstudoMateriaHistorico.class);
 		query.setParameter("usuarioEstudoMateria", usuarioEstudoMateria.getId());
 
 		try {

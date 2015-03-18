@@ -12,4 +12,6 @@ public interface UsuarioEstudoMateriaHistoricoGateway {
 	public List<UsuarioEstudoMateriaHistoricoBean> findAll(UsuarioEstudoBean estudo);
 
 	List<ResumoMateriaEstudadaBean> buscaResumosMaterias(UsuarioEstudoBean usuarioEstudoBean);
+
+	void merge(UsuarioEstudoMateriaHistoricoBean bean);
 }

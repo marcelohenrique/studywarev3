@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import lombok.AccessLevel;
@@ -16,10 +18,12 @@ import lombok.Data;
 import lombok.Setter;
 
 import org.joda.time.Duration;
+import org.primefaces.event.RowEditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.guarasoft.studyware.controleestudo.presenter.GraficoDiario;
+import br.com.guarasoft.studyware.controller.converter.DurationConverter;
 import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
 import br.com.guarasoft.studyware.estudo.gateway.UsuarioEstudoGateway;
 import br.com.guarasoft.studyware.estudodiario.bean.EstudoDiarioBean;
@@ -41,7 +45,8 @@ public class ControleEstudoController implements Serializable {
 
 	private static final long serialVersionUID = -5358580904420656733L;
 
-	private final Logger logger = LoggerFactory.getLogger(ControleEstudoController.class);
+	private final Logger logger = LoggerFactory
+			.getLogger(ControleEstudoController.class);
 
 	@Inject
 	private UsuarioEstudoGateway usuarioEstudoGateway;
@@ -77,7 +82,7 @@ public class ControleEstudoController implements Serializable {
 	private Usuario usuario;
 
 	private List<UsuarioEstudoBean> estudos;
-	
+
 	@Setter(AccessLevel.PRIVATE)
 	private GraficoDiario graficoDiario;
 
@@ -85,21 +90,29 @@ public class ControleEstudoController implements Serializable {
 	private void init() {
 		this.materiaEstudada = this.build();
 
-		this.estudos = this.usuarioEstudoGateway.recuperaEstudosValidos(this.usuario.getEmail());
+		this.estudos = this.usuarioEstudoGateway
+				.recuperaEstudosValidos(this.usuario.getEmail());
 	}
 
 	private void atualiza() {
-		this.resumoMateriasEstudadas = this.usuarioEstudoMateriaHistoricoGateway.buscaResumosMaterias(this.estudoSelecionado);
+		this.resumoMateriasEstudadas = this.usuarioEstudoMateriaHistoricoGateway
+				.buscaResumosMaterias(this.estudoSelecionado);
 		this.tempoTotalAlocado = new Duration(0);
 		this.tempoEstudadoTotal = new Duration(0);
 		for (ResumoMateriaEstudadaBean resumoMateriaEstudada : this.resumoMateriasEstudadas) {
-			this.tempoTotalAlocado = this.tempoTotalAlocado.plus(resumoMateriaEstudada.getUsuarioEstudoMateria().getTempoAlocado());
-			this.tempoEstudadoTotal = this.tempoEstudadoTotal.plus(resumoMateriaEstudada.getSomaTempo());
+			this.tempoTotalAlocado = this.tempoTotalAlocado
+					.plus(resumoMateriaEstudada.getUsuarioEstudoMateria()
+							.getTempoAlocado());
+			this.tempoEstudadoTotal = this.tempoEstudadoTotal
+					.plus(resumoMateriaEstudada.getSomaTempo());
 		}
-		this.materiasEstudadas = this.usuarioEstudoMateriaHistoricoGateway.findAll(this.estudoSelecionado);
-		this.estudosSemanais = this.estudoSemanalGateway.findAll(this.estudoSelecionado);
+		this.materiasEstudadas = this.usuarioEstudoMateriaHistoricoGateway
+				.findAll(this.estudoSelecionado);
+		this.estudosSemanais = this.estudoSemanalGateway
+				.findAll(this.estudoSelecionado);
 
-		Collection<EstudoDiarioBean> estudosDiarios = this.estudoDiaGateway.findAll(this.estudoSelecionado);
+		Collection<EstudoDiarioBean> estudosDiarios = this.estudoDiaGateway
+				.findAll(this.estudoSelecionado);
 
 		graficoDiario = new GraficoDiario(estudosDiarios);
 	}
@@ -137,13 +150,16 @@ public class ControleEstudoController implements Serializable {
 		this.btZerarDisabled = true;
 		this.btGravarDisabled = true;
 
-		this.materiaEstudada.setUsuarioEstudoMateria(this.estudoMateriaSelecionada);
+		this.materiaEstudada
+				.setUsuarioEstudoMateria(this.estudoMateriaSelecionada);
 		this.materiaEstudada.setHoraEstudo(new Date());
-		this.materiaEstudada.setTempoEstudado(new Duration(this.horasEstudadaInMillis));
+		this.materiaEstudada.setTempoEstudado(new Duration(
+				this.horasEstudadaInMillis));
 
 		this.logger.info(this.materiaEstudada.toString());
 		this.usuarioEstudoMateriaHistoricoGateway.persist(this.materiaEstudada);
-		this.materiasEstudadas = this.usuarioEstudoMateriaHistoricoGateway.findAll(this.estudoSelecionado);
+		this.materiasEstudadas = this.usuarioEstudoMateriaHistoricoGateway
+				.findAll(this.estudoSelecionado);
 		this.materiaEstudada = this.build();
 		this.atualiza();
 	}
@@ -153,7 +169,25 @@ public class ControleEstudoController implements Serializable {
 	}
 
 	public void listaEstudoMaterias() {
-		this.usuarioEstudoMaterias = this.usuarioEstudoMateriaGateway.buscaPorUsuarioEstudo(this.estudoSelecionado);
+		this.usuarioEstudoMaterias = this.usuarioEstudoMateriaGateway
+				.buscaPorUsuarioEstudo(this.estudoSelecionado);
 		this.atualiza();
+	}
+
+	public String getTempoTotalAlocadoView() {
+		return new DurationConverter().toString(tempoTotalAlocado);
+	}
+
+	public String getTempoEstudadoTotalView() {
+		return new DurationConverter().toString(tempoEstudadoTotal);
+	}
+
+	public void onRowEdit(RowEditEvent event) {
+		UsuarioEstudoMateriaHistoricoBean entrada = (UsuarioEstudoMateriaHistoricoBean) event.getObject();
+		usuarioEstudoMateriaHistoricoGateway.merge(entrada);
+		
+	}
+
+	public void onRowCancel(RowEditEvent event) {
 	}
 }
