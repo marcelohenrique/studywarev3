@@ -51,11 +51,12 @@ public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long>
 	@Override
 	public List<Estudo> recuperaEstudosValidos(String email) {
 		StringBuilder sql = new StringBuilder();
-		sql.append(" from EstudoEntidade e ");
-		sql.append(" JOIN e.participantes p ");
-		sql.append("where p.email = :email ");
-		sql.append("  and e.fim >= current_date ");
-		sql.append("   or e.fim is null ");
+		sql.append("SELECT e ");
+		sql.append("  FROM EstudoEntidade e ");
+		sql.append("  JOIN e.participantes p ");
+		sql.append(" where p.usuario.email = :email ");
+		sql.append("   and e.fim >= current_date ");
+		sql.append("    or e.fim is null ");
 
 		TypedQuery<EstudoEntidade> typedQuery = this.entityManager
 				.createQuery(sql.toString(), EstudoEntidade.class);
