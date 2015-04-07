@@ -7,12 +7,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import lombok.Data;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 import br.com.guarasoft.studyware.usuario.gateway.entidade.UsuarioEntity;
 
 @Entity
+@Table(name = "UsuarioEstudo")
 @Data
 public class UsuarioEstudoEntidade implements Entidade {
 
@@ -23,7 +25,7 @@ public class UsuarioEstudoEntidade implements Entidade {
 	@SequenceGenerator(name = "UsuarioEstudoSeq", sequenceName = "UsuarioEstudoSeq", allocationSize = 1)
 	private Long id;
 
-	@JoinColumn(name = "email", referencedColumnName = "email")
+	@JoinColumn(name = "usuario", referencedColumnName = "email")
 	@ManyToOne
 	private UsuarioEntity usuario;
 

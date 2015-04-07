@@ -23,3 +23,5 @@ ALTER TABLE EstudoDiario RENAME usuarioEstudo TO estudo;
 ALTER TABLE UsuarioEstudoMateriaHistorico RENAME TO EstudoMateriaHistorico;
 
 ALTER TABLE EstudoMateriaHistorico RENAME usuarioEstudoMateria TO estudoMateria;
+
+CREATE SEQUENCE EstudoSeq START 1001 NO CYCLE;

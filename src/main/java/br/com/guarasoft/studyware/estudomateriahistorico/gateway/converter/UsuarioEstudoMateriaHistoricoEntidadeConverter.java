@@ -8,17 +8,17 @@ import org.joda.time.Duration;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.estudomateria.gateway.converter.UsuarioEstudoMateriaBuilder;
 import br.com.guarasoft.studyware.estudomateriahistorico.bean.UsuarioEstudoMateriaHistoricoBean;
-import br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.UsuarioEstudoMateriaHistorico;
+import br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.EstudoMateriaHistoricoEntidade;
 
 public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 
 	private final UsuarioEstudoMateriaBuilder usuarioEstudoMateriaBuilder = new UsuarioEstudoMateriaBuilder();
 
-	public UsuarioEstudoMateriaHistorico convert(UsuarioEstudoMateriaHistoricoBean bean) {
-		UsuarioEstudoMateriaHistorico entidade = new UsuarioEstudoMateriaHistorico();
+	public EstudoMateriaHistoricoEntidade convert(UsuarioEstudoMateriaHistoricoBean bean) {
+		EstudoMateriaHistoricoEntidade entidade = new EstudoMateriaHistoricoEntidade();
 
 		entidade.setId(bean.getId());
-		entidade.setUsuarioEstudoMateria(this.usuarioEstudoMateriaBuilder.convert(bean.getUsuarioEstudoMateria()));
+		entidade.setEstudoMateria(this.usuarioEstudoMateriaBuilder.convert(bean.getUsuarioEstudoMateria()));
 		entidade.setHoraEstudo(bean.getHoraEstudo());
 		entidade.setTempoEstudado(bean.getTempoEstudado().getMillis());
 		entidade.setObservacao(bean.getObservacao());
@@ -26,11 +26,11 @@ public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 		return entidade;
 	}
 
-	public UsuarioEstudoMateriaHistoricoBean convert(Estudo beanPai, UsuarioEstudoMateriaHistorico entidade) {
+	public UsuarioEstudoMateriaHistoricoBean convert(Estudo beanPai, EstudoMateriaHistoricoEntidade entidade) {
 		UsuarioEstudoMateriaHistoricoBean bean = new UsuarioEstudoMateriaHistoricoBean();
 
 		bean.setId(entidade.getId());
-		bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaBuilder.convert(beanPai, entidade.getUsuarioEstudoMateria()));
+		bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaBuilder.convert(beanPai, entidade.getEstudoMateria()));
 		bean.setHoraEstudo(entidade.getHoraEstudo());
 		bean.setTempoEstudado(new Duration(entidade.getTempoEstudado()));
 		bean.setObservacao(entidade.getObservacao());
@@ -38,10 +38,10 @@ public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 		return bean;
 	}
 
-	public List<UsuarioEstudoMateriaHistoricoBean> convert(Estudo beanPai, List<UsuarioEstudoMateriaHistorico> entidades) {
+	public List<UsuarioEstudoMateriaHistoricoBean> convert(Estudo beanPai, List<EstudoMateriaHistoricoEntidade> entidades) {
 		List<UsuarioEstudoMateriaHistoricoBean> beans = new ArrayList<>();
 
-		for (UsuarioEstudoMateriaHistorico entidade : entidades) {
+		for (EstudoMateriaHistoricoEntidade entidade : entidades) {
 			beans.add(this.convert(beanPai, entidade));
 		}
 

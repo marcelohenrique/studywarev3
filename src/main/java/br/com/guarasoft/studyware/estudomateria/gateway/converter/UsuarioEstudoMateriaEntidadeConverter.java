@@ -5,11 +5,11 @@ import org.joda.time.Duration;
 import br.com.guarasoft.studyware.estudo.gateway.entidade.EstudoEntidade;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.estudomateria.bean.UsuarioEstudoMateriaBean;
-import br.com.guarasoft.studyware.estudomateria.gateway.entidade.UsuarioEstudoMateria;
+import br.com.guarasoft.studyware.estudomateria.gateway.entidade.EstudoMateriaEntidade;
 
 public class UsuarioEstudoMateriaEntidadeConverter {
 
-	public UsuarioEstudoMateriaBean convert(Estudo beanPai, UsuarioEstudoMateria entidade) {
+	public UsuarioEstudoMateriaBean convert(Estudo beanPai, EstudoMateriaEntidade entidade) {
 		UsuarioEstudoMateriaBean bean = new UsuarioEstudoMateriaBean();
 
 		bean.setId(entidade.getId());
@@ -20,7 +20,7 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 		return bean;
 	}
 
-	public UsuarioEstudoMateriaBean convert(UsuarioEstudoMateria entidade) {
+	public UsuarioEstudoMateriaBean convert(EstudoMateriaEntidade entidade) {
 		UsuarioEstudoMateriaBean bean = new UsuarioEstudoMateriaBean();
 
 		bean.setId(entidade.getId());
@@ -30,8 +30,8 @@ public class UsuarioEstudoMateriaEntidadeConverter {
 		return bean;
 	}
 
-	public UsuarioEstudoMateria convert(EstudoEntidade entidadePai, UsuarioEstudoMateriaBean bean) {
-		UsuarioEstudoMateria entidade = new UsuarioEstudoMateria();
+	public EstudoMateriaEntidade convert(EstudoEntidade entidadePai, UsuarioEstudoMateriaBean bean) {
+		EstudoMateriaEntidade entidade = new EstudoMateriaEntidade();
 
 		entidade.setId(bean.getId());
 		entidade.setEstudo(entidadePai);

@@ -11,12 +11,12 @@ import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
 import lombok.ToString;
-import br.com.guarasoft.studyware.estudomateria.gateway.entidade.UsuarioEstudoMateria;
+import br.com.guarasoft.studyware.estudomateria.gateway.entidade.EstudoMateriaEntidade;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 
 @Entity
 @Data
-@ToString(exclude = { "usuarioEstudoMaterias" })
+@ToString(exclude = { "estudoMateriaEntidades" })
 public class Materia implements Entidade {
 
 	private static final long serialVersionUID = -8089662973205060676L;
@@ -28,6 +28,6 @@ public class Materia implements Entidade {
 	private String sigla;
 	private String nome;
 	@OneToMany(mappedBy = "materia")
-	private List<UsuarioEstudoMateria> usuarioEstudoMaterias;
+	private List<EstudoMateriaEntidade> estudoMateriaEntidades;
 
 }

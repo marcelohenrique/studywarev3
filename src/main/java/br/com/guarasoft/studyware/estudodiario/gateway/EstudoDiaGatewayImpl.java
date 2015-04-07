@@ -22,7 +22,7 @@ public class EstudoDiaGatewayImpl extends AbstractDao<EstudoDiario, Long>
 	public List<EstudoDiarioBean> findAll(String nomeEstudo, String email) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT new br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiario( date_trunc( 'day', uemh.horaEstudo ), extract( DOW FROM uemh.horaEstudo ), ued.tempoAlocado, SUM( uemh.tempoEstudado ) ) ");
-		sql.append("  FROM UsuarioEstudoMateriaHistorico uemh ");
+		sql.append("  FROM EstudoMateriaHistoricoEntidade uemh ");
 		sql.append("  LEFT OUTER JOIN uemh.usuarioEstudoMateria.estudo.usuarioEstudoDiarios ued ");
 		sql.append(" WHERE uemh.usuarioEstudoMateria.estudo.nome = :nome ");
 		sql.append("   AND uemh.usuarioEstudoMateria.estudo.participantes.email = :email ");

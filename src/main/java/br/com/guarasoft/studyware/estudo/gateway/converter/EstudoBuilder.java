@@ -46,7 +46,7 @@ public class EstudoBuilder {
 
 		if (this.converteDias) {
 			bean.setDias(this.estudoDiarioConverter.convert(bean,
-					entidade.getUsuarioEstudoDiarios()));
+					entidade.getEstudoDiarios()));
 		}
 
 		return bean;
@@ -68,7 +68,7 @@ public class EstudoBuilder {
 		}
 
 		if (this.converteDias) {
-			entidade.setUsuarioEstudoDiarios(this.estudoDiarioConverter
+			entidade.setEstudoDiarios(this.estudoDiarioConverter
 					.convert(entidade, bean.getDias()));
 		}
 

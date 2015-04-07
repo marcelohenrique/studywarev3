@@ -22,7 +22,7 @@ public class EstudoSemanalGatewayImpl extends AbstractDao<EstudoSemanal, Long> i
 	public List<EstudoSemanalBean> findAll(Estudo estudo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT new br.com.guarasoft.studyware.estudosemanal.gateway.entidade.EstudoSemanal( date_trunc( 'week', uemh.horaEstudo ), SUM( uemh.tempoEstudado ) ) ");
-		sql.append("  FROM UsuarioEstudoMateriaHistorico uemh ");
+		sql.append("  FROM EstudoMateriaHistoricoEntidade uemh ");
 		sql.append("  LEFT OUTER JOIN uemh.usuarioEstudoMateria uem ");
 		sql.append(" WHERE uem.estudo.nome = ? ");
 		sql.append(" GROUP BY date_trunc( 'week', uemh.horaEstudo ) ");

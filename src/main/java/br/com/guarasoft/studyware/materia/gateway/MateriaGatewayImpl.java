@@ -36,7 +36,7 @@ public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements Ma
 		StringBuilder sql = new StringBuilder();
 		sql.append("select m from Materia m ");
 		sql.append(" where not exists ( ");
-		sql.append("select 1 from UsuarioEstudoMateria uem ");
+		sql.append("select 1 from EstudoMateriaEntidade uem ");
 		sql.append("  join uem.materia mt ");
 		sql.append(" where uem.estudo.nome = :nomeEstudo ");
 		sql.append("   and mt.id = m.id ) ");

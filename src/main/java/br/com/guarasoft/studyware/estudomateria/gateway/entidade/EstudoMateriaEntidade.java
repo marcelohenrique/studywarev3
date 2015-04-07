@@ -10,18 +10,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.ToString;
 import br.com.guarasoft.studyware.estudo.gateway.entidade.EstudoEntidade;
-import br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.UsuarioEstudoMateriaHistorico;
+import br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.EstudoMateriaHistoricoEntidade;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
 
 @Entity
+@Table(name = "EstudoMateria")
 @Data
 @ToString(exclude = { "estudo" })
-public class UsuarioEstudoMateria implements Entidade {
+public class EstudoMateriaEntidade implements Entidade {
 
 	private static final long serialVersionUID = 6291112509470918058L;
 
@@ -30,7 +32,7 @@ public class UsuarioEstudoMateria implements Entidade {
 	@SequenceGenerator(name = "usuarioEstudoMateriaSeq", sequenceName = "usuarioEstudoMateriaSeq", allocationSize = 1)
 	private Long id;
 
-	@JoinColumn(name = "usuarioEstudo", referencedColumnName = "id")
+	@JoinColumn(name = "estudo", referencedColumnName = "id")
 	@ManyToOne
 	private EstudoEntidade estudo;
 
@@ -42,8 +44,8 @@ public class UsuarioEstudoMateria implements Entidade {
 
 	private Long ordem;
 
-	@OneToMany(mappedBy = "usuarioEstudoMateria")
-	private Set<UsuarioEstudoMateriaHistorico> historico;
+	@OneToMany(mappedBy = "estudoMateria")
+	private Set<EstudoMateriaHistoricoEntidade> historico;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -56,7 +58,7 @@ public class UsuarioEstudoMateria implements Entidade {
 		if (this.getClass() != obj.getClass()) {
 			return false;
 		}
-		UsuarioEstudoMateria other = (UsuarioEstudoMateria) obj;
+		EstudoMateriaEntidade other = (EstudoMateriaEntidade) obj;
 		if (this.materia == null) {
 			if (other.materia != null) {
 				return false;
@@ -78,8 +80,10 @@ public class UsuarioEstudoMateria implements Entidade {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.materia == null) ? 0 : this.materia.hashCode());
-		result = prime * result + ((this.estudo == null) ? 0 : this.estudo.hashCode());
+		result = prime * result
+				+ ((this.materia == null) ? 0 : this.materia.hashCode());
+		result = prime * result
+				+ ((this.estudo == null) ? 0 : this.estudo.hashCode());
 		return result;
 	}
 

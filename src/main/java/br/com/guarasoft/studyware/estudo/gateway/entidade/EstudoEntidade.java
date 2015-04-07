@@ -17,8 +17,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import lombok.Data;
-import br.com.guarasoft.studyware.estudodiario.gateway.entidade.UsuarioEstudoDiario;
-import br.com.guarasoft.studyware.estudomateria.gateway.entidade.UsuarioEstudoMateria;
+import br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiarioEntidade;
+import br.com.guarasoft.studyware.estudomateria.gateway.entidade.EstudoMateriaEntidade;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 
 @Entity
@@ -43,9 +43,9 @@ public class EstudoEntidade implements Entidade {
 
 	@OneToMany(mappedBy = "estudo", cascade = { CascadeType.ALL }, orphanRemoval = true)
 	@OrderBy("ordem")
-	private Set<UsuarioEstudoMateria> materias;
+	private Set<EstudoMateriaEntidade> materias;
 
 	@OneToMany(mappedBy = "estudo", cascade = { CascadeType.ALL }, orphanRemoval = true)
-	private Set<UsuarioEstudoDiario> usuarioEstudoDiarios;
+	private Set<EstudoDiarioEntidade> estudoDiarios;
 
 }

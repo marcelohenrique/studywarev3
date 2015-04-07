@@ -9,19 +9,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import br.com.guarasoft.studyware.estudomateria.gateway.entidade.UsuarioEstudoMateria;
+import br.com.guarasoft.studyware.estudomateria.gateway.entidade.EstudoMateriaEntidade;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 
 @Entity
+@Table(name = "EstudoMateriaHistorico")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UsuarioEstudoMateriaHistorico implements Entidade {
+public class EstudoMateriaHistoricoEntidade implements Entidade {
 
 	private static final long serialVersionUID = 4642707921273724986L;
 
@@ -31,10 +33,10 @@ public class UsuarioEstudoMateriaHistorico implements Entidade {
 	@NotNull
 	private Long id;
 
-	@JoinColumn(name = "usuarioEstudoMateria", referencedColumnName = "id")
+	@JoinColumn(name = "estudoMateria", referencedColumnName = "id")
 	@ManyToOne
 	@NotNull
-	private UsuarioEstudoMateria usuarioEstudoMateria;
+	private EstudoMateriaEntidade estudoMateria;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
