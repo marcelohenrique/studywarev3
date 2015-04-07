@@ -6,11 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import lombok.AccessLevel;
@@ -24,19 +22,19 @@ import org.slf4j.LoggerFactory;
 
 import br.com.guarasoft.studyware.controleestudo.presenter.GraficoDiario;
 import br.com.guarasoft.studyware.controller.converter.DurationConverter;
-import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.estudo.gateway.UsuarioEstudoGateway;
+import br.com.guarasoft.studyware.estudo.gateway.EstudoGateway;
+import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.estudodiario.bean.EstudoDiarioBean;
 import br.com.guarasoft.studyware.estudodiario.gateway.EstudoDiaGateway;
+import br.com.guarasoft.studyware.estudomateria.bean.UsuarioEstudoMateriaBean;
+import br.com.guarasoft.studyware.estudomateria.gateway.UsuarioEstudoMateriaGateway;
+import br.com.guarasoft.studyware.estudomateriahistorico.bean.ResumoMateriaEstudadaBean;
+import br.com.guarasoft.studyware.estudomateriahistorico.bean.UsuarioEstudoMateriaHistoricoBean;
+import br.com.guarasoft.studyware.estudomateriahistorico.gateway.UsuarioEstudoMateriaHistoricoGateway;
 import br.com.guarasoft.studyware.estudosemanal.bean.EstudoSemanalBean;
 import br.com.guarasoft.studyware.estudosemanal.gateway.EstudoSemanalGateway;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
-import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
-import br.com.guarasoft.studyware.usuarioestudomateria.gateway.UsuarioEstudoMateriaGateway;
-import br.com.guarasoft.studyware.usuarioestudomateriahistorico.bean.ResumoMateriaEstudadaBean;
-import br.com.guarasoft.studyware.usuarioestudomateriahistorico.bean.UsuarioEstudoMateriaHistoricoBean;
-import br.com.guarasoft.studyware.usuarioestudomateriahistorico.gateway.UsuarioEstudoMateriaHistoricoGateway;
 
 @ManagedBean(name = "controleestudo")
 @ViewScoped
@@ -49,7 +47,7 @@ public class ControleEstudoController implements Serializable {
 			.getLogger(ControleEstudoController.class);
 
 	@Inject
-	private UsuarioEstudoGateway usuarioEstudoGateway;
+	private EstudoGateway usuarioEstudoGateway;
 	@Inject
 	private UsuarioEstudoMateriaGateway usuarioEstudoMateriaGateway;
 	@Inject
@@ -68,8 +66,7 @@ public class ControleEstudoController implements Serializable {
 	private Duration tempoTotalAlocado = new Duration(0);
 	private Duration tempoEstudadoTotal = new Duration(0);
 
-	@Inject
-	private UsuarioEstudoBean estudoSelecionado;
+	private Estudo estudoSelecionado;
 
 	private List<ResumoMateriaEstudadaBean> resumoMateriasEstudadas;
 	private UsuarioEstudoMateriaBean estudoMateriaSelecionada;
@@ -81,7 +78,7 @@ public class ControleEstudoController implements Serializable {
 	@ManagedProperty(value = "#{sessionAuth.usuario}")
 	private Usuario usuario;
 
-	private List<UsuarioEstudoBean> estudos;
+	private List<Estudo> estudos;
 
 	@Setter(AccessLevel.PRIVATE)
 	private GraficoDiario graficoDiario;
@@ -112,7 +109,8 @@ public class ControleEstudoController implements Serializable {
 				.findAll(this.estudoSelecionado);
 
 		Collection<EstudoDiarioBean> estudosDiarios = this.estudoDiaGateway
-				.findAll(this.estudoSelecionado);
+				.findAll(this.estudoSelecionado.getNome(),
+						this.usuario.getEmail());
 
 		graficoDiario = new GraficoDiario(estudosDiarios);
 	}
@@ -170,7 +168,8 @@ public class ControleEstudoController implements Serializable {
 
 	public void listaEstudoMaterias() {
 		this.usuarioEstudoMaterias = this.usuarioEstudoMateriaGateway
-				.buscaPorUsuarioEstudo(this.estudoSelecionado);
+				.buscaPorUsuarioEstudo(this.estudoSelecionado.getNome(),
+						this.usuario.getEmail());
 		this.atualiza();
 	}
 
@@ -183,9 +182,10 @@ public class ControleEstudoController implements Serializable {
 	}
 
 	public void onRowEdit(RowEditEvent event) {
-		UsuarioEstudoMateriaHistoricoBean entrada = (UsuarioEstudoMateriaHistoricoBean) event.getObject();
+		UsuarioEstudoMateriaHistoricoBean entrada = (UsuarioEstudoMateriaHistoricoBean) event
+				.getObject();
 		usuarioEstudoMateriaHistoricoGateway.merge(entrada);
-		
+
 	}
 
 	public void onRowCancel(RowEditEvent event) {

@@ -1,18 +1,18 @@
 package br.com.guarasoft.studyware.estudo.casodeuso;
 
-import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
-import br.com.guarasoft.studyware.estudo.gateway.UsuarioEstudoGateway;
+import br.com.guarasoft.studyware.estudo.gateway.EstudoGateway;
+import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 
 public class RemoverUsuarioEstudoImpl implements RemoverUsuarioEstudo {
 
-	private final UsuarioEstudoGateway usuarioEstudoGateway;
+	private final EstudoGateway usuarioEstudoGateway;
 
-	public RemoverUsuarioEstudoImpl(UsuarioEstudoGateway usuarioEstudoGateway) {
+	public RemoverUsuarioEstudoImpl(EstudoGateway usuarioEstudoGateway) {
 		this.usuarioEstudoGateway = usuarioEstudoGateway;
 	}
 
 	@Override
-	public void execute(UsuarioEstudoBean usuarioEstudo) {
+	public void execute(Estudo usuarioEstudo) {
 		this.usuarioEstudoGateway.remover(usuarioEstudo);
 	}
 

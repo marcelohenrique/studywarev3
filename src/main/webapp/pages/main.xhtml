@@ -87,10 +87,10 @@
 							</p:column>
 							<p:column>
 								<p:selectOneMenu id="estudoselecionado" required="true"
-									value="#{controleestudo.estudoSelecionado.id}">
+									value="#{controleestudo.estudoSelecionado}">
 									<f:selectItem itemLabel="Selecione" itemValue="" />
 									<f:selectItems value="#{controleestudo.estudos}" var="estudo"
-										itemValue="#{estudo.id}" itemLabel="#{estudo.nome}"
+										itemValue="#{estudo}" itemLabel="#{estudo.nome}"
 										itemDescription="#{estudo.nome}" />
 									<p:ajax update="materias, dataTable, tabView"
 										listener="#{controleestudo.listaEstudoMaterias()}" />

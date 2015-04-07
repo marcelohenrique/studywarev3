@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import br.com.guarasoft.studyware.controller.converter.DurationConverter;
-import br.com.guarasoft.studyware.usuarioestudomateria.bean.UsuarioEstudoMateriaBean;
+import br.com.guarasoft.studyware.estudomateria.bean.UsuarioEstudoMateriaBean;
 
 @Data
 public class MateriaCicloView {

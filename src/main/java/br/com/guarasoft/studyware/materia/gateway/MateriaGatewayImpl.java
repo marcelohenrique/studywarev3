@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
-import br.com.guarasoft.studyware.estudo.bean.UsuarioEstudoBean;
+import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
@@ -32,17 +32,17 @@ public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements Ma
 	}
 
 	@Override
-	public List<MateriaBean> buscaMateriasRestantes(UsuarioEstudoBean usuarioEstudoBean) {
+	public List<MateriaBean> buscaMateriasRestantes(Estudo estudo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("select m from Materia m ");
 		sql.append(" where not exists ( ");
 		sql.append("select 1 from UsuarioEstudoMateria uem ");
 		sql.append("  join uem.materia mt ");
-		sql.append(" where uem.usuarioEstudo.id = :usuarioEstudo ");
+		sql.append(" where uem.estudo.nome = :nomeEstudo ");
 		sql.append("   and mt.id = m.id ) ");
 
 		TypedQuery<Materia> typedQuery = this.entityManager.createQuery(sql.toString(), Materia.class);
-		typedQuery.setParameter("usuarioEstudo", usuarioEstudoBean.getId());
+		typedQuery.setParameter("nomeEstudo", estudo.getNome());
 
 		List<Materia> entidades = typedQuery.getResultList();
 

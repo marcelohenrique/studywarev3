@@ -9,7 +9,7 @@ public class MenuController {
 		return "/pages/main";
 	}
 
-	public String cadastrarUsuarioEstudo() {
+	public String cadastrarEstudo() {
 		return "/pages/usuarioestudo/cadastrar";
 	}
 

@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
-import br.com.guarasoft.studyware.estudo.gateway.entidade.UsuarioEstudo;
+import br.com.guarasoft.studyware.estudo.gateway.entidade.EstudoEntidade;
 
 @Entity
 @Data
@@ -22,7 +22,7 @@ public class UsuarioEstudoDiario {
 
 	@JoinColumn(name = "usuarioEstudo", referencedColumnName = "id")
 	@ManyToOne
-	private UsuarioEstudo usuarioEstudo;
+	private EstudoEntidade estudo;
 
 	@JoinColumn(name = "dia", referencedColumnName = "id")
 	@ManyToOne
