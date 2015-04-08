@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
-import br.com.guarasoft.studyware.estudomateria.bean.UsuarioEstudoMateriaBean;
 import br.com.guarasoft.studyware.estudomateria.gateway.converter.UsuarioEstudoMateriaBuilder;
 import br.com.guarasoft.studyware.estudomateria.gateway.entidade.EstudoMateriaEntidade;
+import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 
 public class UsuarioEstudoMateriaGatewayImpl extends
@@ -20,23 +20,25 @@ public class UsuarioEstudoMateriaGatewayImpl extends
 	}
 
 	@Override
-	public UsuarioEstudoMateriaBean buscaPorId(Long id) {
+	public EstudoMateria buscaPorId(Long id) {
 		EstudoMateriaEntidade entidade = this.find(id);
 
-		UsuarioEstudoMateriaBean bean = this.usuarioEstudoMateriaBuilder
+		EstudoMateria bean = this.usuarioEstudoMateriaBuilder
 				.convert(entidade);
 
 		return bean;
 	}
 
 	@Override
-	public List<UsuarioEstudoMateriaBean> buscaPorUsuarioEstudo(
+	public List<EstudoMateria> buscaPorUsuarioEstudo(
 			String nomeEstudo, String emailUsuario) {
 		StringBuilder sql = new StringBuilder();
-		sql.append(" from EstudoMateriaEntidade uem ");
-		sql.append("where uem.estudo.nome = :nomeEstudo ");
-		sql.append("where uem.estudo.usuarios.email = :usuarioEmail ");
-		sql.append("order by uem.materia.nome ");
+		sql.append("SELECT uem ");
+		sql.append("  FROM EstudoMateriaEntidade uem ");
+		sql.append("  JOIN uem.estudo.participantes p ");
+		sql.append(" WHERE uem.estudo.nome = :nomeEstudo ");
+		sql.append("   AND p.usuario.email = :usuarioEmail ");
+		sql.append(" ORDER BY uem.materia.nome ");
 
 		TypedQuery<EstudoMateriaEntidade> query = this.entityManager
 				.createQuery(sql.toString(), EstudoMateriaEntidade.class);
@@ -44,7 +46,7 @@ public class UsuarioEstudoMateriaGatewayImpl extends
 		query.setParameter("usuarioEmail", emailUsuario);
 		List<EstudoMateriaEntidade> entidades = query.getResultList();
 
-		List<UsuarioEstudoMateriaBean> beans = this.usuarioEstudoMateriaBuilder
+		List<EstudoMateria> beans = this.usuarioEstudoMateriaBuilder
 				.convert(null, entidades);
 
 		return beans;

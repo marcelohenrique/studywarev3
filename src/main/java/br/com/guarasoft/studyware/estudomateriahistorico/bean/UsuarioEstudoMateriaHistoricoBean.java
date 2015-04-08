@@ -6,13 +6,13 @@ import lombok.Data;
 
 import org.joda.time.Duration;
 
-import br.com.guarasoft.studyware.estudomateria.bean.UsuarioEstudoMateriaBean;
+import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 
 @Data
 public class UsuarioEstudoMateriaHistoricoBean {
 
 	private Long id;
-	private UsuarioEstudoMateriaBean usuarioEstudoMateria;
+	private EstudoMateria usuarioEstudoMateria;
 	private Date horaEstudo;
 	private Duration tempoEstudado;
 	private String observacao;

@@ -17,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiarioEntidade;
 import br.com.guarasoft.studyware.estudomateria.gateway.entidade.EstudoMateriaEntidade;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
@@ -24,6 +25,7 @@ import br.com.guarasoft.studyware.infra.dao.Entidade;
 @Entity
 @Table(name = "Estudo")
 @Data
+@EqualsAndHashCode(of = { "id" })
 public class EstudoEntidade implements Entidade {
 
 	private static final long serialVersionUID = 1502275345514321869L;

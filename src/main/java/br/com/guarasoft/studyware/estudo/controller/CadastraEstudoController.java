@@ -28,9 +28,9 @@ import br.com.guarasoft.studyware.estudo.gateway.EstudoGateway;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.estudo.view.EstudoDiaView;
 import br.com.guarasoft.studyware.estudo.view.MateriaCicloView;
-import br.com.guarasoft.studyware.estudodiario.bean.DiaBean;
-import br.com.guarasoft.studyware.estudodiario.bean.UsuarioEstudoDiarioBean;
-import br.com.guarasoft.studyware.estudomateria.bean.UsuarioEstudoMateriaBean;
+import br.com.guarasoft.studyware.estudodiario.modelo.Dia;
+import br.com.guarasoft.studyware.estudodiario.modelo.EstudoDiario;
+import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 import br.com.guarasoft.studyware.menu.controller.MenuController;
@@ -61,6 +61,7 @@ public class CadastraEstudoController implements Serializable {
 
 	@ManagedProperty(value = "#{sessionAuth.usuario}")
 	// @Getter(AccessLevel.PRIVATE)
+	@Setter
 	private Usuario usuario;
 
 	// private List<Estudo> estudos;
@@ -109,17 +110,16 @@ public class CadastraEstudoController implements Serializable {
 
 			// bean = new Estudo();
 			// bean.setUsuario(this.usuario);
-			// bean.setMaterias(new ArrayList<UsuarioEstudoMateriaBean>());
-			// bean.setDias(new ArrayList<UsuarioEstudoDiarioBean>());
+			// bean.setMaterias(new ArrayList<EstudoMateria>());
+			// bean.setDias(new ArrayList<EstudoDiario>());
 
 			materiasRestantes = this.materiaGateway.buscaMaterias();
 		} else {
 			materiasRestantes = this.materiaGateway
 					.buscaMateriasRestantes(estudo);
 
-			for (UsuarioEstudoMateriaBean usuarioEstudoMateriaBean : estudo
-					.getMaterias()) {
-				materiasSelecionadas.add(usuarioEstudoMateriaBean.getMateria());
+			for (EstudoMateria estudoMateria : estudo.getMaterias()) {
+				materiasSelecionadas.add(estudoMateria.getMateria());
 			}
 
 			this.atualizaCiclo(estudo);
@@ -128,21 +128,21 @@ public class CadastraEstudoController implements Serializable {
 
 			this.semana = new ArrayList<>();
 
-			EstudoDiaView dia = null;
-			UsuarioEstudoDiarioBean estudoDiario = null;
-			for (DiaBean diaBean : DiaBean.values()) {
-				estudoDiario = new UsuarioEstudoDiarioBean();
-				estudoDiario.setUsuarioEstudo(estudo);
-				estudoDiario.setDia(diaBean);
+			EstudoDiaView diaView = null;
+			EstudoDiario estudoDiario = null;
+			for (Dia dia : Dia.values()) {
+				estudoDiario = new EstudoDiario();
+				estudoDiario.setEstudo(estudo);
+				estudoDiario.setDia(dia);
 
 				if (estudo.getDias().contains(estudoDiario)) {
 					estudoDiario = estudo.getDias().get(
 							estudo.getDias().indexOf(estudoDiario));
 				}
 
-				dia = new EstudoDiaView();
-				dia.setEstudoDiario(estudoDiario);
-				this.semana.add(dia);
+				diaView = new EstudoDiaView();
+				diaView.setEstudoDiario(estudoDiario);
+				this.semana.add(diaView);
 			}
 
 			this.atualizaTotalSemana();
@@ -166,23 +166,22 @@ public class CadastraEstudoController implements Serializable {
 	private void atualizaCiclo(Estudo estudo) {
 		Long ordem = 1L;
 		this.ciclo = new ArrayList<>();
-		List<UsuarioEstudoMateriaBean> materiasEstudo = estudo.getMaterias();
-		estudo.setMaterias(new ArrayList<UsuarioEstudoMateriaBean>());
+		List<EstudoMateria> materiasEstudo = estudo.getMaterias();
 		MateriaCicloView materiaCiclo = null;
 		for (MateriaBean materia : this.materias.getTarget()) {
-			UsuarioEstudoMateriaBean usuarioEstudoMateriaBean = new UsuarioEstudoMateriaBean();
-			usuarioEstudoMateriaBean.setMateria(materia);
+			EstudoMateria estudoMateria = new EstudoMateria();
+			estudoMateria.setMateria(materia);
 
-			if (materiasEstudo.contains(usuarioEstudoMateriaBean)) {
-				usuarioEstudoMateriaBean = materiasEstudo.get(materiasEstudo
-						.indexOf(usuarioEstudoMateriaBean));
+			if (materiasEstudo.contains(estudoMateria)) {
+				estudoMateria = materiasEstudo.get(materiasEstudo
+						.indexOf(estudoMateria));
 			}
-			estudo.getMaterias().add(usuarioEstudoMateriaBean);
+			estudo.add(estudoMateria);
 
-			usuarioEstudoMateriaBean.setOrdem(ordem++);
+			estudoMateria.setOrdem(ordem++);
 
 			materiaCiclo = new MateriaCicloView();
-			materiaCiclo.setMateria(usuarioEstudoMateriaBean);
+			materiaCiclo.setMateria(estudoMateria);
 			this.ciclo.add(materiaCiclo);
 		}
 	}
@@ -191,10 +190,9 @@ public class CadastraEstudoController implements Serializable {
 		Estudo estudo = new Estudo(this.nome, this.usuario, null);
 		this.atualizaCiclo(estudo);
 		if (this.semana != null) {
-			estudo.setDias(new ArrayList<UsuarioEstudoDiarioBean>());
 			for (EstudoDiaView diaView : this.semana) {
 				if (diaView.getEstudoDiario().getTempoAlocado() != null) {
-					estudo.getDias().add(diaView.getEstudoDiario());
+					estudo.add(diaView.getEstudoDiario());
 				}
 			}
 		}

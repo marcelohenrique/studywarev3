@@ -8,7 +8,7 @@ import br.com.guarasoft.studyware.infra.dao.Entidade;
 
 @Data
 @AllArgsConstructor
-public class EstudoDiario implements Entidade {
+public class EstudoDiarioTransformer implements Entidade {
 
 	private static final long serialVersionUID = 2509970879445306489L;
 

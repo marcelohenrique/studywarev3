@@ -7,7 +7,9 @@ import br.com.guarasoft.studyware.estudo.gateway.entidade.EstudoEntidade;
 import br.com.guarasoft.studyware.estudo.gateway.entidade.UsuarioEstudoEntidade;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.estudodiario.gateway.converter.UsuarioEstudoDiarioEntidadeConverter;
+import br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiarioEntidade;
 import br.com.guarasoft.studyware.estudomateria.gateway.converter.UsuarioEstudoMateriaBuilder;
+import br.com.guarasoft.studyware.estudomateria.gateway.entidade.EstudoMateriaEntidade;
 import br.com.guarasoft.studyware.usuario.gateway.converter.UsuarioEntidadeConverter;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
@@ -40,13 +42,19 @@ public class EstudoBuilder {
 		}
 
 		if (this.converteMaterias) {
-			bean.setMaterias(this.usuarioEstudoMateriaBuilder.convert(bean,
-					entidade.getMaterias()));
+			for (EstudoMateriaEntidade estudoMateriaEntidade : entidade
+					.getMaterias()) {
+				bean.add(this.usuarioEstudoMateriaBuilder
+						.convert(estudoMateriaEntidade));
+			}
 		}
 
 		if (this.converteDias) {
-			bean.setDias(this.estudoDiarioConverter.convert(bean,
-					entidade.getEstudoDiarios()));
+			for (EstudoDiarioEntidade estudoDiarioEntidade : entidade
+					.getEstudoDiarios()) {
+				bean.add(this.estudoDiarioConverter.convert(bean,
+						estudoDiarioEntidade));
+			}
 		}
 
 		return bean;
@@ -68,8 +76,8 @@ public class EstudoBuilder {
 		}
 
 		if (this.converteDias) {
-			entidade.setEstudoDiarios(this.estudoDiarioConverter
-					.convert(entidade, bean.getDias()));
+			entidade.setEstudoDiarios(this.estudoDiarioConverter.convert(
+					entidade, bean.getDias()));
 		}
 
 		return entidade;

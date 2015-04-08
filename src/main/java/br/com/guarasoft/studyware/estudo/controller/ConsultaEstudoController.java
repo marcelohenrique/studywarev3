@@ -45,7 +45,8 @@ public class ConsultaEstudoController implements Serializable {
 	private RemoverUsuarioEstudo removerUsuarioEstudo;
 
 	@ManagedProperty(value = "#{sessionAuth.usuario}")
-	@Getter(AccessLevel.PRIVATE)
+	// @Getter(AccessLevel.PRIVATE)
+	@Setter
 	private Usuario usuario;
 
 	// private DualListModel<MateriaBean> materias;
@@ -77,15 +78,15 @@ public class ConsultaEstudoController implements Serializable {
 		// if (bean == null) {
 		// bean = new Estudo();
 		// bean.setUsuario(this.usuario);
-		// bean.setMaterias(new ArrayList<UsuarioEstudoMateriaBean>());
-		// bean.setDias(new ArrayList<UsuarioEstudoDiarioBean>());
+		// bean.setMaterias(new ArrayList<EstudoMateria>());
+		// bean.setDias(new ArrayList<EstudoDiario>());
 
 		// materiasRestantes = this.materiaGateway.buscaMaterias();
 		// } else {
 		// materiasRestantes = this.materiaGateway
 		// .buscaMateriasRestantes(bean);
 
-		// for (UsuarioEstudoMateriaBean usuarioEstudoMateriaBean : bean
+		// for (EstudoMateria usuarioEstudoMateriaBean : bean
 		// .getMaterias()) {
 		// materiasSelecionadas.add(usuarioEstudoMateriaBean.getMateria());
 		// }
@@ -108,9 +109,9 @@ public class ConsultaEstudoController implements Serializable {
 	// this.semana = new ArrayList<>();
 	//
 	// EstudoDiaView dia = null;
-	// UsuarioEstudoDiarioBean estudoDiario = null;
-	// for (DiaBean diaBean : DiaBean.values()) {
-	// estudoDiario = new UsuarioEstudoDiarioBean();
+	// EstudoDiario estudoDiario = null;
+	// for (Dia diaBean : Dia.values()) {
+	// estudoDiario = new EstudoDiario();
 	// estudoDiario.setUsuarioEstudo(this.bean);
 	// estudoDiario.setDia(diaBean);
 	//
@@ -132,12 +133,12 @@ public class ConsultaEstudoController implements Serializable {
 	// private void atualizaCiclo() {
 	// Long ordem = 1L;
 	// this.ciclo = new ArrayList<>();
-	// List<UsuarioEstudoMateriaBean> materiasEstudo = this.bean.getMaterias();
-	// this.bean.setMaterias(new ArrayList<UsuarioEstudoMateriaBean>());
+	// List<EstudoMateria> materiasEstudo = this.bean.getMaterias();
+	// this.bean.setMaterias(new ArrayList<EstudoMateria>());
 	// MateriaCicloView materiaCiclo = null;
 	// for (MateriaBean materia : this.materias.getTarget()) {
-	// UsuarioEstudoMateriaBean usuarioEstudoMateriaBean = new
-	// UsuarioEstudoMateriaBean();
+	// EstudoMateria usuarioEstudoMateriaBean = new
+	// EstudoMateria();
 	// usuarioEstudoMateriaBean.setMateria(materia);
 	//
 	// if (materiasEstudo.contains(usuarioEstudoMateriaBean)) {
@@ -157,7 +158,7 @@ public class ConsultaEstudoController implements Serializable {
 	// public String cadastrar() {
 	// this.atualizaCiclo();
 	// if (this.semana != null) {
-	// this.bean.setDias(new ArrayList<UsuarioEstudoDiarioBean>());
+	// this.bean.setDias(new ArrayList<EstudoDiario>());
 	// for (EstudoDiaView diaView : this.semana) {
 	// if (diaView.getEstudoDiario().getTempoAlocado() != null) {
 	// this.bean.getDias().add(diaView.getEstudoDiario());
@@ -186,10 +187,10 @@ public class ConsultaEstudoController implements Serializable {
 		return new MenuController().cadastrarEstudo();
 	}
 
-	public void remover(Estudo usuarioEstudo) {
+	public void remover(Estudo estudo) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			this.removerUsuarioEstudo.execute(usuarioEstudo);
+			this.removerUsuarioEstudo.execute(estudo);
 
 			this.estudos = this.estudoGateway.recuperaTodosEstudos(this.usuario
 					.getEmail());

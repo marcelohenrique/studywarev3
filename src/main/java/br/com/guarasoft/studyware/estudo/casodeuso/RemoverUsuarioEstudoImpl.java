@@ -12,8 +12,8 @@ public class RemoverUsuarioEstudoImpl implements RemoverUsuarioEstudo {
 	}
 
 	@Override
-	public void execute(Estudo usuarioEstudo) {
-		this.usuarioEstudoGateway.remover(usuarioEstudo);
+	public void execute(Estudo estudo) {
+		this.usuarioEstudoGateway.remover(estudo);
 	}
 
 }

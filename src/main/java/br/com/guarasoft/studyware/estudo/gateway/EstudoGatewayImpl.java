@@ -22,18 +22,20 @@ public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long>
 
 	@Override
 	public void cadastrar(Estudo estudo) {
-		EstudoEntidade usuarioEstudo = this.builder.converteMaterias()
+		EstudoEntidade estudoEntidade = this.builder.converteMaterias()
 				.converteDias().convert(estudo);
 
-		this.merge(usuarioEstudo);
+		this.merge(estudoEntidade);
 	}
 
 	@Override
 	public List<Estudo> recuperaTodosEstudos(String email) {
 		StringBuilder sql = new StringBuilder();
-		sql.append(" from UsuarioEstudo ue ");
-		sql.append("where ue.usuario.email = :email ");
-		sql.append("order by ue.fim, ue.nome ");
+		sql.append("SELECT e ");
+		sql.append("  FROM EstudoEntidade e ");
+		sql.append("  JOIN e.participantes p ");
+		sql.append(" WHERE p.usuario.email = :email ");
+		sql.append(" ORDER BY e.fim, e.nome ");
 
 		TypedQuery<EstudoEntidade> typedQuery = this.entityManager
 				.createQuery(sql.toString(), EstudoEntidade.class);

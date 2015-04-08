@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import br.com.guarasoft.studyware.controller.converter.DurationConverter;
-import br.com.guarasoft.studyware.estudomateria.bean.UsuarioEstudoMateriaBean;
+import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 
 @Data
 public class MateriaCicloView {
@@ -16,7 +16,7 @@ public class MateriaCicloView {
 	@Setter(AccessLevel.PRIVATE)
 	private DurationConverter durationConverter = new DurationConverter();
 
-	private UsuarioEstudoMateriaBean materia;
+	private EstudoMateria materia;
 
 	public Date getTempoAlocado() {
 		return this.durationConverter.toDate(this.materia.getTempoAlocado());

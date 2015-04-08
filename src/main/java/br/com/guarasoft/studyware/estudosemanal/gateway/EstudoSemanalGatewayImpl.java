@@ -21,12 +21,12 @@ public class EstudoSemanalGatewayImpl extends AbstractDao<EstudoSemanal, Long> i
 	@Override
 	public List<EstudoSemanalBean> findAll(Estudo estudo) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT new br.com.guarasoft.studyware.estudosemanal.gateway.entidade.EstudoSemanal( date_trunc( 'week', uemh.horaEstudo ), SUM( uemh.tempoEstudado ) ) ");
-		sql.append("  FROM EstudoMateriaHistoricoEntidade uemh ");
-		sql.append("  LEFT OUTER JOIN uemh.usuarioEstudoMateria uem ");
-		sql.append(" WHERE uem.estudo.nome = ? ");
-		sql.append(" GROUP BY date_trunc( 'week', uemh.horaEstudo ) ");
-		sql.append(" ORDER BY date_trunc( 'week', uemh.horaEstudo ) ");
+		sql.append("SELECT new br.com.guarasoft.studyware.estudosemanal.gateway.entidade.EstudoSemanal( date_trunc( 'week', emhe.horaEstudo ), SUM( emhe.tempoEstudado ) ) ");
+		sql.append("  FROM EstudoMateriaHistoricoEntidade emhe ");
+		sql.append("  LEFT OUTER JOIN emhe.estudoMateria em ");
+		sql.append(" WHERE em.estudo.nome = ? ");
+		sql.append(" GROUP BY date_trunc( 'week', emhe.horaEstudo ) ");
+		sql.append(" ORDER BY date_trunc( 'week', emhe.horaEstudo ) ");
 
 		TypedQuery<EstudoSemanal> query = this.entityManager.createQuery(sql.toString(), EstudoSemanal.class);
 		query.setParameter(1, estudo.getNome());

@@ -3,12 +3,11 @@ package br.com.guarasoft.studyware.estudo.modelo;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
-import org.joda.time.DateTime;
-
-import br.com.guarasoft.studyware.estudodiario.bean.UsuarioEstudoDiarioBean;
-import br.com.guarasoft.studyware.estudomateria.bean.UsuarioEstudoMateriaBean;
+import br.com.guarasoft.studyware.estudodiario.modelo.EstudoDiario;
+import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 //@Data
@@ -17,32 +16,16 @@ public class Estudo {
 	private String nome;
 	private Usuario dono;
 	// private DateTime inicio;
-	private DateTime fim;
+	private Date fim;
 
 	private Collection<Usuario> usuarios = new ArrayList<Usuario>();
 
-	private List<UsuarioEstudoMateriaBean> materias;
-	private List<UsuarioEstudoDiarioBean> dias;
+	private List<EstudoMateria> materias = new ArrayList<EstudoMateria>();
+	private List<EstudoDiario> dias = new ArrayList<EstudoDiario>();
 
-	public Estudo(String nome, Usuario dono, DateTime fim) {
+	public Estudo(String nome, Usuario dono, Date fim) {
 		this.nome = nome;
 		this.dono = dono;
-		this.fim = fim;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public DateTime getFim() {
-		return fim;
-	}
-
-	public void setFim(DateTime fim) {
 		this.fim = fim;
 	}
 
@@ -50,24 +33,32 @@ public class Estudo {
 		this.usuarios.add(usuario);
 	}
 
+	public void add(EstudoDiario estudoDiario) {
+		this.dias.add(estudoDiario);
+	}
+
+	public void add(EstudoMateria estudoMateria) {
+		this.materias.add(estudoMateria);
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public Date getFim() {
+		return fim;
+	}
+
 	public Collection<Usuario> getUsuarios() {
 		return Collections.unmodifiableCollection(usuarios);
 	}
 
-	public List<UsuarioEstudoMateriaBean> getMaterias() {
-		return materias;
+	public List<EstudoMateria> getMaterias() {
+		return Collections.unmodifiableList(materias);
 	}
 
-	public void setMaterias(List<UsuarioEstudoMateriaBean> materias) {
-		this.materias = materias;
-	}
-
-	public List<UsuarioEstudoDiarioBean> getDias() {
-		return dias;
-	}
-
-	public void setDias(List<UsuarioEstudoDiarioBean> dias) {
-		this.dias = dias;
+	public List<EstudoDiario> getDias() {
+		return Collections.unmodifiableList(dias);
 	}
 
 }

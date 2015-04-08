@@ -10,11 +10,11 @@ public class MenuController {
 	}
 
 	public String cadastrarEstudo() {
-		return "/pages/usuarioestudo/cadastrar";
+		return "/pages/estudo/cadastrar";
 	}
 
 	public String consultarUsuarioEstudo() {
-		return "/pages/usuarioestudo/consultar";
+		return "/pages/estudo/consultar";
 	}
 
 	public String cadastrarUsuario() {

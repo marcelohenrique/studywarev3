@@ -5,18 +5,18 @@ import java.util.List;
 
 import org.joda.time.Duration;
 
-import br.com.guarasoft.studyware.estudodiario.bean.EstudoDiarioBean;
-import br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiario;
+import br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiarioTransformer;
+import br.com.guarasoft.studyware.estudodiario.modelo.EstudoSemanal;
 
 public class EstudoDiarioEntidadeConverter {
 
 	private final DiaEntidadeConverter diaConverter = new DiaEntidadeConverter();
 
-	public List<EstudoDiarioBean> convert(List<EstudoDiario> entidades) {
-		List<EstudoDiarioBean> beans = new ArrayList<>();
+	public List<EstudoSemanal> convert(List<EstudoDiarioTransformer> entidades) {
+		List<EstudoSemanal> beans = new ArrayList<>();
 
-		EstudoDiarioBean bean = null;
-		for (EstudoDiario entidade : entidades) {
+		EstudoSemanal bean = null;
+		for (EstudoDiarioTransformer entidade : entidades) {
 			bean = this.convert(entidade);
 			beans.add(bean);
 		}
@@ -24,8 +24,8 @@ public class EstudoDiarioEntidadeConverter {
 		return beans;
 	}
 
-	public EstudoDiarioBean convert(EstudoDiario entidade) {
-		EstudoDiarioBean bean = new EstudoDiarioBean();
+	public EstudoSemanal convert(EstudoDiarioTransformer entidade) {
+		EstudoSemanal bean = new EstudoSemanal();
 
 		bean.setInicioSemana(entidade.getInicioSemana());
 		bean.setDiaSemana(this.diaConverter.convert(entidade.getDiaSemana()));

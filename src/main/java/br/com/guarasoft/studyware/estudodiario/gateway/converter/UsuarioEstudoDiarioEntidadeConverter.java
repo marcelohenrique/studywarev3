@@ -9,26 +9,26 @@ import org.joda.time.Duration;
 
 import br.com.guarasoft.studyware.estudo.gateway.entidade.EstudoEntidade;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
-import br.com.guarasoft.studyware.estudodiario.bean.UsuarioEstudoDiarioBean;
 import br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiarioEntidade;
+import br.com.guarasoft.studyware.estudodiario.modelo.EstudoDiario;
 
 public class UsuarioEstudoDiarioEntidadeConverter {
 
 	private final DiaEntidadeConverter diaConverter = new DiaEntidadeConverter();
 
-	private UsuarioEstudoDiarioBean convert(Estudo beanPai, EstudoDiarioEntidade entidade) {
-		UsuarioEstudoDiarioBean bean = new UsuarioEstudoDiarioBean();
+	public EstudoDiario convert(Estudo beanPai, EstudoDiarioEntidade entidade) {
+		EstudoDiario bean = new EstudoDiario();
 
 		bean.setId(entidade.getId());
-		bean.setUsuarioEstudo(beanPai);
+		bean.setEstudo(beanPai);
 		bean.setDia(this.diaConverter.convert(entidade.getDia()));
 		bean.setTempoAlocado(new Duration(entidade.getTempoAlocado()));
 
 		return bean;
 	}
 
-	public List<UsuarioEstudoDiarioBean> convert(Estudo beanPai, Set<EstudoDiarioEntidade> entidades) {
-		List<UsuarioEstudoDiarioBean> beans = new ArrayList<>();
+	public List<EstudoDiario> convert(Estudo beanPai, Set<EstudoDiarioEntidade> entidades) {
+		List<EstudoDiario> beans = new ArrayList<>();
 
 		for (EstudoDiarioEntidade entidade : entidades) {
 			beans.add(this.convert(beanPai, entidade));
@@ -37,7 +37,7 @@ public class UsuarioEstudoDiarioEntidadeConverter {
 		return beans;
 	}
 
-	private EstudoDiarioEntidade convert(EstudoEntidade entidadePai, UsuarioEstudoDiarioBean bean) {
+	private EstudoDiarioEntidade convert(EstudoEntidade entidadePai, EstudoDiario bean) {
 		EstudoDiarioEntidade entidade = new EstudoDiarioEntidade();
 
 		entidade.setId(bean.getId());
@@ -48,10 +48,10 @@ public class UsuarioEstudoDiarioEntidadeConverter {
 		return entidade;
 	}
 
-	public Set<EstudoDiarioEntidade> convert(EstudoEntidade entidadePai, List<UsuarioEstudoDiarioBean> beans) {
+	public Set<EstudoDiarioEntidade> convert(EstudoEntidade entidadePai, List<EstudoDiario> beans) {
 		Set<EstudoDiarioEntidade> entidades = new LinkedHashSet<>();
 
-		for (UsuarioEstudoDiarioBean bean : beans) {
+		for (EstudoDiario bean : beans) {
 			entidades.add(this.convert(entidadePai, bean));
 		}
 

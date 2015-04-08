@@ -9,8 +9,8 @@ import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.guarasoft.studyware.estudomateria.bean.UsuarioEstudoMateriaBean;
 import br.com.guarasoft.studyware.estudomateria.gateway.UsuarioEstudoMateriaGateway;
+import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 
 @Named("estudomateriaconverter")
 public class UsuarioEstudoMateriaConverter implements Converter {
@@ -34,7 +34,7 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 
 		// String[] values = value.split("-");
 
-		UsuarioEstudoMateriaBean bean = null;
+		EstudoMateria bean = null;
 		// if ("null".equals(values[0])) {
 		// Estudo usuarioEstudo =
 		// this.usuarioEstudoGateway.buscaPorId(Long.parseLong(values[1]));
@@ -42,7 +42,7 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 		// MateriaBean materia =
 		// this.materiaGateway.buscaPorId(Long.parseLong(values[2]));
 		//
-		// bean = new UsuarioEstudoMateriaBean();
+		// bean = new EstudoMateria();
 		// bean.setUsuarioEstudo(usuarioEstudo);
 		// bean.setMateria(materia);
 		// } else {
@@ -62,7 +62,7 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 			return "";
 		}
 
-		UsuarioEstudoMateriaBean bean = (UsuarioEstudoMateriaBean) value;
+		EstudoMateria bean = (EstudoMateria) value;
 
 		String valor = bean.getId().toString()/*
 											 * + "-" +

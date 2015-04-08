@@ -28,7 +28,7 @@ public class EstudoDiarioEntidade {
 
 	@JoinColumn(name = "dia", referencedColumnName = "id")
 	@ManyToOne
-	private Dia dia;
+	private DiaEntidade dia;
 
 	private Long tempoAlocado;
 

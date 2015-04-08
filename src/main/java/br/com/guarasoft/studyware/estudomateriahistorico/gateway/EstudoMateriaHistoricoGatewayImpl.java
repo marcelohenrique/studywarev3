@@ -20,14 +20,14 @@ import br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.Estudo
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 
 @Stateless
-public class UsuarioEstudoMateriaHistoricoGatewayImpl extends
+public class EstudoMateriaHistoricoGatewayImpl extends
 		AbstractDao<EstudoMateriaHistoricoEntidade, Long> implements
-		UsuarioEstudoMateriaHistoricoGateway {
+		EstudoMateriaHistoricoGateway {
 
 	private final UsuarioEstudoMateriaBuilder usuarioEstudoMateriaBuilder = new UsuarioEstudoMateriaBuilder();
 	private final UsuarioEstudoMateriaHistoricoEntidadeConverter usuarioEstudoMateriaHistoricoEntidadeConverter = new UsuarioEstudoMateriaHistoricoEntidadeConverter();
 
-	public UsuarioEstudoMateriaHistoricoGatewayImpl() {
+	public EstudoMateriaHistoricoGatewayImpl() {
 		super(EstudoMateriaHistoricoEntidade.class);
 	}
 
@@ -48,12 +48,12 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends
 	}
 
 	@Override
-	public List<UsuarioEstudoMateriaHistoricoBean> findAll(
-			Estudo estudo) {
+	public List<UsuarioEstudoMateriaHistoricoBean> findAll(Estudo estudo) {
 		StringBuilder sql = new StringBuilder();
-		sql.append(" FROM EstudoMateriaHistoricoEntidade uemh ");
-		sql.append("WHERE uemh.usuarioEstudoMateria.estudo.nome = :nomeEstudo ");
-		sql.append("ORDER BY uemh.horaEstudo DESC");
+		sql.append("SELECT emhe ");
+		sql.append(" FROM EstudoMateriaHistoricoEntidade emhe ");
+		sql.append("WHERE emhe.estudoMateria.estudo.nome = :nomeEstudo ");
+		sql.append("ORDER BY emhe.horaEstudo DESC");
 
 		TypedQuery<EstudoMateriaHistoricoEntidade> query = this.entityManager
 				.createQuery(sql.toString(),
@@ -68,8 +68,7 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends
 	}
 
 	@Override
-	public List<ResumoMateriaEstudadaBean> buscaResumosMaterias(
-			Estudo estudo) {
+	public List<ResumoMateriaEstudadaBean> buscaResumosMaterias(Estudo estudo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT new br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.ResumoMateriaEstudada( uem, SUM( uemh.tempoEstudado ), '' ) ");
 		sql.append("  FROM EstudoMateriaEntidade uem ");
@@ -90,8 +89,7 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends
 			bean = new ResumoMateriaEstudadaBean();
 
 			bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaBuilder
-					.convert(estudo,
-							entidade.getEstudoMateria()));
+					.convert(estudo, entidade.getEstudoMateria()));
 			bean.setSomaTempo(new Duration(entidade.getSomaTempo()));
 			bean.setObservacao(this.buscaUltimaObservacao(entidade
 					.getEstudoMateria()));
@@ -105,18 +103,18 @@ public class UsuarioEstudoMateriaHistoricoGatewayImpl extends
 	private String buscaUltimaObservacao(
 			EstudoMateriaEntidade estudoMateriaEntidade) {
 		StringBuilder sql = new StringBuilder();
-		// sql.append("SELECT uemh.observacao ");
-		sql.append("  FROM EstudoMateriaHistoricoEntidade uemh ");
-		sql.append(" WHERE uemh.id IN ( ");
+		sql.append("SELECT emhe ");
+		sql.append("  FROM EstudoMateriaHistoricoEntidade emhe ");
+		sql.append(" WHERE emhe.id IN ( ");
 		sql.append("SELECT MAX( h.id ) ");
 		sql.append("  FROM EstudoMateriaHistoricoEntidade h ");
-		sql.append(" WHERE h.usuarioEstudoMateria.id = :usuarioEstudoMateria ");
-		sql.append(" GROUP BY h.usuarioEstudoMateria ) ");
+		sql.append(" WHERE h.estudoMateria.id = :estudoMateria ");
+		sql.append(" GROUP BY h.estudoMateria ) ");
 
 		TypedQuery<EstudoMateriaHistoricoEntidade> query = this.entityManager
 				.createQuery(sql.toString(),
 						EstudoMateriaHistoricoEntidade.class);
-		query.setParameter("usuarioEstudoMateria", estudoMateriaEntidade.getId());
+		query.setParameter("estudoMateria", estudoMateriaEntidade.getId());
 
 		try {
 			return query.getSingleResult().getObservacao();

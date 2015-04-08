@@ -1,4 +1,4 @@
-package br.com.guarasoft.studyware.estudomateria.bean;
+package br.com.guarasoft.studyware.estudomateria.modelo;
 
 import lombok.Data;
 import lombok.ToString;
@@ -10,7 +10,7 @@ import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 
 @Data
 @ToString(exclude = { "estudo" })
-public class UsuarioEstudoMateriaBean {
+public class EstudoMateria {
 
 	private Long id;
 	private Estudo estudo;
@@ -29,7 +29,7 @@ public class UsuarioEstudoMateriaBean {
 		if (this.getClass() != obj.getClass()) {
 			return false;
 		}
-		UsuarioEstudoMateriaBean other = (UsuarioEstudoMateriaBean) obj;
+		EstudoMateria other = (EstudoMateria) obj;
 		if (this.materia == null) {
 			if (other.materia != null) {
 				return false;

@@ -24,13 +24,13 @@ import br.com.guarasoft.studyware.controleestudo.presenter.GraficoDiario;
 import br.com.guarasoft.studyware.controller.converter.DurationConverter;
 import br.com.guarasoft.studyware.estudo.gateway.EstudoGateway;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
-import br.com.guarasoft.studyware.estudodiario.bean.EstudoDiarioBean;
 import br.com.guarasoft.studyware.estudodiario.gateway.EstudoDiaGateway;
-import br.com.guarasoft.studyware.estudomateria.bean.UsuarioEstudoMateriaBean;
+import br.com.guarasoft.studyware.estudodiario.modelo.EstudoSemanal;
 import br.com.guarasoft.studyware.estudomateria.gateway.UsuarioEstudoMateriaGateway;
+import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 import br.com.guarasoft.studyware.estudomateriahistorico.bean.ResumoMateriaEstudadaBean;
 import br.com.guarasoft.studyware.estudomateriahistorico.bean.UsuarioEstudoMateriaHistoricoBean;
-import br.com.guarasoft.studyware.estudomateriahistorico.gateway.UsuarioEstudoMateriaHistoricoGateway;
+import br.com.guarasoft.studyware.estudomateriahistorico.gateway.EstudoMateriaHistoricoGateway;
 import br.com.guarasoft.studyware.estudosemanal.bean.EstudoSemanalBean;
 import br.com.guarasoft.studyware.estudosemanal.gateway.EstudoSemanalGateway;
 import br.com.guarasoft.studyware.materia.bean.MateriaBean;
@@ -51,7 +51,7 @@ public class ControleEstudoController implements Serializable {
 	@Inject
 	private UsuarioEstudoMateriaGateway usuarioEstudoMateriaGateway;
 	@Inject
-	private UsuarioEstudoMateriaHistoricoGateway usuarioEstudoMateriaHistoricoGateway;
+	private EstudoMateriaHistoricoGateway estudoMateriaHistoricoGateway;
 	@Inject
 	private EstudoSemanalGateway estudoSemanalGateway;
 	@Inject
@@ -69,11 +69,11 @@ public class ControleEstudoController implements Serializable {
 	private Estudo estudoSelecionado;
 
 	private List<ResumoMateriaEstudadaBean> resumoMateriasEstudadas;
-	private UsuarioEstudoMateriaBean estudoMateriaSelecionada;
+	private EstudoMateria estudoMateriaSelecionada;
 	private UsuarioEstudoMateriaHistoricoBean materiaEstudada;
 	private List<UsuarioEstudoMateriaHistoricoBean> materiasEstudadas;
 	private List<EstudoSemanalBean> estudosSemanais;
-	private List<UsuarioEstudoMateriaBean> usuarioEstudoMaterias;
+	private List<EstudoMateria> usuarioEstudoMaterias;
 
 	@ManagedProperty(value = "#{sessionAuth.usuario}")
 	private Usuario usuario;
@@ -92,7 +92,7 @@ public class ControleEstudoController implements Serializable {
 	}
 
 	private void atualiza() {
-		this.resumoMateriasEstudadas = this.usuarioEstudoMateriaHistoricoGateway
+		this.resumoMateriasEstudadas = this.estudoMateriaHistoricoGateway
 				.buscaResumosMaterias(this.estudoSelecionado);
 		this.tempoTotalAlocado = new Duration(0);
 		this.tempoEstudadoTotal = new Duration(0);
@@ -103,12 +103,12 @@ public class ControleEstudoController implements Serializable {
 			this.tempoEstudadoTotal = this.tempoEstudadoTotal
 					.plus(resumoMateriaEstudada.getSomaTempo());
 		}
-		this.materiasEstudadas = this.usuarioEstudoMateriaHistoricoGateway
+		this.materiasEstudadas = this.estudoMateriaHistoricoGateway
 				.findAll(this.estudoSelecionado);
 		this.estudosSemanais = this.estudoSemanalGateway
 				.findAll(this.estudoSelecionado);
 
-		Collection<EstudoDiarioBean> estudosDiarios = this.estudoDiaGateway
+		Collection<EstudoSemanal> estudosDiarios = this.estudoDiaGateway
 				.findAll(this.estudoSelecionado.getNome(),
 						this.usuario.getEmail());
 
@@ -116,11 +116,11 @@ public class ControleEstudoController implements Serializable {
 	}
 
 	private UsuarioEstudoMateriaHistoricoBean build() {
-		UsuarioEstudoMateriaBean usuarioEstudoMateriaBean = new UsuarioEstudoMateriaBean();
-		usuarioEstudoMateriaBean.setMateria(new MateriaBean());
+		EstudoMateria estudoMateria = new EstudoMateria();
+		estudoMateria.setMateria(new MateriaBean());
 
 		UsuarioEstudoMateriaHistoricoBean materiaEstudada = new UsuarioEstudoMateriaHistoricoBean();
-		materiaEstudada.setUsuarioEstudoMateria(usuarioEstudoMateriaBean);
+		materiaEstudada.setUsuarioEstudoMateria(estudoMateria);
 		return materiaEstudada;
 	}
 
@@ -155,8 +155,8 @@ public class ControleEstudoController implements Serializable {
 				this.horasEstudadaInMillis));
 
 		this.logger.info(this.materiaEstudada.toString());
-		this.usuarioEstudoMateriaHistoricoGateway.persist(this.materiaEstudada);
-		this.materiasEstudadas = this.usuarioEstudoMateriaHistoricoGateway
+		this.estudoMateriaHistoricoGateway.persist(this.materiaEstudada);
+		this.materiasEstudadas = this.estudoMateriaHistoricoGateway
 				.findAll(this.estudoSelecionado);
 		this.materiaEstudada = this.build();
 		this.atualiza();
@@ -184,7 +184,7 @@ public class ControleEstudoController implements Serializable {
 	public void onRowEdit(RowEditEvent event) {
 		UsuarioEstudoMateriaHistoricoBean entrada = (UsuarioEstudoMateriaHistoricoBean) event
 				.getObject();
-		usuarioEstudoMateriaHistoricoGateway.merge(entrada);
+		estudoMateriaHistoricoGateway.merge(entrada);
 
 	}
 

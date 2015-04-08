@@ -1,20 +1,20 @@
 package br.com.guarasoft.studyware.estudodiario.gateway.converter;
 
-import br.com.guarasoft.studyware.estudodiario.bean.DiaBean;
-import br.com.guarasoft.studyware.estudodiario.gateway.entidade.Dia;
+import br.com.guarasoft.studyware.estudodiario.gateway.entidade.DiaEntidade;
+import br.com.guarasoft.studyware.estudodiario.modelo.Dia;
 
 public class DiaEntidadeConverter {
 
-	public DiaBean convert(int diaSemana) {
-		return DiaBean.values()[diaSemana];
+	public Dia convert(int diaSemana) {
+		return Dia.values()[diaSemana];
 	}
 
-	public DiaBean convert(Dia entidade) {
+	public Dia convert(DiaEntidade entidade) {
 		return this.convert(entidade.getId().intValue());
 	}
 
-	public Dia convert(DiaBean bean) {
-		Dia entidade = new Dia();
+	public DiaEntidade convert(Dia bean) {
+		DiaEntidade entidade = new DiaEntidade();
 		entidade.setId(new Integer(bean.ordinal()).longValue());
 		return entidade;
 	}

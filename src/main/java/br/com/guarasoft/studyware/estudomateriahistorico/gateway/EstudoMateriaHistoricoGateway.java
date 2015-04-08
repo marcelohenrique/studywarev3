@@ -6,7 +6,7 @@ import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.estudomateriahistorico.bean.ResumoMateriaEstudadaBean;
 import br.com.guarasoft.studyware.estudomateriahistorico.bean.UsuarioEstudoMateriaHistoricoBean;
 
-public interface UsuarioEstudoMateriaHistoricoGateway {
+public interface EstudoMateriaHistoricoGateway {
 	public void persist(UsuarioEstudoMateriaHistoricoBean materiaEstudada);
 
 	public List<UsuarioEstudoMateriaHistoricoBean> findAll(Estudo estudo);

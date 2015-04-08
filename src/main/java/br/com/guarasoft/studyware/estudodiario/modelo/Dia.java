@@ -1,6 +1,6 @@
-package br.com.guarasoft.studyware.estudodiario.bean;
+package br.com.guarasoft.studyware.estudodiario.modelo;
 
-public enum DiaBean {
+public enum Dia {
 
 	DOMINGO("Domingo", "Domingo"), //
 	SEGUNDA("Segunda", "Segunda-feira"), //
@@ -13,7 +13,7 @@ public enum DiaBean {
 	private String nome;
 	private String descricao;
 
-	private DiaBean(String nome, String descricao) {
+	private Dia(String nome, String descricao) {
 		this.nome = nome;
 		this.descricao = descricao;
 	}

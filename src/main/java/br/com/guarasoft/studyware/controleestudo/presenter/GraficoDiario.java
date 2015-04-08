@@ -10,7 +10,7 @@ import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 
-import br.com.guarasoft.studyware.estudodiario.bean.EstudoDiarioBean;
+import br.com.guarasoft.studyware.estudodiario.modelo.EstudoSemanal;
 
 public class GraficoDiario {
 
@@ -19,9 +19,9 @@ public class GraficoDiario {
 	private static final Double HORA = MINUTO * 60;
 
 	private LineChartModel graficoEstudoDiario;
-	private Collection<EstudoDiarioBean> estudosDiarios;
+	private Collection<EstudoSemanal> estudosDiarios;
 
-	public GraficoDiario(Collection<EstudoDiarioBean> estudosDiarios) {
+	public GraficoDiario(Collection<EstudoSemanal> estudosDiarios) {
 		this.estudosDiarios = estudosDiarios;
 		
 		montaGraficoEstudoDiario();
@@ -52,7 +52,7 @@ public class GraficoDiario {
 		this.graficoEstudoDiario.addSeries(executado);
 
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-		for (EstudoDiarioBean estudoDiario : this.estudosDiarios) {
+		for (EstudoSemanal estudoDiario : this.estudosDiarios) {
 			if (estudoDiario != null) {
 				String date = formatter.print(estudoDiario.getInicioSemana()
 						.getTime());
