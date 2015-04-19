@@ -14,7 +14,7 @@ import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CadastrarEstudoTest {
+public class CadastraEstudoTest {
 
 	@Mock
 	private EstudoGateway usuarioEstudoGateway;
@@ -24,7 +24,7 @@ public class CadastrarEstudoTest {
 		String email = "teste@gmail.com";
 		String nomeEstudo = "Estudo Teste";
 
-		CadastrarEstudo cadastrarUsuarioEstudo = new CadastrarEstudo(this.usuarioEstudoGateway);
+		CadastraEstudo cadastrarUsuarioEstudo = new CadastraEstudo(this.usuarioEstudoGateway);
 
 		Usuario usuario = new Usuario();
 		usuario.setEmail(email);
@@ -40,7 +40,7 @@ public class CadastrarEstudoTest {
 		String email = "teste@gmail.com";
 		String nomeEstudo = "Estudo Teste";
 
-		CadastrarEstudo cadastrarUsuarioEstudo = new CadastrarEstudo(this.usuarioEstudoGateway);
+		CadastraEstudo cadastrarUsuarioEstudo = new CadastraEstudo(this.usuarioEstudoGateway);
 
 		Usuario usuario = new Usuario();
 		usuario.setEmail(email);

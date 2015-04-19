@@ -18,7 +18,7 @@ import lombok.ToString;
 import br.com.guarasoft.studyware.estudo.gateway.entidade.EstudoEntidade;
 import br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.EstudoMateriaHistoricoEntidade;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
-import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
+import br.com.guarasoft.studyware.materia.gateway.entidade.MateriaEntidade;
 
 @Entity
 @Table(name = "EstudoMateria")
@@ -40,7 +40,7 @@ public class EstudoMateriaEntidade implements Entidade {
 
 	@JoinColumn(name = "materia", referencedColumnName = "id")
 	@ManyToOne
-	private Materia materia;
+	private MateriaEntidade materia;
 
 	private Long tempoAlocado;
 

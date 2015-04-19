@@ -8,16 +8,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.ToString;
 import br.com.guarasoft.studyware.estudomateria.gateway.entidade.EstudoMateriaEntidade;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 
-@Entity
+@Entity(name = "Materia")
+@Table(name = "Materia")
 @Data
 @ToString(exclude = { "estudoMateriaEntidades" })
-public class Materia implements Entidade {
+public class MateriaEntidade implements Entidade {
 
 	private static final long serialVersionUID = -8089662973205060676L;
 

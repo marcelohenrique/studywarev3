@@ -12,7 +12,7 @@ import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 
 @Stateless
 public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long>
-		implements EstudoGateway {
+implements EstudoGateway {
 
 	private final EstudoBuilder builder = new EstudoBuilder();
 
@@ -32,7 +32,7 @@ public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long>
 	public List<Estudo> recuperaTodosEstudos(String email) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT e ");
-		sql.append("  FROM EstudoEntidade e ");
+		sql.append("  FROM Estudo e ");
 		sql.append("  JOIN e.participantes p ");
 		sql.append(" WHERE p.usuario.email = :email ");
 		sql.append(" ORDER BY e.fim, e.nome ");
@@ -54,7 +54,7 @@ public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long>
 	public List<Estudo> recuperaEstudosValidos(String email) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT e ");
-		sql.append("  FROM EstudoEntidade e ");
+		sql.append("  FROM Estudo e ");
 		sql.append("  JOIN e.participantes p ");
 		sql.append(" where p.usuario.email = :email ");
 		sql.append("   and e.fim >= current_date ");
@@ -84,7 +84,7 @@ public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long>
 
 	@Override
 	public void remover(Estudo estudo) {
-		EstudoEntidade estudoEntidade = buscaPorNome(estudo.getNome());
+		EstudoEntidade estudoEntidade = this.buscaPorNome(estudo.getNome());
 
 		// EstudoEntidade estudoEntidade = this.builder.convert(estudo);
 

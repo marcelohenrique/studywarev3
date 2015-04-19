@@ -14,12 +14,12 @@ import lombok.Setter;
 
 import org.primefaces.event.RowEditEvent;
 
-import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.casodeuso.CadastrarMateria;
 import br.com.guarasoft.studyware.materia.casodeuso.CadastrarMateriaImpl;
 import br.com.guarasoft.studyware.materia.casodeuso.RemoverMateria;
 import br.com.guarasoft.studyware.materia.casodeuso.RemoverMateriaImpl;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
+import br.com.guarasoft.studyware.materia.modelo.Materia;
 import br.com.guarasoft.studyware.menu.controller.MenuController;
 
 @ManagedBean(name = "materia")
@@ -30,7 +30,7 @@ public class MateriaController {
 	private String nome;
 
 	@Setter(AccessLevel.PRIVATE)
-	private List<MateriaBean> materias;
+	private List<Materia> materias;
 
 	@Inject
 	private MateriaGateway materiaGateway;
@@ -52,28 +52,28 @@ public class MateriaController {
 		return new MenuController().consultarMateria();
 	}
 
-	public void remover(MateriaBean materiaBean) {
+	public void remover(Materia materia) {
 		RemoverMateria removerMateria = new RemoverMateriaImpl(this.materiaGateway);
-		removerMateria.execute(materiaBean);
+		removerMateria.execute(materia);
 		this.materias = this.materiaGateway.buscaMaterias();
 
-		FacesMessage msg = new FacesMessage("Matéria Removida", materiaBean.getSigla());
+		FacesMessage msg = new FacesMessage("Matéria Removida", materia.getSigla());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void onRowEdit(RowEditEvent event) {
-		MateriaBean materiaBean = (MateriaBean) event.getObject();
+		Materia materia = (Materia) event.getObject();
 
-		this.materiaGateway.alterar(materiaBean);
+		this.materiaGateway.alterar(materia);
 
-		FacesMessage msg = new FacesMessage("Matéria Editada", materiaBean.getSigla());
+		FacesMessage msg = new FacesMessage("Matéria Editada", materia.getSigla());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void onRowCancel(RowEditEvent event) {
-		MateriaBean materiaBean = (MateriaBean) event.getObject();
+		Materia materia = (Materia) event.getObject();
 
-		FacesMessage msg = new FacesMessage("Alteração Cancelada", materiaBean.getSigla());
+		FacesMessage msg = new FacesMessage("Alteração Cancelada", materia.getSigla());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 

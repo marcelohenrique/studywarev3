@@ -7,7 +7,7 @@ import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 public interface UsuarioEstudoMateriaGateway {
 
 	// public EstudoMateria find(Estudo usuarioEstudoBean,
-	// MateriaBean materiaBean);
+	// Materia materiaBean);
 
 	public List<EstudoMateria> buscaPorUsuarioEstudo(String nomeEstudo, String emailUsuario);
 

@@ -1,8 +1,8 @@
 package br.com.guarasoft.studyware.materia.casodeuso;
 
 import br.com.guarasoft.studyware.excecao.CampoObrigatorioNaoInformado;
-import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
+import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 public class CadastrarMateriaImpl implements CadastrarMateria {
 
@@ -17,7 +17,7 @@ public class CadastrarMateriaImpl implements CadastrarMateria {
 		this.verificaCampo(sigla, "Sigla");
 		this.verificaCampo(nome, "Nome");
 
-		MateriaBean materia = new MateriaBean();
+		Materia materia = new Materia();
 		materia.setSigla(sigla);
 		materia.setNome(nome);
 		this.materiaGateway.cadastrar(materia);

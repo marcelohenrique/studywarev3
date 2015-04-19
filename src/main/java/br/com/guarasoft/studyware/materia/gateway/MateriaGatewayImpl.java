@@ -7,32 +7,34 @@ import javax.persistence.TypedQuery;
 
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
-import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
-import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
+import br.com.guarasoft.studyware.materia.gateway.entidade.MateriaEntidade;
+import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 @Stateless
-public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements MateriaGateway {
+public class MateriaGatewayImpl extends AbstractDao<MateriaEntidade, Long> implements MateriaGateway {
 
 	private final MateriaEntidadeConverter materiaEntidadeConverter = new MateriaEntidadeConverter();
 
 	public MateriaGatewayImpl() {
-		super(Materia.class);
+		super(MateriaEntidade.class);
 	}
 
 	@Override
-	public List<MateriaBean> buscaMaterias() {
-		TypedQuery<Materia> typedQuery = this.entityManager.createQuery("from Materia m order by m.sigla", Materia.class);
+	public List<Materia> buscaMaterias() {
+		TypedQuery<MateriaEntidade> typedQuery = this.entityManager
+				.createQuery("from Materia m order by m.nome",
+						MateriaEntidade.class);
 
-		List<Materia> entidades = typedQuery.getResultList();
+		List<MateriaEntidade> entidades = typedQuery.getResultList();
 
-		List<MateriaBean> beans = this.materiaEntidadeConverter.convert(entidades);
+		List<Materia> beans = this.materiaEntidadeConverter.convert(entidades);
 
 		return beans;
 	}
 
 	@Override
-	public List<MateriaBean> buscaMateriasRestantes(Estudo estudo) {
+	public List<Materia> buscaMateriasRestantes(Estudo estudo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("select m from Materia m ");
 		sql.append(" where not exists ( ");
@@ -41,42 +43,42 @@ public class MateriaGatewayImpl extends AbstractDao<Materia, Long> implements Ma
 		sql.append(" where uem.estudo.nome = :nomeEstudo ");
 		sql.append("   and mt.id = m.id ) ");
 
-		TypedQuery<Materia> typedQuery = this.entityManager.createQuery(sql.toString(), Materia.class);
+		TypedQuery<MateriaEntidade> typedQuery = this.entityManager.createQuery(sql.toString(), MateriaEntidade.class);
 		typedQuery.setParameter("nomeEstudo", estudo.getNome());
 
-		List<Materia> entidades = typedQuery.getResultList();
+		List<MateriaEntidade> entidades = typedQuery.getResultList();
 
-		List<MateriaBean> beans = this.materiaEntidadeConverter.convert(entidades);
+		List<Materia> beans = this.materiaEntidadeConverter.convert(entidades);
 
 		return beans;
 	}
 
 	@Override
-	public void cadastrar(MateriaBean materiaBean) {
-		Materia materia = this.materiaEntidadeConverter.convert(materiaBean);
+	public void cadastrar(Materia materia) {
+		MateriaEntidade materiaEntidade = this.materiaEntidadeConverter.convert(materia);
 
-		this.persist(materia);
+		this.persist(materiaEntidade);
 	}
 
 	@Override
-	public void alterar(MateriaBean materiaBean) {
-		Materia materia = this.materiaEntidadeConverter.convert(materiaBean);
+	public void alterar(Materia materia) {
+		MateriaEntidade materiaEntidade = this.materiaEntidadeConverter.convert(materia);
 
-		this.merge(materia);
+		this.merge(materiaEntidade);
 	}
 
 	@Override
-	public void remover(MateriaBean materiaBean) {
-		Materia materia = this.materiaEntidadeConverter.convert(materiaBean);
+	public void remover(Materia materia) {
+		MateriaEntidade materiaEntidade = this.materiaEntidadeConverter.convert(materia);
 
-		this.remove(this.merge(materia));
+		this.remove(this.merge(materiaEntidade));
 	}
 
 	@Override
-	public MateriaBean buscaPorId(Long id) {
-		Materia entidade = this.find(id);
+	public Materia buscaPorId(Long id) {
+		MateriaEntidade entidade = this.find(id);
 
-		MateriaBean bean = this.materiaEntidadeConverter.convert(entidade);
+		Materia bean = this.materiaEntidadeConverter.convert(entidade);
 
 		return bean;
 	}

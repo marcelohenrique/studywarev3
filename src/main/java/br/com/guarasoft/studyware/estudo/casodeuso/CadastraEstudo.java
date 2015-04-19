@@ -4,11 +4,11 @@ import br.com.guarasoft.studyware.estudo.excecao.UsuarioEstudoJaExiste;
 import br.com.guarasoft.studyware.estudo.gateway.EstudoGateway;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 
-public class CadastrarEstudo {
+public class CadastraEstudo {
 
 	private final EstudoGateway usuarioEstudoGateway;
 
-	public CadastrarEstudo(EstudoGateway usuarioEstudoGateway) {
+	public CadastraEstudo(EstudoGateway usuarioEstudoGateway) {
 		this.usuarioEstudoGateway = usuarioEstudoGateway;
 	}
 
@@ -20,7 +20,7 @@ public class CadastrarEstudo {
 		}
 	}
 
-	public CadastrarEstudo setNomeEstudo(String nomeEstudo) {
+	public CadastraEstudo setNomeEstudo(String nomeEstudo) {
 		return null;
 	}
 

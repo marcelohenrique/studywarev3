@@ -3,20 +3,20 @@ package br.com.guarasoft.studyware.materia.gateway;
 import java.util.List;
 
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
-import br.com.guarasoft.studyware.materia.bean.MateriaBean;
+import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 public interface MateriaGateway {
 
-	List<MateriaBean> buscaMaterias();
+	List<Materia> buscaMaterias();
 
-	void cadastrar(MateriaBean materiaBean);
+	void cadastrar(Materia materia);
 
-	void alterar(MateriaBean materiaBean);
+	void alterar(Materia materia);
 
-	void remover(MateriaBean materiaBean);
+	void remover(Materia materia);
 
-	List<MateriaBean> buscaMateriasRestantes(Estudo estudo);
+	List<Materia> buscaMateriasRestantes(Estudo estudo);
 
-	MateriaBean buscaPorId(Long id);
+	Materia buscaPorId(Long id);
 
 }

@@ -9,8 +9,8 @@ import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
+import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 @Named("materiaConverter")
 public class UsuarioEstudoMateriaConverter implements Converter {
@@ -26,7 +26,7 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 			return value;
 		}
 
-		MateriaBean bean = this.materiaGateway.buscaPorId(Long.parseLong(value));
+		Materia bean = this.materiaGateway.buscaPorId(Long.parseLong(value));
 
 		this.logger.info(bean.toString());
 
@@ -39,7 +39,7 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 			return "";
 		}
 
-		MateriaBean bean = (MateriaBean) value;
+		Materia bean = (Materia) value;
 
 		String valor = bean.getId().toString();
 

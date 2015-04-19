@@ -7,7 +7,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<link rel="stylesheet" type="text/css" href="css/grid12col.css" />
+	<!-- <link rel="stylesheet" type="text/css" href="css/grid12col.css" /> -->
 	<script type="text/javascript">
 		function disconnectUser() {
 			var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + access_token;
@@ -41,37 +41,47 @@
 
 	<ui:include src="/status.xhtml" />
 
+
 	<ui:insert name="menu">
 
 		<h:form id="formulariomenu">
-			<div class="container">
 
-				<p:menubar>
+			<div class="ui-grid ui-grid-responsive">
 
-					<p:menuitem icon="ui-icon-home" action="#{controller.home()}" />
+				<div class="ui-grid-row">
 
-					<p:submenu label="Estudo" icon="ui-icon-note">
-						<p:menuitem value="Cadastro" icon="ui-icon-plus"
-							action="#{controller.cadastrarEstudo()}" />
-						<p:menuitem value="Consulta" icon="ui-icon-search"
-							action="#{controller.consultarUsuarioEstudo()}" />
-					</p:submenu>
+					<div class="ui-grid-col-12">
+						<p:menubar>
 
-					<p:submenu label="Administração" icon="ui-icon-gear"
-						rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
-						<p:menuitem value="Usuários" icon="ui-icon-person"
-							action="#{controller.consultarUsuario()}" />
-						<p:menuitem value="Matérias" icon="ui-icon-document"
-							action="#{controller.consultarMateria()}" />
-					</p:submenu>
+							<p:menuitem icon="ui-icon-home" action="#{controller.home()}" />
 
-					<f:facet name="options">
-						<p:commandButton value="Logout" icon="ui-icon-extlink"
-							action="#{signin.logout()}" ajax="false" />
-					</f:facet>
-				</p:menubar>
+							<p:submenu label="Estudo" icon="ui-icon-note">
+								<p:menuitem value="Cadastro" icon="ui-icon-plus"
+									action="#{controller.cadastrarEstudo()}" />
+								<p:menuitem value="Consulta" icon="ui-icon-search"
+									action="#{controller.consultarUsuarioEstudo()}" />
+							</p:submenu>
+
+							<p:submenu label="Administração" icon="ui-icon-gear"
+								rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
+								<p:menuitem value="Usuários" icon="ui-icon-person"
+									action="#{controller.consultarUsuario()}" />
+								<p:menuitem value="Matérias" icon="ui-icon-document"
+									action="#{controller.consultarMateria()}" />
+							</p:submenu>
+
+							<f:facet name="options">
+								<p:commandButton value="Logout" icon="ui-icon-extlink"
+									action="#{signin.logout()}" ajax="false" />
+							</f:facet>
+						</p:menubar>
+
+					</div>
+
+				</div>
 
 			</div>
+
 		</h:form>
 
 	</ui:insert>
@@ -80,8 +90,11 @@
 
 		<p:growl autoUpdate="true" showDetail="true" sticky="true" />
 
-		<ui:insert name="main">
-		</ui:insert>
+		<div class="ui-grid ui-grid-responsive">
+
+			<ui:insert name="main"></ui:insert>
+
+		</div>
 
 	</h:form>
 

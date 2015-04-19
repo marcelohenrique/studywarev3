@@ -5,8 +5,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
+import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RemoverMateriaTest {
@@ -18,7 +18,7 @@ public class RemoverMateriaTest {
 	public void test() {
 		RemoverMateria removerMateria = new RemoverMateriaImpl(this.materiaGateway);
 
-		MateriaBean materia = new MateriaBean();
+		Materia materia = new Materia();
 
 		removerMateria.execute(materia);
 	}

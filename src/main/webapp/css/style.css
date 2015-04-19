@@ -1,22 +1,5 @@
 @CHARSET "UTF-8";
 
-/* body {
-	margin: 0;
-	padding: 0;
-	background: #ccc;
-	text-align: center; hack para o IE
-}
-
-#tudo {
-	width: 1200px;
-	margin: 0 auto;
-	text-align: left; "remédio" para o hack do IE
-}
-
-#conteudo {
-	padding: 5px;
-	background-color: #eee;
-} */
 .conteudo {
 	text-align: center;
 }
@@ -46,9 +29,9 @@
 	text-align: center;
 }
 
-.maginTop30 {
+/* .maginTop30 {
 	margin-top: 30px;
-}
+} */
 
 .ui-selectonemenu {
 	width: 100% !important;
@@ -62,9 +45,13 @@
 	width: 200px;
 }
 
-.ui-stack {
+/* .ui-stack {
 	position: fixed;
 	bottom: 28px;
 	right: 40px;
 	z-index: 999;
+} */
+
+.ui-grid-row {
+	margin-bottom: 1em;
 }

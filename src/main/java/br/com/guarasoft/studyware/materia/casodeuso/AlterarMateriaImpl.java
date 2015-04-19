@@ -1,7 +1,7 @@
 package br.com.guarasoft.studyware.materia.casodeuso;
 
-import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
+import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 public class AlterarMateriaImpl implements AlterarMateria {
 
@@ -12,7 +12,7 @@ public class AlterarMateriaImpl implements AlterarMateria {
 	}
 
 	@Override
-	public void execute(MateriaBean materiaAlterada) {
+	public void execute(Materia materiaAlterada) {
 		this.materiaGateway.alterar(materiaAlterada);
 	}
 

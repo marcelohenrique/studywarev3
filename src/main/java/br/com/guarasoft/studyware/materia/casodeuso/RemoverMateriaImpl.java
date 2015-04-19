@@ -1,7 +1,7 @@
 package br.com.guarasoft.studyware.materia.casodeuso;
 
-import br.com.guarasoft.studyware.materia.bean.MateriaBean;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
+import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 public class RemoverMateriaImpl implements RemoverMateria {
 
@@ -12,8 +12,8 @@ public class RemoverMateriaImpl implements RemoverMateria {
 	}
 
 	@Override
-	public void execute(MateriaBean materiaBean) {
-		this.materiaGateway.remover(materiaBean);
+	public void execute(Materia materia) {
+		this.materiaGateway.remover(materia);
 	}
 
 }

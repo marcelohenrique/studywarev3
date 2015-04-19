@@ -39,7 +39,7 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 		// Estudo usuarioEstudo =
 		// this.usuarioEstudoGateway.buscaPorId(Long.parseLong(values[1]));
 		//
-		// MateriaBean materia =
+		// Materia materia =
 		// this.materiaGateway.buscaPorId(Long.parseLong(values[2]));
 		//
 		// bean = new EstudoMateria();

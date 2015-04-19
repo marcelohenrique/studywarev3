@@ -33,7 +33,7 @@ import br.com.guarasoft.studyware.estudomateriahistorico.bean.UsuarioEstudoMater
 import br.com.guarasoft.studyware.estudomateriahistorico.gateway.EstudoMateriaHistoricoGateway;
 import br.com.guarasoft.studyware.estudosemanal.bean.EstudoSemanalBean;
 import br.com.guarasoft.studyware.estudosemanal.gateway.EstudoSemanalGateway;
-import br.com.guarasoft.studyware.materia.bean.MateriaBean;
+import br.com.guarasoft.studyware.materia.modelo.Materia;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 @ManagedBean(name = "controleestudo")
@@ -117,7 +117,7 @@ public class ControleEstudoController implements Serializable {
 
 	private UsuarioEstudoMateriaHistoricoBean build() {
 		EstudoMateria estudoMateria = new EstudoMateria();
-		estudoMateria.setMateria(new MateriaBean());
+		estudoMateria.setMateria(new Materia());
 
 		UsuarioEstudoMateriaHistoricoBean materiaEstudada = new UsuarioEstudoMateriaHistoricoBean();
 		materiaEstudada.setUsuarioEstudoMateria(estudoMateria);

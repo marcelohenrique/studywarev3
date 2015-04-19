@@ -3,36 +3,36 @@ package br.com.guarasoft.studyware.materia.gateway.converter;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.guarasoft.studyware.materia.bean.MateriaBean;
-import br.com.guarasoft.studyware.materia.gateway.entidade.Materia;
+import br.com.guarasoft.studyware.materia.gateway.entidade.MateriaEntidade;
+import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 public class MateriaEntidadeConverter {
 
-	public MateriaBean convert(Materia materia) {
-		MateriaBean materiaBean = new MateriaBean();
-
-		materiaBean.setId(materia.getId());
-		materiaBean.setSigla(materia.getSigla());
-		materiaBean.setNome(materia.getNome());
-
-		return materiaBean;
-	}
-
-	public Materia convert(MateriaBean materiaBean) {
+	public Materia convert(MateriaEntidade materiaEntidade) {
 		Materia materia = new Materia();
 
-		materia.setId(materiaBean.getId());
-		materia.setSigla(materiaBean.getSigla());
-		materia.setNome(materiaBean.getNome());
+		materia.setId(materiaEntidade.getId());
+		materia.setSigla(materiaEntidade.getSigla());
+		materia.setNome(materiaEntidade.getNome());
 
 		return materia;
 	}
 
-	public List<MateriaBean> convert(List<Materia> materias) {
-		List<MateriaBean> materiasBean = new ArrayList<>();
+	public MateriaEntidade convert(Materia materia) {
+		MateriaEntidade materiaEntidade = new MateriaEntidade();
 
-		for (Materia materia : materias) {
-			materiasBean.add(this.convert(materia));
+		materiaEntidade.setId(materia.getId());
+		materiaEntidade.setSigla(materia.getSigla());
+		materiaEntidade.setNome(materia.getNome());
+
+		return materiaEntidade;
+	}
+
+	public List<Materia> convert(List<MateriaEntidade> materiaEntidades) {
+		List<Materia> materiasBean = new ArrayList<>();
+
+		for (MateriaEntidade materiaEntidade : materiaEntidades) {
+			materiasBean.add(this.convert(materiaEntidade));
 		}
 
 		return materiasBean;

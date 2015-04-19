@@ -1,9 +1,9 @@
-package br.com.guarasoft.studyware.materia.bean;
+package br.com.guarasoft.studyware.materia.modelo;
 
 import lombok.Data;
 
 @Data
-public class MateriaBean {
+public class Materia {
 
 	private Long id;
 	private String sigla;

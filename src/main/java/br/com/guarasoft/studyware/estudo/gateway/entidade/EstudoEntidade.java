@@ -22,7 +22,7 @@ import br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiarioEnti
 import br.com.guarasoft.studyware.estudomateria.gateway.entidade.EstudoMateriaEntidade;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 
-@Entity
+@Entity(name = "Estudo")
 @Table(name = "Estudo")
 @Data
 @EqualsAndHashCode(of = { "id" })

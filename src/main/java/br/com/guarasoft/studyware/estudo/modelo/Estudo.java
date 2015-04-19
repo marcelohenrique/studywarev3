@@ -10,7 +10,6 @@ import br.com.guarasoft.studyware.estudodiario.modelo.EstudoDiario;
 import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
-//@Data
 public class Estudo {
 
 	private String nome;
