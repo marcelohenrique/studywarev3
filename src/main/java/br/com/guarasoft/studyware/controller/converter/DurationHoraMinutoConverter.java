@@ -14,7 +14,7 @@ public class DurationHoraMinutoConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		return null;
+		return new DurationConverter("HH:mm").toDuration(value);
 	}
 
 	@Override

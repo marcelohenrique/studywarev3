@@ -26,7 +26,6 @@ import br.com.guarasoft.studyware.estudo.excecao.UsuarioEstudoJaExiste;
 import br.com.guarasoft.studyware.estudo.gateway.EstudoGateway;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.estudo.view.EstudoDiaView;
-import br.com.guarasoft.studyware.estudo.view.MateriaCicloView;
 import br.com.guarasoft.studyware.estudodiario.modelo.Dia;
 import br.com.guarasoft.studyware.estudodiario.modelo.EstudoDiario;
 import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
@@ -52,9 +51,6 @@ public class CadastraEstudoController implements Serializable {
 	private Usuario usuario;
 
 	@Getter
-	private Estudo estudo;
-
-	@Getter
 	private boolean estudoNovo;
 
 	@NotNull
@@ -69,11 +65,8 @@ public class CadastraEstudoController implements Serializable {
 	@Getter
 	private Collection<Materia> materias;
 
-	// @Getter
-	// private DualListModel<Materia> materias;
-
 	@Getter
-	private List<MateriaCicloView> ciclo = new ArrayList<>();
+	private List<EstudoMateria> ciclo = new ArrayList<>();
 
 	@Getter
 	private Duration totalCiclo = new Duration(0);
@@ -90,37 +83,18 @@ public class CadastraEstudoController implements Serializable {
 
 		this.materias = this.materiaGateway.buscaMaterias();
 
-		// List<Materia> materiasRestantes = null;
-		// List<Materia> materiasSelecionadas = new ArrayList<>();
-
 		ExternalContext ec = FacesContext.getCurrentInstance()
 				.getExternalContext();
-		this.estudo = (Estudo) ec.getFlash().get("estudo");
-		if (this.estudo == null) {
+		Estudo estudo = (Estudo) ec.getFlash().get("estudo");
+		if (estudo == null) {
 			this.estudoNovo = true;
-
-			// materiasRestantes = this.materiaGateway.buscaMaterias();
 		} else {
-			this.nome = this.estudo.getNome();
-			this.fim = this.estudo.getFim();
-
-			// materiasRestantes = this.materiaGateway
-			// .buscaMateriasRestantes(estudo);
-
-			for (EstudoMateria estudoMateria : this.estudo.getMaterias()) {
-				// materiasSelecionadas.add(estudoMateria.getMateria());
-				MateriaCicloView materiaCiclo = new MateriaCicloView();
-				materiaCiclo.setMateria(estudoMateria);
-				this.ciclo.add(materiaCiclo);
-			}
+			this.nome = estudo.getNome();
+			this.fim = estudo.getFim();
+			this.ciclo.addAll(estudo.getMaterias());
 		}
 
-		// this.materias = new DualListModel<>(materiasRestantes,
-		// materiasSelecionadas);
-
 		if (!this.estudoNovo) {
-			// this.atualizaCiclo(this.estudo);
-
 			this.atualizaTotalCiclo();
 
 			this.semana = new ArrayList<>();
@@ -129,12 +103,12 @@ public class CadastraEstudoController implements Serializable {
 			EstudoDiario estudoDiario = null;
 			for (Dia dia : Dia.values()) {
 				estudoDiario = new EstudoDiario();
-				estudoDiario.setEstudo(this.estudo);
+				estudoDiario.setEstudo(estudo);
 				estudoDiario.setDia(dia);
 
-				if (this.estudo.getDias().contains(estudoDiario)) {
-					estudoDiario = this.estudo.getDias().get(
-							this.estudo.getDias().indexOf(estudoDiario));
+				if (estudo.getDias().contains(estudoDiario)) {
+					estudoDiario = estudo.getDias().get(
+							estudo.getDias().indexOf(estudoDiario));
 				}
 
 				diaView = new EstudoDiaView();
@@ -146,35 +120,9 @@ public class CadastraEstudoController implements Serializable {
 		}
 	}
 
-	private void atualizaCiclo(Estudo estudo) {
-		Long ordem = 1L;
-		this.ciclo = new ArrayList<>();
-		List<EstudoMateria> materiasEstudo = estudo.getMaterias();
-		MateriaCicloView materiaCiclo = null;
-		for (Materia materia : this.materias) {
-			EstudoMateria estudoMateria = new EstudoMateria();
-			estudoMateria.setMateria(materia);
-
-			if (materiasEstudo.contains(estudoMateria)) {
-				estudoMateria = materiasEstudo.get(materiasEstudo
-						.indexOf(estudoMateria));
-			}
-
-			estudoMateria.setOrdem(ordem++);
-
-			materiaCiclo = new MateriaCicloView();
-			materiaCiclo.setMateria(estudoMateria);
-			this.ciclo.add(materiaCiclo);
-		}
-	}
-
 	public String cadastrar() {
-		Estudo estudo = new Estudo(this.nome, this.usuario, this.fim);
-		this.atualizaCiclo(estudo);
-
-		// for (MateriaCicloView materiaCicloView : this.ciclo) {
-		// estudo.add(materiaCicloView.getMateria());
-		// }
+		Estudo estudo = new Estudo(this.nome, this.usuario, this.fim,
+				this.ciclo);
 
 		if (this.semana != null) {
 			for (EstudoDiaView diaView : this.semana) {
@@ -199,14 +147,15 @@ public class CadastraEstudoController implements Serializable {
 
 	public void atualizaTotalCiclo() {
 		this.totalCiclo = new Duration(0);
-		// for (MateriaCicloView materiaCicloView : this.ciclo) {
-		// this.totalCiclo = this.totalCiclo.plus(materiaCicloView
-		// .getMateria().getTempoAlocado());
-		// }
+
+		for (EstudoMateria estudoMateria : this.ciclo) {
+			this.totalCiclo = this.totalCiclo.plus(estudoMateria.getTempoAlocado());
+		}
 	}
 
 	public void atualizaTotalSemana() {
 		this.totalSemana = new Duration(0);
+
 		for (EstudoDiaView estudoDiaView : this.semana) {
 			this.totalSemana = this.totalSemana.plus(estudoDiaView
 					.getEstudoDiario().getTempoAlocado());
@@ -214,6 +163,9 @@ public class CadastraEstudoController implements Serializable {
 	}
 
 	public void adiciona(Materia materia) {
+		EstudoMateria estudoMateria = new EstudoMateria();
+		estudoMateria.setMateria(materia);
+		this.ciclo.add(estudoMateria);
 	}
 
 }

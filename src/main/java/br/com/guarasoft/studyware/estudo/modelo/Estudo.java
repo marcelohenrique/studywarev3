@@ -28,6 +28,13 @@ public class Estudo {
 		this.fim = fim;
 	}
 
+	public Estudo(String nome, Usuario dono, Date fim,
+			List<EstudoMateria> materias) {
+		this(nome, dono, fim);
+		this.materias = materias;
+		this.atualizaCiclo();
+	}
+
 	public void add(Usuario usuario) {
 		this.usuarios.add(usuario);
 	}
@@ -40,24 +47,31 @@ public class Estudo {
 		this.materias.add(estudoMateria);
 	}
 
+	private void atualizaCiclo() {
+		Long ordem = 1L;
+		for (EstudoMateria estudoMateria : this.materias) {
+			estudoMateria.setOrdem(ordem++);
+		}
+	}
+
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	public Date getFim() {
-		return fim;
+		return this.fim;
 	}
 
 	public Collection<Usuario> getUsuarios() {
-		return Collections.unmodifiableCollection(usuarios);
+		return Collections.unmodifiableCollection(this.usuarios);
 	}
 
 	public List<EstudoMateria> getMaterias() {
-		return Collections.unmodifiableList(materias);
+		return Collections.unmodifiableList(this.materias);
 	}
 
 	public List<EstudoDiario> getDias() {
-		return Collections.unmodifiableList(dias);
+		return Collections.unmodifiableList(this.dias);
 	}
 
 }
