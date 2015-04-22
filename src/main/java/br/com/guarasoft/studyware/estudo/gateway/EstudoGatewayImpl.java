@@ -57,8 +57,8 @@ implements EstudoGateway {
 		sql.append("  FROM Estudo e ");
 		sql.append("  JOIN e.participantes p ");
 		sql.append(" where p.usuario.email = :email ");
-		sql.append("   and e.fim >= current_date ");
-		sql.append("    or e.fim is null ");
+		sql.append("   and ( e.fim >= current_date ");
+		sql.append("    or e.fim is null ) ");
 
 		TypedQuery<EstudoEntidade> typedQuery = this.entityManager
 				.createQuery(sql.toString(), EstudoEntidade.class);
