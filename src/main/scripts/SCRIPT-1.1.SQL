@@ -25,3 +25,7 @@ ALTER TABLE UsuarioEstudoMateriaHistorico RENAME TO EstudoMateriaHistorico;
 ALTER TABLE EstudoMateriaHistorico RENAME usuarioEstudoMateria TO estudoMateria;
 
 CREATE SEQUENCE EstudoSeq START 1001 NO CYCLE;
+
+ALTER TABLE EstudoMateria DROP CONSTRAINT usuarioestudomateria_usuarioestudo_materia_key;
+
+ALTER TABLE EstudoMateria ADD CONSTRAINT estudomateria_estudo_materia_ordem_unique UNIQUE ( estudo, materia, ordem );

@@ -23,7 +23,7 @@ import br.com.guarasoft.studyware.materia.gateway.entidade.MateriaEntidade;
 @Entity
 @Table(name = "EstudoMateria")
 @Data
-@EqualsAndHashCode(of = { "estudo", "materia" })
+@EqualsAndHashCode(of = { "estudo", "materia", "ordem" })
 @ToString(exclude = { "estudo" })
 public class EstudoMateriaEntidade implements Entidade {
 
