@@ -18,7 +18,8 @@ public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 		EstudoMateriaHistoricoEntidade entidade = new EstudoMateriaHistoricoEntidade();
 
 		entidade.setId(bean.getId());
-		entidade.setEstudoMateria(this.usuarioEstudoMateriaBuilder.convert(bean.getUsuarioEstudoMateria()));
+		entidade.setEstudoMateria(this.usuarioEstudoMateriaBuilder.convert(bean
+				.getEstudoMateria()));
 		entidade.setHoraEstudo(bean.getHoraEstudo());
 		entidade.setTempoEstudado(bean.getTempoEstudado().getMillis());
 		entidade.setObservacao(bean.getObservacao());
@@ -30,7 +31,8 @@ public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 		UsuarioEstudoMateriaHistoricoBean bean = new UsuarioEstudoMateriaHistoricoBean();
 
 		bean.setId(entidade.getId());
-		bean.setUsuarioEstudoMateria(this.usuarioEstudoMateriaBuilder.convert(beanPai, entidade.getEstudoMateria()));
+		bean.setEstudoMateria(this.usuarioEstudoMateriaBuilder.convert(beanPai,
+				entidade.getEstudoMateria()));
 		bean.setHoraEstudo(entidade.getHoraEstudo());
 		bean.setTempoEstudado(new Duration(entidade.getTempoEstudado()));
 		bean.setObservacao(entidade.getObservacao());

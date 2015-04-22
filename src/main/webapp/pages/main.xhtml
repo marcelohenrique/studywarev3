@@ -110,8 +110,8 @@
 								required="true" converter="#{estudomateriaconverter}">
 								<f:selectItem itemLabel="Selecione" itemValue="" />
 								<f:selectItems value="#{controleestudo.usuarioEstudoMaterias}"
-									var="estudoomateria" itemValue="#{estudomateria}"
-									itemLabel="#{estudoomateria.materia.nome}" />
+									var="estudomateria" itemValue="#{estudomateria}"
+									itemLabel="#{estudomateria.materia.nome}" />
 							</p:selectOneMenu>
 						</p:column>
 					</p:row>
@@ -207,7 +207,7 @@
 					<p:tab id="tabHistoricoEstudo" title="Histórico Estudo">
 						<p:dataTable id="dataTableHistoricoEstudo" var="materiaestudada"
 							value="#{controleestudo.materiasEstudadas}" paginator="true"
-							rows="30"
+							rows="50"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							editable="true">
 
@@ -222,8 +222,21 @@
 							</p:column>
 
 							<p:column headerText="Matéria">
-								<h:outputText
-									value="#{materiaestudada.usuarioEstudoMateria.materia.nome}" />
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText
+											value="#{materiaestudada.estudoMateria.materia.nome}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:selectOneMenu value="#{materiaestudada.estudoMateria}"
+											converter="omnifaces.SelectItemsConverter">
+											<f:selectItems
+												value="#{controleestudo.usuarioEstudoMaterias}"
+												var="estudomateria" itemValue="#{estudomateria}"
+												itemLabel="#{estudomateria.materia.nome}" />
+										</p:selectOneMenu>
+									</f:facet>
+								</p:cellEditor>
 							</p:column>
 
 							<p:column headerText="Tempo Estudado"
@@ -234,7 +247,8 @@
 											converter="durationhhmmssConverter" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{materiaestudada.tempoEstudado}"
+										<p:inputMask mask="99:99:99"
+											value="#{materiaestudada.tempoEstudado}"
 											converter="durationhhmmssConverter" />
 									</f:facet>
 								</p:cellEditor>
@@ -246,7 +260,7 @@
 										<h:outputText value="#{materiaestudada.observacao}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{materiaestudada.observacao}" />
+										<p:inputText value="#{materiaestudada.observacao}" size="100" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>

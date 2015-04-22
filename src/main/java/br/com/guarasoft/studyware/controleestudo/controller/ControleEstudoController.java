@@ -120,7 +120,7 @@ public class ControleEstudoController implements Serializable {
 		estudoMateria.setMateria(new Materia());
 
 		UsuarioEstudoMateriaHistoricoBean materiaEstudada = new UsuarioEstudoMateriaHistoricoBean();
-		materiaEstudada.setUsuarioEstudoMateria(estudoMateria);
+		materiaEstudada.setEstudoMateria(estudoMateria);
 		return materiaEstudada;
 	}
 
@@ -149,7 +149,7 @@ public class ControleEstudoController implements Serializable {
 		this.btGravarDisabled = true;
 
 		this.materiaEstudada
-				.setUsuarioEstudoMateria(this.estudoMateriaSelecionada);
+				.setEstudoMateria(this.estudoMateriaSelecionada);
 		this.materiaEstudada.setHoraEstudo(new Date());
 		this.materiaEstudada.setTempoEstudado(new Duration(
 				this.horasEstudadaInMillis));
@@ -184,6 +184,7 @@ public class ControleEstudoController implements Serializable {
 	public void onRowEdit(RowEditEvent event) {
 		UsuarioEstudoMateriaHistoricoBean entrada = (UsuarioEstudoMateriaHistoricoBean) event
 				.getObject();
+		entrada.getEstudoMateria().setEstudo(estudoSelecionado);
 		estudoMateriaHistoricoGateway.merge(entrada);
 
 	}
