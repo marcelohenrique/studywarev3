@@ -28,7 +28,7 @@ public class CadastraEstudoTest {
 
 		Usuario usuario = new Usuario();
 		usuario.setEmail(email);
-		Estudo estudo = new Estudo(nomeEstudo, usuario, null);
+		Estudo estudo = new Estudo(null, nomeEstudo, null);
 
 		cadastrarUsuarioEstudo.execute(estudo);
 	}
@@ -44,7 +44,7 @@ public class CadastraEstudoTest {
 
 		Usuario usuario = new Usuario();
 		usuario.setEmail(email);
-		Estudo estudo = new Estudo(nomeEstudo, usuario, null);
+		Estudo estudo = new Estudo(null, nomeEstudo, null);
 
 		cadastrarUsuarioEstudo.execute(estudo);
 	}

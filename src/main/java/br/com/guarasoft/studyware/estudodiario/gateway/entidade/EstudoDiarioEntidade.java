@@ -10,11 +10,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString;
 import br.com.guarasoft.studyware.estudo.gateway.entidade.EstudoEntidade;
 
 @Entity
 @Table(name = "EstudoDiario")
 @Data
+@ToString(exclude = { "estudo" })
 public class EstudoDiarioEntidade {
 
 	@Id

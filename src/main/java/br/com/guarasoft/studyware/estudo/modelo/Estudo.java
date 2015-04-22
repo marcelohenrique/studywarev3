@@ -12,31 +12,30 @@ import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 public class Estudo {
 
+	private Long id;
 	private String nome;
-	private Usuario dono;
 	// private DateTime inicio;
 	private Date fim;
 
-	private Collection<Usuario> usuarios = new ArrayList<Usuario>();
+	private Collection<Usuario> participantes = new ArrayList<Usuario>();
 
 	private List<EstudoMateria> materias = new ArrayList<EstudoMateria>();
 	private List<EstudoDiario> dias = new ArrayList<EstudoDiario>();
 
-	public Estudo(String nome, Usuario dono, Date fim) {
+	public Estudo(Long id, String nome, Date fim) {
+		this.id = id;
 		this.nome = nome;
-		this.dono = dono;
 		this.fim = fim;
 	}
 
-	public Estudo(String nome, Usuario dono, Date fim,
-			List<EstudoMateria> materias) {
-		this(nome, dono, fim);
+	public Estudo(Long id, String nome, Date fim, List<EstudoMateria> materias) {
+		this(id, nome, fim);
 		this.materias = materias;
-		this.atualizaCiclo();
+		this.atualizaOrdemCiclo();
 	}
 
 	public void add(Usuario usuario) {
-		this.usuarios.add(usuario);
+		this.participantes.add(usuario);
 	}
 
 	public void add(EstudoDiario estudoDiario) {
@@ -47,11 +46,15 @@ public class Estudo {
 		this.materias.add(estudoMateria);
 	}
 
-	private void atualizaCiclo() {
+	private void atualizaOrdemCiclo() {
 		Long ordem = 1L;
 		for (EstudoMateria estudoMateria : this.materias) {
 			estudoMateria.setOrdem(ordem++);
 		}
+	}
+
+	public Long getId() {
+		return this.id;
 	}
 
 	public String getNome() {
@@ -62,8 +65,8 @@ public class Estudo {
 		return this.fim;
 	}
 
-	public Collection<Usuario> getUsuarios() {
-		return Collections.unmodifiableCollection(this.usuarios);
+	public Collection<Usuario> getParticipantes() {
+		return Collections.unmodifiableCollection(this.participantes);
 	}
 
 	public List<EstudoMateria> getMaterias() {

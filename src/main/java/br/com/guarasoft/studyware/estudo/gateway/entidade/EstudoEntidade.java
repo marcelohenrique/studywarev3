@@ -40,7 +40,7 @@ public class EstudoEntidade implements Entidade {
 	@Temporal(TemporalType.DATE)
 	private Date fim;
 
-	@OneToMany(mappedBy = "estudo")
+	@OneToMany(mappedBy = "estudo", cascade = { CascadeType.ALL }, orphanRemoval = true)
 	private Collection<UsuarioEstudoEntidade> participantes;
 
 	@OneToMany(mappedBy = "estudo", cascade = { CascadeType.ALL }, orphanRemoval = true)

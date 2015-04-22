@@ -13,12 +13,17 @@ import org.joda.time.format.PeriodFormatterBuilder;
 public class DurationHoraMinutoConverter implements Converter {
 
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component, String value) {
+	public Object getAsObject(FacesContext context, UIComponent component,
+			String value) {
+		if ("".equals(value)) {
+			return null;
+		}
 		return new DurationConverter("HH:mm").toDuration(value);
 	}
 
 	@Override
-	public String getAsString(FacesContext context, UIComponent component, Object value) {
+	public String getAsString(FacesContext context, UIComponent component,
+			Object value) {
 		PeriodFormatterBuilder builder = new PeriodFormatterBuilder();
 		builder.printZeroAlways().minimumPrintedDigits(2).appendHours();
 		builder.appendSeparator(":");

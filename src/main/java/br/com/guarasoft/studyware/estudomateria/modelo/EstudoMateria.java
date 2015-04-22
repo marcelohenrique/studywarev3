@@ -12,7 +12,7 @@ import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 @Data
-@EqualsAndHashCode(exclude = { "estudo" })
+@EqualsAndHashCode(exclude = { "materia", "ordem" })
 @ToString(exclude = { "estudo" })
 public class EstudoMateria implements Serializable {
 

@@ -32,6 +32,7 @@ import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 import br.com.guarasoft.studyware.materia.modelo.Materia;
 import br.com.guarasoft.studyware.menu.controller.MenuController;
+import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 @ManagedBean(name = "cadastraEstudoController")
@@ -46,12 +47,16 @@ public class CadastraEstudoController implements Serializable {
 
 	private @Inject MateriaGateway materiaGateway;
 
+	private @Inject UsuarioGateway usuarioGateway;
+
 	@ManagedProperty(value = "#{sessionAuth.usuario}")
 	@Setter
 	private Usuario usuario;
 
 	@Getter
 	private boolean estudoNovo;
+
+	private Long id;
 
 	@NotNull
 	@Getter
@@ -77,6 +82,13 @@ public class CadastraEstudoController implements Serializable {
 	@Getter
 	private Duration totalSemana = new Duration(0);
 
+	@Getter
+	private Collection<Usuario> participantes = new ArrayList<>();
+
+	@Getter
+	@Setter
+	private String participante;
+
 	@PostConstruct
 	private void init() {
 		this.cadastraEstudo = new CadastraEstudo(this.estudoGateway);
@@ -88,10 +100,13 @@ public class CadastraEstudoController implements Serializable {
 		Estudo estudo = (Estudo) ec.getFlash().get("estudo");
 		if (estudo == null) {
 			this.estudoNovo = true;
+			this.participantes.add(this.usuario);
 		} else {
+			this.id = estudo.getId();
 			this.nome = estudo.getNome();
 			this.fim = estudo.getFim();
 			this.ciclo.addAll(estudo.getMaterias());
+			this.participantes.addAll(estudo.getParticipantes());
 		}
 
 		if (!this.estudoNovo) {
@@ -121,8 +136,7 @@ public class CadastraEstudoController implements Serializable {
 	}
 
 	public String cadastrar() {
-		Estudo estudo = new Estudo(this.nome, this.usuario, this.fim,
-				this.ciclo);
+		Estudo estudo = new Estudo(this.id, this.nome, this.fim, this.ciclo);
 
 		if (this.semana != null) {
 			for (EstudoDiaView diaView : this.semana) {
@@ -130,6 +144,10 @@ public class CadastraEstudoController implements Serializable {
 					estudo.add(diaView.getEstudoDiario());
 				}
 			}
+		}
+
+		for (Usuario participante : this.participantes) {
+			estudo.add(participante);
 		}
 
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -149,7 +167,8 @@ public class CadastraEstudoController implements Serializable {
 		this.totalCiclo = new Duration(0);
 
 		for (EstudoMateria estudoMateria : this.ciclo) {
-			this.totalCiclo = this.totalCiclo.plus(estudoMateria.getTempoAlocado());
+			this.totalCiclo = this.totalCiclo.plus(estudoMateria
+					.getTempoAlocado());
 		}
 	}
 
@@ -166,6 +185,43 @@ public class CadastraEstudoController implements Serializable {
 		EstudoMateria estudoMateria = new EstudoMateria();
 		estudoMateria.setMateria(materia);
 		this.ciclo.add(estudoMateria);
+		this.atualizaOrdem();
+	}
+
+	public void remove(EstudoMateria estudoMateria) {
+		this.ciclo.remove(estudoMateria);
+		this.atualizaOrdem();
+		this.atualizaTotalCiclo();
+	}
+
+	public void atualizaOrdem() {
+		Long ordem = 1L;
+		for (EstudoMateria estudoMateria : this.ciclo) {
+			estudoMateria.setOrdem(ordem++);
+		}
+	}
+
+	public Collection<Usuario> buscaParticipantes(String email) {
+		return this.usuarioGateway.buscaUsuarios(email);
+	}
+
+	public void remove(Usuario participante) {
+		if (this.participantes.size() == 1) {
+			FacesContext
+			.getCurrentInstance()
+			.addMessage(
+					null,
+					new FacesMessage("Operação não permitida!",
+							"O estudo deve conter pelo menos um participante."));
+		} else {
+			this.participantes.remove(participante);
+		}
+	}
+
+	public void adicionaParticipante() {
+		Usuario usuario = new Usuario();
+		usuario.setEmail(this.participante);
+		this.participantes.add(usuario);
 	}
 
 }

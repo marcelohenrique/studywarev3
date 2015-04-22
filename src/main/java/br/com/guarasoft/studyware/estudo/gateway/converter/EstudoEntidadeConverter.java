@@ -6,7 +6,8 @@ import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 public class EstudoEntidadeConverter {
 
 	public Estudo convert(EstudoEntidade entidade) {
-		Estudo bean = new Estudo(entidade.getNome(), null, entidade.getFim());
+		Estudo bean = new Estudo(entidade.getId(), entidade.getNome(),
+				entidade.getFim());
 
 		return bean;
 	}
@@ -14,6 +15,7 @@ public class EstudoEntidadeConverter {
 	public EstudoEntidade convert(Estudo bean) {
 		EstudoEntidade entidade = new EstudoEntidade();
 
+		entidade.setId(bean.getId());
 		entidade.setNome(bean.getNome());
 		entidade.setFim(bean.getFim());
 

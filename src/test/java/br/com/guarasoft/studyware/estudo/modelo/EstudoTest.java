@@ -6,17 +6,14 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import br.com.guarasoft.studyware.usuario.modelo.Usuario;
-
 public class EstudoTest {
 
 	@Test
 	public void testCriaEstudo() {
 		String nome = "Estudo";
-		Usuario dono = new Usuario();
 		Date fim = new Date();
 
-		Estudo estudo = new Estudo(nome, dono, fim);
+		Estudo estudo = new Estudo(null, nome, fim);
 
 		assertNotNull(estudo);
 	}

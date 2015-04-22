@@ -10,12 +10,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
-import br.com.guarasoft.studyware.usuario.gateway.entidade.UsuarioEntity;
+import br.com.guarasoft.studyware.usuario.gateway.entidade.UsuarioEntidade;
 
 @Entity
 @Table(name = "UsuarioEstudo")
 @Data
+@ToString(exclude = { "estudo" })
 public class UsuarioEstudoEntidade implements Entidade {
 
 	private static final long serialVersionUID = 1502275345514321869L;
@@ -27,40 +29,10 @@ public class UsuarioEstudoEntidade implements Entidade {
 
 	@JoinColumn(name = "usuario", referencedColumnName = "email")
 	@ManyToOne
-	private UsuarioEntity usuario;
+	private UsuarioEntidade usuario;
 
 	@ManyToOne
-	@JoinColumn(name = "estudo")
+	@JoinColumn(name = "estudo", referencedColumnName = "id")
 	private EstudoEntidade estudo;
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (this.getClass() != obj.getClass()) {
-			return false;
-		}
-		UsuarioEstudoEntidade other = (UsuarioEstudoEntidade) obj;
-		if (this.id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!this.id.equals(other.id)) {
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-		return result;
-	}
 
 }

@@ -1,5 +1,6 @@
 package br.com.guarasoft.studyware.usuario.controller;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -22,7 +23,7 @@ public class UsuarioConsultaController {
 	private UsuarioGateway usuarioGateway;
 	private AlterarUsuario alterarUsuario;
 
-	private List<Usuario> usuarios;
+	private Collection<Usuario> usuarios;
 
 	@PostConstruct
 	private void init() {
@@ -47,7 +48,7 @@ public class UsuarioConsultaController {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public List<Usuario> getUsuarios() {
+	public Collection<Usuario> getUsuarios() {
 		return this.usuarios;
 	}
 

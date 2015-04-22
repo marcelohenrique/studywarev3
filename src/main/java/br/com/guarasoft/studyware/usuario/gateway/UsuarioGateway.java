@@ -1,6 +1,6 @@
 package br.com.guarasoft.studyware.usuario.gateway;
 
-import java.util.List;
+import java.util.Collection;
 
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
@@ -10,8 +10,10 @@ public interface UsuarioGateway {
 
 	Usuario pesquisaPorEmail(String email);
 
-	List<Usuario> buscaUsuarios();
+	Collection<Usuario> buscaUsuarios();
 
 	void alterar(Usuario usuario);
+
+	Collection<Usuario> buscaUsuarios(String email);
 
 }

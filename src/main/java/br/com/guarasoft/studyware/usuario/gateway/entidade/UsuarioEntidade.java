@@ -7,10 +7,10 @@ import javax.persistence.Table;
 import lombok.Data;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 
-@Entity
-@Table(name="Usuario")
+@Entity(name = "Usuario")
+@Table(name = "Usuario")
 @Data
-public class UsuarioEntity implements Entidade {
+public class UsuarioEntidade implements Entidade {
 
 	private static final long serialVersionUID = 1363553678194698977L;
 
