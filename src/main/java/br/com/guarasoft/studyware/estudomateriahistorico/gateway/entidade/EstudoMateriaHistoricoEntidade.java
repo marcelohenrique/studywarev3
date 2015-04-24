@@ -34,11 +34,6 @@ public class EstudoMateriaHistoricoEntidade implements Entidade {
 	@NotNull
 	private Long id;
 
-	// @JoinColumn(name = "estudoMateria", referencedColumnName = "id")
-	// @ManyToOne
-	// @NotNull
-	// private EstudoMateriaEntidade estudoMateria;
-
 	@JoinColumn(name = "estudo", referencedColumnName = "id")
 	@ManyToOne
 	@NotNull

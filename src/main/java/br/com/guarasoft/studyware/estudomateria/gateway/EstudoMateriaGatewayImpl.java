@@ -34,15 +34,11 @@ public class EstudoMateriaGatewayImpl extends
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT em ");
 		sql.append("  FROM EstudoMateria em ");
-		// sql.append("  JOIN em.estudo.participantes p ");
 		sql.append(" WHERE em.estudo.id = :idEstudo ");
-		// sql.append("   AND p.usuario.email = :usuarioEmail ");
 		sql.append(" ORDER BY em.ordem ");
 
 		TypedQuery<EstudoMateriaEntidade> query = this.entityManager
 				.createQuery(sql.toString(), EstudoMateriaEntidade.class);
-		// query.setParameter("nomeEstudo", nomeEstudo);
-		// query.setParameter("usuarioEmail", emailUsuario);
 		query.setParameter("idEstudo", estudo.getId());
 		List<EstudoMateriaEntidade> entidades = query.getResultList();
 

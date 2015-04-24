@@ -106,8 +106,9 @@
 						</p:column>
 						<p:column>
 							<p:selectOneMenu id="materias"
-								value="#{controleestudo.materiaSelecionada}"
-								required="true" converter="#{omnifaces.SelectItemsConverter}">
+								value="#{controleestudo.materiaSelecionada}" required="true"
+								converter="#{omnifaces.SelectItemsConverter}" filter="true"
+								filterMatchMode="contains">
 								<f:selectItem itemLabel="Selecione" itemValue="" />
 								<f:selectItems value="#{controleestudo.materiasDoEstudo}"
 									var="estudomateria" itemValue="#{estudomateria}"
@@ -157,7 +158,8 @@
 					value="#{controleestudo.resumoEstudoMaterias}">
 
 					<p:column headerText="Ordem"
-						sortBy="#{concursomateriaestudada.estudoMateria.ordem}" style="width: 80px" styleClass="text-center">
+						sortBy="#{concursomateriaestudada.estudoMateria.ordem}"
+						style="width: 80px" styleClass="text-center">
 						<h:outputText
 							value="#{concursomateriaestudada.estudoMateria.ordem}" />
 					</p:column>
@@ -180,10 +182,6 @@
 						<h:outputText value="#{concursomateriaestudada.somaTempo}"
 							converter="tempoConverter" />
 					</p:column>
-
-					<!-- <p:column headerText="Observação" styleClass="text-center">
-						<h:outputText value="#{concursomateriaestudada.observacao}" />
-					</p:column> -->
 
 					<p:columnGroup type="footer">
 						<p:row>
@@ -223,14 +221,12 @@
 							<p:column headerText="Matéria">
 								<p:cellEditor>
 									<f:facet name="output">
-										<h:outputText
-											value="#{materiaestudada.materia.nome}" />
+										<h:outputText value="#{materiaestudada.materia.nome}" />
 									</f:facet>
 									<f:facet name="input">
 										<p:selectOneMenu value="#{materiaestudada.materia}"
 											converter="omnifaces.SelectItemsConverter">
-											<f:selectItems
-												value="#{controleestudo.materiasDoEstudo}"
+											<f:selectItems value="#{controleestudo.materiasDoEstudo}"
 												var="estudomateria" itemValue="#{estudomateria}"
 												itemLabel="#{estudomateria.nome}" />
 										</p:selectOneMenu>
@@ -297,8 +293,7 @@
 									converter="tempoConverter" />
 							</p:column>
 
-							<p:column headerText="Horas Acumuladas"
-								styleClass="text-center">
+							<p:column headerText="Horas Acumuladas" styleClass="text-center">
 								<h:outputText value="#{estudoSemanal.tempoEstudadoAcumulado}"
 									converter="tempoConverter" />
 							</p:column>

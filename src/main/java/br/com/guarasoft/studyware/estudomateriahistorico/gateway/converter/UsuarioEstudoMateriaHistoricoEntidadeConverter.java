@@ -13,18 +13,13 @@ import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConve
 
 public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 
-	// private final UsuarioEstudoMateriaBuilder usuarioEstudoMateriaBuilder =
-	// new UsuarioEstudoMateriaBuilder();
 	private final EstudoEntidadeConverter estudoEntidadeConverter = new EstudoEntidadeConverter();
 	private final MateriaEntidadeConverter materiaEntidadeConverter = new MateriaEntidadeConverter();
 
-	public EstudoMateriaHistoricoEntidade convert(
-			EstudoMateriaHistorico bean) {
+	public EstudoMateriaHistoricoEntidade convert(EstudoMateriaHistorico bean) {
 		EstudoMateriaHistoricoEntidade entidade = new EstudoMateriaHistoricoEntidade();
 
 		entidade.setId(bean.getId());
-		// entidade.setEstudoMateria(this.usuarioEstudoMateriaBuilder.convert(bean
-		// .getEstudoMateria()));
 		entidade.setEstudo(estudoEntidadeConverter.convert(bean.getEstudo()));
 		entidade.setMateria(materiaEntidadeConverter.convert(bean.getMateria()));
 		entidade.setHoraEstudo(bean.getHoraEstudo());
@@ -39,8 +34,8 @@ public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 		EstudoMateriaHistorico bean = new EstudoMateriaHistorico();
 
 		bean.setId(entidade.getId());
-		// bean.setEstudoMateria(this.usuarioEstudoMateriaBuilder.convert(beanPai,
-		// entidade.getEstudoMateria()));
+		bean.setEstudo(beanPai);
+		bean.setMateria(materiaEntidadeConverter.convert(entidade.getMateria()));
 		bean.setHoraEstudo(entidade.getHoraEstudo());
 		bean.setTempoEstudado(new Duration(entidade.getTempoEstudado()));
 		bean.setObservacao(entidade.getObservacao());

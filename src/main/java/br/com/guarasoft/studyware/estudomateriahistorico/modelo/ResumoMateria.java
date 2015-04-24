@@ -11,7 +11,5 @@ public class ResumoMateria {
 
 	private Materia materia;
 	private Duration somaTempo;
-	// private Long qtd;
-	// private String observacao;
 
 }
