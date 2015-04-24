@@ -19,4 +19,6 @@ public interface MateriaGateway {
 
 	Materia buscaPorId(Long id);
 
+	List<Materia> buscaMaterias(Estudo estudo);
+
 }

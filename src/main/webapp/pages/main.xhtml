@@ -106,12 +106,12 @@
 						</p:column>
 						<p:column>
 							<p:selectOneMenu id="materias"
-								value="#{controleestudo.estudoMateriaSelecionada}"
-								required="true" converter="#{estudomateriaconverter}">
+								value="#{controleestudo.materiaSelecionada}"
+								required="true" converter="#{omnifaces.SelectItemsConverter}">
 								<f:selectItem itemLabel="Selecione" itemValue="" />
-								<f:selectItems value="#{controleestudo.usuarioEstudoMaterias}"
+								<f:selectItems value="#{controleestudo.materiasDoEstudo}"
 									var="estudomateria" itemValue="#{estudomateria}"
-									itemLabel="#{estudomateria.materia.nome}" />
+									itemLabel="#{estudomateria.nome}" />
 							</p:selectOneMenu>
 						</p:column>
 					</p:row>
@@ -154,43 +154,42 @@
 			<div class="ui-grid-col-8">
 
 				<p:dataTable id="dataTable" var="concursomateriaestudada"
-					value="#{controleestudo.resumoMateriasEstudadas}">
+					value="#{controleestudo.resumoEstudoMaterias}">
 
 					<p:column headerText="Ordem"
-						sortBy="#{concursomateriaestudada.usuarioEstudoMateria.ordem}">
+						sortBy="#{concursomateriaestudada.estudoMateria.ordem}" style="width: 80px" styleClass="text-center">
 						<h:outputText
-							value="#{concursomateriaestudada.usuarioEstudoMateria.ordem}" />
+							value="#{concursomateriaestudada.estudoMateria.ordem}" />
 					</p:column>
 
 					<p:column headerText="Matéria"
-						sortBy="#{concursomateriaestudada.usuarioEstudoMateria.materia.nome}">
+						sortBy="#{concursomateriaestudada.estudoMateria.materia.nome}">
 						<h:outputText
-							value="#{concursomateriaestudada.usuarioEstudoMateria.materia.nome}" />
+							value="#{concursomateriaestudada.estudoMateria.materia.nome}" />
 					</p:column>
 
 					<p:column headerText="Tempo Alocado"
-						styleClass="colunaTempo textoCentralizado">
+						styleClass="colunaTempo text-center">
 						<h:outputText
-							value="#{concursomateriaestudada.usuarioEstudoMateria.tempoAlocado}"
+							value="#{concursomateriaestudada.estudoMateria.tempoAlocado}"
 							converter="tempoConverter" />
 					</p:column>
 
 					<p:column headerText="Tempo Estudado"
-						styleClass="colunaTempo textoCentralizado">
+						styleClass="colunaTempo text-center">
 						<h:outputText value="#{concursomateriaestudada.somaTempo}"
 							converter="tempoConverter" />
 					</p:column>
 
-					<p:column headerText="Observação" styleClass="textoCentralizado">
+					<!-- <p:column headerText="Observação" styleClass="text-center">
 						<h:outputText value="#{concursomateriaestudada.observacao}" />
-					</p:column>
+					</p:column> -->
 
 					<p:columnGroup type="footer">
 						<p:row>
 							<p:column colspan="2" footerText="Total:" />
 							<p:column footerText="#{controleestudo.tempoTotalAlocadoView}" />
 							<p:column footerText="#{controleestudo.tempoEstudadoTotalView}" />
-							<p:column footerText="---" />
 						</p:row>
 					</p:columnGroup>
 
@@ -214,7 +213,7 @@
 							<p:ajax event="rowEdit" listener="#{controleestudo.onRowEdit}" />
 
 							<p:column headerText="Data/Hora"
-								styleClass="colunaTempo textoCentralizado">
+								styleClass="colunaTempo text-center">
 								<h:outputText value="#{materiaestudada.horaEstudo}">
 									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
 										timeZone="America/Sao_Paulo" />
@@ -225,22 +224,22 @@
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText
-											value="#{materiaestudada.estudoMateria.materia.nome}" />
+											value="#{materiaestudada.materia.nome}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:selectOneMenu value="#{materiaestudada.estudoMateria}"
+										<p:selectOneMenu value="#{materiaestudada.materia}"
 											converter="omnifaces.SelectItemsConverter">
 											<f:selectItems
-												value="#{controleestudo.usuarioEstudoMaterias}"
+												value="#{controleestudo.materiasDoEstudo}"
 												var="estudomateria" itemValue="#{estudomateria}"
-												itemLabel="#{estudomateria.materia.nome}" />
+												itemLabel="#{estudomateria.nome}" />
 										</p:selectOneMenu>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 
 							<p:column headerText="Tempo Estudado"
-								styleClass="colunaTempo textoCentralizado">
+								styleClass="colunaTempo text-center">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{materiaestudada.tempoEstudado}"
@@ -278,14 +277,14 @@
 							rows="10"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-							<p:column headerText="Início" styleClass="textoCentralizado">
+							<p:column headerText="Início" styleClass="text-center">
 								<h:outputText value="#{estudoSemanal.inicioSemana}">
 									<f:convertDateTime locale="pt_BR"
 										pattern="EEEEEEEE, dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
 
-							<p:column headerText="Fim" styleClass="textoCentralizado">
+							<p:column headerText="Fim" styleClass="text-center">
 								<h:outputText value="#{estudoSemanal.dataFimSemana}">
 									<f:convertDateTime locale="pt_BR"
 										pattern="EEEEEEEE, dd/MM/yyyy" />
@@ -293,13 +292,13 @@
 							</p:column>
 
 							<p:column headerText="Horas Estudas na Semana"
-								styleClass="textoCentralizado">
+								styleClass="text-center">
 								<h:outputText value="#{estudoSemanal.tempoEstudado}"
 									converter="tempoConverter" />
 							</p:column>
 
 							<p:column headerText="Horas Acumuladas"
-								styleClass="textoCentralizado">
+								styleClass="text-center">
 								<h:outputText value="#{estudoSemanal.tempoEstudadoAcumulado}"
 									converter="tempoConverter" />
 							</p:column>

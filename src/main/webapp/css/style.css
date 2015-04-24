@@ -25,10 +25,6 @@
 	margin-right: 10%;
 }
 
-.textoCentralizado {
-	text-align: center;
-}
-
 /* .maginTop30 {
 	margin-top: 30px;
 } */
@@ -52,6 +48,10 @@
 } */
 .ui-grid-row {
 	margin-bottom: 1em;
+}
+
+.text-center {
+	text-align: center;
 }
 
 .text-right {

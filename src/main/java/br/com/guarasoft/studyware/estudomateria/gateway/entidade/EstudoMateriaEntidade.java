@@ -1,14 +1,11 @@
 package br.com.guarasoft.studyware.estudomateria.gateway.entidade;
 
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -16,11 +13,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import br.com.guarasoft.studyware.estudo.gateway.entidade.EstudoEntidade;
-import br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.EstudoMateriaHistoricoEntidade;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
 import br.com.guarasoft.studyware.materia.gateway.entidade.MateriaEntidade;
 
-@Entity
+@Entity(name = "EstudoMateria")
 @Table(name = "EstudoMateria")
 @Data
 @EqualsAndHashCode(of = { "estudo", "materia", "ordem" })
@@ -46,7 +42,7 @@ public class EstudoMateriaEntidade implements Entidade {
 
 	private Long ordem;
 
-	@OneToMany(mappedBy = "estudoMateria")
-	private Set<EstudoMateriaHistoricoEntidade> historico;
+	// @OneToMany(mappedBy = "estudoMateria")
+	// private Set<EstudoMateriaHistoricoEntidade> historico;
 
 }

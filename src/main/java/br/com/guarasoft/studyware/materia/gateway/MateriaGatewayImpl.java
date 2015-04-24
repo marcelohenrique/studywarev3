@@ -12,7 +12,8 @@ import br.com.guarasoft.studyware.materia.gateway.entidade.MateriaEntidade;
 import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 @Stateless
-public class MateriaGatewayImpl extends AbstractDao<MateriaEntidade, Long> implements MateriaGateway {
+public class MateriaGatewayImpl extends AbstractDao<MateriaEntidade, Long>
+		implements MateriaGateway {
 
 	private final MateriaEntidadeConverter materiaEntidadeConverter = new MateriaEntidadeConverter();
 
@@ -43,7 +44,8 @@ public class MateriaGatewayImpl extends AbstractDao<MateriaEntidade, Long> imple
 		sql.append(" where uem.estudo.nome = :nomeEstudo ");
 		sql.append("   and mt.id = m.id ) ");
 
-		TypedQuery<MateriaEntidade> typedQuery = this.entityManager.createQuery(sql.toString(), MateriaEntidade.class);
+		TypedQuery<MateriaEntidade> typedQuery = this.entityManager
+				.createQuery(sql.toString(), MateriaEntidade.class);
 		typedQuery.setParameter("nomeEstudo", estudo.getNome());
 
 		List<MateriaEntidade> entidades = typedQuery.getResultList();
@@ -55,21 +57,24 @@ public class MateriaGatewayImpl extends AbstractDao<MateriaEntidade, Long> imple
 
 	@Override
 	public void cadastrar(Materia materia) {
-		MateriaEntidade materiaEntidade = this.materiaEntidadeConverter.convert(materia);
+		MateriaEntidade materiaEntidade = this.materiaEntidadeConverter
+				.convert(materia);
 
 		this.persist(materiaEntidade);
 	}
 
 	@Override
 	public void alterar(Materia materia) {
-		MateriaEntidade materiaEntidade = this.materiaEntidadeConverter.convert(materia);
+		MateriaEntidade materiaEntidade = this.materiaEntidadeConverter
+				.convert(materia);
 
 		this.merge(materiaEntidade);
 	}
 
 	@Override
 	public void remover(Materia materia) {
-		MateriaEntidade materiaEntidade = this.materiaEntidadeConverter.convert(materia);
+		MateriaEntidade materiaEntidade = this.materiaEntidadeConverter
+				.convert(materia);
 
 		this.remove(this.merge(materiaEntidade));
 	}
@@ -81,6 +86,29 @@ public class MateriaGatewayImpl extends AbstractDao<MateriaEntidade, Long> imple
 		Materia bean = this.materiaEntidadeConverter.convert(entidade);
 
 		return bean;
+	}
+
+	@Override
+	public List<Materia> buscaMaterias(Estudo estudo) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT m ");
+		sql.append("  FROM Estudo e ");
+		sql.append("  JOIN e.materias em ");
+		sql.append("  JOIN em.materia m ");
+		sql.append(" WHERE 1 = 1 ");
+		sql.append("   AND e.id = :idEstudo ");
+		sql.append(" GROUP BY m ");
+		sql.append(" ORDER BY m.nome ");
+
+		TypedQuery<MateriaEntidade> typedQuery = this.entityManager
+				.createQuery(sql.toString(), MateriaEntidade.class);
+		typedQuery.setParameter("idEstudo", estudo.getId());
+
+		List<MateriaEntidade> entidades = typedQuery.getResultList();
+
+		List<Materia> beans = this.materiaEntidadeConverter.convert(entidades);
+
+		return beans;
 	}
 
 }

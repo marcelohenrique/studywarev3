@@ -29,3 +29,11 @@ CREATE SEQUENCE EstudoSeq START 1001 NO CYCLE;
 ALTER TABLE EstudoMateria DROP CONSTRAINT usuarioestudomateria_usuarioestudo_materia_key;
 
 ALTER TABLE EstudoMateria ADD CONSTRAINT estudomateria_estudo_materia_ordem_unique UNIQUE ( estudo, materia, ordem );
+
+ALTER TABLE EstudoMateriaHistorico ADD COLUMN estudo BIGINT;
+ALTER TABLE EstudoMateriaHistorico ADD COLUMN materia BIGINT;
+ALTER TABLE EstudoMateriaHistorico ADD FOREIGN KEY (estudo) REFERENCES Estudo(id);
+ALTER TABLE EstudoMateriaHistorico ADD FOREIGN KEY (materia) REFERENCES Materia(id);
+
+UPDATE EstudoMateriaHistorico SET estudo = em.estudo, materia = em.materia
+  FROM ( SELECT em.id, em.estudo, em.materia FROM EstudoMateria em ) em WHERE estudoMateria = em.id;

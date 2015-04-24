@@ -9,7 +9,7 @@ import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.guarasoft.studyware.estudomateria.gateway.UsuarioEstudoMateriaGateway;
+import br.com.guarasoft.studyware.estudomateria.gateway.EstudoMateriaGateway;
 import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 
 @Named("estudomateriaconverter")
@@ -24,7 +24,7 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 	// private MateriaGateway materiaGateway;
 
 	@Inject
-	private UsuarioEstudoMateriaGateway usuarioEstudoMateriaGateway;
+	private EstudoMateriaGateway estudoMateriaGateway;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
@@ -48,7 +48,7 @@ public class UsuarioEstudoMateriaConverter implements Converter {
 		// } else {
 		Long usuarioEstudoMateriaId = Long.parseLong(/* values[0] */value);
 
-		bean = this.usuarioEstudoMateriaGateway.buscaPorId(usuarioEstudoMateriaId);
+		bean = this.estudoMateriaGateway.buscaPorId(usuarioEstudoMateriaId);
 		// }
 
 		this.logger.info(bean.toString());

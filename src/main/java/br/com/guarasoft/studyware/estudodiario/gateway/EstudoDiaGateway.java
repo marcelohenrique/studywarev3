@@ -5,5 +5,5 @@ import java.util.List;
 import br.com.guarasoft.studyware.estudodiario.modelo.EstudoSemanal;
 
 public interface EstudoDiaGateway {
-	public List<EstudoSemanal> findAll(String nomeEstudo, String email);
+	public List<EstudoSemanal> findAll(Long idEstudo);
 }

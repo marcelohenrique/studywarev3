@@ -16,10 +16,11 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import br.com.guarasoft.studyware.estudomateria.gateway.entidade.EstudoMateriaEntidade;
+import br.com.guarasoft.studyware.estudo.gateway.entidade.EstudoEntidade;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
+import br.com.guarasoft.studyware.materia.gateway.entidade.MateriaEntidade;
 
-@Entity
+@Entity(name = "EstudoMateriaHistorico")
 @Table(name = "EstudoMateriaHistorico")
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -33,10 +34,20 @@ public class EstudoMateriaHistoricoEntidade implements Entidade {
 	@NotNull
 	private Long id;
 
-	@JoinColumn(name = "estudoMateria", referencedColumnName = "id")
+	// @JoinColumn(name = "estudoMateria", referencedColumnName = "id")
+	// @ManyToOne
+	// @NotNull
+	// private EstudoMateriaEntidade estudoMateria;
+
+	@JoinColumn(name = "estudo", referencedColumnName = "id")
 	@ManyToOne
 	@NotNull
-	private EstudoMateriaEntidade estudoMateria;
+	private EstudoEntidade estudo;
+
+	@JoinColumn(name = "materia", referencedColumnName = "id")
+	@ManyToOne
+	@NotNull
+	private MateriaEntidade materia;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull

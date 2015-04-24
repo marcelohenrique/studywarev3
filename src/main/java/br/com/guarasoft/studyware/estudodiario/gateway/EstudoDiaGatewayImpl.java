@@ -9,8 +9,8 @@ import br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiarioTran
 import br.com.guarasoft.studyware.estudodiario.modelo.EstudoSemanal;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 
-public class EstudoDiaGatewayImpl extends AbstractDao<EstudoDiarioTransformer, Long>
-		implements EstudoDiaGateway {
+public class EstudoDiaGatewayImpl extends
+		AbstractDao<EstudoDiarioTransformer, Long> implements EstudoDiaGateway {
 
 	private final EstudoDiarioEntidadeConverter estudoDiarioEntidadeConverter = new EstudoDiarioEntidadeConverter();
 
@@ -19,22 +19,19 @@ public class EstudoDiaGatewayImpl extends AbstractDao<EstudoDiarioTransformer, L
 	}
 
 	@Override
-	public List<EstudoSemanal> findAll(String nomeEstudo, String email) {
+	public List<EstudoSemanal> findAll(Long idEstudo) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT new br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiarioTransformer( date_trunc( 'day', emhe.horaEstudo ), extract( DOW FROM emhe.horaEstudo ), ed.tempoAlocado, SUM( emhe.tempoEstudado ) ) ");
-		sql.append("  FROM EstudoMateriaHistoricoEntidade emhe ");
-		sql.append("  JOIN emhe.estudoMateria.estudo.participantes p ");
-		sql.append("  LEFT OUTER JOIN emhe.estudoMateria.estudo.estudoDiarios ed ");
-		sql.append(" WHERE emhe.estudoMateria.estudo.nome = :nome ");
-		sql.append("   AND p.usuario.email = :email ");
-		sql.append("   AND ed.dia = extract( DOW FROM emhe.horaEstudo ) ");
-		sql.append(" GROUP BY date_trunc( 'day', emhe.horaEstudo ), extract( DOW FROM emhe.horaEstudo ), ed.tempoAlocado ");
-		sql.append(" ORDER BY date_trunc( 'day', emhe.horaEstudo ) ");
+		sql.append("SELECT new br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiarioTransformer( date_trunc( 'day', emh.horaEstudo ), extract( DOW FROM emh.horaEstudo ), ed.tempoAlocado, SUM( emh.tempoEstudado ) ) ");
+		sql.append("  FROM EstudoMateriaHistorico emh ");
+		sql.append("  LEFT OUTER JOIN emh.estudo.estudoDiarios ed ");
+		sql.append(" WHERE emh.estudo.id = :idEstudo ");
+		sql.append("   AND ed.dia = extract( DOW FROM emh.horaEstudo ) ");
+		sql.append(" GROUP BY date_trunc( 'day', emh.horaEstudo ), extract( DOW FROM emh.horaEstudo ), ed.tempoAlocado ");
+		sql.append(" ORDER BY date_trunc( 'day', emh.horaEstudo ) ");
 
-		TypedQuery<EstudoDiarioTransformer> query = this.entityManager.createQuery(
-				sql.toString(), EstudoDiarioTransformer.class);
-		query.setParameter("nome", nomeEstudo);
-		query.setParameter("email", email);
+		TypedQuery<EstudoDiarioTransformer> query = this.entityManager
+				.createQuery(sql.toString(), EstudoDiarioTransformer.class);
+		query.setParameter("idEstudo", idEstudo);
 		List<EstudoDiarioTransformer> entidades = query.getResultList();
 
 		List<EstudoSemanal> beans = this.estudoDiarioEntidadeConverter
