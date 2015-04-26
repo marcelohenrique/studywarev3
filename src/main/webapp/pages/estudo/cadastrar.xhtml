@@ -13,7 +13,7 @@
 
 			<div class="ui-grid-col-12">
 
-				<p:wizard>
+				<p:wizard flowListener="#{cadastraEstudoController.onFlowProcess}">
 
 					<p:tab id="estudo" title="Estudo">
 						<p:panel>
@@ -21,14 +21,36 @@
 							<div class="ui-grid-row">
 								<div class="ui-grid-col-12">
 
-									<p:panelGrid columns="2">
-										<p:outputLabel for="nome" value="Nome:" />
-										<p:inputText id="nome" required="true"
-											value="#{cadastraEstudoController.nome}" />
-										<p:outputLabel for="fim" value="Fim:" />
-										<p:calendar id="fim" mindate="calwidget.today()"
-											value="#{cadastraEstudoController.fim}" pattern="dd/MM/yyyy" />
-									</p:panelGrid>
+									<!-- <p:panelGrid columns="2"> -->
+
+									<div class="ui-grid-row">
+										<div class="ui-grid-col-1">
+
+											<p:outputLabel for="nome" value="Nome:" />
+										</div>
+										<div class="ui-grid-col-1">
+
+											<p:inputText id="nome" required="true"
+												value="#{cadastraEstudoController.nome}" />
+
+										</div>
+									</div>
+
+									<div class="ui-grid-row">
+										<div class="ui-grid-col-1">
+
+											<p:outputLabel for="fim" value="Fim:" />
+
+										</div>
+										<div class="ui-grid-col-1">
+
+											<p:calendar id="fim" mindate="calwidget.today()"
+												value="#{cadastraEstudoController.fim}" pattern="dd/MM/yyyy" />
+
+										</div>
+									</div>
+
+									<!-- </p:panelGrid> -->
 
 								</div>
 							</div>
@@ -74,35 +96,48 @@
 
 								<div class="ui-grid-col-6">
 
-									<p:remoteCommand name="atualizaOrdem" update="@form"
-										actionListener="#{cadastraEstudoController.atualizaOrdem()}" />
+									<!-- <p:remoteCommand name="atualizaOrdem" update="dataTableCiclo"
+										actionListener="#{cadastraEstudoController.atualizaCiclo()}" /> -->
+									<script type="text/javascript">
+											function atualizaTempoAlocado() {
+												$( '#formulario\\:dataTableCiclo_data tr td:nth-child(3) input' ).each(function(index, value){
+													var elementName = "formulario:dataTableCiclo:"+index+":j_idt47";
+													value.id = elementName;
+													value.name = elementName;
+													value.onchange = PrimeFaces.ab({s:elementName,e:"change",f:"formulario",p:"formulario:dataTableCiclo",u:"formulario:dataTableCiclo"});
+												});
+											}
+										</script>
 
 									<p:dataTable id="dataTableCiclo"
 										value="#{cadastraEstudoController.ciclo}" var="m"
-										style="margin-bottom:20px" draggableRows="true">
+										style="margin-bottom:20px" draggableRows="true"
+										rowIndexVar="rowIndex">
 
-										<p:ajax event="rowReorder" oncomplete="atualizaOrdem()" />
+										<!-- <p:ajax event="rowReorder" listener="#{cadastraEstudoController.onRowReorder}" update="@this" onstart="teste()" /> -->
+										<p:ajax event="rowReorder" onstart="atualizaTempoAlocado()" />
 
 										<f:facet name="header">Ciclo</f:facet>
 
-										<p:column style="width: 30px">
-											<h:outputText value="#{m.ordem}" />
+										<p:column style="width: 30px" styleClass="text-center">
+											<h:outputText value="#{rowIndex + 1}" />
 										</p:column>
 
 										<p:column>
 											<h:outputText value="#{m.materia.nome}" />
 										</p:column>
 
-										<p:column style="width: 200px">
+										<p:column style="width: 100px" styleClass="text-center">
 											<p:inputMask mask="99:99" value="#{m.tempoAlocado}"
-												converter="durationhhmmConverter">
-												<p:ajax event="change"
+												converter="durationhhmmConverter" size="5"
+												styleClass="text-center">
+												<p:ajax event="change" process="dataTableCiclo"
 													listener="#{cadastraEstudoController.atualizaTotalCiclo()}"
-													update="@form" />
+													update="dataTableCiclo" />
 											</p:inputMask>
 										</p:column>
 
-										<p:column style="width:32px;text-align: center">
+										<p:column style="width:32px" styleClass="text-center">
 											<p:commandButton update="@form" icon="ui-icon-close"
 												title="Remover"
 												actionListener="#{cadastraEstudoController.remove(m)}">

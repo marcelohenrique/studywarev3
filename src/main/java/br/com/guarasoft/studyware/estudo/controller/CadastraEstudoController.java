@@ -20,6 +20,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import org.joda.time.Duration;
+import org.primefaces.event.FlowEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import br.com.guarasoft.studyware.estudo.casodeuso.CadastraEstudo;
 import br.com.guarasoft.studyware.estudo.excecao.UsuarioEstudoJaExiste;
@@ -40,6 +43,9 @@ import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 public class CadastraEstudoController implements Serializable {
 
 	private static final long serialVersionUID = -2586448860897763084L;
+
+	private final Logger logger = LoggerFactory
+			.getLogger(CadastraEstudoController.class);
 
 	private CadastraEstudo cadastraEstudo;
 
@@ -163,6 +169,10 @@ public class CadastraEstudoController implements Serializable {
 		return null;
 	}
 
+	// public void atualizaTotalCicloListener(AjaxBehaviorEvent event) {
+	// atualizaTotalCiclo();
+	// }
+
 	public void atualizaTotalCiclo() {
 		this.totalCiclo = new Duration(0);
 
@@ -185,21 +195,28 @@ public class CadastraEstudoController implements Serializable {
 		EstudoMateria estudoMateria = new EstudoMateria();
 		estudoMateria.setMateria(materia);
 		this.ciclo.add(estudoMateria);
-		this.atualizaOrdem();
+		this.atualizaCiclo();
 	}
 
 	public void remove(EstudoMateria estudoMateria) {
 		this.ciclo.remove(estudoMateria);
-		this.atualizaOrdem();
+		this.atualizaCiclo();
 		this.atualizaTotalCiclo();
 	}
 
-	public void atualizaOrdem() {
+	public void atualizaCiclo() {
 		Long ordem = 1L;
 		for (EstudoMateria estudoMateria : this.ciclo) {
 			estudoMateria.setOrdem(ordem++);
 		}
 	}
+
+//	public void onRowReorder(ReorderEvent event) {
+//		// logger.info(event.getSource().toString());
+//		for (EstudoMateria estudoMateria : ciclo) {
+//			logger.info(estudoMateria.toString());
+//		}
+//	}
 
 	public Collection<Usuario> buscaParticipantes(String email) {
 		return this.usuarioGateway.buscaUsuarios(email);
@@ -208,11 +225,11 @@ public class CadastraEstudoController implements Serializable {
 	public void remove(Usuario participante) {
 		if (this.participantes.size() == 1) {
 			FacesContext
-			.getCurrentInstance()
-			.addMessage(
-					null,
-					new FacesMessage("Operação não permitida!",
-							"O estudo deve conter pelo menos um participante."));
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage("Operação não permitida!",
+									"O estudo deve conter pelo menos um participante."));
 		} else {
 			this.participantes.remove(participante);
 		}
@@ -222,6 +239,15 @@ public class CadastraEstudoController implements Serializable {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(this.participante);
 		this.participantes.add(usuario);
+	}
+
+	public String onFlowProcess(FlowEvent event) {
+//		if ("ciclo".equals(event.getNewStep())) {
+//			for (EstudoMateria estudoMateria : ciclo) {
+//				logger.info(estudoMateria.toString());
+//			}
+//		}
+		return event.getNewStep();
 	}
 
 }

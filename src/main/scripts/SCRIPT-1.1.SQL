@@ -8,7 +8,7 @@ CREATE TABLE UsuarioEstudo (
 
 INSERT INTO UsuarioEstudo ( id, usuario, estudo ) SELECT id, email, id FROM Estudo;
 
-INSERT INTO UsuarioEstudo ( id, usuario, estudo ) VALUES ( 1003, 'marcelohenriquedeoliveiralima@gmail.com', 1001 );
+-- INSERT INTO UsuarioEstudo ( id, usuario, estudo ) VALUES ( 1003, 'marcelohenriquedeoliveiralima@gmail.com', 1001 );
 
 ALTER TABLE Estudo DROP COLUMN email;
 

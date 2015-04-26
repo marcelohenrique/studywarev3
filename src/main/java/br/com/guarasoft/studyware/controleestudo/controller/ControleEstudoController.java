@@ -99,13 +99,19 @@ public class ControleEstudoController implements Serializable {
 
 	private void atualiza() {
 
+		DurationConverter durationConverter = new DurationConverter();
+
 		this.tempoTotalAlocado = new Duration(0);
 		this.tempoEstudadoTotal = new Duration(0);
 
 		Collection<ResumoMateria> resumoMaterias = this.estudoMateriaHistoricoGateway
 				.buscaResumosMaterias(this.estudoSelecionado);
 		Map<Long, ResumoMateria> mapaResumoMaterias = new HashMap<>();
+		// logger.info("\n\n\nMATÉRIA\n\n\n");
 		for (ResumoMateria resumoMateria : resumoMaterias) {
+			// logger.info(resumoMateria.getMateria().getNome() + " => "
+			// + durationConverter.toString(resumoMateria.getSomaTempo()));
+
 			mapaResumoMaterias.put(resumoMateria.getMateria().getId(),
 					resumoMateria);
 
@@ -118,12 +124,13 @@ public class ControleEstudoController implements Serializable {
 				.buscaEstudoMateria(estudoSelecionado)) {
 			ResumoEstudoMateria resumoEstudoMateria = new ResumoEstudoMateria();
 			resumoEstudoMateria.setEstudoMateria(estudoMateria);
+			resumoEstudoMateria.setSomaTempo(Duration.ZERO);
 			resumoEstudoMaterias.add(resumoEstudoMateria);
 
 			this.tempoTotalAlocado = this.tempoTotalAlocado.plus(estudoMateria
 					.getTempoAlocado());
 		}
-
+		// logger.info("\n\n\nESTUDO MATÉRIA\n\n\n");
 		boolean continua;
 		do {
 			continua = false;
@@ -133,17 +140,34 @@ public class ControleEstudoController implements Serializable {
 						.get(resumoEstudoMateria.getEstudoMateria()
 								.getMateria().getId());
 				Duration tempoMateria = resumoMateria.getSomaTempo();
-
 				if (tempoMateria.getMillis() > 0) {
+
+					logger.info(resumoMateria.getMateria().getNome()
+							+ " ["
+							+ durationConverter.toString(resumoMateria
+									.getSomaTempo())
+							+ "] => "
+							+ resumoEstudoMateria.getEstudoMateria().getId()
+							+ " ["
+							+ durationConverter.toString(resumoEstudoMateria
+									.getEstudoMateria().getTempoAlocado())
+							+ " | "
+							+ durationConverter.toString(resumoEstudoMateria
+									.getSomaTempo()) + "]");
 
 					Duration tempoAlocado = resumoEstudoMateria
 							.getEstudoMateria().getTempoAlocado();
-					Duration tempoEstudoMateria = resumoMateria.getSomaTempo();
+					Duration tempoEstudoMateria = resumoEstudoMateria
+							.getSomaTempo();
 
-					if (tempoMateria.getMillis() <= tempoAlocado.getMillis()) {
+					if (tempoAlocado.isEqual(Duration.ZERO)) {
+						tempoEstudoMateria = tempoMateria;
+						tempoMateria = Duration.ZERO;
+					} else if (tempoMateria.isShorterThan(tempoAlocado)
+							|| tempoMateria.isEqual(tempoAlocado)) {
 						tempoEstudoMateria = tempoEstudoMateria
 								.plus(tempoMateria);
-						tempoMateria = new Duration(0);
+						tempoMateria = Duration.ZERO;
 					} else {
 						tempoEstudoMateria = tempoEstudoMateria
 								.plus(tempoAlocado);
@@ -154,6 +178,19 @@ public class ControleEstudoController implements Serializable {
 
 					resumoMateria.setSomaTempo(tempoMateria);
 					resumoEstudoMateria.setSomaTempo(tempoEstudoMateria);
+
+					logger.info(resumoMateria.getMateria().getNome()
+							+ " ["
+							+ durationConverter.toString(resumoMateria
+									.getSomaTempo())
+							+ "] => "
+							+ resumoEstudoMateria.getEstudoMateria().getId()
+							+ " ["
+							+ durationConverter.toString(resumoEstudoMateria
+									.getEstudoMateria().getTempoAlocado())
+							+ " | "
+							+ durationConverter.toString(resumoEstudoMateria
+									.getSomaTempo()) + "]");
 
 				}
 			}
