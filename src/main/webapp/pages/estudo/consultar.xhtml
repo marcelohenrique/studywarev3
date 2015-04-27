@@ -21,7 +21,15 @@
 					<h:outputText value="#{e.nome}" />
 				</p:column>
 
-				<p:column headerText="Fim" sortBy="#{e.fim}">
+				<p:column headerText="Início" sortBy="#{e.inicio}"
+					style="width: 100px" styleClass="text-center">
+					<h:outputText value="#{e.inicio}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Fim" sortBy="#{e.fim}" style="width: 100px"
+					styleClass="text-center">
 					<h:outputText value="#{e.fim}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
@@ -49,7 +57,8 @@
 
 		</div>
 
-		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closeOnEscape="true">
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			closeOnEscape="true">
 			<p:commandButton value="Sim" type="button"
 				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 			<p:commandButton value="Não" type="button"

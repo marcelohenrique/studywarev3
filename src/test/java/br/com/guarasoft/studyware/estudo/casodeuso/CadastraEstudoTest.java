@@ -24,27 +24,30 @@ public class CadastraEstudoTest {
 		String email = "teste@gmail.com";
 		String nomeEstudo = "Estudo Teste";
 
-		CadastraEstudo cadastrarUsuarioEstudo = new CadastraEstudo(this.usuarioEstudoGateway);
+		CadastraEstudo cadastrarUsuarioEstudo = new CadastraEstudo(
+				this.usuarioEstudoGateway);
 
 		Usuario usuario = new Usuario();
 		usuario.setEmail(email);
-		Estudo estudo = new Estudo(null, nomeEstudo, null);
+		Estudo estudo = new Estudo(null, nomeEstudo, null, null);
 
 		cadastrarUsuarioEstudo.execute(estudo);
 	}
 
 	@Test(expected = UsuarioEstudoJaExiste.class)
 	public void cadastrarEstudo_Falha_EstudoJaExiste() {
-		doThrow(new UsuarioEstudoJaExiste()).when(this.usuarioEstudoGateway).cadastrar(any(Estudo.class));
+		doThrow(new UsuarioEstudoJaExiste()).when(this.usuarioEstudoGateway)
+				.cadastrar(any(Estudo.class));
 
 		String email = "teste@gmail.com";
 		String nomeEstudo = "Estudo Teste";
 
-		CadastraEstudo cadastrarUsuarioEstudo = new CadastraEstudo(this.usuarioEstudoGateway);
+		CadastraEstudo cadastrarUsuarioEstudo = new CadastraEstudo(
+				this.usuarioEstudoGateway);
 
 		Usuario usuario = new Usuario();
 		usuario.setEmail(email);
-		Estudo estudo = new Estudo(null, nomeEstudo, null);
+		Estudo estudo = new Estudo(null, nomeEstudo, null, null);
 
 		cadastrarUsuarioEstudo.execute(estudo);
 	}

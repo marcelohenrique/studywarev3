@@ -12,7 +12,7 @@ import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 
 @Stateless
 public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long>
-implements EstudoGateway {
+		implements EstudoGateway {
 
 	private final EstudoBuilder builder = new EstudoBuilder();
 
@@ -37,8 +37,8 @@ implements EstudoGateway {
 		sql.append(" WHERE p.usuario.email = :email ");
 		sql.append(" ORDER BY e.fim, e.nome ");
 
-		TypedQuery<EstudoEntidade> typedQuery = this.entityManager
-				.createQuery(sql.toString(), EstudoEntidade.class);
+		TypedQuery<EstudoEntidade> typedQuery = this.entityManager.createQuery(
+				sql.toString(), EstudoEntidade.class);
 
 		typedQuery.setParameter("email", email);
 
@@ -60,8 +60,8 @@ implements EstudoGateway {
 		sql.append("   and ( e.fim >= current_date ");
 		sql.append("    or e.fim is null ) ");
 
-		TypedQuery<EstudoEntidade> typedQuery = this.entityManager
-				.createQuery(sql.toString(), EstudoEntidade.class);
+		TypedQuery<EstudoEntidade> typedQuery = this.entityManager.createQuery(
+				sql.toString(), EstudoEntidade.class);
 
 		typedQuery.setParameter("email", email);
 

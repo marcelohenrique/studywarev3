@@ -37,3 +37,5 @@ ALTER TABLE EstudoMateriaHistorico ADD FOREIGN KEY (materia) REFERENCES Materia(
 
 UPDATE EstudoMateriaHistorico SET estudo = em.estudo, materia = em.materia
   FROM ( SELECT em.id, em.estudo, em.materia FROM EstudoMateria em ) em WHERE estudoMateria = em.id;
+
+ALTER TABLE Estudo ADD COLUMN inicio DATE;

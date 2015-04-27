@@ -1,6 +1,7 @@
 package br.com.guarasoft.studyware.estudodiario.gateway.converter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +28,8 @@ public class UsuarioEstudoDiarioEntidadeConverter {
 		return bean;
 	}
 
-	public List<EstudoDiario> convert(Estudo beanPai, Set<EstudoDiarioEntidade> entidades) {
+	public List<EstudoDiario> convert(Estudo beanPai,
+			Set<EstudoDiarioEntidade> entidades) {
 		List<EstudoDiario> beans = new ArrayList<>();
 
 		for (EstudoDiarioEntidade entidade : entidades) {
@@ -37,7 +39,8 @@ public class UsuarioEstudoDiarioEntidadeConverter {
 		return beans;
 	}
 
-	private EstudoDiarioEntidade convert(EstudoEntidade entidadePai, EstudoDiario bean) {
+	private EstudoDiarioEntidade convert(EstudoEntidade entidadePai,
+			EstudoDiario bean) {
 		EstudoDiarioEntidade entidade = new EstudoDiarioEntidade();
 
 		entidade.setId(bean.getId());
@@ -48,7 +51,8 @@ public class UsuarioEstudoDiarioEntidadeConverter {
 		return entidade;
 	}
 
-	public Set<EstudoDiarioEntidade> convert(EstudoEntidade entidadePai, List<EstudoDiario> beans) {
+	public Set<EstudoDiarioEntidade> convert(EstudoEntidade entidadePai,
+			Collection<EstudoDiario> beans) {
 		Set<EstudoDiarioEntidade> entidades = new LinkedHashSet<>();
 
 		for (EstudoDiario bean : beans) {

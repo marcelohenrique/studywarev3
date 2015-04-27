@@ -20,39 +20,49 @@ public class UsuarioEstudoMateriaBuilder {
 	private final UsuarioEstudoMateriaEntidadeConverter usuarioEstudoMateriaEntidadeConverter = new UsuarioEstudoMateriaEntidadeConverter();
 
 	public EstudoMateriaEntidade convert(EstudoMateria bean) {
-		EstudoEntidade entidadePai = this.estudoEntidadeConverter.convert(bean.getEstudo());
+		EstudoEntidade entidadePai = this.estudoEntidadeConverter.convert(bean
+				.getEstudo());
 
 		EstudoMateriaEntidade entidade = this.convert(entidadePai, bean);
 
 		return entidade;
 	}
 
-	private EstudoMateriaEntidade convert(EstudoEntidade entidadePai, EstudoMateria bean) {
-		EstudoMateriaEntidade entidade = this.usuarioEstudoMateriaEntidadeConverter.convert(entidadePai, bean);
+	private EstudoMateriaEntidade convert(EstudoEntidade entidadePai,
+			EstudoMateria bean) {
+		EstudoMateriaEntidade entidade = this.usuarioEstudoMateriaEntidadeConverter
+				.convert(entidadePai, bean);
 
-		entidade.setMateria(this.materiaEntidadeConverter.convert(bean.getMateria()));
+		entidade.setMateria(this.materiaEntidadeConverter.convert(bean
+				.getMateria()));
 
 		return entidade;
 	}
 
 	public EstudoMateria convert(EstudoMateriaEntidade entidade) {
-		EstudoMateria bean = this.usuarioEstudoMateriaEntidadeConverter.convert(entidade);
+		EstudoMateria bean = this.usuarioEstudoMateriaEntidadeConverter
+				.convert(entidade);
 
-		bean.setEstudo(this.estudoEntidadeConverter.convert(entidade.getEstudo()));
-		bean.setMateria(this.materiaEntidadeConverter.convert(entidade.getMateria()));
+		bean.setEstudo(this.estudoEntidadeConverter.convert(entidade
+				.getEstudo()));
+		bean.setMateria(this.materiaEntidadeConverter.convert(entidade
+				.getMateria()));
 
 		return bean;
 	}
 
 	public EstudoMateria convert(Estudo beanPai, EstudoMateriaEntidade entidade) {
-		EstudoMateria bean = this.usuarioEstudoMateriaEntidadeConverter.convert(beanPai, entidade);
+		EstudoMateria bean = this.usuarioEstudoMateriaEntidadeConverter
+				.convert(beanPai, entidade);
 
-		bean.setMateria(this.materiaEntidadeConverter.convert(entidade.getMateria()));
+		bean.setMateria(this.materiaEntidadeConverter.convert(entidade
+				.getMateria()));
 
 		return bean;
 	}
 
-	public Set<EstudoMateriaEntidade> convert(EstudoEntidade entidadePai, List<EstudoMateria> beans) {
+	public Set<EstudoMateriaEntidade> convert(EstudoEntidade entidadePai,
+			Collection<EstudoMateria> beans) {
 		Set<EstudoMateriaEntidade> entidades = new LinkedHashSet<>();
 
 		for (EstudoMateria bean : beans) {
@@ -62,7 +72,8 @@ public class UsuarioEstudoMateriaBuilder {
 		return entidades;
 	}
 
-	public List<EstudoMateria> convert(Estudo beanPai, Collection<EstudoMateriaEntidade> entidades) {
+	public List<EstudoMateria> convert(Estudo beanPai,
+			Collection<EstudoMateriaEntidade> entidades) {
 		List<EstudoMateria> beans = new ArrayList<>();
 
 		for (EstudoMateriaEntidade entidade : entidades) {

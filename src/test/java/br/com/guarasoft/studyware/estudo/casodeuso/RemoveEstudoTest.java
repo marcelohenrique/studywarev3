@@ -18,9 +18,10 @@ public class RemoveEstudoTest {
 
 	@Test
 	public void execute() {
-		Estudo usuarioEstudo = new Estudo(null, null, null);
+		Estudo usuarioEstudo = new Estudo(null, null, null, null);
 
-		RemoveEstudo removeEstudo = new RemoveEstudoImpl(this.usuarioEstudoGateway);
+		RemoveEstudo removeEstudo = new RemoveEstudoImpl(
+				this.usuarioEstudoGateway);
 		removeEstudo.execute(usuarioEstudo);
 	}
 

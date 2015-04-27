@@ -13,7 +13,7 @@ public class EstudoTest {
 		String nome = "Estudo";
 		Date fim = new Date();
 
-		Estudo estudo = new Estudo(null, nome, fim);
+		Estudo estudo = new Estudo(null, nome, null, fim);
 
 		assertNotNull(estudo);
 	}

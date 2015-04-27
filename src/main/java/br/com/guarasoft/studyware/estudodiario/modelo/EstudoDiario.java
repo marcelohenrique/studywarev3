@@ -11,11 +11,16 @@ import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 @Data
 @ToString(exclude = { "estudo" })
 @EqualsAndHashCode(of = { "estudo", "dia" })
-public class EstudoDiario {
+public class EstudoDiario implements Comparable<EstudoDiario> {
 
 	private Long id;
 	private Estudo estudo;
 	private Dia dia;
 	private Duration tempoAlocado;
+
+	@Override
+	public int compareTo(EstudoDiario o) {
+		return dia.getId() - o.getDia().getId();
+	}
 
 }

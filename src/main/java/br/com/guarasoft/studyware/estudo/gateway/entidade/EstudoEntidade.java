@@ -38,6 +38,9 @@ public class EstudoEntidade implements Entidade {
 	private String nome;
 
 	@Temporal(TemporalType.DATE)
+	private Date inicio;
+
+	@Temporal(TemporalType.DATE)
 	private Date fim;
 
 	@OneToMany(mappedBy = "estudo", cascade = { CascadeType.ALL }, orphanRemoval = true)

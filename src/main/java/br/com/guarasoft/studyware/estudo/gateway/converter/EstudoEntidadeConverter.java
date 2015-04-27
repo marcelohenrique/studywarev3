@@ -7,7 +7,7 @@ public class EstudoEntidadeConverter {
 
 	public Estudo convert(EstudoEntidade entidade) {
 		Estudo bean = new Estudo(entidade.getId(), entidade.getNome(),
-				entidade.getFim());
+				entidade.getInicio(), entidade.getFim());
 
 		return bean;
 	}
@@ -17,6 +17,7 @@ public class EstudoEntidadeConverter {
 
 		entidade.setId(bean.getId());
 		entidade.setNome(bean.getNome());
+		entidade.setInicio(bean.getInicio());
 		entidade.setFim(bean.getFim());
 
 		return entidade;

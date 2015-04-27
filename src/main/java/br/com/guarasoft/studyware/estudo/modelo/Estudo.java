@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.TreeSet;
 
 import br.com.guarasoft.studyware.estudodiario.modelo.EstudoDiario;
 import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
@@ -14,24 +15,29 @@ public class Estudo {
 
 	private Long id;
 	private String nome;
-	// private DateTime inicio;
+	private Date inicio;
 	private Date fim;
 
-	private Collection<Usuario> participantes = new ArrayList<Usuario>();
+	private Collection<EstudoMateria> materias = new ArrayList<>();
+	private Collection<EstudoDiario> dias = new TreeSet<>();
 
-	private List<EstudoMateria> materias = new ArrayList<EstudoMateria>();
-	private List<EstudoDiario> dias = new ArrayList<EstudoDiario>();
+	private Collection<Usuario> participantes = new ArrayList<>();
 
-	public Estudo(Long id, String nome, Date fim) {
+	public Estudo(Long id, String nome, Date inicio, Date fim) {
 		this.id = id;
 		this.nome = nome;
+		this.inicio = inicio;
 		this.fim = fim;
 	}
 
-	public Estudo(Long id, String nome, Date fim, List<EstudoMateria> materias) {
-		this(id, nome, fim);
+	public Estudo(Long id, String nome, Date inicio, Date fim,
+			Collection<EstudoMateria> materias,
+			Collection<EstudoDiario> semana, Collection<Usuario> participantes) {
+		this(id, nome, inicio, fim);
 		this.materias = materias;
 		this.atualizaOrdemCiclo();
+		this.dias = semana;
+		this.participantes = participantes;
 	}
 
 	public void add(Usuario usuario) {
@@ -61,6 +67,10 @@ public class Estudo {
 		return this.nome;
 	}
 
+	public Date getInicio() {
+		return this.inicio;
+	}
+
 	public Date getFim() {
 		return this.fim;
 	}
@@ -69,12 +79,12 @@ public class Estudo {
 		return Collections.unmodifiableCollection(this.participantes);
 	}
 
-	public List<EstudoMateria> getMaterias() {
-		return Collections.unmodifiableList(this.materias);
+	public Collection<EstudoMateria> getMaterias() {
+		return Collections.unmodifiableCollection(this.materias);
 	}
 
-	public List<EstudoDiario> getDias() {
-		return Collections.unmodifiableList(this.dias);
+	public Collection<EstudoDiario> getDias() {
+		return Collections.unmodifiableCollection(this.dias);
 	}
 
 }
