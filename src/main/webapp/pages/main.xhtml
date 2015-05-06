@@ -63,8 +63,7 @@
 
 				<p:commandButton value="OK"
 					actionListener="#{controleestudo.gravar()}"
-					oncomplete="PF( 'cd' ).hide()"
-					update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar, observacao, materias, dataTable, tabView" />
+					oncomplete="PF( 'cd' ).hide()" update="@form" />
 			</p:confirmDialog>
 
 			<div class="ui-grid-col-4">
@@ -94,7 +93,7 @@
 								<f:selectItems value="#{controleestudo.estudos}" var="estudo"
 									itemValue="#{estudo}" itemLabel="#{estudo.nome}"
 									itemDescription="#{estudo.nome}" />
-								<p:ajax update="materias, dataTable, tabView"
+								<p:ajax update="@form"
 									listener="#{controleestudo.listaEstudoMaterias()}" />
 							</p:selectOneMenu>
 						</p:column>
@@ -154,44 +153,142 @@
 
 			<div class="ui-grid-col-8">
 
-				<p:dataTable id="dataTable" var="concursomateriaestudada"
-					value="#{controleestudo.resumoEstudoMaterias}">
+				<p:tabView>
+					<p:tab title="Matérias">
 
-					<p:column headerText="Ordem"
-						sortBy="#{concursomateriaestudada.estudoMateria.ordem}"
-						style="width: 80px" styleClass="text-center">
-						<h:outputText
-							value="#{concursomateriaestudada.estudoMateria.ordem}" />
-					</p:column>
+						<p:dataTable id="dataTableResumoMaterias"
+							value="#{controleestudo.resumoMaterias}" var="resumoMateria">
 
-					<p:column headerText="Matéria"
-						sortBy="#{concursomateriaestudada.estudoMateria.materia.nome}">
-						<h:outputText
-							value="#{concursomateriaestudada.estudoMateria.materia.nome}" />
-					</p:column>
+							<p:column headerText="Matéria"
+								sortBy="#{resumoMateria.materia.nome}">
+								<h:outputText value="#{resumoMateria.materia.nome}" />
+							</p:column>
 
-					<p:column headerText="Tempo Alocado"
-						styleClass="colunaTempo text-center">
-						<h:outputText
-							value="#{concursomateriaestudada.estudoMateria.tempoAlocado}"
-							converter="tempoConverter" />
-					</p:column>
+							<p:column headerText="Alocado"
+								styleClass="colunaTempo text-center">
+								<h:outputText value="#{resumoMateria.tempoAlocado}"
+									converter="tempoConverter" />
+							</p:column>
 
-					<p:column headerText="Tempo Estudado"
-						styleClass="colunaTempo text-center">
-						<h:outputText value="#{concursomateriaestudada.somaTempo}"
-							converter="tempoConverter" />
-					</p:column>
+							<p:column headerText="Estudado"
+								styleClass="colunaTempo text-center">
+								<h:outputText value="#{resumoMateria.somaTempo}"
+									converter="tempoConverter" />
+							</p:column>
 
-					<p:columnGroup type="footer">
-						<p:row>
-							<p:column colspan="2" footerText="Total:" />
-							<p:column footerText="#{controleestudo.tempoTotalAlocadoView}" />
-							<p:column footerText="#{controleestudo.tempoEstudadoTotalView}" />
-						</p:row>
-					</p:columnGroup>
+							<p:columnGroup type="footer">
+								<p:row>
+									<p:column footerText="Total:" />
+									<p:column styleClass="text-center">
+										<f:facet name="footer">
+											<h:outputText value="#{controleestudo.tempoTotalAlocado}"
+												converter="tempoConverter" />
+										</f:facet>
+									</p:column>
+									<p:column styleClass="text-center">
+										<f:facet name="footer">
+											<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
+												converter="tempoConverter" />
+										</f:facet>
+									</p:column>
+								</p:row>
+							</p:columnGroup>
 
-				</p:dataTable>
+						</p:dataTable>
+
+					</p:tab>
+					<p:tab title="Ciclo">
+
+						<p:dataTable id="dataTableResumoCiclo"
+							var="concursomateriaestudada"
+							value="#{controleestudo.resumoEstudoMaterias}">
+
+							<p:column headerText="Ordem"
+								sortBy="#{concursomateriaestudada.estudoMateria.ordem}"
+								style="width: 80px" styleClass="text-center">
+								<h:outputText
+									value="#{concursomateriaestudada.estudoMateria.ordem}" />
+							</p:column>
+
+							<p:column headerText="Matéria"
+								sortBy="#{concursomateriaestudada.estudoMateria.materia.nome}">
+								<h:outputText
+									value="#{concursomateriaestudada.estudoMateria.materia.nome}" />
+							</p:column>
+
+							<p:column headerText="Alocado"
+								styleClass="colunaTempo text-center">
+								<h:outputText
+									value="#{concursomateriaestudada.estudoMateria.tempoAlocado}"
+									converter="tempoConverter" />
+							</p:column>
+
+							<p:column headerText="Ciclo Ideal"
+								styleClass="colunaTempo text-center">
+								<h:outputText value="#{controleestudo.estudosSemanais.size()}" />
+							</p:column>
+
+							<p:column headerText="Ciclo Atual"
+								sortBy="#{concursomateriaestudada.ciclo}"
+								styleClass="colunaTempo text-center">
+								<h:outputText value="#{concursomateriaestudada.ciclo}">
+									<f:convertNumber groupingUsed="true" minFractionDigits="1"
+										maxFractionDigits="1" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Planejado"
+								styleClass="colunaTempo text-center">
+								<h:outputText
+									value="#{concursomateriaestudada.estudoMateria.tempoAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
+									converter="tempoConverter" />
+							</p:column>
+
+							<p:column headerText="Estudado"
+								styleClass="colunaTempo text-center">
+								<h:outputText value="#{concursomateriaestudada.somaTempo}"
+									converter="tempoConverter" />
+							</p:column>
+
+							<p:columnGroup type="footer">
+								<p:row>
+									<p:column colspan="2" footerText="Total:" />
+									<p:column styleClass="text-center">
+										<f:facet name="footer">
+											<h:outputText value="#{controleestudo.tempoTotalAlocado}"
+												converter="tempoConverter" />
+										</f:facet>
+									</p:column>
+									<p:column footerText="#{controleestudo.estudosSemanais.size()}" />
+									<p:column styleClass="text-center">
+										<f:facet name="footer">
+											<h:outputText value="#{controleestudo.cicloTotal}">
+												<f:convertNumber groupingUsed="true" minFractionDigits="1"
+													maxFractionDigits="1" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="text-center">
+										<f:facet name="footer">
+											<h:outputText
+												value="#{controleestudo.tempoTotalAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
+												converter="tempoConverter" />
+										</f:facet>
+									</p:column>
+									<p:column styleClass="text-center">
+										<f:facet name="footer">
+											<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
+												converter="tempoConverter" />
+										</f:facet>
+									</p:column>
+								</p:row>
+							</p:columnGroup>
+
+						</p:dataTable>
+
+					</p:tab>
+				</p:tabView>
+
 			</div>
 
 		</div>
@@ -199,7 +296,7 @@
 		<div class="ui-grid-row">
 
 			<div class="ui-grid-col-12">
-				<!-- <div class="maginTop30"> -->
+
 				<p:tabView id="tabView">
 					<p:tab id="tabHistoricoEstudo" title="Histórico Estudo">
 						<p:dataTable id="dataTableHistoricoEstudo" var="materiaestudada"
@@ -211,7 +308,7 @@
 							<p:ajax event="rowEdit" listener="#{controleestudo.onRowEdit}" />
 
 							<p:column headerText="Data/Hora"
-								styleClass="colunaTempo text-center">
+								styleClass="colunaDataHora text-center">
 								<h:outputText value="#{materiaestudada.horaEstudo}">
 									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
 										timeZone="America/Sao_Paulo" />
@@ -262,6 +359,15 @@
 
 							<p:column style="width:32px">
 								<p:rowEditor />
+							</p:column>
+
+							<p:column style="width:32px;text-align: center">
+								<p:commandButton update="@form" icon="ui-icon-close"
+									title="Remover" immediate="true"
+									actionListener="#{controleestudo.remover(materiaestudada)}">
+									<!-- <p:confirm header="Confirmação"
+										message="Você deseja excluir o estudo?" icon="ui-icon-alert" /> -->
+								</p:commandButton>
 							</p:column>
 
 						</p:dataTable>

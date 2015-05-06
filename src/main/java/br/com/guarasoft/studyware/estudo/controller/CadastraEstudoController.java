@@ -31,6 +31,8 @@ import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.estudodiario.modelo.Dia;
 import br.com.guarasoft.studyware.estudodiario.modelo.EstudoDiario;
 import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
+import br.com.guarasoft.studyware.estudomateriahistorico.gateway.EstudoMateriaHistoricoGateway;
+import br.com.guarasoft.studyware.estudomateriahistorico.modelo.EstudoMateriaHistorico;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 import br.com.guarasoft.studyware.materia.modelo.Materia;
 import br.com.guarasoft.studyware.menu.controller.MenuController;
@@ -48,11 +50,10 @@ public class CadastraEstudoController implements Serializable {
 
 	private CadastraEstudo cadastraEstudo;
 
-	private @Inject EstudoGateway estudoGateway;
-
-	private @Inject MateriaGateway materiaGateway;
-
 	private @Inject UsuarioGateway usuarioGateway;
+	private @Inject EstudoGateway estudoGateway;
+	private @Inject MateriaGateway materiaGateway;
+	private @Inject EstudoMateriaHistoricoGateway estudoMateriaHistoricoGateway;
 
 	@ManagedProperty(value = "#{sessionAuth.usuario}")
 	@Setter
@@ -100,7 +101,7 @@ public class CadastraEstudoController implements Serializable {
 
 	@PostConstruct
 	private void init() {
-		this.cadastraEstudo = new CadastraEstudo(this.estudoGateway);
+		this.cadastraEstudo = new CadastraEstudo(this.estudoGateway, estudoMateriaHistoricoGateway);
 
 		this.materias = this.materiaGateway.buscaMaterias();
 
@@ -196,11 +197,11 @@ public class CadastraEstudoController implements Serializable {
 	public void remove(Usuario participante) {
 		if (this.participantes.size() == 1) {
 			FacesContext
-			.getCurrentInstance()
-			.addMessage(
-					null,
-					new FacesMessage("Operação não permitida!",
-							"O estudo deve conter pelo menos um participante."));
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage("Operação não permitida!",
+									"O estudo deve conter pelo menos um participante."));
 		} else {
 			this.participantes.remove(participante);
 		}

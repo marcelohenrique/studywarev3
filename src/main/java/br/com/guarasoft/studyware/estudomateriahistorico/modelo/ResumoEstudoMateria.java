@@ -12,4 +12,12 @@ public class ResumoEstudoMateria {
 	private EstudoMateria estudoMateria;
 	private Duration somaTempo;
 
+	public double getCiclo() {
+		if (estudoMateria.getTempoAlocado().isEqual(Duration.ZERO)) {
+			return 0.0;
+		}
+		return ((double) somaTempo.getMillis() / (double) estudoMateria
+				.getTempoAlocado().getMillis());
+	}
+
 }

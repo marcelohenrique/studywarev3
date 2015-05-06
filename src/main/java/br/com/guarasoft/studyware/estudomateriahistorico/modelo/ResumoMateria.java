@@ -10,6 +10,7 @@ import br.com.guarasoft.studyware.materia.modelo.Materia;
 public class ResumoMateria {
 
 	private Materia materia;
+	private Duration tempoAlocado;
 	private Duration somaTempo;
 
 }

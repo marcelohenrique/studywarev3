@@ -9,7 +9,7 @@ import br.com.guarasoft.studyware.materia.gateway.entidade.MateriaEntidade;
 public class ResumoMateriaEstudadaEntidade {
 
 	private MateriaEntidade materia;
+	private Long tempoAlocado;
 	private Long somaTempo;
-	// private String observacao;
 
 }

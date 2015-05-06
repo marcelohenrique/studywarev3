@@ -14,4 +14,6 @@ public interface EstudoMateriaHistoricoGateway {
 	List<ResumoMateria> buscaResumosMaterias(Estudo estudo);
 
 	void merge(EstudoMateriaHistorico bean);
+
+	void remove(EstudoMateriaHistorico estudoMateriaHistorico);
 }

@@ -37,6 +37,10 @@
 }
 
 .colunaTempo {
+	width: 80px;
+}
+
+.colunaDataHora {
 	width: 200px;
 }
 

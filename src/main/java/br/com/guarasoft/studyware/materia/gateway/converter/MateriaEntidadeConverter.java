@@ -9,6 +9,9 @@ import br.com.guarasoft.studyware.materia.modelo.Materia;
 public class MateriaEntidadeConverter {
 
 	public Materia convert(MateriaEntidade materiaEntidade) {
+		if(materiaEntidade == null) {
+			return null;
+		}
 		Materia materia = new Materia();
 
 		materia.setId(materiaEntidade.getId());
@@ -19,6 +22,9 @@ public class MateriaEntidadeConverter {
 	}
 
 	public MateriaEntidade convert(Materia materia) {
+		if(materia == null) {
+			return null;
+		}
 		MateriaEntidade materiaEntidade = new MateriaEntidade();
 
 		materiaEntidade.setId(materia.getId());

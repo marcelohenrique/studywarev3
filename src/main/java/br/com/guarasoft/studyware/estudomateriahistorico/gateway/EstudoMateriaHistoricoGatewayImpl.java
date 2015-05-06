@@ -1,9 +1,12 @@
 package br.com.guarasoft.studyware.estudomateriahistorico.gateway;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.joda.time.Duration;
@@ -11,11 +14,11 @@ import org.joda.time.Duration;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.estudomateriahistorico.gateway.converter.UsuarioEstudoMateriaHistoricoEntidadeConverter;
 import br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.EstudoMateriaHistoricoEntidade;
-import br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.ResumoMateriaEstudadaEntidade;
 import br.com.guarasoft.studyware.estudomateriahistorico.modelo.EstudoMateriaHistorico;
 import br.com.guarasoft.studyware.estudomateriahistorico.modelo.ResumoMateria;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
+import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 @Stateless
 public class EstudoMateriaHistoricoGatewayImpl extends
@@ -68,31 +71,66 @@ public class EstudoMateriaHistoricoGatewayImpl extends
 	@Override
 	public List<ResumoMateria> buscaResumosMaterias(Estudo estudo) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT new br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.ResumoMateriaEstudadaEntidade( emh.materia, SUM( emh.tempoEstudado ) ) ");
-		sql.append("  FROM EstudoMateriaHistorico emh ");
-		sql.append(" WHERE emh.estudo.id = :idEstudo ");
-		sql.append(" GROUP BY emh.materia ");
+		// sql.append("SELECT new br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.ResumoMateriaEstudadaEntidade( a.materia, a.tempoAlocado, b.tempoEstudado ) ");
+		// sql.append("  FROM ( ");
+		// sql.append("SELECT em.materia materia, ");
+		// sql.append("       SUM( em.tempoAlocado ) tempoAlocado ");
+		// sql.append("  FROM EstudoMateria em ");
+		// sql.append(" WHERE em.estudo.id = :idEstudo ");
+		// sql.append(" GROUP BY em.materia ) a, ( ");
+		// sql.append("SELECT emh.materia materia, ");
+		// sql.append("       SUM( emh.tempoEstudado ) tempoEstudado ");
+		// sql.append("  FROM EstudoMateriaHistorico emh ");
+		// sql.append(" WHERE emh.estudo.id = :idEstudo ");
+		// sql.append(" GROUP BY emh.materia ) b ");
+		// sql.append(" WHERE a.materia.id = b.materia.id ");
+		// sql.append(" ORDER BY a.materia.nome ");
 
-		TypedQuery<ResumoMateriaEstudadaEntidade> query = this.entityManager
-				.createQuery(sql.toString(),
-						ResumoMateriaEstudadaEntidade.class);
+		sql.append("SELECT a.materia, a.tempoAlocado, b.tempoEstudado ");
+		sql.append("  FROM ( ");
+		sql.append("SELECT em.materia materia, ");
+		sql.append("       SUM( em.tempoAlocado ) tempoAlocado ");
+		sql.append("  FROM EstudoMateria em ");
+		sql.append(" WHERE em.estudo = :idEstudo ");
+		sql.append(" GROUP BY em.materia ) a, ( ");
+		sql.append("SELECT emh.materia materia, ");
+		sql.append("       SUM( emh.tempoEstudado ) tempoEstudado ");
+		sql.append("  FROM EstudoMateriaHistorico emh ");
+		sql.append(" WHERE emh.estudo = :idEstudo ");
+		sql.append(" GROUP BY emh.materia ) b ");
+		sql.append(" WHERE a.materia = b.materia ");
+
+		Query query = this.entityManager.createNativeQuery(sql.toString());
 		query.setParameter("idEstudo", estudo.getId());
 
-		List<ResumoMateriaEstudadaEntidade> entidades = query.getResultList();
+		List<Object[]> entidades = query.getResultList();
 
 		List<ResumoMateria> beans = new ArrayList<>();
 		ResumoMateria bean = null;
-		for (ResumoMateriaEstudadaEntidade entidade : entidades) {
+		for (Object[] entidade : entidades) {
 			bean = new ResumoMateria();
 
-			bean.setMateria(this.materiaEntidadeConverter.convert(entidade
-					.getMateria()));
-			bean.setSomaTempo(new Duration(entidade.getSomaTempo()));
+			Materia materia = new Materia();
+			materia.setId(((BigInteger) entidade[0]).longValue());
+			;
+			bean.setMateria(materia);
+			bean.setTempoAlocado(new Duration(((BigDecimal) entidade[1])
+					.longValue()));
+			bean.setSomaTempo(new Duration(((BigDecimal) entidade[2])
+					.longValue()));
 
 			beans.add(bean);
 		}
 
 		return beans;
+	}
+
+	@Override
+	public void remove(EstudoMateriaHistorico estudoMateriaHistorico) {
+		EstudoMateriaHistoricoEntidade entidade = this.usuarioEstudoMateriaHistoricoEntidadeConverter
+				.convert(estudoMateriaHistorico);
+
+		super.remove(entidade);
 	}
 
 }

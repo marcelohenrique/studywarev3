@@ -11,13 +11,14 @@ import org.mockito.runners.MockitoJUnitRunner;
 import br.com.guarasoft.studyware.estudo.excecao.UsuarioEstudoJaExiste;
 import br.com.guarasoft.studyware.estudo.gateway.EstudoGateway;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
+import br.com.guarasoft.studyware.estudomateriahistorico.gateway.EstudoMateriaHistoricoGateway;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CadastraEstudoTest {
 
-	@Mock
-	private EstudoGateway usuarioEstudoGateway;
+	private @Mock EstudoGateway usuarioEstudoGateway;
+	private @Mock EstudoMateriaHistoricoGateway estudoMateriaHistoricoGateway;
 
 	@Test
 	public void cadastrarEstudoSucesso() {
@@ -25,7 +26,7 @@ public class CadastraEstudoTest {
 		String nomeEstudo = "Estudo Teste";
 
 		CadastraEstudo cadastrarUsuarioEstudo = new CadastraEstudo(
-				this.usuarioEstudoGateway);
+				this.usuarioEstudoGateway, estudoMateriaHistoricoGateway);
 
 		Usuario usuario = new Usuario();
 		usuario.setEmail(email);
@@ -43,7 +44,7 @@ public class CadastraEstudoTest {
 		String nomeEstudo = "Estudo Teste";
 
 		CadastraEstudo cadastrarUsuarioEstudo = new CadastraEstudo(
-				this.usuarioEstudoGateway);
+				this.usuarioEstudoGateway, estudoMateriaHistoricoGateway);
 
 		Usuario usuario = new Usuario();
 		usuario.setEmail(email);

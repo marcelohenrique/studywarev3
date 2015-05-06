@@ -8,6 +8,7 @@ import lombok.Data;
 import org.joda.time.Duration;
 
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
+import br.com.guarasoft.studyware.estudomateriahistorico.gateway.EstudoMateriaHistoricoGateway;
 import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 @Data

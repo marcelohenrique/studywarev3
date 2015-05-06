@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 
 import org.joda.time.Duration;
@@ -24,13 +25,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.guarasoft.studyware.controleestudo.presenter.GraficoDiario;
-import br.com.guarasoft.studyware.controller.converter.DurationConverter;
 import br.com.guarasoft.studyware.estudo.gateway.EstudoGateway;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.estudodiario.gateway.EstudoDiaGateway;
 import br.com.guarasoft.studyware.estudodiario.modelo.EstudoSemanal;
 import br.com.guarasoft.studyware.estudomateria.gateway.EstudoMateriaGateway;
 import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
+import br.com.guarasoft.studyware.estudomateriahistorico.casodeuso.GravaEstudoMateriaHistorico;
+import br.com.guarasoft.studyware.estudomateriahistorico.casodeuso.GravaEstudoMateriaHistoricoImpl;
 import br.com.guarasoft.studyware.estudomateriahistorico.gateway.EstudoMateriaHistoricoGateway;
 import br.com.guarasoft.studyware.estudomateriahistorico.modelo.EstudoMateriaHistorico;
 import br.com.guarasoft.studyware.estudomateriahistorico.modelo.ResumoEstudoMateria;
@@ -51,17 +53,14 @@ public class ControleEstudoController implements Serializable {
 	private final Logger logger = LoggerFactory
 			.getLogger(ControleEstudoController.class);
 
-	@Inject
-	private EstudoGateway estudoGateway;
-	@Inject
-	private EstudoMateriaGateway estudoMateriaGateway;
-	@Inject
-	private EstudoMateriaHistoricoGateway estudoMateriaHistoricoGateway;
-	@Inject
-	private EstudoSemanalGateway estudoSemanalGateway;
-	@Inject
-	private EstudoDiaGateway estudoDiaGateway;
+	private @Inject EstudoGateway estudoGateway;
 	private @Inject MateriaGateway materiaGateway;
+	private @Inject EstudoMateriaGateway estudoMateriaGateway;
+	private @Inject EstudoSemanalGateway estudoSemanalGateway;
+	private @Inject EstudoDiaGateway estudoDiaGateway;
+	private @Inject EstudoMateriaHistoricoGateway estudoMateriaHistoricoGateway;
+
+	private GravaEstudoMateriaHistorico gravaEstudoMateriaHistorico;
 
 	public boolean btIniciarDisabled = false;
 	public boolean btZerarDisabled = true;
@@ -69,11 +68,14 @@ public class ControleEstudoController implements Serializable {
 
 	private Long horasEstudadaInMillis;
 	private Long agoraInMillis;
-	private Duration tempoTotalAlocado = new Duration(0);
-	private Duration tempoEstudadoTotal = new Duration(0);
+	@Getter
+	private Duration tempoTotalAlocado = Duration.ZERO;
+	@Getter
+	private Duration tempoEstudadoTotal = Duration.ZERO;
 
 	private Estudo estudoSelecionado;
 
+	private Collection<ResumoMateria> resumoMaterias;
 	private List<ResumoEstudoMateria> resumoEstudoMaterias;
 	private Materia materiaSelecionada;
 	private EstudoMateriaHistorico materiaEstudada;
@@ -89,31 +91,32 @@ public class ControleEstudoController implements Serializable {
 	@Setter(AccessLevel.PRIVATE)
 	private GraficoDiario graficoDiario;
 
+	@Getter
+	private double cicloTotal;
+
 	@PostConstruct
 	private void init() {
 		this.materiaEstudada = this.build();
 
 		this.estudos = this.estudoGateway.recuperaEstudosValidos(this.usuario
 				.getEmail());
+
+		gravaEstudoMateriaHistorico = new GravaEstudoMateriaHistoricoImpl(
+				estudoMateriaHistoricoGateway);
 	}
 
 	private void atualiza() {
 
-		DurationConverter durationConverter = new DurationConverter();
+		this.tempoTotalAlocado = Duration.ZERO;
+		this.tempoEstudadoTotal = Duration.ZERO;
 
-		this.tempoTotalAlocado = new Duration(0);
-		this.tempoEstudadoTotal = new Duration(0);
-
-		Collection<ResumoMateria> resumoMaterias = this.estudoMateriaHistoricoGateway
+		resumoMaterias = this.estudoMateriaHistoricoGateway
 				.buscaResumosMaterias(this.estudoSelecionado);
-		Map<Long, ResumoMateria> mapaResumoMaterias = new HashMap<>();
-		// logger.info("\n\n\nMATÉRIA\n\n\n");
+		Map<Long, Duration> mapaMateriaTempo = new HashMap<>();
 		for (ResumoMateria resumoMateria : resumoMaterias) {
-			// logger.info(resumoMateria.getMateria().getNome() + " => "
-			// + durationConverter.toString(resumoMateria.getSomaTempo()));
 
-			mapaResumoMaterias.put(resumoMateria.getMateria().getId(),
-					resumoMateria);
+			mapaMateriaTempo.put(resumoMateria.getMateria().getId(),
+					resumoMateria.getSomaTempo());
 
 			this.tempoEstudadoTotal = this.tempoEstudadoTotal
 					.plus(resumoMateria.getSomaTempo());
@@ -130,30 +133,15 @@ public class ControleEstudoController implements Serializable {
 			this.tempoTotalAlocado = this.tempoTotalAlocado.plus(estudoMateria
 					.getTempoAlocado());
 		}
-		// logger.info("\n\n\nESTUDO MATÉRIA\n\n\n");
 		boolean continua;
 		do {
 			continua = false;
 			for (ResumoEstudoMateria resumoEstudoMateria : resumoEstudoMaterias) {
 
-				ResumoMateria resumoMateria = mapaResumoMaterias
+				Duration tempoMateria = mapaMateriaTempo
 						.get(resumoEstudoMateria.getEstudoMateria()
 								.getMateria().getId());
-				Duration tempoMateria = resumoMateria.getSomaTempo();
 				if (tempoMateria.getMillis() > 0) {
-
-					logger.info(resumoMateria.getMateria().getNome()
-							+ " ["
-							+ durationConverter.toString(resumoMateria
-									.getSomaTempo())
-							+ "] => "
-							+ resumoEstudoMateria.getEstudoMateria().getId()
-							+ " ["
-							+ durationConverter.toString(resumoEstudoMateria
-									.getEstudoMateria().getTempoAlocado())
-							+ " | "
-							+ durationConverter.toString(resumoEstudoMateria
-									.getSomaTempo()) + "]");
 
 					Duration tempoAlocado = resumoEstudoMateria
 							.getEstudoMateria().getTempoAlocado();
@@ -176,25 +164,24 @@ public class ControleEstudoController implements Serializable {
 						continua = true;
 					}
 
-					resumoMateria.setSomaTempo(tempoMateria);
 					resumoEstudoMateria.setSomaTempo(tempoEstudoMateria);
 
-					logger.info(resumoMateria.getMateria().getNome()
-							+ " ["
-							+ durationConverter.toString(resumoMateria
-									.getSomaTempo())
-							+ "] => "
-							+ resumoEstudoMateria.getEstudoMateria().getId()
-							+ " ["
-							+ durationConverter.toString(resumoEstudoMateria
-									.getEstudoMateria().getTempoAlocado())
-							+ " | "
-							+ durationConverter.toString(resumoEstudoMateria
-									.getSomaTempo()) + "]");
-
+					mapaMateriaTempo.put(resumoEstudoMateria.getEstudoMateria()
+							.getMateria().getId(), tempoMateria);
 				}
 			}
 		} while (continua);
+
+		double sum = 0;
+		int count = 0;
+		for (ResumoEstudoMateria resumoEstudoMateria : resumoEstudoMaterias) {
+			if (!resumoEstudoMateria.getEstudoMateria().getTempoAlocado()
+					.isEqual(Duration.ZERO)) {
+				sum += resumoEstudoMateria.getCiclo();
+				count++;
+			}
+		}
+		cicloTotal = sum / count;
 
 		this.materiasEstudadas = this.estudoMateriaHistoricoGateway
 				.findAll(this.estudoSelecionado);
@@ -244,8 +231,8 @@ public class ControleEstudoController implements Serializable {
 		materiaEstudada.setTempoEstudado(new Duration(
 				this.horasEstudadaInMillis));
 
-		this.logger.info(materiaEstudada.toString());
-		this.estudoMateriaHistoricoGateway.persist(materiaEstudada);
+		gravaEstudoMateriaHistorico.gravar(materiaEstudada);
+
 		this.materiasEstudadas = this.estudoMateriaHistoricoGateway
 				.findAll(this.estudoSelecionado);
 		this.materiaEstudada = this.build();
@@ -261,13 +248,13 @@ public class ControleEstudoController implements Serializable {
 		this.atualiza();
 	}
 
-	public String getTempoTotalAlocadoView() {
-		return new DurationConverter().toString(tempoTotalAlocado);
-	}
-
-	public String getTempoEstudadoTotalView() {
-		return new DurationConverter().toString(tempoEstudadoTotal);
-	}
+	// public String getTempoTotalAlocadoView() {
+	// return new DurationConverter().toString(tempoTotalAlocado);
+	// }
+	//
+	// public String getTempoEstudadoTotalView() {
+	// return new DurationConverter().toString(tempoEstudadoTotal);
+	// }
 
 	public void onRowEdit(RowEditEvent event) {
 		EstudoMateriaHistorico entrada = (EstudoMateriaHistorico) event
@@ -278,5 +265,14 @@ public class ControleEstudoController implements Serializable {
 	}
 
 	public void onRowCancel(RowEditEvent event) {
+	}
+
+	public void remover(EstudoMateriaHistorico historico) {
+		estudoMateriaHistoricoGateway.remove(historico);
+
+		this.materiasEstudadas = this.estudoMateriaHistoricoGateway
+				.findAll(this.estudoSelecionado);
+		this.materiaEstudada = this.build();
+		this.atualiza();
 	}
 }
