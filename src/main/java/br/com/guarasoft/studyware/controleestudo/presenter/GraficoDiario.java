@@ -23,7 +23,7 @@ public class GraficoDiario {
 
 	public GraficoDiario(Collection<EstudoSemanal> estudosDiarios) {
 		this.estudosDiarios = estudosDiarios;
-		
+
 		montaGraficoEstudoDiario();
 	}
 
@@ -31,7 +31,8 @@ public class GraficoDiario {
 		this.graficoEstudoDiario = new LineChartModel();
 		this.graficoEstudoDiario.setAnimate(true);
 		this.graficoEstudoDiario.setZoom(true);
-		this.graficoEstudoDiario.setLegendPosition("e");
+		// this.graficoEstudoDiario.setLegendPosition("e");
+		graficoEstudoDiario.setExtender("extLegend");
 
 		Axis eixoY = this.graficoEstudoDiario.getAxis(AxisType.Y);
 		eixoY.setMin(0);
