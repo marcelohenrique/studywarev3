@@ -13,4 +13,12 @@ public class ResumoMateria {
 	private Duration tempoAlocado;
 	private Duration somaTempo;
 
+	public double getCiclo() {
+		if (tempoAlocado.isEqual(Duration.ZERO)) {
+			return 0.0;
+		}
+		return ((double) somaTempo.getMillis() / (double) tempoAlocado
+				.getMillis());
+	}
+
 }

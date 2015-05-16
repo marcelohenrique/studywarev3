@@ -17,7 +17,6 @@ import br.com.guarasoft.studyware.estudomateriahistorico.gateway.entidade.Estudo
 import br.com.guarasoft.studyware.estudomateriahistorico.modelo.EstudoMateriaHistorico;
 import br.com.guarasoft.studyware.estudomateriahistorico.modelo.ResumoMateria;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
-import br.com.guarasoft.studyware.materia.gateway.converter.MateriaEntidadeConverter;
 import br.com.guarasoft.studyware.materia.modelo.Materia;
 
 @Stateless
@@ -26,7 +25,9 @@ public class EstudoMateriaHistoricoGatewayImpl extends
 		EstudoMateriaHistoricoGateway {
 
 	private final UsuarioEstudoMateriaHistoricoEntidadeConverter usuarioEstudoMateriaHistoricoEntidadeConverter = new UsuarioEstudoMateriaHistoricoEntidadeConverter();
-	private final MateriaEntidadeConverter materiaEntidadeConverter = new MateriaEntidadeConverter();
+
+	// private final MateriaEntidadeConverter materiaEntidadeConverter = new
+	// MateriaEntidadeConverter();
 
 	public EstudoMateriaHistoricoGatewayImpl() {
 		super(EstudoMateriaHistoricoEntidade.class);
@@ -60,6 +61,28 @@ public class EstudoMateriaHistoricoGatewayImpl extends
 				.createQuery(sql.toString(),
 						EstudoMateriaHistoricoEntidade.class);
 		query.setParameter("idEstudo", estudo.getId());
+		List<EstudoMateriaHistoricoEntidade> entidades = query.getResultList();
+
+		List<EstudoMateriaHistorico> beans = this.usuarioEstudoMateriaHistoricoEntidadeConverter
+				.convert(estudo, entidades);
+
+		return beans;
+	}
+
+	@Override
+	public List<EstudoMateriaHistorico> findAll(Estudo estudo, Materia materia) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT emh ");
+		sql.append(" FROM EstudoMateriaHistorico emh ");
+		sql.append("WHERE emh.estudo.id = :idEstudo ");
+		sql.append("  AND emh.materia.id = :idMateria ");
+		sql.append("ORDER BY emh.horaEstudo DESC");
+
+		TypedQuery<EstudoMateriaHistoricoEntidade> query = this.entityManager
+				.createQuery(sql.toString(),
+						EstudoMateriaHistoricoEntidade.class);
+		query.setParameter("idEstudo", estudo.getId());
+		query.setParameter("idMateria", materia.getId());
 		List<EstudoMateriaHistoricoEntidade> entidades = query.getResultList();
 
 		List<EstudoMateriaHistorico> beans = this.usuarioEstudoMateriaHistoricoEntidadeConverter

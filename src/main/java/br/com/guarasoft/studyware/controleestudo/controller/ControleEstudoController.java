@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import lombok.AccessLevel;
@@ -110,18 +112,7 @@ public class ControleEstudoController implements Serializable {
 		this.tempoTotalAlocado = Duration.ZERO;
 		this.tempoEstudadoTotal = Duration.ZERO;
 
-		resumoMaterias = this.estudoMateriaHistoricoGateway
-				.buscaResumosMaterias(this.estudoSelecionado);
-		Map<Long, Duration> mapaMateriaTempo = new HashMap<>();
-		for (ResumoMateria resumoMateria : resumoMaterias) {
-
-			mapaMateriaTempo.put(resumoMateria.getMateria().getId(),
-					resumoMateria.getSomaTempo());
-
-			this.tempoEstudadoTotal = this.tempoEstudadoTotal
-					.plus(resumoMateria.getSomaTempo());
-		}
-
+		Map<Long, Materia> mapaMateria = new HashMap<>();
 		this.resumoEstudoMaterias = new ArrayList<>();
 		for (EstudoMateria estudoMateria : estudoMateriaGateway
 				.buscaEstudoMateria(estudoSelecionado)) {
@@ -132,7 +123,25 @@ public class ControleEstudoController implements Serializable {
 
 			this.tempoTotalAlocado = this.tempoTotalAlocado.plus(estudoMateria
 					.getTempoAlocado());
+
+			mapaMateria.put(estudoMateria.getMateria().getId(),
+					estudoMateria.getMateria());
 		}
+
+		resumoMaterias = this.estudoMateriaHistoricoGateway
+				.buscaResumosMaterias(this.estudoSelecionado);
+		Map<Long, Duration> mapaMateriaTempo = new HashMap<>();
+		for (ResumoMateria resumoMateria : resumoMaterias) {
+			mapaMateriaTempo.put(resumoMateria.getMateria().getId(),
+					resumoMateria.getSomaTempo());
+
+			this.tempoEstudadoTotal = this.tempoEstudadoTotal
+					.plus(resumoMateria.getSomaTempo());
+
+			resumoMateria.setMateria(mapaMateria.get(resumoMateria.getMateria()
+					.getId()));
+		}
+
 		boolean continua;
 		do {
 			continua = false;
@@ -248,14 +257,6 @@ public class ControleEstudoController implements Serializable {
 		this.atualiza();
 	}
 
-	// public String getTempoTotalAlocadoView() {
-	// return new DurationConverter().toString(tempoTotalAlocado);
-	// }
-	//
-	// public String getTempoEstudadoTotalView() {
-	// return new DurationConverter().toString(tempoEstudadoTotal);
-	// }
-
 	public void onRowEdit(RowEditEvent event) {
 		EstudoMateriaHistorico entrada = (EstudoMateriaHistorico) event
 				.getObject();
@@ -274,5 +275,15 @@ public class ControleEstudoController implements Serializable {
 				.findAll(this.estudoSelecionado);
 		this.materiaEstudada = this.build();
 		this.atualiza();
+	}
+
+	public void selecionaMateria() {
+		if (materiaSelecionada == null) {
+			this.materiasEstudadas = this.estudoMateriaHistoricoGateway
+					.findAll(this.estudoSelecionado);
+		} else {
+			this.materiasEstudadas = this.estudoMateriaHistoricoGateway
+					.findAll(this.estudoSelecionado, this.materiaSelecionada);
+		}
 	}
 }

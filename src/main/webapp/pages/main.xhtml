@@ -19,8 +19,9 @@
 				var materias = $( '#formulario\\:materias_input' );
 				if( materias.val() == '' ) {
 					alert( 'Selecione uma matéria' );
-					return ;
+					return false;
 				}
+				rcControleEstudoIniciar();
 				$( '#relogio' ).countdown( 'resume' );
 			}
 			function pausar() {
@@ -45,6 +46,9 @@
 	</ui:define>
 
 	<ui:define name="main">
+
+		<p:remoteCommand name="rcControleEstudoIniciar"
+			actionListener="#{controleestudo.iniciar()}" />
 
 		<div class="ui-grid-row">
 
@@ -89,11 +93,11 @@
 							<p:selectOneMenu id="estudoselecionado" required="true"
 								converter="omnifaces.SelectItemsConverter"
 								value="#{controleestudo.estudoSelecionado}">
-								<f:selectItem itemLabel="Selecione" itemValue="" />
+								<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 								<f:selectItems value="#{controleestudo.estudos}" var="estudo"
 									itemValue="#{estudo}" itemLabel="#{estudo.nome}"
 									itemDescription="#{estudo.nome}" />
-								<p:ajax update="@form"
+								<p:ajax update="materias tabViewResumos tabViewAcompanhamento"
 									listener="#{controleestudo.listaEstudoMaterias()}" />
 							</p:selectOneMenu>
 						</p:column>
@@ -105,13 +109,15 @@
 						</p:column>
 						<p:column>
 							<p:selectOneMenu id="materias"
-								value="#{controleestudo.materiaSelecionada}" required="true"
-								converter="#{omnifaces.SelectItemsConverter}" filter="true"
+								value="#{controleestudo.materiaSelecionada}"
+								converter="omnifaces.SelectItemsConverter" filter="true"
 								filterMatchMode="contains">
-								<f:selectItem itemLabel="Selecione" itemValue="" />
+								<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 								<f:selectItems value="#{controleestudo.materiasDoEstudo}"
-									var="estudomateria" itemValue="#{estudomateria}"
-									itemLabel="#{estudomateria.nome}" />
+									var="materia" itemValue="#{materia}"
+									itemLabel="#{materia.nome}" />
+								<p:ajax listener="#{controleestudo.selecionaMateria()}"
+									update="tabViewAcompanhamento" />
 							</p:selectOneMenu>
 						</p:column>
 					</p:row>
@@ -122,7 +128,6 @@
 								<p:commandButton id="bt_iniciar" value="Iniciar"
 									style="margin:0" onclick="iniciar()"
 									disabled="#{controleestudo.btIniciarDisabled}"
-									action="#{controleestudo.iniciar()}"
 									update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar" />
 							</p:column>
 							<p:column>
@@ -153,7 +158,7 @@
 
 			<div class="ui-grid-col-8">
 
-				<p:tabView>
+				<p:tabView id="tabViewResumos">
 					<p:tab title="Matérias">
 
 						<p:dataTable id="dataTableResumoMaterias"
@@ -170,6 +175,27 @@
 									converter="tempoConverter" />
 							</p:column>
 
+							<p:column headerText="Ciclo Ideal"
+								styleClass="colunaTempo text-center">
+								<h:outputText value="#{controleestudo.estudosSemanais.size()}" />
+							</p:column>
+
+							<p:column headerText="Ciclo Atual"
+								sortBy="#{concursomateriaestudada.ciclo}"
+								styleClass="colunaTempo text-center">
+								<h:outputText value="#{resumoMateria.ciclo}">
+									<f:convertNumber groupingUsed="true" minFractionDigits="1"
+										maxFractionDigits="1" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Planejado"
+								styleClass="colunaTempo text-center">
+								<h:outputText
+									value="#{resumoMateria.tempoAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
+									converter="tempoConverter" />
+							</p:column>
+
 							<p:column headerText="Estudado"
 								styleClass="colunaTempo text-center">
 								<h:outputText value="#{resumoMateria.somaTempo}"
@@ -182,6 +208,22 @@
 									<p:column styleClass="text-center">
 										<f:facet name="footer">
 											<h:outputText value="#{controleestudo.tempoTotalAlocado}"
+												converter="tempoConverter" />
+										</f:facet>
+									</p:column>
+									<p:column footerText="#{controleestudo.estudosSemanais.size()}" />
+									<p:column styleClass="text-center">
+										<f:facet name="footer">
+											<h:outputText value="#{controleestudo.cicloTotal}">
+												<f:convertNumber groupingUsed="true" minFractionDigits="1"
+													maxFractionDigits="1" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="text-center">
+										<f:facet name="footer">
+											<h:outputText
+												value="#{controleestudo.tempoTotalAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
 												converter="tempoConverter" />
 										</f:facet>
 									</p:column>
@@ -297,7 +339,7 @@
 
 			<div class="ui-grid-col-12">
 
-				<p:tabView id="tabView">
+				<p:tabView id="tabViewAcompanhamento">
 					<p:tab id="tabHistoricoEstudo" title="Histórico Estudo">
 						<p:dataTable id="dataTableHistoricoEstudo" var="materiaestudada"
 							value="#{controleestudo.materiasEstudadas}" paginator="true"
