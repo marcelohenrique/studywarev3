@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -78,7 +79,7 @@ public class ControleEstudoController implements Serializable {
 	private Collection<ResumoMateria> resumoMaterias;
 	private List<ResumoEstudoMateria> resumoEstudoMaterias;
 	private Materia materiaSelecionada;
-	private EstudoMateriaHistorico materiaEstudada;
+	// private EstudoMateriaHistorico materiaEstudada;
 	private List<EstudoMateriaHistorico> materiasEstudadas;
 	private List<EstudoSemanalBean> estudosSemanais;
 	private List<Materia> materiasDoEstudo;
@@ -94,9 +95,14 @@ public class ControleEstudoController implements Serializable {
 	@Getter
 	private double cicloTotal;
 
+	@Getter
+	@Setter
+	@NotNull
+	private String observacao;
+
 	@PostConstruct
 	private void init() {
-		this.materiaEstudada = this.build();
+		// this.materiaEstudada = this.build();
 
 		this.estudos = this.estudoGateway.recuperaEstudosValidos(this.usuario
 				.getEmail());
@@ -201,11 +207,11 @@ public class ControleEstudoController implements Serializable {
 		graficoDiario = new GraficoDiario(estudosDiarios);
 	}
 
-	private EstudoMateriaHistorico build() {
-		EstudoMateriaHistorico materiaEstudada = new EstudoMateriaHistorico();
-		materiaEstudada.setMateria(new Materia());
-		return materiaEstudada;
-	}
+	// private EstudoMateriaHistorico build() {
+	// EstudoMateriaHistorico materiaEstudada = new EstudoMateriaHistorico();
+	// materiaEstudada.setMateria(new Materia());
+	// return materiaEstudada;
+	// }
 
 	public void iniciar() {
 		this.btIniciarDisabled = true;
@@ -223,7 +229,7 @@ public class ControleEstudoController implements Serializable {
 		this.btGravarDisabled = true;
 
 		this.horasEstudadaInMillis = null;
-		this.materiaEstudada = this.build();
+		// this.materiaEstudada = this.build();
 	}
 
 	public void gravar() {
@@ -237,12 +243,14 @@ public class ControleEstudoController implements Serializable {
 		materiaEstudada.setHoraEstudo(new Date());
 		materiaEstudada.setTempoEstudado(new Duration(
 				this.horasEstudadaInMillis));
+		materiaEstudada.setObservacao(observacao);
 
 		gravaEstudoMateriaHistorico.gravar(materiaEstudada);
 
 		this.materiasEstudadas = this.estudoMateriaHistoricoGateway
 				.findAll(this.estudoSelecionado);
-		this.materiaEstudada = this.build();
+		observacao = null;
+		// this.materiaEstudada = this.build();
 		this.atualiza();
 	}
 
@@ -271,7 +279,7 @@ public class ControleEstudoController implements Serializable {
 
 		this.materiasEstudadas = this.estudoMateriaHistoricoGateway
 				.findAll(this.estudoSelecionado);
-		this.materiaEstudada = this.build();
+		// this.materiaEstudada = this.build();
 		this.atualiza();
 	}
 

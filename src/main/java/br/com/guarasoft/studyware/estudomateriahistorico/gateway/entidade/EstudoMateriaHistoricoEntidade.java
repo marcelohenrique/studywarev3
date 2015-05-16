@@ -41,7 +41,7 @@ public class EstudoMateriaHistoricoEntidade implements Entidade {
 
 	@JoinColumn(name = "materia", referencedColumnName = "id")
 	@ManyToOne
-//	@NotNull
+	// @NotNull
 	private MateriaEntidade materia;
 
 	@Temporal(TemporalType.TIMESTAMP)
