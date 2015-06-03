@@ -26,7 +26,7 @@ public class EstudoSemanalGatewayImpl extends AbstractDao<EstudoSemanal, Long>
 		sql.append("  FROM EstudoMateriaHistorico emh ");
 		sql.append(" WHERE emh.estudo.id = :idEstudo ");
 		sql.append(" GROUP BY date_trunc( 'week', emh.horaEstudo ) ");
-		sql.append(" ORDER BY date_trunc( 'week', emh.horaEstudo ) ");
+		sql.append(" ORDER BY date_trunc( 'week', emh.horaEstudo ) DESC");
 
 		TypedQuery<EstudoSemanal> query = this.entityManager.createQuery(
 				sql.toString(), EstudoSemanal.class);

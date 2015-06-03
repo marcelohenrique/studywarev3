@@ -57,25 +57,33 @@
 		<p:remoteCommand name="rcControleEstudoIniciar"
 			actionListener="#{controleestudo.iniciar()}" />
 
+		<p:dialog id="obsDialog" header="Observações" widgetVar="cd"
+			modal="true" width="260" closable="false" resizable="false"
+			position="center">
+
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-12">
+					<p:inputText id="observacao" value="#{controleestudo.observacao}">
+						<p:focus />
+					</p:inputText>
+				</div>
+			</div>
+
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-12 text-center">
+					<p:commandButton value="OK"
+						actionListener="#{controleestudo.gravar()}"
+						oncomplete="PF( 'cd' ).hide()" update="@form" />
+				</div>
+			</div>
+		</p:dialog>
+
 		<div class="ui-grid-row">
 
 			<h:inputHidden id="horasEstudadaInMillis"
 				value="#{controleestudo.horasEstudadaInMillis}" />
 			<h:inputHidden id="agoraInMillis"
 				value="#{controleestudo.agoraInMillis}" />
-
-			<p:confirmDialog header="Observações" widgetVar="cd" severity="info">
-				<f:facet name="message">
-					<p:inputText id="observacao"
-						value="#{controleestudo.observacao}">
-						<p:focus />
-					</p:inputText>
-				</f:facet>
-
-				<p:commandButton value="OK"
-					actionListener="#{controleestudo.gravar()}"
-					oncomplete="PF( 'cd' ).hide()" update="@form" />
-			</p:confirmDialog>
 
 			<div class="ui-grid-col-4">
 
@@ -166,86 +174,6 @@
 			<div class="ui-grid-col-8">
 
 				<p:tabView id="tabViewResumos">
-					<p:tab title="Matérias">
-
-						<p:dataTable id="dataTableResumoMaterias"
-							value="#{controleestudo.resumoMaterias}" var="resumoMateria">
-
-							<p:column headerText="Matéria"
-								sortBy="#{resumoMateria.materia.nome}">
-								<h:outputText value="#{resumoMateria.materia.nome}" />
-							</p:column>
-
-							<p:column headerText="Alocado"
-								styleClass="colunaTempo text-center">
-								<h:outputText value="#{resumoMateria.tempoAlocado}"
-									converter="tempoConverter" />
-							</p:column>
-
-							<p:column headerText="Ciclo Ideal"
-								styleClass="colunaTempo text-center">
-								<h:outputText value="#{controleestudo.estudosSemanais.size()}" />
-							</p:column>
-
-							<p:column headerText="Ciclo Atual"
-								sortBy="#{concursomateriaestudada.ciclo}"
-								styleClass="colunaTempo text-center">
-								<h:outputText value="#{resumoMateria.ciclo}">
-									<f:convertNumber groupingUsed="true" minFractionDigits="1"
-										maxFractionDigits="1" />
-								</h:outputText>
-							</p:column>
-
-							<p:column headerText="Planejado"
-								styleClass="colunaTempo text-center">
-								<h:outputText
-									value="#{resumoMateria.tempoAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
-									converter="tempoConverter" />
-							</p:column>
-
-							<p:column headerText="Estudado"
-								styleClass="colunaTempo text-center">
-								<h:outputText value="#{resumoMateria.somaTempo}"
-									converter="tempoConverter" />
-							</p:column>
-
-							<p:columnGroup type="footer">
-								<p:row>
-									<p:column footerText="Total:" />
-									<p:column styleClass="text-center">
-										<f:facet name="footer">
-											<h:outputText value="#{controleestudo.tempoTotalAlocado}"
-												converter="tempoConverter" />
-										</f:facet>
-									</p:column>
-									<p:column footerText="#{controleestudo.estudosSemanais.size()}" />
-									<p:column styleClass="text-center">
-										<f:facet name="footer">
-											<h:outputText value="#{controleestudo.cicloTotal}">
-												<f:convertNumber groupingUsed="true" minFractionDigits="1"
-													maxFractionDigits="1" />
-											</h:outputText>
-										</f:facet>
-									</p:column>
-									<p:column styleClass="text-center">
-										<f:facet name="footer">
-											<h:outputText
-												value="#{controleestudo.tempoTotalAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
-												converter="tempoConverter" />
-										</f:facet>
-									</p:column>
-									<p:column styleClass="text-center">
-										<f:facet name="footer">
-											<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
-												converter="tempoConverter" />
-										</f:facet>
-									</p:column>
-								</p:row>
-							</p:columnGroup>
-
-						</p:dataTable>
-
-					</p:tab>
 					<p:tab title="Ciclo">
 
 						<p:dataTable id="dataTableResumoCiclo"
@@ -336,6 +264,86 @@
 						</p:dataTable>
 
 					</p:tab>
+					<p:tab title="Matérias">
+
+						<p:dataTable id="dataTableResumoMaterias"
+							value="#{controleestudo.resumoMaterias}" var="resumoMateria">
+
+							<p:column headerText="Matéria"
+								sortBy="#{resumoMateria.materia.nome}">
+								<h:outputText value="#{resumoMateria.materia.nome}" />
+							</p:column>
+
+							<p:column headerText="Alocado"
+								styleClass="colunaTempo text-center">
+								<h:outputText value="#{resumoMateria.tempoAlocado}"
+									converter="tempoConverter" />
+							</p:column>
+
+							<p:column headerText="Ciclo Ideal"
+								styleClass="colunaTempo text-center">
+								<h:outputText value="#{controleestudo.estudosSemanais.size()}" />
+							</p:column>
+
+							<p:column headerText="Ciclo Atual"
+								sortBy="#{concursomateriaestudada.ciclo}"
+								styleClass="colunaTempo text-center">
+								<h:outputText value="#{resumoMateria.ciclo}">
+									<f:convertNumber groupingUsed="true" minFractionDigits="1"
+										maxFractionDigits="1" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Planejado"
+								styleClass="colunaTempo text-center">
+								<h:outputText
+									value="#{resumoMateria.tempoAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
+									converter="tempoConverter" />
+							</p:column>
+
+							<p:column headerText="Estudado"
+								styleClass="colunaTempo text-center">
+								<h:outputText value="#{resumoMateria.somaTempo}"
+									converter="tempoConverter" />
+							</p:column>
+
+							<p:columnGroup type="footer">
+								<p:row>
+									<p:column footerText="Total:" />
+									<p:column styleClass="text-center">
+										<f:facet name="footer">
+											<h:outputText value="#{controleestudo.tempoTotalAlocado}"
+												converter="tempoConverter" />
+										</f:facet>
+									</p:column>
+									<p:column footerText="#{controleestudo.estudosSemanais.size()}" />
+									<p:column styleClass="text-center">
+										<f:facet name="footer">
+											<h:outputText value="#{controleestudo.cicloTotal}">
+												<f:convertNumber groupingUsed="true" minFractionDigits="1"
+													maxFractionDigits="1" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="text-center">
+										<f:facet name="footer">
+											<h:outputText
+												value="#{controleestudo.tempoTotalAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
+												converter="tempoConverter" />
+										</f:facet>
+									</p:column>
+									<p:column styleClass="text-center">
+										<f:facet name="footer">
+											<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
+												converter="tempoConverter" />
+										</f:facet>
+									</p:column>
+								</p:row>
+							</p:columnGroup>
+
+						</p:dataTable>
+
+					</p:tab>
 				</p:tabView>
 
 			</div>
@@ -347,7 +355,7 @@
 			<div class="ui-grid-col-12">
 
 				<p:tabView id="tabViewAcompanhamento">
-					<p:tab id="tabHistoricoEstudo" title="Histórico Estudo">
+					<p:tab id="tabHistoricoEstudo" title="Histórico">
 						<p:dataTable id="dataTableHistoricoEstudo" var="materiaestudada"
 							value="#{controleestudo.materiasEstudadas}" paginator="true"
 							rows="50"
@@ -442,7 +450,7 @@
 								</h:outputText>
 							</p:column>
 
-							<p:column headerText="Horas Estudas na Semana"
+							<p:column headerText="Horas Estudas"
 								styleClass="text-center">
 								<h:outputText value="#{estudoSemanal.tempoEstudado}"
 									converter="tempoConverter" />

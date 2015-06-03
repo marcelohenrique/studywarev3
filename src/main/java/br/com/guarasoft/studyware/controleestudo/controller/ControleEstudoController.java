@@ -196,8 +196,9 @@ public class ControleEstudoController implements Serializable {
 		}
 		cicloTotal = sum / count;
 
-		this.materiasEstudadas = this.estudoMateriaHistoricoGateway
-				.findAll(this.estudoSelecionado);
+		// this.materiasEstudadas = this.estudoMateriaHistoricoGateway
+		// .findAll(this.estudoSelecionado);
+		selecionaMateria();
 		this.estudosSemanais = this.estudoSemanalGateway
 				.findAll(this.estudoSelecionado);
 
@@ -247,8 +248,9 @@ public class ControleEstudoController implements Serializable {
 
 		gravaEstudoMateriaHistorico.gravar(materiaEstudada);
 
-		this.materiasEstudadas = this.estudoMateriaHistoricoGateway
-				.findAll(this.estudoSelecionado);
+		// this.materiasEstudadas = this.estudoMateriaHistoricoGateway
+		// .findAll(this.estudoSelecionado);
+		selecionaMateria();
 		observacao = null;
 		// this.materiaEstudada = this.build();
 		this.atualiza();
@@ -268,7 +270,6 @@ public class ControleEstudoController implements Serializable {
 				.getObject();
 		entrada.setEstudo(estudoSelecionado);
 		estudoMateriaHistoricoGateway.merge(entrada);
-
 	}
 
 	public void onRowCancel(RowEditEvent event) {
@@ -277,8 +278,9 @@ public class ControleEstudoController implements Serializable {
 	public void remover(EstudoMateriaHistorico historico) {
 		estudoMateriaHistoricoGateway.remove(historico);
 
-		this.materiasEstudadas = this.estudoMateriaHistoricoGateway
-				.findAll(this.estudoSelecionado);
+		// this.materiasEstudadas = this.estudoMateriaHistoricoGateway
+		// .findAll(this.estudoSelecionado);
+		selecionaMateria();
 		// this.materiaEstudada = this.build();
 		this.atualiza();
 	}
