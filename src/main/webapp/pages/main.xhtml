@@ -12,10 +12,14 @@
 		<script type="text/javascript" src="js/jquery.countdown.min.js"></script>
 		<script type="text/javascript">
 			$( document ).ready( function() {
+				inicializa();
+			} );
+			function inicializa() {
 				$( '#relogio' ).countdown( { since: 0, compact: true, format: 'HMS', description: '' } );
 				pausar();
-			} );
+			}
 			function iniciar() {
+				// debugger;
 				var materias = $( '#formulario\\:materias_input' );
 				if( materias.val() == '' ) {
 					alert( 'Selecione uma matéria' );
@@ -25,15 +29,18 @@
 				$( '#relogio' ).countdown( 'resume' );
 			}
 			function pausar() {
+				// debugger;
 				$( '#relogio' ).countdown( 'pause' );
 			}
 			function zerar() {
+				// debugger;
 				$( '#relogio' ).countdown( 'destroy' );
 				$( '#relogio' ).countdown( { since: 0, compact: true, format: 'HMS', description: '' } );
 				pausar();
 				$( '#relogio' ).html( '00:00:00' );
 			}
 			function gravar() {
+				// debugger;
 				pausar();
 				var times = $( '#relogio' ).countdown( 'getTimes' );
 				$( '#formulario\\:horasEstudadaInMillis' ).val( times[ 4 ] * 60 * 60 * 1000 + times[ 5 ] * 60 * 1000 + times[ 6 ] * 1000 );
@@ -57,9 +64,25 @@
 		<p:remoteCommand name="rcControleEstudoIniciar"
 			actionListener="#{controleestudo.iniciar()}" />
 
+		<p:ajaxExceptionHandler type="java.lang.RuntimeException"
+			update="exceptionDialog" onexception="PF('exceptionDialog').show();" />
+
+		<p:dialog id="exceptionDialog"
+			header="Exception '#{pfExceptionHandler.type}' occured!"
+			widgetVar="exceptionDialog" height="500px">
+        Message: #{pfExceptionHandler.message} <br />
+        StackTrace: <h:outputText
+				value="#{pfExceptionHandler.formattedStackTrace}" escape="false" />
+			<br />
+
+			<p:button onclick="document.location.href = document.location.href;"
+				value="Reload!"
+				rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" />
+		</p:dialog>
+
 		<p:dialog id="obsDialog" header="Observações" widgetVar="cd"
 			modal="true" width="260" closable="false" resizable="false"
-			position="center">
+			position="center" style="position: relative">
 
 			<div class="ui-grid-row">
 				<div class="ui-grid-col-12">
@@ -73,7 +96,7 @@
 				<div class="ui-grid-col-12 text-center">
 					<p:commandButton value="OK"
 						actionListener="#{controleestudo.gravar()}"
-						oncomplete="PF( 'cd' ).hide()" update="@form" />
+						oncomplete="inicializa(); PF( 'cd' ).hide();" update="@form" />
 				</div>
 			</div>
 		</p:dialog>
@@ -450,8 +473,7 @@
 								</h:outputText>
 							</p:column>
 
-							<p:column headerText="Horas Estudas"
-								styleClass="text-center">
+							<p:column headerText="Horas Estudas" styleClass="text-center">
 								<h:outputText value="#{estudoSemanal.tempoEstudado}"
 									converter="tempoConverter" />
 							</p:column>
