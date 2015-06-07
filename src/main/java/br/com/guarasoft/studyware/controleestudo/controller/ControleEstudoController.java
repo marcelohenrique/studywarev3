@@ -79,7 +79,6 @@ public class ControleEstudoController implements Serializable {
 	private Collection<ResumoMateria> resumoMaterias;
 	private List<ResumoEstudoMateria> resumoEstudoMaterias;
 	private Materia materiaSelecionada;
-	// private EstudoMateriaHistorico materiaEstudada;
 	private List<EstudoMateriaHistorico> materiasEstudadas;
 	private List<EstudoSemanalBean> estudosSemanais;
 	private List<Materia> materiasDoEstudo;
@@ -102,8 +101,6 @@ public class ControleEstudoController implements Serializable {
 
 	@PostConstruct
 	private void init() {
-		// this.materiaEstudada = this.build();
-
 		this.estudos = this.estudoGateway.recuperaEstudosValidos(this.usuario
 				.getEmail());
 
@@ -196,8 +193,6 @@ public class ControleEstudoController implements Serializable {
 		}
 		cicloTotal = sum / count;
 
-		// this.materiasEstudadas = this.estudoMateriaHistoricoGateway
-		// .findAll(this.estudoSelecionado);
 		selecionaMateria();
 		this.estudosSemanais = this.estudoSemanalGateway
 				.findAll(this.estudoSelecionado);
@@ -207,12 +202,6 @@ public class ControleEstudoController implements Serializable {
 
 		graficoDiario = new GraficoDiario(estudosDiarios);
 	}
-
-	// private EstudoMateriaHistorico build() {
-	// EstudoMateriaHistorico materiaEstudada = new EstudoMateriaHistorico();
-	// materiaEstudada.setMateria(new Materia());
-	// return materiaEstudada;
-	// }
 
 	public void iniciar() {
 		this.btIniciarDisabled = true;
@@ -230,7 +219,6 @@ public class ControleEstudoController implements Serializable {
 		this.btGravarDisabled = true;
 
 		this.horasEstudadaInMillis = null;
-		// this.materiaEstudada = this.build();
 	}
 
 	public void gravar() {
@@ -248,11 +236,8 @@ public class ControleEstudoController implements Serializable {
 
 		gravaEstudoMateriaHistorico.gravar(materiaEstudada);
 
-		// this.materiasEstudadas = this.estudoMateriaHistoricoGateway
-		// .findAll(this.estudoSelecionado);
 		selecionaMateria();
 		observacao = null;
-		// this.materiaEstudada = this.build();
 		this.atualiza();
 	}
 
@@ -278,10 +263,7 @@ public class ControleEstudoController implements Serializable {
 	public void remover(EstudoMateriaHistorico historico) {
 		estudoMateriaHistoricoGateway.remove(historico);
 
-		// this.materiasEstudadas = this.estudoMateriaHistoricoGateway
-		// .findAll(this.estudoSelecionado);
 		selecionaMateria();
-		// this.materiaEstudada = this.build();
 		this.atualiza();
 	}
 
