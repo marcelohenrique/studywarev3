@@ -6,11 +6,12 @@ import java.util.List;
 import org.joda.time.Duration;
 
 import br.com.guarasoft.studyware.estudosemanal.bean.EstudoSemanalBean;
+import br.com.guarasoft.studyware.estudosemanal.bean.IntervaloEstudo;
 import br.com.guarasoft.studyware.estudosemanal.gateway.entidade.EstudoSemanal;
 
 public class EstudoSemanalEntidadeConverter {
 
-	public List<EstudoSemanalBean> convert(List<EstudoSemanal> entidades) {
+	public List<EstudoSemanalBean> convert(List<EstudoSemanal> entidades, IntervaloEstudo intervalo) {
 		List<EstudoSemanalBean> beans = new ArrayList<>();
 
 		Duration estudoSemanalAcumuladoParcial = new Duration(0);
@@ -20,6 +21,7 @@ public class EstudoSemanalEntidadeConverter {
 
 			bean.setInicioSemana(entidade.getInicioSemana());
 			bean.setTempoEstudado(new Duration(entidade.getTempoEstudado()));
+			bean.setIntervalo(intervalo);
 
 			estudoSemanalAcumuladoParcial = estudoSemanalAcumuladoParcial.plus(entidade.getTempoEstudado());
 

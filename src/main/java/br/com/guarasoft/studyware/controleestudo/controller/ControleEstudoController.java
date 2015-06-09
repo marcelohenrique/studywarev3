@@ -39,6 +39,7 @@ import br.com.guarasoft.studyware.estudomateriahistorico.modelo.EstudoMateriaHis
 import br.com.guarasoft.studyware.estudomateriahistorico.modelo.ResumoEstudoMateria;
 import br.com.guarasoft.studyware.estudomateriahistorico.modelo.ResumoMateria;
 import br.com.guarasoft.studyware.estudosemanal.bean.EstudoSemanalBean;
+import br.com.guarasoft.studyware.estudosemanal.bean.IntervaloEstudo;
 import br.com.guarasoft.studyware.estudosemanal.gateway.EstudoSemanalGateway;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 import br.com.guarasoft.studyware.materia.modelo.Materia;
@@ -98,6 +99,8 @@ public class ControleEstudoController implements Serializable {
 	@Setter
 	@NotNull
 	private String observacao;
+
+	private List<EstudoSemanalBean> estudosDiarios;
 
 	@PostConstruct
 	private void init() {
@@ -194,8 +197,12 @@ public class ControleEstudoController implements Serializable {
 		cicloTotal = sum / count;
 
 		selecionaMateria();
-		this.estudosSemanais = this.estudoSemanalGateway
-				.findAll(this.estudoSelecionado);
+
+		this.estudosDiarios = this.estudoSemanalGateway.findAll(
+				this.estudoSelecionado, IntervaloEstudo.DIARIO);
+
+		this.estudosSemanais = this.estudoSemanalGateway.findAll(
+				this.estudoSelecionado, IntervaloEstudo.SEMANAL);
 
 		Collection<EstudoSemanal> estudosDiarios = this.estudoDiaGateway
 				.findAll(this.estudoSelecionado.getId());

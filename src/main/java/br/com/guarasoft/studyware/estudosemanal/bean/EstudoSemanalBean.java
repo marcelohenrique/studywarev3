@@ -13,9 +13,11 @@ public class EstudoSemanalBean {
 	private Date inicioSemana;
 	private Duration tempoEstudado;
 	private Duration tempoEstudadoAcumulado;
+	
+	private IntervaloEstudo intervalo;
 
 	public Date getDataFimSemana() {
-		return new DateTime(this.inicioSemana).plusDays(6).toDate();
+		return new DateTime(this.inicioSemana).plusDays(intervalo.getDias()).toDate();
 	}
 
 }

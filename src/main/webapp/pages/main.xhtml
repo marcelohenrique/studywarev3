@@ -453,7 +453,40 @@
 						</p:dataTable>
 					</p:tab>
 
-					<p:tab id="tbResumoSemanal" title="Acompanhamento Semanal">
+					<p:tab id="tbResumoDiario" title="Diário">
+						<p:dataTable id="dataTableResumoDiario" var="estudoDiario"
+							value="#{controleestudo.estudosDiarios}" paginator="true"
+							rows="10"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+							<p:column headerText="Início" styleClass="text-center">
+								<h:outputText value="#{estudoDiario.inicioSemana}">
+									<f:convertDateTime locale="pt_BR"
+										pattern="EEEEEEEE, dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+
+							<!-- <p:column headerText="Fim" styleClass="text-center">
+								<h:outputText value="#{estudoDiario.dataFimSemana}">
+									<f:convertDateTime locale="pt_BR"
+										pattern="EEEEEEEE, dd/MM/yyyy" />
+								</h:outputText>
+							</p:column> -->
+
+							<p:column headerText="Horas Estudas" styleClass="text-center">
+								<h:outputText value="#{estudoDiario.tempoEstudado}"
+									converter="tempoConverter" />
+							</p:column>
+
+							<p:column headerText="Horas Acumuladas" styleClass="text-center">
+								<h:outputText value="#{estudoDiario.tempoEstudadoAcumulado}"
+									converter="tempoConverter" />
+							</p:column>
+
+						</p:dataTable>
+					</p:tab>
+
+					<p:tab id="tbResumoSemanal" title="Semanal">
 						<p:dataTable id="dataTableResumoSemanal" var="estudoSemanal"
 							value="#{controleestudo.estudosSemanais}" paginator="true"
 							rows="10"
