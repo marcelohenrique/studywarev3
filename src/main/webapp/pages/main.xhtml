@@ -169,7 +169,7 @@
 									update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar" />
 							</p:column>
 							<p:column>
-								<p:commandButton id="bt_pausar" value="Pausar" style="margin:0"
+								<p:commandButton id="bt_pausar" value="Pausar"
 									onclick="pausar()"
 									disabled="#{controleestudo.btPausarDisabled}"
 									action="#{controleestudo.pausar()}"
@@ -459,19 +459,12 @@
 							rows="10"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-							<p:column headerText="Início" styleClass="text-center">
+							<p:column headerText="Início">
 								<h:outputText value="#{estudoDiario.inicioSemana}">
 									<f:convertDateTime locale="pt_BR"
 										pattern="EEEEEEEE, dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
-
-							<!-- <p:column headerText="Fim" styleClass="text-center">
-								<h:outputText value="#{estudoDiario.dataFimSemana}">
-									<f:convertDateTime locale="pt_BR"
-										pattern="EEEEEEEE, dd/MM/yyyy" />
-								</h:outputText>
-							</p:column> -->
 
 							<p:column headerText="Horas Estudas" styleClass="text-center">
 								<h:outputText value="#{estudoDiario.tempoEstudado}"

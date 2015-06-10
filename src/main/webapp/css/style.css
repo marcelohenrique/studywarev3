@@ -1,38 +1,16 @@
 @CHARSET "UTF-8";
 
-.conteudo {
-	text-align: center;
-}
-
-.controles {
-	border: 2px solid #0F0;
-	text-align: center;
-	float: left;
-	margin-left: 10%;
-	margin-right: 10%;
-}
-
 #relogio {
 	font-size: 3.5em;
 	text-align: center;
 }
 
-.materias {
-	border: 2px solid #00F;
-	text-align: center;
-	float: left;
-	margin-left: 10%;
-	margin-right: 10%;
-}
-
-/* .maginTop30 {
-	margin-top: 30px;
-} */
-.ui-selectonemenu {
-	width: 100% !important;
-}
-
 .ui-selectonemenu-label {
+	width: 100% !important;
+	padding-right: 0px !important;
+}
+
+.ui-selectonemenu {
 	width: 100% !important;
 }
 
@@ -44,12 +22,6 @@
 	width: 200px;
 }
 
-/* .ui-stack {
-	position: fixed;
-	bottom: 28px;
-	right: 40px;
-	z-index: 999;
-} */
 .ui-grid-row {
 	margin-bottom: 1em;
 }
