@@ -154,7 +154,7 @@ public class ControleEstudoController implements Serializable {
 				Duration tempoMateria = mapaMateriaTempo
 						.get(resumoEstudoMateria.getEstudoMateria()
 								.getMateria().getId());
-				if (tempoMateria.getMillis() > 0) {
+				if (tempoMateria != null && tempoMateria.getMillis() > 0) {
 
 					Duration tempoAlocado = resumoEstudoMateria
 							.getEstudoMateria().getTempoAlocado();
