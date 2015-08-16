@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<title>Jogo - MPS.BR 2012</title>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<title>MPS.BR 2012</title>
-
 <meta charset="UTF-8">
 
 <script src="./index_files/jquery_003.js"></script>
@@ -13,16 +13,14 @@
 <script src="./index_files/jquery.js"></script>
 <script src="./index_files/jquery_002.js"></script>
 
-<link rel="stylesheet" type="text/css" href="./index_files/style.css">
-<link rel="stylesheet" href="./index_files/jquery.css" type="text/css">
-<link rel="stylesheet" href="./index_files/jquery_002.css"
-	type="text/css">
+<link rel="stylesheet" type="text/css" href="./index_files/style.css" />
+<link rel="stylesheet" type="text/css" href="./index_files/jquery.css" />
+<link rel="stylesheet" type="text/css"
+	href="./index_files/jquery_002.css" />
 
 <script type="text/javascript">
 		$(document).ready(function(){
-			
-		
-			
+
 			$( ".drag" ).live('mouseover',function(){
 			    $(this).draggable({
 			        revert: function (event, ui) {
@@ -36,8 +34,7 @@
 			        }
 			    });
 			});
-		
-			
+
 			$( ".drag" ).live('touchstart',function(){
 			    $(this).draggable({
 			        revert: function (event, ui) {
@@ -51,22 +48,21 @@
 			        }
 			    });
 			});
-	
+
 			$( ".drop" ).droppable({
-				
 				activeClass: "td-active",
 				hoverClass: "td-hover",
 				drop: function( event, ui ) {
-					
+
 					if($(ui.draggable).attr("id")==$(this).attr("id")){
-						
+
 						$(ui.draggable).remove();
 						$('.hit').text(parseInt($('.hit').text())+1);
 						$( '<li class="sucess"></li>' ).text(ui.draggable.text()).appendTo( this ).addClass('sucess').effect("pulsate", { times:3 }, 800);
 						setTimeout(function() {
 							$('.sucess').removeClass('sucess');
 						}, 3000);
-						
+
 					} else {
 						$id = ui.draggable.attr("id");
 						$text = ui.draggable.text();
@@ -76,14 +72,13 @@
 						setTimeout(function() {
 							$('#fail').remove();
 						}, 3000);
-	
+
 						$( '<div class="ui-draggable drag" id="'+$id+'"></div>').text($text).appendTo(".process");
-					
+
 					}
-					
+
 				}
 			});
-
 
 			function Processo(id, nome) {
 				this.id = id;
@@ -139,17 +134,13 @@
 
 			for( var i = 0; i < processos.length; i++ ) {
 				var p = processos[ i ];
-				divProcess.append('<div class="drag" id="' + p.id + '">' + p.nome + '</div>');
+				divProcess.append('<div class="drag" id="' + p.id + '"><span>' + p.nome + '</span></div>');
 			}
 		});
 		
 	</script>
 
-
 </head>
-
-
-
 
 <body>
 	<div class="content">
@@ -324,18 +315,15 @@
 					</tbody>
 				</table>
 
-
 			</div>
-
-
 
 		</div>
 
 		<div class="right">
-			<div align="right">
+			<!-- <div align="right">
 				<img src="./index_files/processos_verde.jpg" margin-right:=""
 					"300px"="" alt="">
-			</div>
+			</div> -->
 			<div class="process">
 				<h2 class="process_title">Processos</h2>
 			</div>
