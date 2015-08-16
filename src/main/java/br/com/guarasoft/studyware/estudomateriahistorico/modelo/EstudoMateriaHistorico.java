@@ -3,13 +3,11 @@ package br.com.guarasoft.studyware.estudomateriahistorico.modelo;
 import java.io.Serializable;
 import java.util.Date;
 
-import lombok.Data;
-
 import org.joda.time.Duration;
 
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
-import br.com.guarasoft.studyware.estudomateriahistorico.gateway.EstudoMateriaHistoricoGateway;
 import br.com.guarasoft.studyware.materia.modelo.Materia;
+import lombok.Data;
 
 @Data
 public class EstudoMateriaHistorico implements Serializable {

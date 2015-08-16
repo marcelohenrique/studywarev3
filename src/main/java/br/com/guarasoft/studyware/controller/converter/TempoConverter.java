@@ -10,7 +10,7 @@ import org.joda.time.Duration;
 @FacesConverter("tempoConverter")
 public class TempoConverter implements Converter {
 
-	private final DurationConverter converter = new DurationConverter();
+	private final DurationConverterHelper converter = new DurationConverterHelper();
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {

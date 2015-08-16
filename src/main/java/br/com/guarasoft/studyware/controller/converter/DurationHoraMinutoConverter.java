@@ -18,7 +18,7 @@ public class DurationHoraMinutoConverter implements Converter {
 		if ("".equals(value)) {
 			return null;
 		}
-		return new DurationConverter("HH:mm").toDuration(value);
+		return new DurationConverterHelper("HH:mm").toDuration(value);
 	}
 
 	@Override

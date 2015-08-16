@@ -9,7 +9,7 @@ public class DurationConverterTest {
 
 	@Test
 	public void testDurationConverter() {
-		DurationConverter durationConverter = new DurationConverter();
+		DurationConverterHelper durationConverter = new DurationConverterHelper();
 
 		assertNotNull(durationConverter);
 	}
@@ -18,14 +18,14 @@ public class DurationConverterTest {
 	public void testDurationConverterComPattern() {
 		String datePattern = "HH:mm";
 
-		DurationConverter durationConverter = new DurationConverter(datePattern);
+		DurationConverterHelper durationConverter = new DurationConverterHelper(datePattern);
 
 		assertNotNull(durationConverter);
 	}
 
 	@Test
 	public void testToStringDuration() {
-		DurationConverter durationConverter = new DurationConverter();
+		DurationConverterHelper durationConverter = new DurationConverterHelper();
 		
 		String tempo = durationConverter.toString(new Duration(0L));
 		

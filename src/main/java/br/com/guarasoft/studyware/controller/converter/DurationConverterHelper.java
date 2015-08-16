@@ -11,7 +11,7 @@ import org.joda.time.Duration;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
-public class DurationConverter {
+public class DurationConverterHelper {
 
 	private static final PeriodFormatter FORMATTER = new PeriodFormatterBuilder()
 			.printZeroAlways().minimumPrintedDigits(2).appendHours()
@@ -20,11 +20,11 @@ public class DurationConverter {
 	private SimpleDateFormat SDF;
 
 	@Deprecated
-	public DurationConverter() {
+	public DurationConverterHelper() {
 		SDF = new SimpleDateFormat("HH:mm");
 	}
 
-	public DurationConverter(String pattern) {
+	public DurationConverterHelper(String pattern) {
 		SDF = new SimpleDateFormat(pattern);
 	}
 

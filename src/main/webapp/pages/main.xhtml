@@ -389,10 +389,18 @@
 
 							<p:column headerText="Data/Hora"
 								styleClass="colunaDataHora text-center">
-								<h:outputText value="#{materiaestudada.horaEstudo}">
-									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
-										timeZone="America/Sao_Paulo" />
-								</h:outputText>
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{materiaestudada.horaEstudo}">
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+												timeZone="America/Sao_Paulo" />
+										</h:outputText>
+									</f:facet>
+									<f:facet name="input">
+										<p:calendar pattern="dd/MM/yyyy" mask="true"
+											value="#{materiaestudada.horaEstudo}" />
+									</f:facet>
+								</p:cellEditor>
 							</p:column>
 
 							<p:column headerText="Matéria">
