@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<title>Jogo - 27002:2006 - Objetivos de Controle</title>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<title>27002:2006 - Objetivos de Controle</title>
-
 <meta charset="UTF-8">
 
-<script src="./index_files/jquery_003.js"></script>
-<script src="./index_files/jquery-ui.js"></script>
-<script src="./index_files/jquery_004.js"></script>
-<script src="./index_files/jquery.js"></script>
-<script src="./index_files/jquery_002.js"></script>
+<script src="../js/jquery_003.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/jquery_004.js"></script>
+<script src="../js/jquery.js"></script>
+<script src="../js/jquery_002.js"></script>
 
-<link rel="stylesheet" type="text/css" href="./index_files/style.css">
-<link rel="stylesheet" href="./index_files/jquery.css" type="text/css">
-<link rel="stylesheet" href="./index_files/jquery_002.css"
-	type="text/css">
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<link rel="stylesheet" type="text/css" href="../css/jquery.css" />
+<link rel="stylesheet" type="text/css" href="../css/jquery_002.css" />
 
 <script type="text/javascript">
 		$(document).ready(function(){
@@ -31,7 +30,7 @@
 			            };
 			            //return boolean
 			            return !event;
-			        } 
+			        }
 			    });
 			});
 
@@ -50,7 +49,6 @@
 			});
 
 			$( ".drop" ).droppable({
-
 				activeClass: "td-active",
 				hoverClass: "td-hover",
 				drop: function( event, ui ) {
@@ -65,7 +63,6 @@
 						}, 3000);
 
 					} else {
-
 						$id = ui.draggable.attr("id");
 						$text = ui.draggable.text();
 						$('.error').text((parseInt($('.error').text())+1));
@@ -150,7 +147,7 @@
 				}
 
 			shuffle(processos);
-
+			
            	var divProcess = $( '.process' );
 
 			for( var i = 0; i < processos.length; i++ ) {
@@ -158,6 +155,7 @@
 				divProcess.append('<div class="drag" id="' + p.gid + '"><input type="hidden" value="'+ p.id + ' ' + p.nome +'" />' + p.nome + '</div>');
 			}
 		});
+		
 	</script>
 
 </head>
@@ -277,7 +275,9 @@
 						</tr>
 					</tbody>
 				</table>
+
 			</div>
+
 		</div>
 
 		<div class="right">
@@ -292,10 +292,17 @@
 		<div class="clear"></div>
 	</div>
 
-	Adaptado de
-	<a href="http://www.paradaprocafe.com.br/game/" target="_blank">http://www.paradaprocafe.com.br/game/</a>
+	<div>
+		Adaptado de:
+		<ul>
+			<li><a href="http://www.paradaprocafe.com.br/game/"
+				target="_blank">http://www.paradaprocafe.com.br/game/</a></li>
+			<li><a href="http://www.paradaprocafe.com.br/game/"
+				target="_blank">http://www.paradaprocafe.com.br/game/</a></li>
+		</ul>
+	</div>
 
 </body>
-<object id="98fbca59-9a1b-9b9e-5978-c882fa89b79f" width="0" height="0"
-	type="application/gas-events-abn"></object>
+<!-- <object id="98fbca59-9a1b-9b9e-5978-c882fa89b79f" width="0" height="0"
+	type="application/gas-events-abn"></object> -->
 </html>

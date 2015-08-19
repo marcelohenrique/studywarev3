@@ -86,12 +86,12 @@ h1 {
 }
 
 .left {
-	width: 1010px;
+	width: 80%;
 	float: left;
 }
 
 .right {
-	width: 220px;
+	width: 20%;
 	float: left;
 }
 
@@ -142,8 +142,8 @@ table.table1 {
 	-webkit-border-bottom-left-radius: 5px;
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
-	width: 200px;
-	height: 100px;
+	width: 20%;
+	height: 50px;
 }
 
 .table1 tfoot td {
@@ -225,7 +225,7 @@ table.table1 {
 
 .process div {
 	width: 200px;
-	height: 50px;
+	height: 30px;
 	/*lateral direita*/
 	background-color: #bad0ee;
 	border: 2px solid white;
@@ -233,8 +233,8 @@ table.table1 {
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 	color: #666;
-	text-shadow: 1px 1px 1px #fff;
-	font-size: 10px;
+	/* text-shadow: 1px 1px 1px #fff; */
+	font-size: 12px;
 	margin: 0 2px 4px 2px;
 	cursor: pointer;
 	padding: 10px;
