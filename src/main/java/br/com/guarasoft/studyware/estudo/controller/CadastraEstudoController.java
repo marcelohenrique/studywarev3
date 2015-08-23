@@ -16,13 +16,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.joda.time.Duration;
 import org.primefaces.event.FlowEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import br.com.guarasoft.studyware.estudo.casodeuso.CadastraEstudo;
 import br.com.guarasoft.studyware.estudo.excecao.UsuarioEstudoJaExiste;
@@ -32,12 +27,13 @@ import br.com.guarasoft.studyware.estudodiario.modelo.Dia;
 import br.com.guarasoft.studyware.estudodiario.modelo.EstudoDiario;
 import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 import br.com.guarasoft.studyware.estudomateriahistorico.gateway.EstudoMateriaHistoricoGateway;
-import br.com.guarasoft.studyware.estudomateriahistorico.modelo.EstudoMateriaHistorico;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 import br.com.guarasoft.studyware.materia.modelo.Materia;
 import br.com.guarasoft.studyware.menu.controller.MenuController;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
+import lombok.Getter;
+import lombok.Setter;
 
 @ManagedBean(name = "cadastraEstudoController")
 @ViewScoped
@@ -45,8 +41,8 @@ public class CadastraEstudoController implements Serializable {
 
 	private static final long serialVersionUID = -2586448860897763084L;
 
-	private final Logger logger = LoggerFactory
-			.getLogger(CadastraEstudoController.class);
+	// private final Logger logger = LoggerFactory
+	// .getLogger(CadastraEstudoController.class);
 
 	private CadastraEstudo cadastraEstudo;
 
@@ -105,8 +101,7 @@ public class CadastraEstudoController implements Serializable {
 
 		this.materias = this.materiaGateway.buscaMaterias();
 
-		ExternalContext ec = FacesContext.getCurrentInstance()
-				.getExternalContext();
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 		Estudo estudo = (Estudo) ec.getFlash().get("estudo");
 		if (estudo == null) {
 			this.estudoNovo = true;
@@ -136,18 +131,16 @@ public class CadastraEstudoController implements Serializable {
 	}
 
 	public String cadastrar() {
-		Estudo estudo = new Estudo(this.id, this.nome, this.inicio, this.fim,
-				this.ciclo, this.semana, this.participantes);
+		Estudo estudo = new Estudo(this.id, this.nome, this.inicio, this.fim, this.ciclo, this.semana,
+				this.participantes);
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			this.cadastraEstudo.execute(estudo);
-			context.addMessage(null, new FacesMessage("Sucesso",
-					"Estudo cadastrado"));
+			context.addMessage(null, new FacesMessage("Sucesso", "Estudo cadastrado"));
 			return new MenuController().consultarUsuarioEstudo();
 		} catch (UsuarioEstudoJaExiste e) {
-			context.addMessage(null, new FacesMessage("Falha",
-					"Estudo já exite"));
+			context.addMessage(null, new FacesMessage("Falha", "Estudo já exite"));
 		}
 		return null;
 	}
@@ -156,8 +149,7 @@ public class CadastraEstudoController implements Serializable {
 		this.totalCiclo = new Duration(0);
 
 		for (EstudoMateria estudoMateria : this.ciclo) {
-			this.totalCiclo = this.totalCiclo.plus(estudoMateria
-					.getTempoAlocado());
+			this.totalCiclo = this.totalCiclo.plus(estudoMateria.getTempoAlocado());
 		}
 	}
 
@@ -165,8 +157,7 @@ public class CadastraEstudoController implements Serializable {
 		this.totalSemana = new Duration(0);
 
 		for (EstudoDiario estudoDiario : this.semana) {
-			this.totalSemana = this.totalSemana.plus(estudoDiario
-					.getTempoAlocado());
+			this.totalSemana = this.totalSemana.plus(estudoDiario.getTempoAlocado());
 		}
 	}
 
@@ -196,12 +187,8 @@ public class CadastraEstudoController implements Serializable {
 
 	public void remove(Usuario participante) {
 		if (this.participantes.size() == 1) {
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage("Operação não permitida!",
-									"O estudo deve conter pelo menos um participante."));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("Operação não permitida!", "O estudo deve conter pelo menos um participante."));
 		} else {
 			this.participantes.remove(participante);
 		}
