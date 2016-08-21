@@ -42,14 +42,16 @@
 				</h4>
 				<ul class="list-group">
 					<h:commandLink class="list-group-item" value=".."
-						action="#{fileSystemController.setLocation('/..')}" />
+						action="#{fileSystemController.setLocation('/..')}">
+						<!-- <span class="glyphicon glyphicon-log-in"></span> .. -->
+					</h:commandLink>
 					<ui:repeat
 						value="#{fileSystemController.currentFolder.listFiles()}"
 						var="file">
 						<ui:fragment rendered="#{file.directory}">
-							<h:commandLink class="list-group-item"
+							<h:commandLink class="list-group-item" value="#{file.name}"
 								action="#{fileSystemController.setLocation('/'.concat(file.name))}">
-								<span class="glyphicon glyphicon-log-in"></span> #{file.name}
+								<!-- <span class="glyphicon glyphicon-log-in"></span> #{file.name} -->
 							</h:commandLink>
 						</ui:fragment>
 						<ui:fragment rendered="#{!file.directory}">
