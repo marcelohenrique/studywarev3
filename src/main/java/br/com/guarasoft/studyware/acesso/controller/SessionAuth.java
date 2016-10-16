@@ -2,13 +2,13 @@ package br.com.guarasoft.studyware.acesso.controller;
 
 import java.io.Serializable;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
-import lombok.Data;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
+import lombok.Data;
 
-@ManagedBean(name = "sessionAuth")
+@Named("sessionAuth")
 @SessionScoped
 @Data
 public class SessionAuth implements Serializable {

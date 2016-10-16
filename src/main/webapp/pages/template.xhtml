@@ -40,27 +40,19 @@
 
 	<ui:include src="/status.xhtml" />
 
-
 	<ui:insert name="menu">
-
 		<h:form id="formulariomenu">
-
-			<div class="ui-grid ui-grid-responsive">
-
-				<div class="ui-grid-row">
-
-					<div class="ui-grid-col-12">
+			<div class="ui-fluid">
+				<div class="ui-g">
+					<div class="ui-g-12">
 						<p:menubar>
-
 							<p:menuitem icon="ui-icon-home" action="#{controller.home()}" />
-
 							<p:submenu label="Estudo" icon="ui-icon-note">
 								<p:menuitem value="Cadastro" icon="ui-icon-plus"
 									action="#{controller.cadastrarEstudo()}" />
 								<p:menuitem value="Consulta" icon="ui-icon-search"
 									action="#{controller.consultarUsuarioEstudo()}" />
 							</p:submenu>
-
 							<p:submenu label="Administração" icon="ui-icon-gear"
 								rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
 								<p:menuitem value="Usuários" icon="ui-icon-person"
@@ -68,34 +60,43 @@
 								<p:menuitem value="Matérias" icon="ui-icon-document"
 									action="#{controller.consultarMateria()}" />
 							</p:submenu>
-
 							<f:facet name="options">
 								<p:commandButton value="Logout" icon="ui-icon-extlink"
 									action="#{signin.logout()}" ajax="false" />
 							</f:facet>
 						</p:menubar>
-
 					</div>
-
 				</div>
-
 			</div>
-
 		</h:form>
-
 	</ui:insert>
 
 	<h:form id="formulario">
 
 		<p:growl autoUpdate="true" showDetail="true" sticky="true" />
 
-		<div class="ui-grid ui-grid-responsive">
+		<div class="ui-fluid">
 
 			<ui:insert name="main"></ui:insert>
 
 		</div>
 
-	</h:form>
+		<p:ajaxExceptionHandler update="exceptionDialog"
+			onexception="PF('exceptionDialog').show();" />
 
+		<p:dialog id="exceptionDialog"
+			header="Exception '#{pfExceptionHandler.type}' occured!"
+			widgetVar="exceptionDialog" height="500px">
+        Message: #{pfExceptionHandler.message} <br />
+        StackTrace: <h:outputText
+				value="#{pfExceptionHandler.formattedStackTrace}" escape="false" />
+			<br />
+
+			<p:button onclick="document.location.href = document.location.href;"
+				value="Reload!"
+				rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" />
+		</p:dialog>
+
+	</h:form>
 </h:body>
 </html>

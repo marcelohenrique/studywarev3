@@ -1,0 +1,1 @@
+INSERT INTO Usuario (email, ativo) VALUES ('mhguara@gmail.com', true);

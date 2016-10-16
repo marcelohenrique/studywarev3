@@ -9,24 +9,24 @@
 
 	<ui:define name="main">
 
-		<div class="ui-grid-row">
+		<div class="ui-g">
 
-			<div class="ui-grid-col-12">
+			<div class="ui-g-12">
 
 				<p:wizard flowListener="#{cadastraEstudoController.onFlowProcess}">
 
 					<p:tab id="estudo" title="Estudo">
 						<p:panel>
 
-							<div class="ui-grid-row">
-								<div class="ui-grid-col-12">
+							<div class="ui-g">
+								<div class="ui-g-12">
 
-									<div class="ui-grid-row">
-										<div class="ui-grid-col-1">
+									<div class="ui-g">
+										<div class="ui-g-1">
 
 											<p:outputLabel for="nome" value="Nome:" />
 										</div>
-										<div class="ui-grid-col-1">
+										<div class="ui-g-1">
 
 											<p:inputText id="nome" required="true"
 												value="#{cadastraEstudoController.nome}" />
@@ -34,13 +34,13 @@
 										</div>
 									</div>
 
-									<div class="ui-grid-row">
-										<div class="ui-grid-col-1">
+									<div class="ui-g">
+										<div class="ui-g-1">
 
 											<p:outputLabel for="inicio" value="Início:" />
 
 										</div>
-										<div class="ui-grid-col-1">
+										<div class="ui-g-1">
 
 											<p:calendar id="inicio"
 												value="#{cadastraEstudoController.inicio}"
@@ -49,13 +49,13 @@
 										</div>
 									</div>
 
-									<div class="ui-grid-row">
-										<div class="ui-grid-col-1">
+									<div class="ui-g">
+										<div class="ui-g-1">
 
 											<p:outputLabel for="fim" value="Fim:" />
 
 										</div>
-										<div class="ui-grid-col-1">
+										<div class="ui-g-1">
 
 											<p:calendar id="fim" mindate="calwidget.today()"
 												value="#{cadastraEstudoController.fim}" pattern="dd/MM/yyyy"
@@ -67,8 +67,8 @@
 								</div>
 							</div>
 
-							<div class="ui-grid-row">
-								<div class="ui-grid-col-12 text-right">
+							<div class="ui-g">
+								<div class="ui-g-12 text-right">
 
 									<p:commandButton value="Cadastrar"
 										action="#{cadastraEstudoController.cadastrar()}"
@@ -82,9 +82,9 @@
 					<p:tab id="ciclo" title="Ciclo">
 						<p:panel>
 
-							<div class="ui-grid-row">
+							<div class="ui-g">
 
-								<div class="ui-grid-col-6">
+								<div class="ui-g-6">
 
 									<p:dataTable value="#{cadastraEstudoController.materias}"
 										var="m" style="margin-bottom:20px">
@@ -106,7 +106,7 @@
 
 								</div>
 
-								<div class="ui-grid-col-6">
+								<div class="ui-g-6">
 
 									<script type="text/javascript">
 											function atualizaTempoAlocado() {
@@ -166,8 +166,8 @@
 
 							</div>
 
-							<div class="ui-grid-row">
-								<div class="ui-grid-col-12 text-right">
+							<div class="ui-g">
+								<div class="ui-g-12 text-right">
 
 									<p:commandButton value="Cadastrar"
 										action="#{cadastraEstudoController.cadastrar()}"
@@ -182,8 +182,8 @@
 					<p:tab id="semana" title="Semana">
 						<p:panel>
 
-							<div class="ui-grid-row">
-								<div class="ui-grid-col-12">
+							<div class="ui-g">
+								<div class="ui-g-12">
 
 									<p:dataTable id="dataTableSemana"
 										value="#{cadastraEstudoController.semana}" var="d"
@@ -215,8 +215,8 @@
 								</div>
 							</div>
 
-							<div class="ui-grid-row">
-								<div class="ui-grid-col-12 text-right">
+							<div class="ui-g">
+								<div class="ui-g-12 text-right">
 
 									<p:commandButton value="Cadastrar"
 										action="#{cadastraEstudoController.cadastrar()}" />
@@ -230,16 +230,16 @@
 					<p:tab id="participantes" title="Participantes">
 						<p:panel>
 
-							<div class="ui-grid-row">
-								<div class="ui-grid-col-1">Participante:</div>
-								<div class="ui-grid-col-4">
+							<div class="ui-g">
+								<div class="ui-g-1">Participante:</div>
+								<div class="ui-g-4">
 									<p:autoComplete id="participante" size="60"
 										placeholder="E-mail do participante"
 										completeMethod="#{cadastraEstudoController.buscaParticipantes}"
 										var="p" itemLabel="#{p.email}" itemValue="#{p.email}"
 										value="#{cadastraEstudoController.participante}" />
 								</div>
-								<div class="ui-grid-col-1">
+								<div class="ui-g-1">
 									<p:commandButton value="Adicionar"
 										action="#{cadastraEstudoController.adicionaParticipante()}">
 										<f:ajax execute="participante" render="dataTableParticipantes" />
@@ -247,8 +247,8 @@
 								</div>
 							</div>
 
-							<div class="ui-grid-row">
-								<div class="ui-grid-col-12">
+							<div class="ui-g">
+								<div class="ui-g-12">
 
 									<p:dataTable id="dataTableParticipantes"
 										value="#{cadastraEstudoController.participantes}" var="p"
@@ -270,8 +270,8 @@
 								</div>
 							</div>
 
-							<div class="ui-grid-row">
-								<div class="ui-grid-col-12 text-right">
+							<div class="ui-g">
+								<div class="ui-g-12 text-right">
 
 									<p:commandButton value="Cadastrar"
 										action="#{cadastraEstudoController.cadastrar()}" />

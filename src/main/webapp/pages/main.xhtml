@@ -64,36 +64,20 @@
 		<p:remoteCommand name="rcControleEstudoIniciar"
 			actionListener="#{controleestudo.iniciar()}" />
 
-		<p:ajaxExceptionHandler type="java.lang.RuntimeException"
-			update="exceptionDialog" onexception="PF('exceptionDialog').show();" />
-
-		<p:dialog id="exceptionDialog"
-			header="Exception '#{pfExceptionHandler.type}' occured!"
-			widgetVar="exceptionDialog" height="500px">
-        Message: #{pfExceptionHandler.message} <br />
-        StackTrace: <h:outputText
-				value="#{pfExceptionHandler.formattedStackTrace}" escape="false" />
-			<br />
-
-			<p:button onclick="document.location.href = document.location.href;"
-				value="Reload!"
-				rendered="#{pfExceptionHandler.type == 'javax.faces.application.ViewExpiredException'}" />
-		</p:dialog>
-
 		<p:dialog id="obsDialog" header="Observações" widgetVar="cd"
 			modal="true" width="260" closable="false" resizable="false"
 			position="center" style="position: relative">
 
-			<div class="ui-grid-row">
-				<div class="ui-grid-col-12">
+			<div class="ui-g">
+				<div class="ui-g-12">
 					<p:inputText id="observacao" value="#{controleestudo.observacao}">
 						<p:focus />
 					</p:inputText>
 				</div>
 			</div>
 
-			<div class="ui-grid-row">
-				<div class="ui-grid-col-12 text-center">
+			<div class="ui-g">
+				<div class="ui-g-12 text-center">
 					<p:commandButton value="OK"
 						actionListener="#{controleestudo.gravar()}"
 						oncomplete="inicializa(); PF( 'cd' ).hide();" update="@form" />
@@ -101,14 +85,14 @@
 			</div>
 		</p:dialog>
 
-		<div class="ui-grid-row">
+		<div class="ui-g">
 
 			<h:inputHidden id="horasEstudadaInMillis"
 				value="#{controleestudo.horasEstudadaInMillis}" />
 			<h:inputHidden id="agoraInMillis"
 				value="#{controleestudo.agoraInMillis}" />
 
-			<div class="ui-grid-col-4">
+			<div class="ui-g-4">
 
 				<p:panelGrid>
 					<f:facet name="header">
@@ -194,7 +178,7 @@
 				</p:panelGrid>
 			</div>
 
-			<div class="ui-grid-col-8">
+			<div class="ui-g-8">
 
 				<p:tabView id="tabViewResumos">
 					<p:tab title="Ciclo">
@@ -211,9 +195,11 @@
 							</p:column>
 
 							<p:column headerText="Matéria"
-								sortBy="#{concursomateriaestudada.estudoMateria.materia.nome}">
+								sortBy="#{concursomateriaestudada.estudoMateria.materia.nome}"
+								styleClass="text-ellipsis-nowrap">
 								<h:outputText
-									value="#{concursomateriaestudada.estudoMateria.materia.nome}" />
+									value="#{concursomateriaestudada.estudoMateria.materia.nome}"
+									title="#{concursomateriaestudada.estudoMateria.materia.nome}" />
 							</p:column>
 
 							<p:column headerText="Alocado"
@@ -373,9 +359,9 @@
 
 		</div>
 
-		<div class="ui-grid-row">
+		<div class="ui-g">
 
-			<div class="ui-grid-col-12">
+			<div class="ui-g-12">
 
 				<p:tabView id="tabViewAcompanhamento">
 					<p:tab id="tabHistoricoEstudo" title="Histórico">
@@ -397,7 +383,8 @@
 										</h:outputText>
 									</f:facet>
 									<f:facet name="input">
-										<p:calendar styleClass="text-center" pattern="dd/MM/yyyy HH:mm:ss" mask="true"
+										<p:calendar styleClass="text-center"
+											pattern="dd/MM/yyyy HH:mm:ss" mask="true"
 											value="#{materiaestudada.horaEstudo}" />
 									</f:facet>
 								</p:cellEditor>
