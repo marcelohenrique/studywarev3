@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.primefaces.event.RowEditEvent;
 
@@ -16,7 +17,7 @@ import br.com.guarasoft.studyware.usuario.casodeuso.AlterarUsuarioImpl;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
-@ManagedBean(name = "usuarioConsulta")
+@Named("usuarioConsulta")
 public class UsuarioConsultaController {
 
 	@Inject

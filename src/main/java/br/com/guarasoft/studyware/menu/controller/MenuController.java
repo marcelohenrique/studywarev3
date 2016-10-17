@@ -1,8 +1,8 @@
 package br.com.guarasoft.studyware.menu.controller;
 
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
-@ManagedBean(name = "controller")
+@Named("controller")
 public class MenuController {
 
 	public String home() {

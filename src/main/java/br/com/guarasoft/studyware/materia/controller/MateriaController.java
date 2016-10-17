@@ -4,13 +4,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import javax.inject.Named;
 
 import org.primefaces.event.RowEditEvent;
 
@@ -21,8 +17,11 @@ import br.com.guarasoft.studyware.materia.casodeuso.RemoverMateriaImpl;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 import br.com.guarasoft.studyware.materia.modelo.Materia;
 import br.com.guarasoft.studyware.menu.controller.MenuController;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
 
-@ManagedBean(name = "materia")
+@Named("materia")
 @Data
 public class MateriaController {
 

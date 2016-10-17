@@ -3,21 +3,13 @@ package br.com.guarasoft.studyware.acesso.controller;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-
-import br.com.guarasoft.studyware.usuario.casodeuso.CadastrarUsuario;
-import br.com.guarasoft.studyware.usuario.casodeuso.CadastrarUsuarioImpl;
-import br.com.guarasoft.studyware.usuario.casodeuso.LoginUsuario;
-import br.com.guarasoft.studyware.usuario.casodeuso.LoginUsuarioImpl;
-import br.com.guarasoft.studyware.usuario.excecao.EmailNaoEncontrado;
-import br.com.guarasoft.studyware.usuario.excecao.UsuarioInativo;
-import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
-import br.com.guarasoft.studyware.usuario.modelo.Usuario;
+import javax.inject.Named;
 
 import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -32,8 +24,20 @@ import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Person;
 import com.google.api.services.plus.model.Person.Emails;
 
-@ManagedBean(name = "signin")
-public class AcessoController {
+import br.com.guarasoft.studyware.usuario.casodeuso.CadastrarUsuario;
+import br.com.guarasoft.studyware.usuario.casodeuso.CadastrarUsuarioImpl;
+import br.com.guarasoft.studyware.usuario.casodeuso.LoginUsuario;
+import br.com.guarasoft.studyware.usuario.casodeuso.LoginUsuarioImpl;
+import br.com.guarasoft.studyware.usuario.excecao.EmailNaoEncontrado;
+import br.com.guarasoft.studyware.usuario.excecao.UsuarioInativo;
+import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
+import br.com.guarasoft.studyware.usuario.modelo.Usuario;
+
+@Named("signin")
+@SessionScoped
+public class AcessoController implements Serializable {
+
+	private static final long serialVersionUID = 6601991947556607654L;
 
 	/*
 	 * Default HTTP transport to use to make HTTP requests.
@@ -62,13 +66,11 @@ public class AcessoController {
 	 */
 	private String clientSecret;
 
-	@ManagedProperty(value = "#{sessionAuth}")
-	private SessionAuth sessionAuth;
+	private @Inject SessionAuth sessionAuth;
 
 	private String code;
 
-	@Inject
-	private UsuarioGateway usuarioGateway;
+	private @Inject UsuarioGateway usuarioGateway;
 
 	private LoginUsuario loginUsuario;
 
@@ -99,8 +101,9 @@ public class AcessoController {
 			try {
 				// Upgrade the authorization code into an access and refresh
 				// token.
-				GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(TRANSPORT, JSON_FACTORY,
-						this.clientId, this.clientSecret, this.code, "postmessage").execute();
+				GoogleAuthorizationCodeTokenRequest request = new GoogleAuthorizationCodeTokenRequest(TRANSPORT,
+						JSON_FACTORY, this.clientId, this.clientSecret, this.code, "postmessage");
+				GoogleTokenResponse tokenResponse = request.execute();
 
 				// You can read the Google user ID in the ID token.
 				// This sample does not use the user ID.

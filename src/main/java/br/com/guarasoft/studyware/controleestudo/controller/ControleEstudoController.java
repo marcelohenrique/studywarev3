@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
@@ -82,8 +81,7 @@ public class ControleEstudoController implements Serializable {
 	private List<EstudoSemanalBean> estudosSemanais;
 	private List<Materia> materiasDoEstudo;
 
-	@ManagedProperty(value = "#{sessionAuth.usuario}")
-	private Usuario usuario;
+	private @Inject Usuario usuario;
 
 	private List<Estudo> estudos;
 

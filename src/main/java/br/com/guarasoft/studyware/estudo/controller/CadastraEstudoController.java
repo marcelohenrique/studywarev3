@@ -8,15 +8,15 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
 import org.joda.time.Duration;
+import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.event.FlowEvent;
 
 import br.com.guarasoft.studyware.estudo.casodeuso.CadastraEstudo;
@@ -35,7 +35,7 @@ import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 
-@ManagedBean(name = "cadastraEstudoController")
+@Named("cadastraEstudoController")
 @ViewScoped
 public class CadastraEstudoController implements Serializable {
 

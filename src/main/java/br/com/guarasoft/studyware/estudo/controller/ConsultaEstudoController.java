@@ -5,15 +5,14 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 
-import lombok.Getter;
-import lombok.Setter;
+import org.omnifaces.cdi.ViewScoped;
+
 import br.com.guarasoft.studyware.estudo.casodeuso.ConsultaEstudo;
 import br.com.guarasoft.studyware.estudo.casodeuso.ConsultaEstudoImpl;
 import br.com.guarasoft.studyware.estudo.casodeuso.RemoveEstudo;
@@ -22,8 +21,10 @@ import br.com.guarasoft.studyware.estudo.gateway.EstudoGateway;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.menu.controller.MenuController;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
+import lombok.Getter;
+import lombok.Setter;
 
-@ManagedBean(name = "consultaEstudoController")
+@Named( "consultaEstudoController")
 @ViewScoped
 public class ConsultaEstudoController implements Serializable {
 

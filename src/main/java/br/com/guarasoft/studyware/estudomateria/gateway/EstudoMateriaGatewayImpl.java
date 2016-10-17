@@ -2,6 +2,7 @@ package br.com.guarasoft.studyware.estudomateria.gateway;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
@@ -10,9 +11,8 @@ import br.com.guarasoft.studyware.estudomateria.gateway.entidade.EstudoMateriaEn
 import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 
-public class EstudoMateriaGatewayImpl extends
-		AbstractDao<EstudoMateriaEntidade, Long> implements
-		EstudoMateriaGateway {
+@Stateless
+public class EstudoMateriaGatewayImpl extends AbstractDao<EstudoMateriaEntidade, Long> implements EstudoMateriaGateway {
 
 	private final UsuarioEstudoMateriaBuilder usuarioEstudoMateriaBuilder = new UsuarioEstudoMateriaBuilder();
 
@@ -37,13 +37,12 @@ public class EstudoMateriaGatewayImpl extends
 		sql.append(" WHERE em.estudo.id = :idEstudo ");
 		sql.append(" ORDER BY em.ordem ");
 
-		TypedQuery<EstudoMateriaEntidade> query = this.entityManager
-				.createQuery(sql.toString(), EstudoMateriaEntidade.class);
+		TypedQuery<EstudoMateriaEntidade> query = this.entityManager.createQuery(sql.toString(),
+				EstudoMateriaEntidade.class);
 		query.setParameter("idEstudo", estudo.getId());
 		List<EstudoMateriaEntidade> entidades = query.getResultList();
 
-		List<EstudoMateria> beans = this.usuarioEstudoMateriaBuilder.convert(
-				null, entidades);
+		List<EstudoMateria> beans = this.usuarioEstudoMateriaBuilder.convert(null, entidades);
 
 		return beans;
 	}

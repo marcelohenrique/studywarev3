@@ -2,9 +2,9 @@ package br.com.guarasoft.studyware.usuario.controller;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.guarasoft.studyware.menu.controller.MenuController;
 import br.com.guarasoft.studyware.usuario.casodeuso.CadastrarUsuario;
@@ -13,7 +13,7 @@ import br.com.guarasoft.studyware.usuario.excecao.EmailJaCadastrado;
 import br.com.guarasoft.studyware.usuario.gateway.UsuarioGateway;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 
-@ManagedBean(name = "usuario")
+@Named("usuario")
 public class UsuarioController {
 
 	private final FacesContext context = FacesContext.getCurrentInstance();
@@ -38,7 +38,8 @@ public class UsuarioController {
 			this.context.addMessage(null, new FacesMessage("Sucesso", "E-mail cadastrado"));
 			return new MenuController().consultarUsuario();
 		} catch (EmailJaCadastrado e) {
-			this.context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "E-mail já cadastrado"));
+			this.context.addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "E-mail já cadastrado"));
 			return null;
 		}
 	}
