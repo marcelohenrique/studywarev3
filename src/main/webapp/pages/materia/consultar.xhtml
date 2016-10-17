@@ -9,11 +9,14 @@
 
 	<ui:define name="main">
 
-		<p:dataTable id="materias" var="m" value="#{materia.materias}" editable="true" style="margin-bottom:20px">
+		<p:dataTable id="materias" var="m"
+			value="#{materiaController.materias}" editable="true"
+			style="margin-bottom:20px">
 			<f:facet name="header">Matérias</f:facet>
 
-			<p:ajax event="rowEdit" listener="#{materia.onRowEdit}" />
-			<p:ajax event="rowEditCancel" listener="#{materia.onRowCancel}" />
+			<p:ajax event="rowEdit" listener="#{materiaController.onRowEdit}" />
+			<p:ajax event="rowEditCancel"
+				listener="#{materiaController.onRowCancel}" />
 
 			<p:column headerText="Sigla">
 				<p:cellEditor>
@@ -42,11 +45,13 @@
 			</p:column>
 
 			<p:column style="width:32px;text-align: center">
-				<p:commandButton update="@form" icon="ui-icon-close" title="Remover" actionListener="#{materia.remover(m)}" />
+				<p:commandButton update="@form" icon="ui-icon-close" title="Remover"
+					actionListener="#{materiaController.remover(m)}" />
 			</p:column>
 
 			<f:facet name="footer">
-				<p:commandButton value="Cadastrar" action="#{controller.cadastrarMateria()}" />
+				<p:commandButton value="Cadastrar"
+					action="#{controller.cadastrarMateria()}" />
 			</f:facet>
 		</p:dataTable>
 

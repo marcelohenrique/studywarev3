@@ -16,11 +16,11 @@
 				</p:row>
 			</f:facet>
 			<p:outputLabel for="sigla" value="Sigla:" />
-			<p:inputText id="sigla" required="true" value="#{materia.sigla}" maxlength="15" />
+			<p:inputText id="sigla" required="true" value="#{materiaController.sigla}" maxlength="15" />
 			<p:outputLabel for="nome" value="Nome:" />
-			<p:inputText id="nome" required="true" value="#{materia.nome}" />
+			<p:inputText id="nome" required="true" value="#{materiaController.nome}" />
 			<f:facet name="footer">
-				<p:commandButton value="Cadastrar" action="#{materia.cadastrar()}" />
+				<p:commandButton value="Cadastrar" action="#{materiaController.cadastrar()}" />
 			</f:facet>
 		</p:panelGrid>
 

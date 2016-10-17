@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
 import org.joda.time.Duration;
-import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.event.RowEditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,6 @@ import br.com.guarasoft.studyware.materia.modelo.Materia;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 import lombok.Setter;
 
 @Named("controleestudo")
@@ -70,9 +69,7 @@ public class ControleEstudoController implements Serializable {
 
 	private Long horasEstudadaInMillis;
 	private Long agoraInMillis;
-	@Getter
 	private Duration tempoTotalAlocado = Duration.ZERO;
-	@Getter
 	private Duration tempoEstudadoTotal = Duration.ZERO;
 
 	private Estudo estudoSelecionado;
@@ -91,11 +88,8 @@ public class ControleEstudoController implements Serializable {
 	@Setter(AccessLevel.PRIVATE)
 	private GraficoDiario graficoDiario;
 
-	@Getter
 	private double cicloTotal;
 
-	@Getter
-	@Setter
 	@NotNull
 	private String observacao;
 
@@ -233,7 +227,7 @@ public class ControleEstudoController implements Serializable {
 	}
 
 	public void listaEstudoMaterias() {
-		this.materiasDoEstudo = materiaGateway.buscaMaterias(estudoSelecionado);
+		this.materiasDoEstudo = materiaGateway.buscaMaterias(this.estudoSelecionado);
 		this.atualiza();
 	}
 

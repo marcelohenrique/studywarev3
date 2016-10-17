@@ -21,7 +21,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
-@Named("materia")
+@Named
 @Data
 public class MateriaController {
 

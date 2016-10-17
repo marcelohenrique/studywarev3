@@ -117,10 +117,9 @@
 								value="#{controleestudo.estudoSelecionado}">
 								<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 								<f:selectItems value="#{controleestudo.estudos}" var="estudo"
-									itemValue="#{estudo}" itemLabel="#{estudo.nome}"
-									itemDescription="#{estudo.nome}" />
-								<p:ajax update="materias tabViewResumos tabViewAcompanhamento"
-									listener="#{controleestudo.listaEstudoMaterias()}" />
+									itemValue="#{estudo}" itemLabel="#{estudo.nome}" />
+								<p:ajax listener="#{controleestudo.listaEstudoMaterias()}"
+									update="materias tabViewResumos tabViewAcompanhamento" />
 							</p:selectOneMenu>
 						</p:column>
 					</p:row>

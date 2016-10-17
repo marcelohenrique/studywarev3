@@ -29,8 +29,7 @@ public class Estudo {
 		this.fim = fim;
 	}
 
-	public Estudo(Long id, String nome, Date inicio, Date fim,
-			Collection<EstudoMateria> materias,
+	public Estudo(Long id, String nome, Date inicio, Date fim, Collection<EstudoMateria> materias,
 			Collection<EstudoDiario> semana, Collection<Usuario> participantes) {
 		this(id, nome, inicio, fim);
 		this.materias = materias;
