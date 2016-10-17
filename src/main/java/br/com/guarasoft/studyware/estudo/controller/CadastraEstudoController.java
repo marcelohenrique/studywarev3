@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -19,6 +18,7 @@ import org.joda.time.Duration;
 import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.event.FlowEvent;
 
+import br.com.guarasoft.studyware.acesso.controller.SessionAuth;
 import br.com.guarasoft.studyware.estudo.casodeuso.CadastraEstudo;
 import br.com.guarasoft.studyware.estudo.excecao.UsuarioEstudoJaExiste;
 import br.com.guarasoft.studyware.estudo.gateway.EstudoGateway;
@@ -44,6 +44,8 @@ public class CadastraEstudoController implements Serializable {
 	// private final Logger logger = LoggerFactory
 	// .getLogger(CadastraEstudoController.class);
 
+	private @Inject SessionAuth sessionAuth;
+
 	private CadastraEstudo cadastraEstudo;
 
 	private @Inject UsuarioGateway usuarioGateway;
@@ -51,8 +53,6 @@ public class CadastraEstudoController implements Serializable {
 	private @Inject MateriaGateway materiaGateway;
 	private @Inject EstudoMateriaHistoricoGateway estudoMateriaHistoricoGateway;
 
-	@ManagedProperty(value = "#{sessionAuth.usuario}")
-	@Setter
 	private Usuario usuario;
 
 	@Getter
@@ -97,6 +97,8 @@ public class CadastraEstudoController implements Serializable {
 
 	@PostConstruct
 	private void init() {
+		this.usuario = this.sessionAuth.getUsuario();
+
 		this.cadastraEstudo = new CadastraEstudo(this.estudoGateway, estudoMateriaHistoricoGateway);
 
 		this.materias = this.materiaGateway.buscaMaterias();

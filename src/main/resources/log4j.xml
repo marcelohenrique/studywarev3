@@ -9,7 +9,7 @@
 	</appender>
 
 	<logger name="org.hibernate.type">
-		<level value="TRACE"></level>
+		<level value="INFO"></level>
 		<appender-ref ref="stdout" />
 	</logger>
 

@@ -19,6 +19,7 @@ import org.primefaces.event.RowEditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.guarasoft.studyware.acesso.controller.SessionAuth;
 import br.com.guarasoft.studyware.controleestudo.presenter.GraficoDiario;
 import br.com.guarasoft.studyware.estudo.gateway.EstudoGateway;
 import br.com.guarasoft.studyware.estudo.modelo.Estudo;
@@ -52,6 +53,8 @@ public class ControleEstudoController implements Serializable {
 
 	private final Logger logger = LoggerFactory.getLogger(ControleEstudoController.class);
 
+	private @Inject SessionAuth sessionAuth;
+
 	private @Inject EstudoGateway estudoGateway;
 	private @Inject MateriaGateway materiaGateway;
 	private @Inject EstudoMateriaGateway estudoMateriaGateway;
@@ -81,7 +84,7 @@ public class ControleEstudoController implements Serializable {
 	private List<EstudoSemanalBean> estudosSemanais;
 	private List<Materia> materiasDoEstudo;
 
-	private @Inject Usuario usuario;
+	private Usuario usuario;
 
 	private List<Estudo> estudos;
 
@@ -100,6 +103,8 @@ public class ControleEstudoController implements Serializable {
 
 	@PostConstruct
 	private void init() {
+		this.usuario = this.sessionAuth.getUsuario();
+
 		this.estudos = this.estudoGateway.recuperaEstudosValidos(this.usuario.getEmail());
 
 		gravaEstudoMateriaHistorico = new GravaEstudoMateriaHistoricoImpl(estudoMateriaHistoricoGateway);

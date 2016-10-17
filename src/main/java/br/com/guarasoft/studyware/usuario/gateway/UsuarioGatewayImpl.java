@@ -23,11 +23,11 @@ implements UsuarioGateway {
 
 	@Override
 	public Usuario pesquisaPorEmail(String email) {
-		UsuarioEntidade usuario = this.find(email);
+		UsuarioEntidade usuarioEntidade = this.find(email);
 
-		if (usuario != null) {
-			Usuario bean = this.usuarioEntidadeConverter.convert(usuario);
-			return bean;
+		if (usuarioEntidade != null) {
+			Usuario usuario = this.usuarioEntidadeConverter.convert(usuarioEntidade);
+			return usuario;
 		}
 
 		return null;
@@ -35,22 +35,22 @@ implements UsuarioGateway {
 
 	@Override
 	public void cadastrar(Usuario usuario) {
-		UsuarioEntidade entidade = this.usuarioEntidadeConverter.convert(usuario);
-		this.persist(entidade);
+		UsuarioEntidade usuarioEntidade = this.usuarioEntidadeConverter.convert(usuario);
+		this.persist(usuarioEntidade);
 	}
 
 	@Override
 	public Collection<Usuario> buscaUsuarios() {
-		List<UsuarioEntidade> entidades = this.findAll("email");
-		Collection<Usuario> beans = this.usuarioEntidadeConverter
-				.convert(entidades);
-		return beans;
+		List<UsuarioEntidade> usuarioEntidades = this.findAll("email");
+		Collection<Usuario> usuarios = this.usuarioEntidadeConverter
+				.convert(usuarioEntidades);
+		return usuarios;
 	}
 
 	@Override
 	public void alterar(Usuario usuario) {
-		UsuarioEntidade entidade = this.usuarioEntidadeConverter.convert(usuario);
-		this.merge(entidade);
+		UsuarioEntidade usuarioEntidade = this.usuarioEntidadeConverter.convert(usuario);
+		this.merge(usuarioEntidade);
 	}
 
 	@Override
@@ -60,9 +60,9 @@ implements UsuarioGateway {
 						"SELECT u FROM Usuario u WHERE UPPER( u.email ) LIKE UPPER( :email )",
 						UsuarioEntidade.class);
 		typedQuery.setParameter("email", "%" + email + "%");
-		Collection<UsuarioEntidade> entidades = typedQuery.getResultList();
+		Collection<UsuarioEntidade> usuarioEntidades = typedQuery.getResultList();
 
-		return this.usuarioEntidadeConverter.convert(entidades);
+		return this.usuarioEntidadeConverter.convert(usuarioEntidades);
 	}
 
 }

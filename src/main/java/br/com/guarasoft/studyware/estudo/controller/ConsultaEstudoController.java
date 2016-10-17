@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -13,6 +12,7 @@ import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
 
+import br.com.guarasoft.studyware.acesso.controller.SessionAuth;
 import br.com.guarasoft.studyware.estudo.casodeuso.ConsultaEstudo;
 import br.com.guarasoft.studyware.estudo.casodeuso.ConsultaEstudoImpl;
 import br.com.guarasoft.studyware.estudo.casodeuso.RemoveEstudo;
@@ -22,9 +22,8 @@ import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.menu.controller.MenuController;
 import br.com.guarasoft.studyware.usuario.modelo.Usuario;
 import lombok.Getter;
-import lombok.Setter;
 
-@Named( "consultaEstudoController")
+@Named("consultaEstudoController")
 @ViewScoped
 public class ConsultaEstudoController implements Serializable {
 
@@ -33,10 +32,9 @@ public class ConsultaEstudoController implements Serializable {
 	private ConsultaEstudo consultaEstudo;
 	private RemoveEstudo removeEstudo;
 
+	private @Inject SessionAuth sessionAuth;
 	private @Inject EstudoGateway estudoGateway;
 
-	@Setter
-	@ManagedProperty(value = "#{sessionAuth.usuario}")
 	private Usuario usuario;
 
 	@Getter
@@ -44,6 +42,8 @@ public class ConsultaEstudoController implements Serializable {
 
 	@PostConstruct
 	private void init() {
+		this.usuario = this.sessionAuth.getUsuario();
+
 		this.consultaEstudo = new ConsultaEstudoImpl(this.estudoGateway);
 		this.removeEstudo = new RemoveEstudoImpl(this.estudoGateway);
 
@@ -51,8 +51,7 @@ public class ConsultaEstudoController implements Serializable {
 	}
 
 	public String alterar(Estudo estudo) {
-		ExternalContext ec = FacesContext.getCurrentInstance()
-				.getExternalContext();
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 		ec.getFlash().put("estudo", estudo);
 
 		return new MenuController().cadastrarEstudo();
@@ -65,11 +64,9 @@ public class ConsultaEstudoController implements Serializable {
 
 			this.estudos = this.consultaEstudo.consulta(this.usuario);
 
-			context.addMessage(null, new FacesMessage("Sucesso",
-					"Estudo removido"));
+			context.addMessage(null, new FacesMessage("Sucesso", "Estudo removido"));
 		} catch (Exception e) {
-			context.addMessage(null, new FacesMessage("Erro",
-					"Erro ao remover o estudo"));
+			context.addMessage(null, new FacesMessage("Erro", "Erro ao remover o estudo"));
 		}
 	}
 
