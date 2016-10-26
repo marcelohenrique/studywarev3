@@ -10,14 +10,15 @@ import br.com.guarasoft.studyware.materia.modelo.Materia;
 public interface EstudoMateriaHistoricoGateway {
 	public void persist(EstudoMateriaHistorico materiaEstudada);
 
+	public void merge(EstudoMateriaHistorico bean);
+
+	public void remove(EstudoMateriaHistorico estudoMateriaHistorico);
+
 	public List<EstudoMateriaHistorico> findAll(Estudo estudo);
 
-	List<ResumoMateria> buscaResumosMaterias(Estudo estudo);
+	public List<EstudoMateriaHistorico> findAll(Materia materia);
 
-	void merge(EstudoMateriaHistorico bean);
+	public List<EstudoMateriaHistorico> findAll(Estudo estudo, Materia materia);
 
-	void remove(EstudoMateriaHistorico estudoMateriaHistorico);
-
-	public List<EstudoMateriaHistorico> findAll(Estudo estudo,
-			Materia materia);
+	public List<ResumoMateria> buscaResumosMaterias(Estudo estudo);
 }

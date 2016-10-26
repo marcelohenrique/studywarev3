@@ -2,7 +2,6 @@
 
 #relogio {
 	font-size: 3.5em;
-	text-align: center;
 }
 
 .colunaTempo {
@@ -12,10 +11,6 @@
 .colunaDataHora {
 	width: 200px;
 }
-
-/* .ui-g {
-	margin-bottom: 1em;
-} */
 
 .text-center {
 	text-align: center;

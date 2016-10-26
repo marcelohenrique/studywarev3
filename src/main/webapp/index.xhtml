@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -37,32 +37,32 @@
 
 </h:body>
 
-<script type="text/javascript">
-	(function() {
-		var po = document.createElement('script');
-		po.type = 'text/javascript';
-		po.async = true;
-		po.src = 'https://apis.google.com/js/client:plusone.js';
-		var s = document.getElementsByTagName('script')[0];
-		s.parentNode.insertBefore(po, s);
-	})();
+<script>
+(function() {
+	var po = document.createElement('script');
+	po.type = 'text/javascript';
+	po.async = true;
+	po.src = 'https://apis.google.com/js/client:plusone.js';
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(po, s);
+})();
 
-	function signinCallback( authResult ) {
-		if ( authResult[ 'access_token' ] ) {
-			document.getElementById( 'code' ).value = authResult.code;
-			// access_token = authResult['access_token'];
-			// Autorizado com sucesso
-			// Ocultar o botão de login agora que o usuário está autorizado, por exemplo:
-			document.getElementById('signinButton').setAttribute('style', 'display: none');
-			login();
-		} else if ( authResult[ 'error' ] ) {
-			// Ocorreu um erro.
-			// Possíveis códigos de erro:
-			//  "access_denied" - o usuário negou o acesso a seu aplicativo
-			//   "immediate_failed" - não foi possível fazer o login do usuário automaticamente
-			console.log('There was an error: ' + authResult['error']);
-		}
+function signinCallback( authResult ) {
+	if ( authResult[ 'access_token' ] ) {
+		document.getElementById( 'code' ).value = authResult.code;
+		// access_token = authResult['access_token'];
+		// Autorizado com sucesso
+		// Ocultar o botão de login agora que o usuário está autorizado, por exemplo:
+		document.getElementById('signinButton').setAttribute('style', 'display: none');
+		login();
+	} else if ( authResult[ 'error' ] ) {
+		// Ocorreu um erro.
+		// Possíveis códigos de erro:
+		//  "access_denied" - o usuário negou o acesso a seu aplicativo
+		//   "immediate_failed" - não foi possível fazer o login do usuário automaticamente
+		console.log('There was an error: ' + authResult['error']);
 	}
+}
 </script>
 
 </html>

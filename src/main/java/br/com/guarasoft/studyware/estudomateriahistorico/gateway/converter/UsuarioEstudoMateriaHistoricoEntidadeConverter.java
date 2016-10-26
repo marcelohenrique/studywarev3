@@ -29,8 +29,7 @@ public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 		return entidade;
 	}
 
-	public EstudoMateriaHistorico convert(Estudo beanPai,
-			EstudoMateriaHistoricoEntidade entidade) {
+	public EstudoMateriaHistorico convert(Estudo beanPai, EstudoMateriaHistoricoEntidade entidade) {
 		EstudoMateriaHistorico bean = new EstudoMateriaHistorico();
 
 		bean.setId(entidade.getId());
@@ -43,14 +42,22 @@ public class UsuarioEstudoMateriaHistoricoEntidadeConverter {
 		return bean;
 	}
 
-	public List<EstudoMateriaHistorico> convert(Estudo beanPai,
-			List<EstudoMateriaHistoricoEntidade> entidades) {
+	public List<EstudoMateriaHistorico> convert(Estudo beanPai, List<EstudoMateriaHistoricoEntidade> entidades) {
 		List<EstudoMateriaHistorico> beans = new ArrayList<>();
 
 		for (EstudoMateriaHistoricoEntidade entidade : entidades) {
 			beans.add(this.convert(beanPai, entidade));
 		}
 
+		return beans;
+	}
+
+	public List<EstudoMateriaHistorico> convert(List<EstudoMateriaHistoricoEntidade> entidades) {
+		List<EstudoMateriaHistorico> beans = new ArrayList<>();
+		for (EstudoMateriaHistoricoEntidade entidade : entidades) {
+			Estudo estudo = estudoEntidadeConverter.convert(entidade.getEstudo());
+			beans.add(convert(estudo, entidade));
+		}
 		return beans;
 	}
 

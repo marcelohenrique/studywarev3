@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
 import org.joda.time.Duration;
+import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.event.RowEditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +101,9 @@ public class ControleEstudoController implements Serializable {
 
 		this.estudos = this.estudoGateway.recuperaEstudosValidos(this.usuario.getEmail());
 
-		gravaEstudoMateriaHistorico = new GravaEstudoMateriaHistoricoImpl(estudoMateriaHistoricoGateway);
+		this.materiasDoEstudo = this.materiaGateway.buscaMaterias();
+
+		this.gravaEstudoMateriaHistorico = new GravaEstudoMateriaHistoricoImpl(this.estudoMateriaHistoricoGateway);
 	}
 
 	private void atualiza() {
@@ -227,7 +229,7 @@ public class ControleEstudoController implements Serializable {
 	}
 
 	public void listaEstudoMaterias() {
-		this.materiasDoEstudo = materiaGateway.buscaMaterias(this.estudoSelecionado);
+		this.materiasDoEstudo = this.materiaGateway.buscaMaterias(this.estudoSelecionado);
 		this.atualiza();
 	}
 
@@ -248,11 +250,13 @@ public class ControleEstudoController implements Serializable {
 	}
 
 	public void selecionaMateria() {
-		if (materiaSelecionada == null) {
-			this.materiasEstudadas = this.estudoMateriaHistoricoGateway.findAll(this.estudoSelecionado);
-		} else {
+		if (this.estudoSelecionado != null && this.materiaSelecionada != null) {
 			this.materiasEstudadas = this.estudoMateriaHistoricoGateway.findAll(this.estudoSelecionado,
 					this.materiaSelecionada);
+		} else if (this.estudoSelecionado != null && this.materiaSelecionada == null) {
+			this.materiasEstudadas = this.estudoMateriaHistoricoGateway.findAll(this.estudoSelecionado);
+		} else if (this.estudoSelecionado == null && this.materiaSelecionada != null) {
+			this.materiasEstudadas = this.estudoMateriaHistoricoGateway.findAll(this.materiaSelecionada);
 		}
 	}
 }

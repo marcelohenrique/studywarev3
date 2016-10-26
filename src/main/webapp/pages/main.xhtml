@@ -8,57 +8,6 @@
 	xmlns:of="http://omnifaces.org/functions"
 	template="/pages/template.xhtml">
 
-	<ui:define name="header">
-		<script type="text/javascript" src="js/jquery.countdown.min.js"></script>
-		<script type="text/javascript">
-			$( document ).ready( function() {
-				inicializa();
-			} );
-			function inicializa() {
-				$( '#relogio' ).countdown( { since: 0, compact: true, format: 'HMS', description: '' } );
-				pausar();
-			}
-			function iniciar() {
-				// debugger;
-				var materias = $( '#formulario\\:materias_input' );
-				if( materias.val() == '' ) {
-					alert( 'Selecione uma matéria' );
-					return false;
-				}
-				rcControleEstudoIniciar();
-				$( '#relogio' ).countdown( 'resume' );
-			}
-			function pausar() {
-				// debugger;
-				$( '#relogio' ).countdown( 'pause' );
-			}
-			function zerar() {
-				// debugger;
-				$( '#relogio' ).countdown( 'destroy' );
-				$( '#relogio' ).countdown( { since: 0, compact: true, format: 'HMS', description: '' } );
-				pausar();
-				$( '#relogio' ).html( '00:00:00' );
-			}
-			function gravar() {
-				// debugger;
-				pausar();
-				var times = $( '#relogio' ).countdown( 'getTimes' );
-				$( '#formulario\\:horasEstudadaInMillis' ).val( times[ 4 ] * 60 * 60 * 1000 + times[ 5 ] * 60 * 1000 + times[ 6 ] * 1000 );
-				var agora = new Date().getTime();
-				$( '#formulario\\:agoraInMillis' ).val( agora );
-				zerar();
-				PF( 'cd' ).show();
-			}
-			function extLegend() {
-			    this.cfg.legend= {
-			        show: true,
-			        location: 's',
-			        placement: 'outsideGrid'
-			    };
-			}
-		</script>
-	</ui:define>
-
 	<ui:define name="main">
 
 		<p:remoteCommand name="rcControleEstudoIniciar"
@@ -67,459 +16,537 @@
 		<p:dialog id="obsDialog" header="Observações" widgetVar="cd"
 			modal="true" width="260" closable="false" resizable="false"
 			position="center" style="position: relative">
-
-			<div class="ui-g">
-				<div class="ui-g-12">
-					<p:inputText id="observacao" value="#{controleestudo.observacao}">
-						<p:focus />
-					</p:inputText>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-xs-12">
+						<p:inputText id="observacao" value="#{controleestudo.observacao}">
+							<p:focus />
+						</p:inputText>
+					</div>
 				</div>
-			</div>
 
-			<div class="ui-g">
-				<div class="ui-g-12 text-center">
-					<p:commandButton value="OK"
-						actionListener="#{controleestudo.gravar()}"
-						oncomplete="inicializa(); PF( 'cd' ).hide();" update="@form" />
+				<div class="row">
+					<div class="col-xs-12 text-center">
+						<p:commandButton value="OK"
+							actionListener="#{controleestudo.gravar()}"
+							oncomplete="inicializa(); PF( 'cd' ).hide();" update="@form" />
+					</div>
 				</div>
 			</div>
 		</p:dialog>
 
-		<div class="ui-g">
+		<div class="container-fluid">
 
-			<h:inputHidden id="horasEstudadaInMillis"
-				value="#{controleestudo.horasEstudadaInMillis}" />
-			<h:inputHidden id="agoraInMillis"
-				value="#{controleestudo.agoraInMillis}" />
+			<div class="row">
 
-			<div class="ui-g-4 ui-sm-12">
+				<h:inputHidden id="horasEstudadaInMillis"
+					value="#{controleestudo.horasEstudadaInMillis}" />
+				<h:inputHidden id="agoraInMillis"
+					value="#{controleestudo.agoraInMillis}" />
 
-				<p:panelGrid>
-					<f:facet name="header">
-						<p:row>
-							<p:column colspan="2">Controle de Estudo</p:column>
-						</p:row>
-					</f:facet>
+				<div class="col-xs-12 col-sm-4">
 
-					<p:row>
-						<p:column colspan="2">
-							<div id="relogio">00:00:00</div>
-						</p:column>
-					</p:row>
+					<div class="row">
 
-					<p:row>
-						<p:column>
-							<p:outputLabel value="Estudo:" />
-						</p:column>
-						<p:column>
-							<p:selectOneMenu id="estudoselecionado" required="true"
-								converter="omnifaces.SelectItemsConverter"
-								value="#{controleestudo.estudoSelecionado}">
-								<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
-								<f:selectItems value="#{controleestudo.estudos}" var="estudo"
-									itemValue="#{estudo}" itemLabel="#{estudo.nome}" />
-								<p:ajax listener="#{controleestudo.listaEstudoMaterias()}"
-									update="materias tabViewResumos tabViewAcompanhamento" />
-							</p:selectOneMenu>
-						</p:column>
-					</p:row>
+						<div class="col-xs-12 text-center">
+							<h4>Controle de Estudo</h4>
+						</div>
 
-					<p:row>
-						<p:column>
-							<p:outputLabel value="Matéria:" />
-						</p:column>
-						<p:column>
-							<p:selectOneMenu id="materias"
-								value="#{controleestudo.materiaSelecionada}"
-								converter="omnifaces.SelectItemsConverter" filter="true"
-								filterMatchMode="contains">
-								<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
-								<f:selectItems value="#{controleestudo.materiasDoEstudo}"
-									var="materia" itemValue="#{materia}"
-									itemLabel="#{materia.nome}" />
-								<p:ajax listener="#{controleestudo.selecionaMateria()}"
-									update="tabViewAcompanhamento" />
-							</p:selectOneMenu>
-						</p:column>
-					</p:row>
+						<div class="col-xs-12 text-center" id="relogio">00:00:00</div>
 
-					<f:facet name="footer">
-						<p:row>
-							<p:column>
-								<p:commandButton id="bt_iniciar" value="Iniciar"
-									style="margin:0" onclick="iniciar()"
-									disabled="#{controleestudo.btIniciarDisabled}"
-									update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar" />
-							</p:column>
-							<p:column>
-								<p:commandButton id="bt_pausar" value="Pausar"
-									onclick="pausar()"
-									disabled="#{controleestudo.btPausarDisabled}"
-									action="#{controleestudo.pausar()}"
-									update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar" />
-							</p:column>
-						</p:row>
-						<p:row>
-							<p:column>
-								<p:commandButton id="bt_zerar" value="Zerar" style="margin:0"
-									onclick="zerar()" disabled="#{controleestudo.btZerarDisabled}"
-									action="#{controleestudo.zerar()}"
-									update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar, materias" />
-							</p:column>
-							<p:column>
-								<p:commandButton id="bt_gravar" value="Gravar"
-									icon="ui-icon-check" style="margin:0" onclick="gravar()"
-									disabled="#{controleestudo.btGravarDisabled}">
-								</p:commandButton>
-							</p:column>
-						</p:row>
-					</f:facet>
-				</p:panelGrid>
-			</div>
+						<div class="col-xs-12">
+							<div class="form-horizontal">
+								<div class="form-group">
+									<label class="col-xs-2 control-label" for="estudoselecionado">Estudo:</label>
+									<div class="col-xs-10">
+										<h:selectOneMenu styleClass="form-control"
+											converter="omnifaces.SelectItemsConverter"
+											id="estudoselecionado"
+											value="#{controleestudo.estudoSelecionado}">
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+											<f:selectItems value="#{controleestudo.estudos}" var="estudo"
+												itemValue="#{estudo}" itemLabel="#{estudo.nome}" />
+											<f:ajax listener="#{controleestudo.listaEstudoMaterias()}"
+												render="materias tabViewResumos tabViewAcompanhamento" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+							</div>
+						</div>
 
-			<div class="ui-g-8 ui-sm-12">
-
-				<p:tabView id="tabViewResumos">
-					<p:tab title="Ciclo">
-
-						<p:dataTable id="dataTableResumoCiclo"
-							var="concursomateriaestudada"
-							value="#{controleestudo.resumoEstudoMaterias}">
-
-							<p:column headerText="Ordem"
-								sortBy="#{concursomateriaestudada.estudoMateria.ordem}"
-								style="width: 80px" styleClass="text-center">
-								<h:outputText
-									value="#{concursomateriaestudada.estudoMateria.ordem}" />
-							</p:column>
-
-							<p:column headerText="Matéria"
-								sortBy="#{concursomateriaestudada.estudoMateria.materia.nome}"
-								styleClass="text-ellipsis-nowrap">
-								<h:outputText
-									value="#{concursomateriaestudada.estudoMateria.materia.nome}"
-									title="#{concursomateriaestudada.estudoMateria.materia.nome}" />
-							</p:column>
-
-							<p:column headerText="Alocado"
-								styleClass="colunaTempo text-center">
-								<h:outputText
-									value="#{concursomateriaestudada.estudoMateria.tempoAlocado}"
-									converter="tempoConverter" />
-							</p:column>
-
-							<p:column headerText="Ciclo Ideal"
-								styleClass="colunaTempo text-center">
-								<h:outputText value="#{controleestudo.estudosSemanais.size()}" />
-							</p:column>
-
-							<p:column headerText="Ciclo Atual"
-								sortBy="#{concursomateriaestudada.ciclo}"
-								styleClass="colunaTempo text-center">
-								<h:outputText value="#{concursomateriaestudada.ciclo}">
-									<f:convertNumber groupingUsed="true" minFractionDigits="1"
-										maxFractionDigits="1" />
-								</h:outputText>
-							</p:column>
-
-							<p:column headerText="Planejado"
-								styleClass="colunaTempo text-center">
-								<h:outputText
-									value="#{concursomateriaestudada.estudoMateria.tempoAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
-									converter="tempoConverter" />
-							</p:column>
-
-							<p:column headerText="Estudado"
-								styleClass="colunaTempo text-center">
-								<h:outputText value="#{concursomateriaestudada.somaTempo}"
-									converter="tempoConverter" />
-							</p:column>
-
-							<p:columnGroup type="footer">
-								<p:row>
-									<p:column colspan="2" footerText="Total:" />
-									<p:column styleClass="text-center">
-										<f:facet name="footer">
-											<h:outputText value="#{controleestudo.tempoTotalAlocado}"
-												converter="tempoConverter" />
-										</f:facet>
-									</p:column>
-									<p:column footerText="#{controleestudo.estudosSemanais.size()}" />
-									<p:column styleClass="text-center">
-										<f:facet name="footer">
-											<h:outputText value="#{controleestudo.cicloTotal}">
-												<f:convertNumber groupingUsed="true" minFractionDigits="1"
-													maxFractionDigits="1" />
-											</h:outputText>
-										</f:facet>
-									</p:column>
-									<p:column styleClass="text-center">
-										<f:facet name="footer">
-											<h:outputText
-												value="#{controleestudo.tempoTotalAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
-												converter="tempoConverter" />
-										</f:facet>
-									</p:column>
-									<p:column styleClass="text-center">
-										<f:facet name="footer">
-											<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
-												converter="tempoConverter" />
-										</f:facet>
-									</p:column>
-								</p:row>
-							</p:columnGroup>
-
-						</p:dataTable>
-
-					</p:tab>
-					<p:tab title="Matérias">
-
-						<p:dataTable id="dataTableResumoMaterias"
-							value="#{controleestudo.resumoMaterias}" var="resumoMateria">
-
-							<p:column headerText="Matéria"
-								sortBy="#{resumoMateria.materia.nome}">
-								<h:outputText value="#{resumoMateria.materia.nome}" />
-							</p:column>
-
-							<p:column headerText="Alocado"
-								styleClass="colunaTempo text-center">
-								<h:outputText value="#{resumoMateria.tempoAlocado}"
-									converter="tempoConverter" />
-							</p:column>
-
-							<p:column headerText="Ciclo Ideal"
-								styleClass="colunaTempo text-center">
-								<h:outputText value="#{controleestudo.estudosSemanais.size()}" />
-							</p:column>
-
-							<p:column headerText="Ciclo Atual"
-								sortBy="#{concursomateriaestudada.ciclo}"
-								styleClass="colunaTempo text-center">
-								<h:outputText value="#{resumoMateria.ciclo}">
-									<f:convertNumber groupingUsed="true" minFractionDigits="1"
-										maxFractionDigits="1" />
-								</h:outputText>
-							</p:column>
-
-							<p:column headerText="Planejado"
-								styleClass="colunaTempo text-center">
-								<h:outputText
-									value="#{resumoMateria.tempoAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
-									converter="tempoConverter" />
-							</p:column>
-
-							<p:column headerText="Estudado"
-								styleClass="colunaTempo text-center">
-								<h:outputText value="#{resumoMateria.somaTempo}"
-									converter="tempoConverter" />
-							</p:column>
-
-							<p:columnGroup type="footer">
-								<p:row>
-									<p:column footerText="Total:" />
-									<p:column styleClass="text-center">
-										<f:facet name="footer">
-											<h:outputText value="#{controleestudo.tempoTotalAlocado}"
-												converter="tempoConverter" />
-										</f:facet>
-									</p:column>
-									<p:column footerText="#{controleestudo.estudosSemanais.size()}" />
-									<p:column styleClass="text-center">
-										<f:facet name="footer">
-											<h:outputText value="#{controleestudo.cicloTotal}">
-												<f:convertNumber groupingUsed="true" minFractionDigits="1"
-													maxFractionDigits="1" />
-											</h:outputText>
-										</f:facet>
-									</p:column>
-									<p:column styleClass="text-center">
-										<f:facet name="footer">
-											<h:outputText
-												value="#{controleestudo.tempoTotalAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
-												converter="tempoConverter" />
-										</f:facet>
-									</p:column>
-									<p:column styleClass="text-center">
-										<f:facet name="footer">
-											<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
-												converter="tempoConverter" />
-										</f:facet>
-									</p:column>
-								</p:row>
-							</p:columnGroup>
-
-						</p:dataTable>
-
-					</p:tab>
-				</p:tabView>
-
-			</div>
-
-		</div>
-
-		<div class="ui-g">
-
-			<div class="ui-g-12">
-
-				<p:tabView id="tabViewAcompanhamento">
-					<p:tab id="tabHistoricoEstudo" title="Histórico">
-						<p:dataTable id="dataTableHistoricoEstudo" var="materiaestudada"
-							value="#{controleestudo.materiasEstudadas}" paginator="true"
-							rows="50"
-							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							editable="true">
-
-							<p:ajax event="rowEdit" listener="#{controleestudo.onRowEdit}" />
-
-							<p:column headerText="Data/Hora"
-								styleClass="colunaDataHora text-center">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{materiaestudada.horaEstudo}">
-											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
-												timeZone="America/Sao_Paulo" />
-										</h:outputText>
-									</f:facet>
-									<f:facet name="input">
-										<p:calendar styleClass="text-center"
-											pattern="dd/MM/yyyy HH:mm:ss" mask="true"
-											value="#{materiaestudada.horaEstudo}" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-
-							<p:column headerText="Matéria">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{materiaestudada.materia.nome}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:selectOneMenu value="#{materiaestudada.materia}"
-											converter="omnifaces.SelectItemsConverter">
+						<div class="col-xs-12">
+							<div class="form-horizontal">
+								<div class="form-group">
+									<label class="col-xs-2 control-label" for="materias">Matéria:</label>
+									<div class="col-xs-10">
+										<h:selectOneMenu styleClass="form-control"
+											converter="omnifaces.SelectItemsConverter" id="materias"
+											value="#{controleestudo.materiaSelecionada}">
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 											<f:selectItems value="#{controleestudo.materiasDoEstudo}"
-												var="estudomateria" itemValue="#{estudomateria}"
-												itemLabel="#{estudomateria.nome}" />
-										</p:selectOneMenu>
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
+												var="materia" itemValue="#{materia}"
+												itemLabel="#{materia.nome}"
+												itemDescription="#{materia.sigla}" />
+											<f:ajax listener="#{controleestudo.selecionaMateria()}"
+												render="tabViewAcompanhamento" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+							</div>
+						</div>
 
-							<p:column headerText="Tempo Estudado"
-								styleClass="colunaTempo text-center">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{materiaestudada.tempoEstudado}"
-											converter="durationhhmmssConverter" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputMask mask="99:99:99"
-											value="#{materiaestudada.tempoEstudado}"
-											converter="durationhhmmssConverter" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
+						<div class="col-xs-6">
+							<p:commandButton styleClass="btn-block" id="bt_iniciar"
+								value="Iniciar" onclick="iniciar()"
+								disabled="#{controleestudo.btIniciarDisabled}"
+								update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar" />
+						</div>
+						<div class="col-xs-6">
+							<p:commandButton styleClass="btn-block" id="bt_pausar"
+								value="Pausar" onclick="pausar()"
+								disabled="#{controleestudo.btPausarDisabled}"
+								action="#{controleestudo.pausar()}"
+								update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar" />
+						</div>
 
-							<p:column headerText="Observação">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{materiaestudada.observacao}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{materiaestudada.observacao}" size="100" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
+						<div class="col-xs-6">
+							<p:commandButton styleClass="btn-block" id="bt_zerar"
+								value="Zerar" onclick="zerar()"
+								disabled="#{controleestudo.btZerarDisabled}"
+								action="#{controleestudo.zerar()}"
+								update="bt_iniciar, bt_pausar, bt_zerar, bt_gravar, materias" />
+						</div>
+						<div class="col-xs-6">
+							<p:commandButton styleClass="btn-block" id="bt_gravar"
+								value="Gravar" icon="ui-icon-check" onclick="gravar()"
+								disabled="#{controleestudo.btGravarDisabled}" />
+						</div>
 
-							<p:column style="width:32px">
-								<p:rowEditor />
-							</p:column>
+					</div>
 
-							<p:column style="width:32px;text-align: center">
-								<p:commandButton update="@form" icon="ui-icon-close"
-									title="Remover" immediate="true"
-									actionListener="#{controleestudo.remover(materiaestudada)}">
-									<!-- <p:confirm header="Confirmação"
-										message="Você deseja excluir o estudo?" icon="ui-icon-alert" /> -->
-								</p:commandButton>
-							</p:column>
+				</div>
 
-						</p:dataTable>
-					</p:tab>
+				<div class="col-xs-12 col-sm-8">
 
-					<p:tab id="tbResumoDiario" title="Diário">
-						<p:dataTable id="dataTableResumoDiario" var="estudoDiario"
-							value="#{controleestudo.estudosDiarios}" paginator="true"
-							rows="10"
-							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					<p:tabView id="tabViewResumos">
+						<p:tab title="Ciclo">
 
-							<p:column headerText="Início">
-								<h:outputText value="#{estudoDiario.inicioSemana}">
-									<f:convertDateTime locale="pt_BR"
-										pattern="EEEEEEEE, dd/MM/yyyy" />
-								</h:outputText>
-							</p:column>
+							<p:dataTable id="dataTableResumoCiclo"
+								var="concursomateriaestudada"
+								value="#{controleestudo.resumoEstudoMaterias}" reflow="true">
 
-							<p:column headerText="Horas Estudas" styleClass="text-center">
-								<h:outputText value="#{estudoDiario.tempoEstudado}"
-									converter="tempoConverter" />
-							</p:column>
+								<p:column headerText="#"
+									sortBy="#{concursomateriaestudada.estudoMateria.ordem}"
+									styleClass="text-center" width="30">
+									<h:outputText
+										value="#{concursomateriaestudada.estudoMateria.ordem}" />
+								</p:column>
 
-							<p:column headerText="Horas Acumuladas" styleClass="text-center">
-								<h:outputText value="#{estudoDiario.tempoEstudadoAcumulado}"
-									converter="tempoConverter" />
-							</p:column>
+								<p:column headerText="Matéria"
+									sortBy="#{concursomateriaestudada.estudoMateria.materia.nome}"
+									styleClass="text-ellipsis-nowrap">
+									<h:outputText
+										value="#{concursomateriaestudada.estudoMateria.materia.nome}"
+										title="#{concursomateriaestudada.estudoMateria.materia.nome}" />
+								</p:column>
 
-						</p:dataTable>
-					</p:tab>
+								<p:column headerText="Alocado"
+									styleClass="colunaTempo text-center">
+									<h:outputText
+										value="#{concursomateriaestudada.estudoMateria.tempoAlocado}"
+										converter="tempoConverter" />
+								</p:column>
 
-					<p:tab id="tbResumoSemanal" title="Semanal">
-						<p:dataTable id="dataTableResumoSemanal" var="estudoSemanal"
-							value="#{controleestudo.estudosSemanais}" paginator="true"
-							rows="10"
-							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+								<p:column headerText="Ciclo Ideal"
+									styleClass="colunaTempo text-center">
+									<h:outputText value="#{controleestudo.estudosSemanais.size()}" />
+								</p:column>
 
-							<p:column headerText="Início" styleClass="text-center">
-								<h:outputText value="#{estudoSemanal.inicioSemana}">
-									<f:convertDateTime locale="pt_BR"
-										pattern="EEEEEEEE, dd/MM/yyyy" />
-								</h:outputText>
-							</p:column>
+								<p:column headerText="Ciclo Atual"
+									sortBy="#{concursomateriaestudada.ciclo}"
+									styleClass="colunaTempo text-center">
+									<h:outputText value="#{concursomateriaestudada.ciclo}">
+										<f:convertNumber groupingUsed="true" minFractionDigits="1"
+											maxFractionDigits="1" />
+									</h:outputText>
+								</p:column>
 
-							<p:column headerText="Fim" styleClass="text-center">
-								<h:outputText value="#{estudoSemanal.dataFimSemana}">
-									<f:convertDateTime locale="pt_BR"
-										pattern="EEEEEEEE, dd/MM/yyyy" />
-								</h:outputText>
-							</p:column>
+								<p:column headerText="Planejado"
+									styleClass="colunaTempo text-center">
+									<h:outputText
+										value="#{concursomateriaestudada.estudoMateria.tempoAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
+										converter="tempoConverter" />
+								</p:column>
 
-							<p:column headerText="Horas Estudas" styleClass="text-center">
-								<h:outputText value="#{estudoSemanal.tempoEstudado}"
-									converter="tempoConverter" />
-							</p:column>
+								<p:column headerText="Estudado"
+									styleClass="colunaTempo text-center">
+									<h:outputText value="#{concursomateriaestudada.somaTempo}"
+										converter="tempoConverter" />
+								</p:column>
 
-							<p:column headerText="Horas Acumuladas" styleClass="text-center">
-								<h:outputText value="#{estudoSemanal.tempoEstudadoAcumulado}"
-									converter="tempoConverter" />
-							</p:column>
+								<p:columnGroup type="footer">
+									<p:row>
+										<p:column colspan="2" footerText="Total:" />
+										<p:column styleClass="text-center">
+											<f:facet name="footer">
+												<h:outputText value="#{controleestudo.tempoTotalAlocado}"
+													converter="tempoConverter" />
+											</f:facet>
+										</p:column>
+										<p:column
+											footerText="#{controleestudo.estudosSemanais.size()}" />
+										<p:column styleClass="text-center">
+											<f:facet name="footer">
+												<h:outputText value="#{controleestudo.cicloTotal}">
+													<f:convertNumber groupingUsed="true" minFractionDigits="1"
+														maxFractionDigits="1" />
+												</h:outputText>
+											</f:facet>
+										</p:column>
+										<p:column styleClass="text-center">
+											<f:facet name="footer">
+												<h:outputText
+													value="#{controleestudo.tempoTotalAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
+													converter="tempoConverter" />
+											</f:facet>
+										</p:column>
+										<p:column styleClass="text-center">
+											<f:facet name="footer">
+												<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
+													converter="tempoConverter" />
+											</f:facet>
+										</p:column>
+									</p:row>
+								</p:columnGroup>
 
-						</p:dataTable>
-					</p:tab>
+							</p:dataTable>
 
+						</p:tab>
+						<p:tab title="Matérias">
 
-					<p:tab id="tbAcompanhamentoDiario" title="Acompanhamento Diário">
-						<p:chart id="graficoAcompanhamentoDiario" type="line"
-							model="#{controleestudo.graficoDiario.graficoEstudoDiario}"
-							style="height:300px;margin-top:20px"
-							rendered="#{not empty controleestudo.graficoDiario}" />
-					</p:tab>
+							<p:dataTable id="dataTableResumoMaterias"
+								value="#{controleestudo.resumoMaterias}" var="resumoMateria"
+								reflow="true">
 
-				</p:tabView>
+								<p:column headerText="Matéria"
+									sortBy="#{resumoMateria.materia.nome}"
+									styleClass="text-ellipsis-nowrap">
+									<h:outputText value="#{resumoMateria.materia.nome}" />
+								</p:column>
+
+								<p:column headerText="Alocado"
+									styleClass="colunaTempo text-center">
+									<h:outputText value="#{resumoMateria.tempoAlocado}"
+										converter="tempoConverter" />
+								</p:column>
+
+								<p:column headerText="Ciclo Ideal"
+									styleClass="colunaTempo text-center">
+									<h:outputText value="#{controleestudo.estudosSemanais.size()}" />
+								</p:column>
+
+								<p:column headerText="Ciclo Atual"
+									sortBy="#{concursomateriaestudada.ciclo}"
+									styleClass="colunaTempo text-center">
+									<h:outputText value="#{resumoMateria.ciclo}">
+										<f:convertNumber groupingUsed="true" minFractionDigits="1"
+											maxFractionDigits="1" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Planejado"
+									styleClass="colunaTempo text-center">
+									<h:outputText
+										value="#{resumoMateria.tempoAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
+										converter="tempoConverter" />
+								</p:column>
+
+								<p:column headerText="Estudado"
+									styleClass="colunaTempo text-center">
+									<h:outputText value="#{resumoMateria.somaTempo}"
+										converter="tempoConverter" />
+								</p:column>
+
+								<p:columnGroup type="footer">
+									<p:row>
+										<p:column footerText="Total:" />
+										<p:column styleClass="text-center">
+											<f:facet name="footer">
+												<h:outputText value="#{controleestudo.tempoTotalAlocado}"
+													converter="tempoConverter" />
+											</f:facet>
+										</p:column>
+										<p:column
+											footerText="#{controleestudo.estudosSemanais.size()}" />
+										<p:column styleClass="text-center">
+											<f:facet name="footer">
+												<h:outputText value="#{controleestudo.cicloTotal}">
+													<f:convertNumber groupingUsed="true" minFractionDigits="1"
+														maxFractionDigits="1" />
+												</h:outputText>
+											</f:facet>
+										</p:column>
+										<p:column styleClass="text-center">
+											<f:facet name="footer">
+												<h:outputText
+													value="#{controleestudo.tempoTotalAlocado.multipliedBy(controleestudo.estudosSemanais.size())}"
+													converter="tempoConverter" />
+											</f:facet>
+										</p:column>
+										<p:column styleClass="text-center">
+											<f:facet name="footer">
+												<h:outputText value="#{controleestudo.tempoEstudadoTotal}"
+													converter="tempoConverter" />
+											</f:facet>
+										</p:column>
+									</p:row>
+								</p:columnGroup>
+
+							</p:dataTable>
+
+						</p:tab>
+					</p:tabView>
+
+				</div>
 
 			</div>
 
+			<div class="row">
+
+				<div class="col-xs-12">
+
+					<p:tabView id="tabViewAcompanhamento">
+
+						<p:tab id="tabHistoricoEstudo" title="Histórico">
+
+							<p:dataTable id="dataTableHistoricoEstudo" var="materiaestudada"
+								value="#{controleestudo.materiasEstudadas}" paginator="true"
+								rows="50"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								editable="true" reflow="true">
+
+								<p:ajax event="rowEdit" listener="#{controleestudo.onRowEdit}" />
+
+								<p:column headerText="Estudo" styleClass="text-ellipsis-nowrap"
+									width="100">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{materiaestudada.estudo.nome}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:selectOneMenu value="#{materiaestudada.estudo}"
+												converter="omnifaces.SelectItemsConverter">
+												<f:selectItems value="#{controleestudo.estudos}"
+													var="estudo" itemValue="#{estudo}"
+													itemLabel="#{estudo.nome}" />
+											</p:selectOneMenu>
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Matéria" styleClass="text-ellipsis-nowrap">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{materiaestudada.materia.nome}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:selectOneMenu value="#{materiaestudada.materia}"
+												converter="omnifaces.SelectItemsConverter">
+												<f:selectItems value="#{controleestudo.materiasDoEstudo}"
+													var="estudomateria" itemValue="#{estudomateria}"
+													itemLabel="#{estudomateria.nome}" />
+											</p:selectOneMenu>
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Data/Hora"
+									styleClass="colunaDataHora text-center">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{materiaestudada.horaEstudo}">
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+													timeZone="America/Sao_Paulo" />
+											</h:outputText>
+										</f:facet>
+										<f:facet name="input">
+											<p:calendar styleClass="text-center"
+												pattern="dd/MM/yyyy HH:mm:ss" mask="true"
+												value="#{materiaestudada.horaEstudo}" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Duração"
+									styleClass="colunaTempo text-center">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{materiaestudada.tempoEstudado}"
+												converter="durationhhmmssConverter" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputMask mask="99:99:99"
+												value="#{materiaestudada.tempoEstudado}"
+												converter="durationhhmmssConverter" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Observação"
+									styleClass="text-ellipsis-nowrap">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{materiaestudada.observacao}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{materiaestudada.observacao}" size="100" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column style="width:32px">
+									<p:rowEditor />
+								</p:column>
+
+								<p:column style="width:32px;text-align: center">
+									<p:commandButton update="@form" icon="ui-icon-close"
+										title="Remover" immediate="true"
+										actionListener="#{controleestudo.remover(materiaestudada)}">
+										<!-- <p:confirm header="Confirmação"
+										message="Você deseja excluir o estudo?" icon="ui-icon-alert" /> -->
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab id="tbResumoDiario" title="Diário">
+							<p:dataTable id="dataTableResumoDiario" var="estudoDiario"
+								value="#{controleestudo.estudosDiarios}" paginator="true"
+								rows="10"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								reflow="true">
+
+								<p:column headerText="Início">
+									<h:outputText value="#{estudoDiario.inicioSemana}">
+										<f:convertDateTime locale="pt_BR"
+											pattern="EEEEEEEE, dd/MM/yyyy" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Horas Estudas" styleClass="text-center">
+									<h:outputText value="#{estudoDiario.tempoEstudado}"
+										converter="tempoConverter" />
+								</p:column>
+
+								<p:column headerText="Horas Acumuladas" styleClass="text-center">
+									<h:outputText value="#{estudoDiario.tempoEstudadoAcumulado}"
+										converter="tempoConverter" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab id="tbResumoSemanal" title="Semanal">
+							<p:dataTable id="dataTableResumoSemanal" var="estudoSemanal"
+								value="#{controleestudo.estudosSemanais}" paginator="true"
+								rows="10"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								reflow="true">
+
+								<p:column headerText="Início" styleClass="text-center">
+									<h:outputText value="#{estudoSemanal.inicioSemana}">
+										<f:convertDateTime locale="pt_BR"
+											pattern="EEEEEEEE, dd/MM/yyyy" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Fim" styleClass="text-center">
+									<h:outputText value="#{estudoSemanal.dataFimSemana}">
+										<f:convertDateTime locale="pt_BR"
+											pattern="EEEEEEEE, dd/MM/yyyy" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Horas Estudas" styleClass="text-center">
+									<h:outputText value="#{estudoSemanal.tempoEstudado}"
+										converter="tempoConverter" />
+								</p:column>
+
+								<p:column headerText="Horas Acumuladas" styleClass="text-center">
+									<h:outputText value="#{estudoSemanal.tempoEstudadoAcumulado}"
+										converter="tempoConverter" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+
+						<p:tab id="tbAcompanhamentoDiario" title="Acompanhamento Diário">
+							<p:chart id="graficoAcompanhamentoDiario" type="line"
+								model="#{controleestudo.graficoDiario.graficoEstudoDiario}"
+								rendered="#{not empty controleestudo.graficoDiario}"
+								responsive="true" />
+						</p:tab>
+
+					</p:tabView>
+
+				</div>
+
+			</div>
 		</div>
 
+	</ui:define>
+
+	<ui:define name="javascript">
+		<h:outputScript name="js/jquery.countdown.min.js" />
+		<script>
+		$( document ).ready( function() {
+			inicializa();
+		} );
+		function inicializa() {
+			$( '#relogio' ).countdown( { since: 0, compact: true, format: 'HMS', description: '' } );
+			pausar();
+		}
+		function iniciar() {
+			// debugger;
+			var materias = $( '#formulario\\:materias_input' );
+			if( materias.val() == '' ) {
+				alert( 'Selecione uma matéria' );
+				return false;
+			}
+			rcControleEstudoIniciar();
+			$( '#relogio' ).countdown( 'resume' );
+		}
+		function pausar() {
+			// debugger;
+			$( '#relogio' ).countdown( 'pause' );
+		}
+		function zerar() {
+			// debugger;
+			$( '#relogio' ).countdown( 'destroy' );
+			$( '#relogio' ).countdown( { since: 0, compact: true, format: 'HMS', description: '' } );
+			pausar();
+			$( '#relogio' ).html( '00:00:00' );
+		}
+		function gravar() {
+			// debugger;
+			pausar();
+			var times = $( '#relogio' ).countdown( 'getTimes' );
+			$( '#formulario\\:horasEstudadaInMillis' ).val( times[ 4 ] * 60 * 60 * 1000 + times[ 5 ] * 60 * 1000 + times[ 6 ] * 1000 );
+			var agora = new Date().getTime();
+			$( '#formulario\\:agoraInMillis' ).val( agora );
+			zerar();
+			PF( 'cd' ).show();
+		}
+		function extLegend() {
+		    this.cfg.legend= {
+		        show: true,
+		        location: 's',
+		        placement: 'outsideGrid'
+		    };
+		}
+		</script>
 	</ui:define>
 
 </ui:composition>
