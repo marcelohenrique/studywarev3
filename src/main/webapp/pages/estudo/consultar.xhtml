@@ -9,61 +9,56 @@
 
 	<ui:define name="main">
 
-		<div class="ui-g">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
 
-			<p:dataTable id="estudos" var="e"
-				value="#{consultaEstudoController.estudos}"
-				style="margin-bottom:20px">
-				<!-- selection="#{usuarioEstudo.bean}" selectionMode="single" rowKey="#{e.id}"> -->
-				<f:facet name="header">Estudos</f:facet>
+					<p:dataTable id="estudos" var="e"
+						value="#{consultaEstudoController.estudos}"
+						style="margin-bottom:20px">
+						<!-- selection="#{usuarioEstudo.bean}" selectionMode="single" rowKey="#{e.id}"> -->
+						<f:facet name="header">Estudos</f:facet>
 
-				<p:column headerText="Nome" sortBy="#{e.nome}">
-					<h:outputText value="#{e.nome}" />
-				</p:column>
+						<p:column headerText="Nome" sortBy="#{e.nome}">
+							<h:outputText value="#{e.nome}" />
+						</p:column>
 
-				<p:column headerText="Início" sortBy="#{e.inicio}"
-					style="width: 100px" styleClass="text-center">
-					<h:outputText value="#{e.inicio}">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</h:outputText>
-				</p:column>
+						<p:column headerText="Início" sortBy="#{e.inicio}"
+							style="width: 100px" styleClass="text-center">
+							<h:outputText value="#{e.inicio}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
 
-				<p:column headerText="Fim" sortBy="#{e.fim}" style="width: 100px"
-					styleClass="text-center">
-					<h:outputText value="#{e.fim}">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</h:outputText>
-				</p:column>
+						<p:column headerText="Fim" sortBy="#{e.fim}" style="width: 100px"
+							styleClass="text-center">
+							<h:outputText value="#{e.fim}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
 
-				<p:column style="width:32px;text-align: center">
-					<p:commandButton icon="ui-icon-pencil" title="Alterar"
-						action="#{consultaEstudoController.alterar(e)}" />
-				</p:column>
+						<p:column width="100" styleClass="text-center">
+							<p:commandButton icon="ui-icon-pencil" title="Alterar"
+								action="#{consultaEstudoController.alterar(e)}" />
 
-				<p:column style="width:32px;text-align: center">
-					<p:commandButton update="@form" icon="ui-icon-close"
-						title="Remover"
-						actionListener="#{consultaEstudoController.remover(e)}">
-						<p:confirm header="Confirmação"
-							message="Você deseja excluir o estudo?" icon="ui-icon-alert" />
-					</p:commandButton>
-				</p:column>
+							<p:commandButton update="@form" icon="ui-icon-close"
+								title="Remover"
+								actionListener="#{consultaEstudoController.remover(e)}">
+								<p:confirm header="Confirmação"
+									message="Você deseja excluir o estudo?" icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
 
-				<f:facet name="footer">
-					<p:commandButton value="Cadastrar"
-						action="#{controller.cadastrarEstudo()}" />
-				</f:facet>
-			</p:dataTable>
+						<f:facet name="footer">
+							<p:commandButton value="Cadastrar"
+								action="#{controller.cadastrarEstudo()}" />
+						</f:facet>
+					</p:dataTable>
 
+				</div>
+			</div>
 		</div>
 
-		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
-			closeOnEscape="true">
-			<p:commandButton value="Sim" type="button"
-				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-			<p:commandButton value="Não" type="button"
-				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-		</p:confirmDialog>
 	</ui:define>
 
 </ui:composition>

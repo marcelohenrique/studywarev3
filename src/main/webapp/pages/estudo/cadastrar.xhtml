@@ -9,106 +9,87 @@
 
 	<ui:define name="main">
 
-		<div class="ui-g">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
 
-			<div class="ui-g-12">
+					<p:wizard flowListener="#{cadastraEstudoController.onFlowProcess}">
 
-				<p:wizard flowListener="#{cadastraEstudoController.onFlowProcess}">
+						<p:tab id="estudo" title="Estudo">
+							<p:panel>
 
-					<p:tab id="estudo" title="Estudo">
-						<p:panel>
+								<div class="container-fluid">
+									<div class="row">
 
-							<div class="ui-g">
-								<div class="ui-g-12">
-
-									<div class="ui-g">
-										<div class="ui-g-1">
-
+										<div class="col-xs-1">
 											<p:outputLabel for="nome" value="Nome:" />
 										</div>
-										<div class="ui-g-1">
-
+										<div class="col-xs-11">
 											<p:inputText id="nome" required="true"
 												value="#{cadastraEstudoController.nome}" />
-
 										</div>
-									</div>
 
-									<div class="ui-g">
-										<div class="ui-g-1">
-
+										<div class="col-xs-1">
 											<p:outputLabel for="inicio" value="Início:" />
-
 										</div>
-										<div class="ui-g-1">
-
+										<div class="col-xs-11">
 											<p:calendar id="inicio"
 												value="#{cadastraEstudoController.inicio}"
 												pattern="dd/MM/yyyy" mask="true" />
-
 										</div>
-									</div>
 
-									<div class="ui-g">
-										<div class="ui-g-1">
-
+										<div class="col-xs-1">
 											<p:outputLabel for="fim" value="Fim:" />
-
 										</div>
-										<div class="ui-g-1">
-
+										<div class="col-xs-11">
 											<p:calendar id="fim" mindate="calwidget.today()"
 												value="#{cadastraEstudoController.fim}" pattern="dd/MM/yyyy"
 												mask="true" />
+										</div>
+
+										<div class="col-xs-12 text-right">
+											<p:commandButton value="Cadastrar"
+												action="#{cadastraEstudoController.cadastrar()}"
+												rendered="#{!cadastraEstudoController.estudoNovo}" />
+										</div>
+
+									</div>
+								</div>
+
+							</p:panel>
+						</p:tab>
+
+						<p:tab id="ciclo" title="Ciclo">
+							<p:panel>
+
+								<div class="container-fluid">
+									<div class="row">
+
+										<div class="col-xs-6">
+
+											<p:dataTable value="#{cadastraEstudoController.materias}"
+												var="m" style="margin-bottom:20px">
+
+												<f:facet name="header">Matérias</f:facet>
+
+												<p:column>
+													<h:outputText value="#{m.nome}" />
+												</p:column>
+
+												<p:column width="55" styleClass="text-center">
+													<p:commandButton update="@form" icon="ui-icon-plus"
+														title="Adicionar"
+														actionListener="#{cadastraEstudoController.adiciona(m)}">
+													</p:commandButton>
+												</p:column>
+
+											</p:dataTable>
 
 										</div>
-									</div>
 
-								</div>
-							</div>
+										<div class="col-xs-6">
 
-							<div class="ui-g">
-								<div class="ui-g-12 text-right">
-
-									<p:commandButton value="Cadastrar"
-										action="#{cadastraEstudoController.cadastrar()}"
-										rendered="#{!cadastraEstudoController.estudoNovo}" />
-
-								</div>
-							</div>
-						</p:panel>
-					</p:tab>
-
-					<p:tab id="ciclo" title="Ciclo">
-						<p:panel>
-
-							<div class="ui-g">
-
-								<div class="ui-g-6">
-
-									<p:dataTable value="#{cadastraEstudoController.materias}"
-										var="m" style="margin-bottom:20px">
-
-										<f:facet name="header">Matérias</f:facet>
-
-										<p:column>
-											<h:outputText value="#{m.nome}" />
-										</p:column>
-
-										<p:column style="width:32px;text-align: center">
-											<p:commandButton update="@form" icon="ui-icon-plus"
-												title="Adicionar"
-												actionListener="#{cadastraEstudoController.adiciona(m)}">
-											</p:commandButton>
-										</p:column>
-
-									</p:dataTable>
-
-								</div>
-
-								<div class="ui-g-6">
-
-									<script type="text/javascript">
+											<script type="text/javascript">
 											function atualizaTempoAlocado() {
 												$( '#formulario\\:dataTableCiclo_data tr td:nth-child(3) input' ).each(function(index, value){
 													var elementName = "formulario:dataTableCiclo:"+index+":j_idt47";
@@ -117,175 +98,170 @@
 													value.onchange = PrimeFaces.ab({s:elementName,e:"change",f:"formulario",p:"formulario:dataTableCiclo",u:"formulario:dataTableCiclo"});
 												});
 											}
-										</script>
+											</script>
 
-									<p:dataTable id="dataTableCiclo"
-										value="#{cadastraEstudoController.ciclo}" var="m"
-										style="margin-bottom:20px" draggableRows="true"
-										rowIndexVar="rowIndex">
+											<p:dataTable id="dataTableCiclo"
+												value="#{cadastraEstudoController.ciclo}" var="m"
+												style="margin-bottom:20px" draggableRows="true"
+												rowIndexVar="rowIndex">
 
-										<!-- <p:ajax event="rowReorder" listener="#{cadastraEstudoController.onRowReorder}" update="@this" onstart="teste()" /> -->
-										<p:ajax event="rowReorder" onstart="atualizaTempoAlocado()" />
+												<!-- <p:ajax event="rowReorder" listener="#{cadastraEstudoController.onRowReorder}" update="@this" onstart="teste()" /> -->
+												<p:ajax event="rowReorder" onstart="atualizaTempoAlocado()" />
 
-										<f:facet name="header">Ciclo</f:facet>
+												<f:facet name="header">Ciclo</f:facet>
 
-										<p:column style="width: 30px" styleClass="text-center">
-											<h:outputText value="#{rowIndex + 1}" />
-										</p:column>
+												<p:column width="30" styleClass="text-center">
+													<h:outputText value="#{rowIndex + 1}" />
+												</p:column>
 
-										<p:column>
-											<h:outputText value="#{m.materia.nome}" />
-										</p:column>
+												<p:column>
+													<h:outputText value="#{m.materia.nome}" />
+												</p:column>
 
-										<p:column style="width: 100px" styleClass="text-center">
-											<p:inputMask mask="99:99" value="#{m.tempoAlocado}"
-												converter="durationhhmmConverter" size="5"
-												styleClass="text-center">
-												<p:ajax event="change" process="dataTableCiclo"
-													listener="#{cadastraEstudoController.atualizaTotalCiclo()}"
-													update="dataTableCiclo" />
-											</p:inputMask>
-										</p:column>
+												<p:column width="100" styleClass="text-center">
+													<p:inputMask mask="99:99" value="#{m.tempoAlocado}"
+														converter="durationhhmmConverter" size="5"
+														styleClass="text-center">
+														<p:ajax event="change" process="dataTableCiclo"
+															listener="#{cadastraEstudoController.atualizaTotalCiclo()}"
+															update="dataTableCiclo" />
+													</p:inputMask>
+												</p:column>
 
-										<p:column style="width:32px" styleClass="text-center">
-											<p:commandButton update="@form" icon="ui-icon-close"
-												title="Remover"
-												actionListener="#{cadastraEstudoController.remove(m)}">
+												<p:column width="55" styleClass="text-center">
+													<p:commandButton update="@form" icon="ui-icon-close"
+														title="Remover"
+														actionListener="#{cadastraEstudoController.remove(m)}">
+													</p:commandButton>
+												</p:column>
+
+												<f:facet name="footer">Total: <h:outputText
+														id="totalCiclo"
+														value="#{cadastraEstudoController.totalCiclo}"
+														converter="durationhhmmConverter" />
+												</f:facet>
+
+											</p:dataTable>
+
+										</div>
+
+
+										<div class="col-xs-12 text-right">
+											<p:commandButton value="Cadastrar"
+												action="#{cadastraEstudoController.cadastrar()}"
+												rendered="#{!cadastraEstudoController.estudoNovo}" />
+										</div>
+
+									</div>
+								</div>
+
+							</p:panel>
+						</p:tab>
+
+						<p:tab id="semana" title="Semana">
+							<p:panel>
+
+								<div class="container-fluid">
+									<div class="row">
+
+										<div class="col-xs-12">
+
+											<p:dataTable id="dataTableSemana"
+												value="#{cadastraEstudoController.semana}" var="d">
+
+												<p:column headerText="Dia">
+													<h:outputText value="#{d.dia.nome}" />
+												</p:column>
+
+												<p:column headerText="Tempo" width="100"
+													styleClass="text-center">
+													<p:inputMask mask="99:99" value="#{d.tempoAlocado}"
+														converter="durationhhmmConverter" size="5"
+														styleClass="text-center">
+														<p:ajax event="change" process="dataTableSemana"
+															listener="#{cadastraEstudoController.atualizaTotalSemana()}"
+															update="dataTableSemana" />
+													</p:inputMask>
+												</p:column>
+
+												<f:facet name="footer">Total: <h:outputText
+														id="totalSemana"
+														value="#{cadastraEstudoController.totalSemana}"
+														converter="durationhhmmConverter" />
+												</f:facet>
+
+											</p:dataTable>
+
+										</div>
+
+										<div class="col-xs-12 text-right">
+											<p:commandButton value="Cadastrar"
+												action="#{cadastraEstudoController.cadastrar()}" />
+										</div>
+
+									</div>
+								</div>
+
+							</p:panel>
+						</p:tab>
+
+						<p:tab id="participantes" title="Participantes">
+							<p:panel>
+
+								<div class="container-fluid">
+									<div class="row">
+
+										<div class="col-xs-1">
+											<label for="participante">Participante:</label>
+										</div>
+										<div class="col-xs-11">
+											<p:autoComplete id="participante" size="60"
+												placeholder="E-mail do participante"
+												completeMethod="#{cadastraEstudoController.buscaParticipantes}"
+												var="p" itemLabel="#{p.email}" itemValue="#{p.email}"
+												value="#{cadastraEstudoController.participante}" />
+											<p:commandButton value="Adicionar"
+												action="#{cadastraEstudoController.adicionaParticipante()}">
+												<f:ajax execute="participante"
+													render="dataTableParticipantes" />
 											</p:commandButton>
-										</p:column>
+										</div>
 
-										<f:facet name="footer">Total: <h:outputText
-												id="totalCiclo"
-												value="#{cadastraEstudoController.totalCiclo}"
-												converter="durationhhmmConverter" />
-										</f:facet>
+										<div class="col-xs-12">
 
-									</p:dataTable>
+											<p:dataTable id="dataTableParticipantes"
+												value="#{cadastraEstudoController.participantes}" var="p">
 
+												<p:column>
+													<h:outputText value="#{p.email}" />
+												</p:column>
+
+												<p:column width="55" styleClass="text-center">
+													<p:commandButton update="@form" icon="ui-icon-close"
+														title="Remover"
+														actionListener="#{cadastraEstudoController.remove(p)}">
+													</p:commandButton>
+												</p:column>
+
+											</p:dataTable>
+
+										</div>
+
+										<div class="col-xs-12 text-right">
+											<p:commandButton value="Cadastrar"
+												action="#{cadastraEstudoController.cadastrar()}" />
+										</div>
+
+									</div>
 								</div>
 
-							</div>
+							</p:panel>
+						</p:tab>
 
-							<div class="ui-g">
-								<div class="ui-g-12 text-right">
+					</p:wizard>
 
-									<p:commandButton value="Cadastrar"
-										action="#{cadastraEstudoController.cadastrar()}"
-										rendered="#{!cadastraEstudoController.estudoNovo}" />
-
-								</div>
-							</div>
-
-						</p:panel>
-					</p:tab>
-
-					<p:tab id="semana" title="Semana">
-						<p:panel>
-
-							<div class="ui-g">
-								<div class="ui-g-12">
-
-									<p:dataTable id="dataTableSemana"
-										value="#{cadastraEstudoController.semana}" var="d"
-										style="margin-bottom:20px">
-
-										<p:column headerText="Dia">
-											<h:outputText value="#{d.dia.nome}" />
-										</p:column>
-
-										<p:column headerText="Tempo" style="width: 100px"
-											styleClass="text-center">
-											<p:inputMask mask="99:99" value="#{d.tempoAlocado}"
-												converter="durationhhmmConverter" size="5"
-												styleClass="text-center">
-												<p:ajax event="change" process="dataTableSemana"
-													listener="#{cadastraEstudoController.atualizaTotalSemana()}"
-													update="dataTableSemana" />
-											</p:inputMask>
-										</p:column>
-
-										<f:facet name="footer">Total: <h:outputText
-												id="totalSemana"
-												value="#{cadastraEstudoController.totalSemana}"
-												converter="durationhhmmConverter" />
-										</f:facet>
-
-									</p:dataTable>
-
-								</div>
-							</div>
-
-							<div class="ui-g">
-								<div class="ui-g-12 text-right">
-
-									<p:commandButton value="Cadastrar"
-										action="#{cadastraEstudoController.cadastrar()}" />
-
-								</div>
-							</div>
-
-						</p:panel>
-					</p:tab>
-
-					<p:tab id="participantes" title="Participantes">
-						<p:panel>
-
-							<div class="ui-g">
-								<div class="ui-g-1">Participante:</div>
-								<div class="ui-g-4">
-									<p:autoComplete id="participante" size="60"
-										placeholder="E-mail do participante"
-										completeMethod="#{cadastraEstudoController.buscaParticipantes}"
-										var="p" itemLabel="#{p.email}" itemValue="#{p.email}"
-										value="#{cadastraEstudoController.participante}" />
-								</div>
-								<div class="ui-g-1">
-									<p:commandButton value="Adicionar"
-										action="#{cadastraEstudoController.adicionaParticipante()}">
-										<f:ajax execute="participante" render="dataTableParticipantes" />
-									</p:commandButton>
-								</div>
-							</div>
-
-							<div class="ui-g">
-								<div class="ui-g-12">
-
-									<p:dataTable id="dataTableParticipantes"
-										value="#{cadastraEstudoController.participantes}" var="p"
-										style="margin-bottom:20px">
-
-										<p:column>
-											<h:outputText value="#{p.email}" />
-										</p:column>
-
-										<p:column style="width:32px;text-align: center">
-											<p:commandButton update="@form" icon="ui-icon-close"
-												title="Remover"
-												actionListener="#{cadastraEstudoController.remove(p)}">
-											</p:commandButton>
-										</p:column>
-
-									</p:dataTable>
-
-								</div>
-							</div>
-
-							<div class="ui-g">
-								<div class="ui-g-12 text-right">
-
-									<p:commandButton value="Cadastrar"
-										action="#{cadastraEstudoController.cadastrar()}" />
-
-								</div>
-							</div>
-
-						</p:panel>
-					</p:tab>
-
-				</p:wizard>
-
+				</div>
 			</div>
-
 		</div>
 
 	</ui:define>

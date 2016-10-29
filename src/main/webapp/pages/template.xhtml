@@ -31,7 +31,7 @@
 
 	<ui:include src="/status.xhtml" />
 
-	<h:form id="formulariomenu">
+	<h:form id="formulariomenu" style="padding-bottom: 20px">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
@@ -65,6 +65,16 @@
 		<p:growl autoUpdate="true" showDetail="true" sticky="true" />
 
 		<ui:insert name="main" />
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			closeOnEscape="true">
+			<div class="text-center">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</div>
+		</p:confirmDialog>
 
 		<p:ajaxExceptionHandler update="exceptionDialog"
 			onexception="PF('exceptionDialog').show();" />
