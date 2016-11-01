@@ -37,14 +37,14 @@
 
 		<div class="container-fluid">
 
-			<div class="row row-padding-bottom">
+			<div class="row">
 
 				<h:inputHidden id="horasEstudadaInMillis"
 					value="#{controleestudo.horasEstudadaInMillis}" />
 				<h:inputHidden id="agoraInMillis"
 					value="#{controleestudo.agoraInMillis}" />
 
-				<div class="col-xs-12 col-sm-4">
+				<div class="col-xs-12 col-sm-4 row-padding-bottom">
 
 					<div class="row">
 
@@ -126,7 +126,7 @@
 
 				</div>
 
-				<div class="col-xs-12 col-sm-8">
+				<div class="col-xs-12 col-sm-8 row-padding-bottom">
 
 					<p:tabView id="tabViewResumos">
 						<p:tab title="Ciclo">
@@ -225,8 +225,7 @@
 						<p:tab title="Matérias">
 
 							<p:dataTable id="dataTableResumoMaterias"
-								value="#{controleestudo.resumoMaterias}" var="resumoMateria"
-								reflow="true">
+								value="#{controleestudo.resumoMaterias}" var="resumoMateria">
 
 								<p:column headerText="Matéria"
 									sortBy="#{resumoMateria.materia.nome}"
@@ -323,7 +322,7 @@
 								value="#{controleestudo.materiasEstudadas}" paginator="true"
 								rows="50"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								editable="true" reflow="true">
+								editable="true">
 
 								<p:ajax event="rowEdit" listener="#{controleestudo.onRowEdit}" />
 
@@ -418,14 +417,15 @@
 								</p:column>
 
 							</p:dataTable>
+
 						</p:tab>
 
 						<p:tab id="tbResumoDiario" title="Diário">
+
 							<p:dataTable id="dataTableResumoDiario" var="estudoDiario"
 								value="#{controleestudo.estudosDiarios}" paginator="true"
 								rows="10"
-								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								reflow="true">
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
 								<p:column headerText="Início">
 									<h:outputText value="#{estudoDiario.inicioSemana}">
@@ -445,14 +445,15 @@
 								</p:column>
 
 							</p:dataTable>
+
 						</p:tab>
 
 						<p:tab id="tbResumoSemanal" title="Semanal">
+
 							<p:dataTable id="dataTableResumoSemanal" var="estudoSemanal"
 								value="#{controleestudo.estudosSemanais}" paginator="true"
 								rows="10"
-								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								reflow="true">
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
 								<p:column headerText="Início" styleClass="text-center">
 									<h:outputText value="#{estudoSemanal.inicioSemana}">
@@ -479,14 +480,16 @@
 								</p:column>
 
 							</p:dataTable>
+
 						</p:tab>
 
-
 						<p:tab id="tbAcompanhamentoDiario" title="Acompanhamento Diário">
+
 							<p:chart id="graficoAcompanhamentoDiario" type="line"
 								model="#{controleestudo.graficoDiario.graficoEstudoDiario}"
 								rendered="#{not empty controleestudo.graficoDiario}"
 								responsive="true" />
+
 						</p:tab>
 
 					</p:tabView>
