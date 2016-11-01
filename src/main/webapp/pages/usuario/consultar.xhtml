@@ -9,39 +9,49 @@
 
 	<ui:define name="main">
 
-		<p:dataTable id="usuarios" var="u" value="#{usuarioConsulta.usuarios}"
-			editable="true" style="margin-bottom:20px">
-			<f:facet name="header">Usuários</f:facet>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
 
-			<p:ajax event="rowEdit" listener="#{usuarioConsulta.onRowEdit}" />
-			<p:ajax event="rowEditCancel"
-				listener="#{usuarioConsulta.onRowCancel}" />
+					<p:dataTable id="usuarios" var="u"
+						value="#{usuarioConsulta.usuarios}" editable="true"
+						style="margin-bottom:20px">
+						<f:facet name="header">Usuários</f:facet>
 
-			<p:column headerText="E-mail">
-				<h:outputText value="#{u.email}" />
-			</p:column>
+						<p:ajax event="rowEdit" listener="#{usuarioConsulta.onRowEdit}" />
+						<p:ajax event="rowEditCancel"
+							listener="#{usuarioConsulta.onRowCancel}" />
 
-			<p:column headerText="Ativo" style="width:100px;text-align: center">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{u.ativo}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:selectBooleanButton value="#{u.ativo}" onLabel="Sim"
-							offLabel="Não" style="width:60px" />
-					</f:facet>
-				</p:cellEditor>
-			</p:column>
+						<p:column headerText="E-mail">
+							<h:outputText value="#{u.email}" />
+						</p:column>
 
-			<p:column style="width:32px">
-				<p:rowEditor />
-			</p:column>
+						<p:column headerText="Ativo"
+							style="width:100px;text-align: center">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{u.ativo}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectBooleanButton value="#{u.ativo}" onLabel="Sim"
+										offLabel="Não" style="width:60px" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
 
-			<f:facet name="footer">
-				<p:commandButton value="Cadastrar Usuário"
-					action="#{controller.cadastrarUsuario()}" />
-			</f:facet>
-		</p:dataTable>
+						<p:column style="width:32px">
+							<p:rowEditor />
+						</p:column>
+
+						<f:facet name="footer">
+							<p:commandButton value="Cadastrar Usuário"
+								action="#{controller.cadastrarUsuario()}" />
+						</f:facet>
+					</p:dataTable>
+
+				</div>
+			</div>
+		</div>
 
 	</ui:define>
 

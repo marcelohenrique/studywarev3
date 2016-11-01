@@ -37,7 +37,7 @@
 
 		<div class="container-fluid">
 
-			<div class="row">
+			<div class="row row-padding-bottom">
 
 				<h:inputHidden id="horasEstudadaInMillis"
 					value="#{controleestudo.horasEstudadaInMillis}" />
@@ -133,11 +133,11 @@
 
 							<p:dataTable id="dataTableResumoCiclo"
 								var="concursomateriaestudada"
-								value="#{controleestudo.resumoEstudoMaterias}" reflow="true">
+								value="#{controleestudo.resumoEstudoMaterias}">
 
 								<p:column headerText="#"
 									sortBy="#{concursomateriaestudada.estudoMateria.ordem}"
-									styleClass="text-center" width="30">
+									styleClass="text-center" width="50">
 									<h:outputText
 										value="#{concursomateriaestudada.estudoMateria.ordem}" />
 								</p:column>

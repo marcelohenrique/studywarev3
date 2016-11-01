@@ -18,42 +18,45 @@
 						<p:tab id="estudo" title="Estudo">
 							<p:panel>
 
-								<div class="container-fluid">
-									<div class="row">
+								<div class="container-fluid form-horizontal">
 
-										<div class="col-xs-1">
-											<p:outputLabel for="nome" value="Nome:" />
-										</div>
+									<div class="row form-group">
+										<p:outputLabel styleClass="col-xs-1 control-label" for="nome"
+											value="Nome:" />
 										<div class="col-xs-11">
-											<p:inputText id="nome" required="true"
-												value="#{cadastraEstudoController.nome}" />
+											<p:inputText styleClass="form-control" id="nome"
+												required="true" value="#{cadastraEstudoController.nome}" />
 										</div>
+									</div>
 
-										<div class="col-xs-1">
-											<p:outputLabel for="inicio" value="Início:" />
-										</div>
+									<div class="row form-group">
+										<p:outputLabel styleClass="col-xs-1 control-label"
+											for="inicio" value="Início:" />
 										<div class="col-xs-11">
 											<p:calendar id="inicio"
 												value="#{cadastraEstudoController.inicio}"
 												pattern="dd/MM/yyyy" mask="true" />
 										</div>
+									</div>
 
-										<div class="col-xs-1">
-											<p:outputLabel for="fim" value="Fim:" />
-										</div>
+									<div class="row form-group">
+										<p:outputLabel styleClass="col-xs-1 control-label" for="fim"
+											value="Fim:" />
 										<div class="col-xs-11">
 											<p:calendar id="fim" mindate="calwidget.today()"
 												value="#{cadastraEstudoController.fim}" pattern="dd/MM/yyyy"
 												mask="true" />
 										</div>
+									</div>
 
+									<div class="row">
 										<div class="col-xs-12 text-right">
 											<p:commandButton value="Cadastrar"
 												action="#{cadastraEstudoController.cadastrar()}"
 												rendered="#{!cadastraEstudoController.estudoNovo}" />
 										</div>
-
 									</div>
+
 								</div>
 
 							</p:panel>
@@ -63,8 +66,8 @@
 							<p:panel>
 
 								<div class="container-fluid">
-									<div class="row">
 
+									<div class="row">
 										<div class="col-xs-6">
 
 											<p:dataTable value="#{cadastraEstudoController.materias}"
@@ -144,15 +147,16 @@
 											</p:dataTable>
 
 										</div>
+									</div>
 
-
+									<div class="row">
 										<div class="col-xs-12 text-right">
 											<p:commandButton value="Cadastrar"
 												action="#{cadastraEstudoController.cadastrar()}"
 												rendered="#{!cadastraEstudoController.estudoNovo}" />
 										</div>
-
 									</div>
+
 								</div>
 
 							</p:panel>
@@ -162,8 +166,8 @@
 							<p:panel>
 
 								<div class="container-fluid">
-									<div class="row">
 
+									<div class="row">
 										<div class="col-xs-12">
 
 											<p:dataTable id="dataTableSemana"
@@ -193,13 +197,15 @@
 											</p:dataTable>
 
 										</div>
+									</div>
 
+									<div class="row">
 										<div class="col-xs-12 text-right">
 											<p:commandButton value="Cadastrar"
 												action="#{cadastraEstudoController.cadastrar()}" />
 										</div>
-
 									</div>
+
 								</div>
 
 							</p:panel>
@@ -209,10 +215,10 @@
 							<p:panel>
 
 								<div class="container-fluid">
-									<div class="row">
 
+									<div class="row">
 										<div class="col-xs-1">
-											<label for="participante">Participante:</label>
+											<p:outputLabel for="participante" value="Participante:"/>
 										</div>
 										<div class="col-xs-11">
 											<p:autoComplete id="participante" size="60"
@@ -226,7 +232,9 @@
 													render="dataTableParticipantes" />
 											</p:commandButton>
 										</div>
+									</div>
 
+									<div class="row">
 										<div class="col-xs-12">
 
 											<p:dataTable id="dataTableParticipantes"
@@ -246,13 +254,15 @@
 											</p:dataTable>
 
 										</div>
+									</div>
 
+									<div class="row">
 										<div class="col-xs-12 text-right">
 											<p:commandButton value="Cadastrar"
 												action="#{cadastraEstudoController.cadastrar()}" />
 										</div>
-
 									</div>
+
 								</div>
 
 							</p:panel>

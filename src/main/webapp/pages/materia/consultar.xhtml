@@ -9,51 +9,59 @@
 
 	<ui:define name="main">
 
-		<p:dataTable id="materias" var="m"
-			value="#{materiaController.materias}" editable="true"
-			style="margin-bottom:20px">
-			<f:facet name="header">Matérias</f:facet>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
 
-			<p:ajax event="rowEdit" listener="#{materiaController.onRowEdit}" />
-			<p:ajax event="rowEditCancel"
-				listener="#{materiaController.onRowCancel}" />
+					<p:dataTable id="materias" var="m"
+						value="#{materiaController.materias}" editable="true">
+						<f:facet name="header">Matérias</f:facet>
 
-			<p:column headerText="Sigla">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{m.sigla}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText id="modelInput" value="#{m.sigla}" style="width:100%" />
-					</f:facet>
-				</p:cellEditor>
-			</p:column>
+						<p:ajax event="rowEdit" listener="#{materiaController.onRowEdit}" />
+						<p:ajax event="rowEditCancel"
+							listener="#{materiaController.onRowCancel}" />
 
-			<p:column headerText="Nome">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{m.nome}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{m.nome}" style="width:100%" />
-					</f:facet>
-				</p:cellEditor>
-			</p:column>
+						<p:column headerText="Sigla" width="150">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{m.sigla}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText id="modelInput" value="#{m.sigla}"
+										style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
 
-			<p:column style="width:32px">
-				<p:rowEditor />
-			</p:column>
+						<p:column headerText="Nome">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{m.nome}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{m.nome}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
 
-			<p:column style="width:32px;text-align: center">
-				<p:commandButton update="@form" icon="ui-icon-close" title="Remover"
-					actionListener="#{materiaController.remover(m)}" />
-			</p:column>
+						<p:column width="36">
+							<p:rowEditor />
+						</p:column>
 
-			<f:facet name="footer">
-				<p:commandButton value="Cadastrar"
-					action="#{controller.cadastrarMateria()}" />
-			</f:facet>
-		</p:dataTable>
+						<p:column width="55" styleClass="text-center">
+							<p:commandButton update="@form" icon="ui-icon-close"
+								title="Remover" actionListener="#{materiaController.remover(m)}" />
+						</p:column>
+
+						<f:facet name="footer">
+							<p:commandButton value="Cadastrar"
+								action="#{controller.cadastrarMateria()}" />
+						</f:facet>
+					</p:dataTable>
+
+				</div>
+			</div>
+		</div>
 
 	</ui:define>
 
