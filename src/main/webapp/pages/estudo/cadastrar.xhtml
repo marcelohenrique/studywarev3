@@ -7,6 +7,8 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/pages/template.xhtml">
 
+	<ui:define name="page-header">Cadastrar Estudo</ui:define>
+
 	<ui:define name="main">
 
 		<div class="container-fluid">
@@ -218,7 +220,7 @@
 
 									<div class="row">
 										<div class="col-xs-1">
-											<p:outputLabel for="participante" value="Participante:"/>
+											<p:outputLabel for="participante" value="Participante:" />
 										</div>
 										<div class="col-xs-11">
 											<p:autoComplete id="participante" size="60"

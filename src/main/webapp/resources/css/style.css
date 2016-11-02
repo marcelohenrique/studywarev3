@@ -17,6 +17,10 @@
 	text-overflow: ellipsis;
 }
 
-.row-padding-bottom {
-	padding-bottom: 20px;
+.padding-bottom {
+	padding-bottom: 10px;
+}
+
+.padding-top {
+	padding-top: 10px;
 }

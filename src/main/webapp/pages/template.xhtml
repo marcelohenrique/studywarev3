@@ -31,7 +31,7 @@
 
 	<ui:include src="/status.xhtml" />
 
-	<h:form id="formulariomenu" styleClass="row-padding-bottom">
+	<h:form id="formulariomenu">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
@@ -64,7 +64,25 @@
 
 		<p:growl autoUpdate="true" showDetail="true" sticky="true" />
 
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 text-center">
+					<h2>
+						<ui:insert name="page-header" />
+					</h2>
+				</div>
+			</div>
+		</div>
+
 		<ui:insert name="main" />
+
+		<div class="container-fluid padding-top">
+			<div class="row">
+				<div class="col-xs-12 text-center">
+					<ui:insert name="rodape" />
+				</div>
+			</div>
+		</div>
 
 		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
 			closeOnEscape="true">

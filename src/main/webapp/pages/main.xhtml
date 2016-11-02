@@ -8,6 +8,8 @@
 	xmlns:of="http://omnifaces.org/functions"
 	template="/pages/template.xhtml">
 
+	<ui:define name="page-header">Controle de Estudo</ui:define>
+
 	<ui:define name="main">
 
 		<p:remoteCommand name="rcControleEstudoIniciar"
@@ -44,13 +46,9 @@
 				<h:inputHidden id="agoraInMillis"
 					value="#{controleestudo.agoraInMillis}" />
 
-				<div class="col-xs-12 col-sm-4 row-padding-bottom">
+				<div class="col-xs-12 col-sm-4 padding-bottom">
 
 					<div class="row">
-
-						<div class="col-xs-12 text-center">
-							<h4>Controle de Estudo</h4>
-						</div>
 
 						<div class="col-xs-12 text-center" id="relogio">00:00:00</div>
 
@@ -126,7 +124,7 @@
 
 				</div>
 
-				<div class="col-xs-12 col-sm-8 row-padding-bottom">
+				<div class="col-xs-12 col-sm-8 padding-bottom">
 
 					<p:tabView id="tabViewResumos">
 						<p:tab title="Ciclo">
