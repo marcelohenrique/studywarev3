@@ -142,9 +142,8 @@ public class EstudoMateriaHistoricoGatewayImpl extends AbstractDao<EstudoMateria
 		List<Object[]> entidades = query.getResultList();
 
 		List<ResumoMateria> beans = new ArrayList<>();
-		ResumoMateria bean = null;
 		for (Object[] entidade : entidades) {
-			bean = new ResumoMateria();
+			ResumoMateria bean = new ResumoMateria();
 
 			Materia materia = new Materia();
 			materia.setId(((BigInteger) entidade[0]).longValue());

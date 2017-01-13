@@ -74,7 +74,7 @@ public class ControleEstudoController implements Serializable {
 
 	private Estudo estudoSelecionado;
 
-	private Collection<ResumoMateria> resumoMaterias;
+	// private Collection<ResumoMateria> resumoMaterias;
 	private List<ResumoEstudoMateria> resumoEstudoMaterias;
 	private Materia materiaSelecionada;
 	private List<EstudoMateriaHistorico> materiasEstudadas;
@@ -97,36 +97,39 @@ public class ControleEstudoController implements Serializable {
 
 	@PostConstruct
 	private void init() {
+		this.gravaEstudoMateriaHistorico = new GravaEstudoMateriaHistoricoImpl(this.estudoMateriaHistoricoGateway);
+
 		this.usuario = this.sessionAuth.getUsuario();
 
 		this.estudos = this.estudoGateway.recuperaEstudosValidos(this.usuario.getEmail());
 
 		this.materiasDoEstudo = this.materiaGateway.buscaMaterias();
 
-		this.gravaEstudoMateriaHistorico = new GravaEstudoMateriaHistoricoImpl(this.estudoMateriaHistoricoGateway);
+		this.selecionaMateria();
 	}
 
 	private void atualiza() {
-
 		this.tempoTotalAlocado = Duration.ZERO;
-		this.tempoEstudadoTotal = Duration.ZERO;
-
 		Map<Long, Materia> mapaMateria = new HashMap<>();
 		this.resumoEstudoMaterias = new ArrayList<>();
-		for (EstudoMateria estudoMateria : estudoMateriaGateway.buscaEstudoMateria(estudoSelecionado)) {
+		for (EstudoMateria estudoMateria : this.estudoMateriaGateway.buscaEstudoMateria(this.estudoSelecionado)) {
 			ResumoEstudoMateria resumoEstudoMateria = new ResumoEstudoMateria();
 			resumoEstudoMateria.setEstudoMateria(estudoMateria);
 			resumoEstudoMateria.setSomaTempo(Duration.ZERO);
-			resumoEstudoMaterias.add(resumoEstudoMateria);
+			this.resumoEstudoMaterias.add(resumoEstudoMateria);
 
 			this.tempoTotalAlocado = this.tempoTotalAlocado.plus(estudoMateria.getTempoAlocado());
 
 			mapaMateria.put(estudoMateria.getMateria().getId(), estudoMateria.getMateria());
 		}
 
-		resumoMaterias = this.estudoMateriaHistoricoGateway.buscaResumosMaterias(this.estudoSelecionado);
+		// this.resumoMaterias =
+		// this.estudoMateriaHistoricoGateway.buscaResumosMaterias(this.estudoSelecionado);
+
+		this.tempoEstudadoTotal = Duration.ZERO;
 		Map<Long, Duration> mapaMateriaTempo = new HashMap<>();
-		for (ResumoMateria resumoMateria : resumoMaterias) {
+		for (ResumoMateria resumoMateria : /* this.resumoMaterias */this.estudoMateriaHistoricoGateway
+				.buscaResumosMaterias(this.estudoSelecionado)) {
 			mapaMateriaTempo.put(resumoMateria.getMateria().getId(), resumoMateria.getSomaTempo());
 
 			this.tempoEstudadoTotal = this.tempoEstudadoTotal.plus(resumoMateria.getSomaTempo());
@@ -137,7 +140,7 @@ public class ControleEstudoController implements Serializable {
 		boolean continua;
 		do {
 			continua = false;
-			for (ResumoEstudoMateria resumoEstudoMateria : resumoEstudoMaterias) {
+			for (ResumoEstudoMateria resumoEstudoMateria : this.resumoEstudoMaterias) {
 
 				Duration tempoMateria = mapaMateriaTempo
 						.get(resumoEstudoMateria.getEstudoMateria().getMateria().getId());
@@ -168,13 +171,13 @@ public class ControleEstudoController implements Serializable {
 
 		double sum = 0;
 		int count = 0;
-		for (ResumoEstudoMateria resumoEstudoMateria : resumoEstudoMaterias) {
+		for (ResumoEstudoMateria resumoEstudoMateria : this.resumoEstudoMaterias) {
 			if (!resumoEstudoMateria.getEstudoMateria().getTempoAlocado().isEqual(Duration.ZERO)) {
 				sum += resumoEstudoMateria.getCiclo();
 				count++;
 			}
 		}
-		cicloTotal = sum / count;
+		this.cicloTotal = sum / count;
 
 		selecionaMateria();
 
@@ -184,7 +187,7 @@ public class ControleEstudoController implements Serializable {
 
 		Collection<EstudoSemanal> estudosDiarios = this.estudoDiaGateway.findAll(this.estudoSelecionado.getId());
 
-		graficoDiario = new GraficoDiario(estudosDiarios);
+		this.graficoDiario = new GraficoDiario(estudosDiarios);
 	}
 
 	public void iniciar() {

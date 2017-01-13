@@ -11,8 +11,7 @@ import br.com.guarasoft.studyware.estudo.modelo.Estudo;
 import br.com.guarasoft.studyware.infra.dao.AbstractDao;
 
 @Stateless
-public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long>
-		implements EstudoGateway {
+public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long> implements EstudoGateway {
 
 	private final EstudoBuilder builder = new EstudoBuilder();
 
@@ -22,8 +21,7 @@ public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long>
 
 	@Override
 	public void cadastrar(Estudo estudo) {
-		EstudoEntidade estudoEntidade = this.builder.converteMaterias()
-				.converteDias().convert(estudo);
+		EstudoEntidade estudoEntidade = this.builder.converteMaterias().converteDias().convert(estudo);
 
 		this.merge(estudoEntidade);
 	}
@@ -37,15 +35,13 @@ public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long>
 		sql.append(" WHERE p.usuario.email = :email ");
 		sql.append(" ORDER BY e.fim, e.nome ");
 
-		TypedQuery<EstudoEntidade> typedQuery = this.entityManager.createQuery(
-				sql.toString(), EstudoEntidade.class);
+		TypedQuery<EstudoEntidade> typedQuery = this.entityManager.createQuery(sql.toString(), EstudoEntidade.class);
 
 		typedQuery.setParameter("email", email);
 
 		List<EstudoEntidade> estudosEntidade = typedQuery.getResultList();
 
-		List<Estudo> estudos = this.builder.converteMaterias().converteDias()
-				.convert(estudosEntidade);
+		List<Estudo> estudos = this.builder.converteMaterias().converteDias().convert(estudosEntidade);
 
 		return estudos;
 	}
@@ -56,19 +52,17 @@ public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long>
 		sql.append("SELECT e ");
 		sql.append("  FROM Estudo e ");
 		sql.append("  JOIN e.participantes p ");
-		sql.append(" where p.usuario.email = :email ");
-		sql.append("   and ( e.fim >= current_date ");
-		sql.append("    or e.fim is null ) ");
+		sql.append(" WHERE p.usuario.email = :email ");
+		// sql.append(" AND ( e.fim >= current_date ");
+		// sql.append(" OR e.fim IS NULL ) ");
 
-		TypedQuery<EstudoEntidade> typedQuery = this.entityManager.createQuery(
-				sql.toString(), EstudoEntidade.class);
+		TypedQuery<EstudoEntidade> typedQuery = this.entityManager.createQuery(sql.toString(), EstudoEntidade.class);
 
 		typedQuery.setParameter("email", email);
 
 		List<EstudoEntidade> estudosEntidade = typedQuery.getResultList();
 
-		List<Estudo> estudos = this.builder.converteMaterias().converteDias()
-				.convert(estudosEntidade);
+		List<Estudo> estudos = this.builder.converteMaterias().converteDias().convert(estudosEntidade);
 
 		return estudos;
 	}
@@ -92,9 +86,8 @@ public class EstudoGatewayImpl extends AbstractDao<EstudoEntidade, Long>
 	}
 
 	private EstudoEntidade buscaPorNome(String nome) {
-		TypedQuery<EstudoEntidade> typedQuery = this.entityManager.createQuery(
-				"SELECT e FROM Estudo e WHERE e.nome = :nome",
-				EstudoEntidade.class);
+		TypedQuery<EstudoEntidade> typedQuery = this.entityManager
+				.createQuery("SELECT e FROM Estudo e WHERE e.nome = :nome", EstudoEntidade.class);
 		typedQuery.setParameter("nome", nome);
 		return typedQuery.getSingleResult();
 	}

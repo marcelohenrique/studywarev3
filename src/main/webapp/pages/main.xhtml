@@ -63,9 +63,10 @@
 											value="#{controleestudo.estudoSelecionado}">
 											<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 											<f:selectItems value="#{controleestudo.estudos}" var="estudo"
-												itemValue="#{estudo}" itemLabel="#{estudo.nome}" />
+												itemValue="#{estudo}"
+												itemLabel="#{estudo.nome} [#{estudo.inicio} - #{estudo.fim}]" />
 											<f:ajax listener="#{controleestudo.listaEstudoMaterias()}"
-												render="materias tabViewResumos tabViewAcompanhamento" />
+												render="materias dataTableResumoCiclo tabViewAcompanhamento" />
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -126,8 +127,9 @@
 
 				<div class="col-xs-12 col-sm-8 padding-bottom">
 
-					<p:tabView id="tabViewResumos">
-						<p:tab title="Ciclo">
+					<!-- <p:tabView id="tabViewResumos">
+
+						<p:tab title="Ciclo"> -->
 
 							<p:dataTable id="dataTableResumoCiclo"
 								var="concursomateriaestudada"
@@ -219,7 +221,8 @@
 
 							</p:dataTable>
 
-						</p:tab>
+						<!-- </p:tab>
+
 						<p:tab title="Matérias">
 
 							<p:dataTable id="dataTableResumoMaterias"
@@ -302,7 +305,7 @@
 							</p:dataTable>
 
 						</p:tab>
-					</p:tabView>
+					</p:tabView> -->
 
 				</div>
 
