@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/pages/template.xhtml">
+
+	<ui:define name="page-header">Consultar Bancas</ui:define>
+
+	<ui:define name="main">
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
+
+					<p:dataTable id="bancas" var="b"
+						value="#{consultaBancaController.bancas}">
+						<!-- selection="#{usuarioEstudo.bean}" selectionMode="single" rowKey="#{e.id}"> -->
+
+						<p:column headerText="Nome" sortBy="#{b.nome}">
+							<h:outputText value="#{b.nome}" />
+						</p:column>
+
+						<p:column headerText="Descrição" sortBy="#{b.descricao}">
+							<h:outputText value="#{b.descricao}" />
+						</p:column>
+
+						<p:column headerText="Site" sortBy="#{b.site}">
+							<h:outputText value="#{b.site}" />
+						</p:column>
+
+						<!-- <p:column headerText="Início" sortBy="#{e.inicio}" width="100"
+							styleClass="text-center">
+							<h:outputText value="#{e.inicio}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column> -->
+
+						<!-- <p:column headerText="Fim" sortBy="#{e.fim}" width="100"
+							styleClass="text-center">
+							<h:outputText value="#{e.fim}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column> -->
+
+						<!-- <p:column width="100" styleClass="text-center">
+							<p:commandButton icon="ui-icon-pencil" title="Alterar"
+								action="#{consultaBancaController.alterar(e)}" />
+
+							<p:commandButton update="@form" icon="ui-icon-close"
+								title="Remover"
+								actionListener="#{consultaBancaController.remover(e)}">
+								<p:confirm header="Confirmação"
+									message="Você deseja excluir o estudo?" icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column> -->
+
+					</p:dataTable>
+
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+	<ui:define name="rodape">
+		<p:commandButton value="Nova Banca"
+			action="#{controller.cadastrarBanca()}" />
+	</ui:define>
+
+</ui:composition>

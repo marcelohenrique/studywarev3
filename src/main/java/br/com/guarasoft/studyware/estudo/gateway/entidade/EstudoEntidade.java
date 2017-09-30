@@ -16,11 +16,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import br.com.guarasoft.studyware.estudodiario.gateway.entidade.EstudoDiarioEntidade;
 import br.com.guarasoft.studyware.estudomateria.gateway.entidade.EstudoMateriaEntidade;
 import br.com.guarasoft.studyware.infra.dao.Entidade;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity(name = "Estudo")
 @Table(name = "Estudo")

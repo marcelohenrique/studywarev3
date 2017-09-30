@@ -33,4 +33,12 @@ public class MenuController {
 		return "/pages/materia/consultar";
 	}
 
+	public String consultarBanca() {
+		return "/pages/banca/consultar";
+	}
+
+	public String cadastrarBanca() {
+		return "/pages/banca/cadastrar";
+	}
+
 }

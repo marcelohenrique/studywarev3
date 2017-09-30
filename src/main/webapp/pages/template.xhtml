@@ -45,6 +45,10 @@
 						</p:submenu>
 						<p:submenu label="Administração" icon="ui-icon-gear"
 							rendered="#{ sessionAuth.usuario.email == 'mhguara@gmail.com' }">
+							<p:menuitem value="Bancas"
+								action="/pages/banca/consultar" />
+							<p:menuitem value="Órgãos"
+								action="/pages/orgao/consultar" />
 							<p:menuitem value="Usuários" icon="ui-icon-person"
 								action="#{controller.consultarUsuario()}" />
 							<p:menuitem value="Matérias" icon="ui-icon-document"

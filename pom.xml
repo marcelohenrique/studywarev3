@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.guarasoft</groupId>
 	<artifactId>studyware</artifactId>
-	<version>1.1</version>
+	<version>1.2</version>
 	<name>studyware</name>
 	<packaging>war</packaging>
 
@@ -121,6 +121,12 @@
 		<!-- <artifactId>vraptor</artifactId> -->
 		<!-- <version>4.1.4</version> -->
 		<!-- </dependency> -->
+
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.9.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>

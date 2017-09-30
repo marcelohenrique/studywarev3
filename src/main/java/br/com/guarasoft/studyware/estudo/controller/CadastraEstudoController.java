@@ -27,6 +27,7 @@ import br.com.guarasoft.studyware.estudodiario.modelo.Dia;
 import br.com.guarasoft.studyware.estudodiario.modelo.EstudoDiario;
 import br.com.guarasoft.studyware.estudomateria.modelo.EstudoMateria;
 import br.com.guarasoft.studyware.estudomateriahistorico.gateway.EstudoMateriaHistoricoGateway;
+import br.com.guarasoft.studyware.infra.faces.FacesUtil;
 import br.com.guarasoft.studyware.materia.gateway.MateriaGateway;
 import br.com.guarasoft.studyware.materia.modelo.Materia;
 import br.com.guarasoft.studyware.menu.controller.MenuController;
@@ -40,6 +41,8 @@ import lombok.Setter;
 public class CadastraEstudoController implements Serializable {
 
 	private static final long serialVersionUID = -2586448860897763084L;
+
+	private @Inject FacesUtil facesUtil;
 
 	// private final Logger logger = LoggerFactory
 	// .getLogger(CadastraEstudoController.class);
@@ -136,13 +139,12 @@ public class CadastraEstudoController implements Serializable {
 		Estudo estudo = new Estudo(this.id, this.nome, this.inicio, this.fim, this.ciclo, this.semana,
 				this.participantes);
 
-		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			this.cadastraEstudo.execute(estudo);
-			context.addMessage(null, new FacesMessage("Sucesso", "Estudo cadastrado"));
+			facesUtil.addInfo("Sucesso", "Estudo cadastrado");
 			return new MenuController().consultarUsuarioEstudo();
 		} catch (UsuarioEstudoJaExiste e) {
-			context.addMessage(null, new FacesMessage("Falha", "Estudo já exite"));
+			facesUtil.addInfo("Falha", "Estudo já exite");
 		}
 		return null;
 	}
